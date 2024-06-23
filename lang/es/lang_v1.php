@@ -247,7 +247,7 @@ return [
     'expiry_date_ins' => 'Fecha de vencimiento del stock <br><b>Format: mm-dd-yyyy; Ex: 11-25-2018</b>',
     'enable_lot_number' => 'Habilitar número de lote',
     'tooltip_enable_lot_number' => 'Esto le permitirá ingresar el número de lote para cada línea de compra en la pantalla de compra.',
-    'lot_number' => 'Numero de lote',
+    'lot_number' => 'Nro de Motor',
     'enable_racks' => 'Habilitar bastidores',
     'tooltip_enable_racks' => 'Habilite esto para agregar detalles de rack de un producto para diferentes ubicaciones comerciales al agregar productos',
     'rack_details' => 'Detalles de rack',

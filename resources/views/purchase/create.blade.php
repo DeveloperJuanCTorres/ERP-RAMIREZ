@@ -66,7 +66,49 @@
 					{!! Form::label('status', __('purchase.purchase_status') . ':*') !!} @show_tooltip(__('tooltip.order_status'))
 					{!! Form::select('status', $orderStatuses, $default_purchase_status, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']); !!}
 				</div>
-			</div>			
+			</div>		
+			
+			<div class="col-md-3">
+		          <div class="form-group">		            
+		              {!! Form::label('pay_term_number', 'Tipo de moneda:') !!}              
+		              {!! Form::select('money_type', 
+		              	['Soles' => 'Soles', 
+		              		'Dolares' => 'Dólares'], 
+		              		null, 
+		              	['class' => 'form-control pull-left','placeholder' => __('messages.please_select'), 'id' => 'money_type']); !!}
+		            
+		        </div>
+		    </div>
+			
+			<!-- Currency Exchange Rate -->
+			<div class="col-sm-3 @if(!$currency_details->purchase_in_diff_currency) hide @endif">
+				<div class="form-group">
+					{!! Form::label('exchange_rate', __('purchase.p_exchange_rate') . ':*') !!}
+					@show_tooltip(__('tooltip.currency_exchange_factor'))
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-info"></i>
+						</span>
+						{!! Form::number('exchange_rate', $currency_details->p_exchange_rate, ['class' => 'form-control', 'required', 'step' => 0.001]); !!}
+					</div>
+					<span class="help-block text-danger">
+						@lang('purchase.diff_purchase_currency_help', ['currency' => $currency_details->name])
+					</span>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+		          <div class="form-group">		            
+		              {!! Form::label('pay_term_number', 'Tipo de compra:') !!}              
+		              {!! Form::select('purchase_type', 
+		              	['Contado' => 'Contado', 
+		              		'Credito' => 'Crédito'], 
+		              		null, 
+		              	['class' => 'form-control pull-left','placeholder' => __('messages.please_select'), 'id' => 'purchase_type']); !!}
+		            
+		        </div>
+		    </div>
+
 			@if(count($business_locations) == 1)
 				@php 
 					$default_location = current(array_keys($business_locations->toArray()));
@@ -85,24 +127,9 @@
 				</div>
 			</div>
 
-			<!-- Currency Exchange Rate -->
-			<div class="col-sm-3 @if(!$currency_details->purchase_in_diff_currency) hide @endif">
-				<div class="form-group">
-					{!! Form::label('exchange_rate', __('purchase.p_exchange_rate') . ':*') !!}
-					@show_tooltip(__('tooltip.currency_exchange_factor'))
-					<div class="input-group">
-						<span class="input-group-addon">
-							<i class="fa fa-info"></i>
-						</span>
-						{!! Form::number('exchange_rate', $currency_details->p_exchange_rate, ['class' => 'form-control', 'required', 'step' => 0.001]); !!}
-					</div>
-					<span class="help-block text-danger">
-						@lang('purchase.diff_purchase_currency_help', ['currency' => $currency_details->name])
-					</span>
-				</div>
-			</div>
+			<div class="col-sm-3"></div>
 
-			<div class="col-md-3">
+			<div class="col-sm-3">
 		          <div class="form-group">
 		            <div class="multi-input">
 		              {!! Form::label('pay_term_number', __('contact.pay_term') . ':') !!} @show_tooltip(__('tooltip.pay_term'))
@@ -117,7 +144,7 @@
 		            </div>
 		        </div>
 		    </div>
-
+						
 			<div class="col-sm-3">
                 <div class="form-group">
                     {!! Form::label('document', __('purchase.attach_document') . ':') !!}
@@ -128,6 +155,7 @@
                     </p>
                 </div>
             </div>
+			
 		</div>
 		<div class="row">
 			@php
@@ -381,13 +409,13 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">
-			{!! Form::label('shipping_details', __( 'purchase.shipping_details' ) . ':') !!}
+			{!! Form::label('shipping_details', 'Transportista:') !!}
 			{!! Form::text('shipping_details', null, ['class' => 'form-control']); !!}
 			</div>
 		</div>
 		<div class="col-md-4 col-md-offset-4">
 			<div class="form-group">
-				{!! Form::label('shipping_charges','(+) ' . __( 'purchase.additional_shipping_charges' ) . ':') !!}
+				{!! Form::label('shipping_charges','(+) ' . 'Importe de envío:') !!}
 				{!! Form::text('shipping_charges', 0, ['class' => 'form-control input_number', 'required']); !!}
 			</div>
 		</div>
@@ -543,7 +571,7 @@
 		<div class="row">
 			<div class="col-md-12 text-right">
 				{!! Form::hidden('final_total', 0 , ['id' => 'grand_total_hidden']); !!}
-						<b>@lang('purchase.purchase_total'): </b><span id="grand_total" class="display_currency" data-currency_symbol='true'>0</span>
+						<b>@lang('purchase.purchase_total'): </b><span id="grand_total" class="display_currency" data-currency_symbol='true'>0 </span>
 			</div>
 		</div>
 	@endcomponent
@@ -559,7 +587,7 @@
 			<hr>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="pull-right"><strong>@lang('purchase.payment_due'):</strong> <span id="payment_due">0.00</span></div>
+					<div class="pull-right"><strong>@lang('purchase.payment_due'):</strong> <span id="payment_due">0.00 </span></div>
 				</div>
 			</div>
 			<br>

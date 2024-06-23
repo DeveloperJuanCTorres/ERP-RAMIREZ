@@ -44,7 +44,7 @@
      'view_product' => 'Ver el producto',
      'add_product' => 'Agregar producto',
      'variations' => 'Variaciones',
-     'import_products' => 'Importar productos',
+     'import_products' => 'Importar series',
      'file_to_import' => 'Archivo para importar',
      'file_imported_successfully' => 'Archivo importado con éxito',
  ];

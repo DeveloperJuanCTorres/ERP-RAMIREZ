@@ -15,7 +15,7 @@
      'amount' => 'Cantidad',
      'payment_method' => 'Método de pago',
      'no_records_found' => 'No se encontrarón archivos',
-     'payment_due' => 'Fecha pago', /* modified */
+     'payment_due' => 'Saldo', /* modified */
      'purchase_total' => 'Total compra', /* modified */
      'location' => 'Ubicación',
      'payment_note' => 'Nota de pago',
