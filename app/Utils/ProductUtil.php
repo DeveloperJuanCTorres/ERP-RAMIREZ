@@ -1195,7 +1195,6 @@ class ProductUtil extends Util
             $purchase_line->item_tax = ($this->num_uf($data['item_tax'], $currency_details) * $exchange_rate) / $multiplier;
             $purchase_line->tax_id = $data['purchase_line_tax_id'];
             $purchase_line->lot_number = ! empty($data['lot_number']) ? $data['lot_number'] : null;
-
             //NUEVOS
             $purchase_line->color = ! empty($data['color']) ? $data['color'] : null;
             $purchase_line->motor = ! empty($data['motor']) ? $data['motor'] : null;
@@ -1203,7 +1202,6 @@ class ProductUtil extends Util
             $purchase_line->anio = ! empty($data['anio']) ? $data['anio'] : null;
             $purchase_line->poliza = ! empty($data['poliza']) ? $data['poliza'] : null;
             //FIN
-            
             $purchase_line->mfg_date = ! empty($data['mfg_date']) ? $this->uf_date($data['mfg_date']) : null;
             $purchase_line->exp_date = ! empty($data['exp_date']) ? $this->uf_date($data['exp_date']) : null;
             $purchase_line->sub_unit_id = ! empty($data['sub_unit_id']) ? $data['sub_unit_id'] : null;
