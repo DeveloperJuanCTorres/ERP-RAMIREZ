@@ -302,7 +302,7 @@ class PurchaseController extends Controller
                 return $this->moduleUtil->expiredResponse(action([\App\Http\Controllers\PurchaseController::class, 'index']));
             }
 
-            $transaction_data = $request->only(['ref_no', 'status', 'contact_id', 'transaction_date', 'total_before_tax', 'location_id', 'discount_type', 'discount_amount', 'tax_id', 'tax_amount', 'shipping_details', 'shipping_charges', 'final_total', 'additional_notes', 'exchange_rate', 'pay_term_number', 'pay_term_type', 'purchase_order_ids']);
+            $transaction_data = $request->only(['ref_no', 'status', 'contact_id', 'transaction_date', 'total_before_tax', 'location_id', 'discount_type', 'discount_amount', 'tax_id', 'tax_amount', 'shipping_details', 'shipping_charges', 'final_total', 'additional_notes', 'exchange_rate', 'pay_term_number', 'pay_term_type', 'purchase_order_ids','pay_type','money_type']);
 
             $exchange_rate = $transaction_data['exchange_rate'];
 
@@ -1171,13 +1171,21 @@ class PurchaseController extends Controller
                     break;
                 }
 
-                $temp_array['unit_cost_before_discount'] = ! empty($value[2]) ? $value[2] : $variation->default_purchase_price;
-                $temp_array['discount_percent'] = ! empty($value[3]) ? $value[3] : 0;
+                //NUEVOS CAMPOS
+                $temp_array['color'] = ! empty($value[2]) ? $value[2] : null;
+                $temp_array['motor'] = ! empty($value[3]) ? $value[3] : null;
+                $temp_array['chasis'] = ! empty($value[4]) ? $value[4] : null;
+                $temp_array['anio'] = ! empty($value[5]) ? $value[5] : null;
+                $temp_array['poliza'] = ! empty($value[6]) ? $value[6] : null;
+                //FIN
+
+                $temp_array['unit_cost_before_discount'] = ! empty($value[7]) ? $value[7] : $variation->default_purchase_price;
+                $temp_array['discount_percent'] = ! empty($value[8]) ? $value[8] : 0;
 
                 $tax_id = null;
 
-                if (! empty($value[4])) {
-                    $tax_name = trim($value[4]);
+                if (! empty($value[9])) {
+                    $tax_name = trim($value[9]);
                     $tax = TaxRate::where('business_id', $business_id)
                                 ->where('name', 'like', "%{$tax_name}%")
                                 ->first();
@@ -1186,9 +1194,9 @@ class PurchaseController extends Controller
                 }
 
                 $temp_array['tax_id'] = $tax_id;
-                $temp_array['lot_number'] = ! empty($value[5]) ? $value[5] : null;
-                $temp_array['mfg_date'] = ! empty($value[6]) ? $this->productUtil->format_date($value[6]) : null;
-                $temp_array['exp_date'] = ! empty($value[7]) ? $this->productUtil->format_date($value[7]) : null;
+                $temp_array['lot_number'] = ! empty($value[10]) ? $value[10] : null;
+                $temp_array['mfg_date'] = ! empty($value[11]) ? $this->productUtil->format_date($value[11]) : null;
+                $temp_array['exp_date'] = ! empty($value[12]) ? $this->productUtil->format_date($value[12]) : null;
 
                 $formatted_data[] = $temp_array;
             }

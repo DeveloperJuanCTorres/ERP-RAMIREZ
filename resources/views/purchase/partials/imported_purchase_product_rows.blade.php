@@ -8,7 +8,12 @@
 		'currency_details' => $currency_details,
 		'hide_tax' => $hide_tax,
 		'sub_units' => $data['sub_units'],
-		'imported_data' =>  $data
+		'imported_data' =>  $data,
+		'color' =>  $data['color'],
+		'motor' =>  $data['motor'],
+		'chasis' =>  $data['chasis'],
+		'anio' =>  $data['anio'],
+		'poliza' =>  $data['poliza']
 	])
 	@php
 		$row_count++;

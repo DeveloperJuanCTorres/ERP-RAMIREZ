@@ -31,7 +31,7 @@
      'product_tax' => 'Impuesto sobre el producto',
      'net_cost' => 'Coste neto', /* modified */
      'line_total' => 'Linea total',
-     'unit_selling_price' => 'Precio de venta unitario', /* modified */
+     'unit_selling_price' => 'Precio de venta', /* modified */
      'total_before_tax' => 'Total antes de impuestos', /* modified */
      'net_total_amount' => 'Importe total neto',
      'discount_type' => 'Tipo de descuento',

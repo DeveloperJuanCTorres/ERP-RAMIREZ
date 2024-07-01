@@ -70,12 +70,12 @@
 			
 			<div class="col-md-3">
 		          <div class="form-group">		            
-		              {!! Form::label('pay_term_number', 'Tipo de moneda:') !!}              
+		              {!! Form::label('tipo_de_moneda', 'Tipo de moneda:') !!}              
 		              {!! Form::select('money_type', 
 		              	['Soles' => 'Soles', 
 		              		'Dolares' => 'Dólares'], 
 		              		null, 
-		              	['class' => 'form-control pull-left','placeholder' => __('messages.please_select'), 'id' => 'money_type']); !!}
+		              	['class' => 'form-control pull-left','placeholder' => __('messages.please_select'), 'id' => 'tipo_de_moneda']); !!}
 		            
 		        </div>
 		    </div>
@@ -99,12 +99,12 @@
 
 			<div class="col-sm-3">
 		          <div class="form-group">		            
-		              {!! Form::label('pay_term_number', 'Tipo de compra:') !!}              
-		              {!! Form::select('purchase_type', 
+		              {!! Form::label('tipo_de_pago', 'Tipo de pago:') !!}              
+		              {!! Form::select('pay_type', 
 		              	['Contado' => 'Contado', 
 		              		'Credito' => 'Crédito'], 
 		              		null, 
-		              	['class' => 'form-control pull-left','placeholder' => __('messages.please_select'), 'id' => 'purchase_type']); !!}
+		              	['class' => 'form-control pull-left','placeholder' => __('messages.please_select'), 'id' => 'tipo_de_pago']); !!}
 		            
 		        </div>
 		    </div>
@@ -285,10 +285,12 @@
 								<th>#</th>
 								<th>@lang( 'product.product_name' )</th>
 								<th>@lang( 'purchase.purchase_quantity' )</th>
-								<th>@lang( 'lang_v1.unit_cost_before_discount' )</th>
-								<th>@lang( 'lang_v1.discount_percent' )</th>
+
+								<th class="hidden">@lang( 'lang_v1.unit_cost_before_discount' )</th>
+								<th class="hidden">@lang( 'lang_v1.discount_percent' )</th>
 								<th>@lang( 'purchase.unit_cost_before_tax' )</th>
 								<th class="{{$hide_tax}}">@lang( 'purchase.subtotal_before_tax' )</th>
+								
 								<th class="{{$hide_tax}}">@lang( 'purchase.product_tax' )</th>
 								<th class="{{$hide_tax}}">@lang( 'purchase.net_cost' )</th>
 								<th>@lang( 'purchase.line_total' )</th>
@@ -300,7 +302,7 @@
 									<small>(@lang('product.inc_of_tax'))</small>
 								</th>
 								@if(session('business.enable_lot_number'))
-									<th>
+									<th style="width: 150px;">
 										@lang('lang_v1.lot_number')
 									</th>
 								@endif

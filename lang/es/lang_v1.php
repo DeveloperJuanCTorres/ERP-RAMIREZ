@@ -234,6 +234,7 @@ return [
     'purchase_price_exc_tax_ins2' => "Precio de compra (sin incluir impuestos) (solo en números) <br> <br> Para productos variables '|' valores separados con <br> el mismo orden que Variation Values ​​<br> (Ej: 84 | 85 | 88) ",
     'profit_margin_ins' => 'Margen de beneficio (solo en números)',
     'profit_margin_ins1' => 'Si se usa el margen de beneficio predeterminado en blanco para el negocio de la empresa',
+    'profit_margin' => 'Ganancia %',
     'selling_price' => 'Precio de venta',
     'selling_price_ins' => 'Precio de venta (solo en números)',
     'selling_price_ins1' => 'Si se calcula el precio de venta en blanco <br> con el precio de compra determinado <br> el impuesto aplicable',

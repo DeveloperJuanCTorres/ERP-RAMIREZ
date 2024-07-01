@@ -11,7 +11,20 @@
                 <br>
                 <small class="text-muted" style="white-space: nowrap;">@lang('report.current_stock'): @if(!empty($variation->variation_location_details->first())) {{@num_format($variation->variation_location_details->first()->qty_available)}} @else 0 @endif {{ $product->unit->short_name }}</small>
             @endif
-            
+            <!-- NUEVO -->
+            <br>
+            <small class="text-muted" style="white-space: nowrap;">CHASIS: {{$imported_data['chasis']}} </small>
+            <br>
+            <small class="text-muted" style="white-space: nowrap;">ANIO: {{$imported_data['anio']}} </small>
+            <br>
+            <small class="text-muted" style="white-space: nowrap;">POLIZA: {{$imported_data['poliza']}} </small>
+            <br>
+            <small class="text-muted" style="white-space: nowrap;">COLOR: {{$imported_data['color']}} </small>
+            <input type="text" class="hidden" name="purchases[{{$row_count}}][motor]" value="{{$motor}}">
+            <input type="text" class="hidden" name="purchases[{{$row_count}}][chasis]" value="{{$chasis}}">
+            <input type="text" class="hidden" name="purchases[{{$row_count}}][color]" value="{{$color}}">
+            <input type="text" class="hidden" name="purchases[{{$row_count}}][poliza]" value="{{$poliza}}">
+            <input type="text" class="hidden" name="purchases[{{$row_count}}][anio]" value="{{$anio}}">
         </td>
         <td>
             @if(!empty($purchase_order_line))
@@ -88,7 +101,7 @@
                 required>
             @endif
         </td>
-        <td>
+        <td class="hidden">
             @php
                 $pp_without_discount = !empty($purchase_order_line) ? $purchase_order_line->pp_without_discount/$purchase_order->exchange_rate : $variation->default_purchase_price;
 
@@ -112,7 +125,7 @@
                 <small class="text-muted">@lang('lang_v1.prev_unit_price'): @format_currency($last_purchase_line->pp_without_discount)</small>
             @endif
         </td>
-        <td>
+        <td class="hidden">
             {!! Form::text('purchases[' . $row_count . '][discount_percent]', number_format($discount_percent, $currency_precision, $currency_details->decimal_separator, $currency_details->thousand_separator), ['class' => 'form-control input-sm inline_discounts input_number', 'required']); !!}
 
             @if(!empty($last_purchase_line))
@@ -127,6 +140,7 @@
             {!! Form::text('purchases[' . $row_count . '][purchase_price]',
             number_format($purchase_price, $currency_precision, $currency_details->decimal_separator, $currency_details->thousand_separator), ['class' => 'form-control input-sm purchase_unit_cost input_number', 'required']); !!}
         </td>
+
         <td class="{{$hide_tax}}">
             <span class="row_subtotal_before_tax display_currency">0</span>
             <input type="hidden" class="row_subtotal_before_tax_hidden" value=0>
@@ -177,7 +191,7 @@
                 $lot_number = !empty($imported_data['lot_number']) ? $imported_data['lot_number'] : null;
             @endphp
             <td>
-                {!! Form::text('purchases[' . $row_count . '][lot_number]', $lot_number, ['class' => 'form-control input-sm']); !!}
+                {!! Form::text('purchases[' . $row_count . '][lot_number]', $lot_number, ['class' => 'form-control input-sm','disabled']); !!}
             </td>
         @endif
         @if(session('business.enable_product_expiry'))
