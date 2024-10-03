@@ -39,11 +39,11 @@
             </div>
             <div class="col-md-4 mt-15">
                 <label class="radio-inline">
-                    <input type="radio" name="contact_type_radio" id="inlineRadio1" value="individual">
+                    <input class="contact_type_individual" type="radio" name="contact_type_radio" id="inlineRadio1" value="individual">
                     @lang('lang_v1.individual')
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="contact_type_radio" id="inlineRadio2" value="business">
+                    <input class="contact_type_business" type="radio" name="contact_type_radio" id="inlineRadio2" value="business">
                     @lang('business.business')
                 </label>
             </div>
