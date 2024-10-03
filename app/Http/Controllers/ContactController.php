@@ -1660,4 +1660,84 @@ class ContactController extends Controller
             'msg' => __('lang_v1.mobile_already_registered', ['contacts' => implode(', ', $contacts), 'mobile' => $mobile_number]),
         ];
     }
+
+    public function consultaRuc(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpjdG9ycmVzZGVsY2FzdGlsbG9AZ21haWwuY29tIn0.9pqSTUQsGSXgrcCmW9LC1JM_5u7ssUFFi5shiOPboHQ';
+            $ruta = 'https://dniruc.apisperu.com/api/v1/ruc/'.$id.'?token='.$token;
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => $ruta,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_TIMEOUT => 30,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => "GET",
+              CURLOPT_HTTPHEADER => array(
+                "cache-control: no-cache"
+              ),
+            )); 
+            
+            $response = curl_exec($curl);
+            $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if ($status==200)
+            {
+                $resp = json_decode($response);
+                return response()->json(['status' => true, 'msg' => $resp]);
+            }
+            else
+            {
+                $resp = json_decode($response);
+                return response()->json(['status' => false, 'msg' => 'Error al digitar el # documento o no existe']);
+            }
+
+            
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }        
+    }
+    
+    public function consultaDni(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpjdG9ycmVzZGVsY2FzdGlsbG9AZ21haWwuY29tIn0.9pqSTUQsGSXgrcCmW9LC1JM_5u7ssUFFi5shiOPboHQ';
+            $ruta = 'https://dniruc.apisperu.com/api/v1/dni/'.$id.'?token='.$token;
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => $ruta,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_TIMEOUT => 30,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => "GET",
+              CURLOPT_HTTPHEADER => array(
+                "cache-control: no-cache"
+              ),
+            )); 
+            
+            $response = curl_exec($curl);
+            $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if ($status==200)
+            {
+                $resp = json_decode($response);
+                return response()->json(['status' => true, 'msg' => $resp]);
+            }
+            else
+            {
+                $resp = json_decode($response);
+                return response()->json(['status' => false, 'msg' => 'Error al digitar el # documento o no existe']);
+            }
+
+            
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }        
+    }
 }

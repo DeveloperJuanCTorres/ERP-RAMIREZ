@@ -243,6 +243,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/barcodes/set_default/{id}', [BarcodeController::class, 'setDefault']);
     Route::resource('barcodes', BarcodeController::class);
 
+    // CONSULTA RUC DNI
+    Route::post('/consulta_ruc',[App\Http\Controllers\ContactController::class,'consultaRuc'])->name('consulta_ruc');
+    Route::post('/consulta_dni',[App\Http\Controllers\ContactController::class,'consultaDni'])->name('consulta_dni');
+    // FIN CONSULTA RUC DNI
+
     //Invoice schemes..
     Route::get('/invoice-schemes/set_default/{id}', [InvoiceSchemeController::class, 'setDefault']);
     Route::resource('invoice-schemes', InvoiceSchemeController::class);

@@ -50,12 +50,19 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('contact_id', __('lang_v1.contact_id') . ':') !!}
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-id-badge"></i>
-                        </span>
-                        {!! Form::text('contact_id', null, ['class' => 'form-control','placeholder' => __('lang_v1.contact_id')]); !!}
-                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-id-badge"></i>
+                                </span>
+                                {!! Form::text('contact_id', null, ['class' => 'form-control','placeholder' => __('lang_v1.contact_id')]); !!}
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary buscar_sunat" type="button">Buscar</button>
+                        </div>
+                    </div>  
                     <p class="help-block">
                         @lang('lang_v1.leave_empty_to_autogenerate')
                     </p>
@@ -551,3 +558,68 @@
   
   </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+
+<script>
+    $type = '';
+    $(document).on('click', '.contact_type_individual', function () {
+        $type = 'individual';
+    });
+    $(document).on('click', '.contact_type_business', function () {
+        $type = 'business';
+    });
+        
+    $(document).on('click', '.buscar_sunat', function() {
+        $contacto = $('#contact_id').val();
+       
+        console.log($type);
+        if($type=='')
+        {
+            toastr.error('Debe seleccionar el tipo de contacto');
+        }
+        else
+        {
+            if($type == 'individual')
+            {
+                //toastr.info('Estamos trabajando en ello');
+                $.ajax({
+                    method: 'POST',
+                    url: '/consulta_dni',
+                    dataType: 'json',
+                    data: {id: $contacto},
+                    success: function(result) {
+                        if (result.status == true) {
+                            $('#first_name').val(result.msg.nombres);
+                            $('#last_name').val(result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
+                            toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
+                        } else {
+                            toastr.error(result.msg);
+                        }
+                    },
+                });
+            }
+            if($type == 'business')
+            {
+                $.ajax({
+                    method: 'POST',
+                    url: '/consulta_ruc',
+                    dataType: 'json',
+                    data: {id: $contacto},
+                    success: function(result) {
+                        if (result.status == true) {
+                            $('#supplier_business_name').val(result.msg.razonSocial);
+                            $('#address_line_1').val(result.msg.direccion);
+                            $('#city').val(result.msg.departamento);
+                            $('#state').val(result.msg.provincia);
+                            $('#country').val(result.msg.distrito);
+                            $('#zip_code').val(result.msg.ubigeo);
+                            toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
+                        } else {
+                            toastr.error(result.msg);
+                        }
+                    },
+                });
+            }
+        }  
+        
+    });
+</script>
