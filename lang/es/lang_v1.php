@@ -354,7 +354,7 @@ return [
     'show_lot_number' => 'Mostrar número de lote',
     'expiry' => 'Expiración',
     'lot' => 'Mucho',
-    'lot_n_expiry' => 'Lote y vencimiento',
+    'lot_n_expiry' => 'Nº Motor',
     'pos_edit_product_price_help' => 'Editar producto Precio unitario e impuesto',
     'name' => 'Nombre',
     'payment_type' => 'Tipo de pago',
