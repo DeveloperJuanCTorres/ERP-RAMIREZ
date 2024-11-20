@@ -129,6 +129,14 @@
 
 			<div class="col-sm-3"></div>
 
+			<div class="@if(!empty($default_purchase_status)) col-sm-4 @else col-sm-3 @endif">
+				<div class="form-group">
+					{!! Form::label('ref_no', 'Tipo de cambio:') !!}
+					@show_tooltip('Ingresar el tipo de cambio de Dólares a Soles')
+					{!! Form::text('ref_no', null, ['class' => 'form-control']); !!}
+				</div>
+			</div>
+
 			<div class="col-sm-3">
 		          <div class="form-group">
 		            <div class="multi-input">
