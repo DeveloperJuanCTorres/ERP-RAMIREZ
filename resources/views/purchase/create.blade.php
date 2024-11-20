@@ -133,7 +133,7 @@
 				<div class="form-group">
 					{!! Form::label('ref_no', 'Tipo de cambio:') !!}
 					@show_tooltip('Ingresar el tipo de cambio de Dólares a Soles')
-					{!! Form::text('ref_no', null, ['class' => 'form-control']); !!}
+					{!! Form::number('tipo_cambio', null, ['class' => 'form-control']); !!}
 				</div>
 			</div>
 
