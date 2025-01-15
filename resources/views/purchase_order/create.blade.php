@@ -59,7 +59,7 @@
 				</div>
 			</div>
 
-			<!-- <div class="@if(!empty($default_purchase_status)) col-sm-4 @else col-sm-3 @endif">
+			<div class="@if(!empty($default_purchase_status)) col-sm-4 @else col-sm-3 @endif">
 				<div class="form-group">
 					{!! Form::label('delivery_date', __('lang_v1.delivery_date') . ':') !!}
 					<div class="input-group">
@@ -69,7 +69,7 @@
 						{!! Form::text('delivery_date', null, ['class' => 'form-control']); !!}
 					</div>
 				</div>
-			</div> -->
+			</div>
 				
 			@if(count($business_locations) == 1)
 				@php 
@@ -429,7 +429,7 @@
 		<b>@lang('lang_v1.order_total'): </b><span id="grand_total" class="display_currency" data-currency_symbol='true'>0</span>
 		</div>
 	</div>
-	endcomponent
+	@endcomponent
 
 	@component('components.widget', ['class' => 'box-solid'])
 		<div class="row">
@@ -490,10 +490,10 @@
 		</div>
 	@endcomponent
 	<div class="row">
-			<div class="col-sm-12 text-center">
-				<button type="button" id="submit_purchase_form" class="btn btn-primary btn-big btn-flat">@lang('messages.save')</button>
-			</div>
+		<div class="col-sm-12 text-center">
+			<button type="button" id="submit_purchase_form" class="btn btn-primary btn-big btn-flat">@lang('messages.save')</button>
 		</div>
+	</div>
 
 {!! Form::close() !!}
 </section>
