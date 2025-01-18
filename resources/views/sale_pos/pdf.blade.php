@@ -183,7 +183,7 @@
         <div style="padding-left:645px;padding-top:30px;">
              <span style="font-size:17px;"><strong>{{$precio}}</strong></span>
         </div>
-        <div style="width: 700px;padding-top: 15px;">
+        <div style="width: 700px;padding-top: 20px;">
           <span style="font-size:17px;font-size: 12px;">Garantía: La empresa se responsabiliza sólo por falla de fábrica del motor (6000 km recorrido) y de la carrocería por 1 año y se compromete a extraer las piezas dañadas y colocar una original de la misma marca, mas no del daño producido por el mal manejo, falta de mantenimiento y desgaste por uso. No se acepta cambios ni devoluciones</span>
         </div>
     </div>
