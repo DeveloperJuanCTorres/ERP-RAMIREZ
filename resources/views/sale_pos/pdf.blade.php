@@ -83,7 +83,7 @@
             </tr>
             <tr style="padding-top:10px;">
                 <td style="width:500px;padding-top:4px;">
-                 <span> <strong>{{$direccion}}</strong></span>
+                 <span> <strong style="size: 10px !important;">{{$direccion}}</strong></span>
                 </td>
                 <td>
                   <span><strong>{{$telefono}}</strong></span>
