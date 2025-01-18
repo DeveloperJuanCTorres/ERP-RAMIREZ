@@ -27,6 +27,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SellController extends Controller
 {
@@ -1655,5 +1659,66 @@ class SellController extends Controller
 
         echo 'Mapping reset success';
         exit;
+    }
+    public function contrato(Request $request)
+    {        
+        $sell_line = json_Decode($request->sell_line);
+        $sell = json_decode($request->sell);
+        $lot_details = $sell_line->lot_details;
+        $contador = $request->contador;
+        
+        $precio = $sell_line->quantity * $sell_line->unit_price_inc_tax ;
+        
+        if($contador==0)
+        {
+            $acuenta = $precio ;
+        }
+        else
+        {
+            if($contador < 0)
+            {
+                $acuenta = 0;
+            }
+            else
+            {
+                if($contador >= $precio)
+                {
+                    $acuenta = $precio;
+                }
+                else
+                {
+                    $acuenta = $contador;
+                }
+            }
+        }
+        
+        $cliente = $sell->contact->name . $sell->contact->supplier_business_name;
+        $fecha = Carbon::parse($sell->transaction_date)->format('d/m/Y');
+        $direccion = $sell->contact->address_line_1;
+        $telefono = $sell->contact->mobile;
+        
+        $motor = $lot_details->motor;
+        $poliza = $lot_details->poliza;
+        $chasis = $lot_details->chasis;
+        $color = $lot_details->color;
+        $anio = $lot_details->anio;
+        $marca = $sell_line->product->brand->name;
+        $modelo = $sell_line->product->name;
+        $documento = $sell->contact->contact_id;
+        
+        $saldo = $precio - $acuenta;
+        
+        $pdf = Pdf::set_option('isRemoteEnabled', true)->loadView('sale_pos.pdf',compact('cliente','fecha','direccion','telefono','precio','motor','poliza','chasis','color','anio','marca','modelo','acuenta','saldo','documento'));
+        
+        try {
+            //$envio = $pdf->download('sale_pos.pdf');
+            return $pdf->download('sale_pos.pdf');
+       } catch (\Throwable $th) {
+            return response()->json(['status' => true, 'msg' => $th->getMessage() ]);
+       }
+       //return $pdf->download('sale_pos.pdf');
+        
+        //$mensaje = "Estamos trabajando en ello...";
+        //return response()->json(['status' => true, 'msg' => $mensaje ]);
     }
 }

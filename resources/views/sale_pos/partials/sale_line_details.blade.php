@@ -19,7 +19,20 @@
         <th>{{ __('sale.tax') }}</th>
         <th>{{ __('sale.price_inc_tax') }}</th>
         <th>{{ __('sale.subtotal') }}</th>
+        <th style="text-align: center;">Contrato</th>
     </tr>
+    @foreach($sell->payment_lines as $payment_line)
+        @php
+        if($payment_line->is_return == 1){
+          $total_paid -= $payment_line->amount;
+        } else {
+          $total_paid += $payment_line->amount;
+        }
+      @endphp
+    @endforeach
+    @php
+        $contador = $total_paid;
+    @endphp
     @foreach($sell->sell_lines as $sell_line)
         <tr>
             <td>{{ $loop->iteration }}</td>
@@ -122,6 +135,26 @@
                 @else
                     <span class="display_currency" data-currency_symbol="true">{{ $sell_line->quantity * $sell_line->unit_price_inc_tax }}</span>
                 @endif
+            </td>
+            <td style="text-align: center;padding:2px;">
+                @if($sell_line->lot_details->lot_number)
+                    @if($contador==0)
+                        <input class="hidden" name="acuenta" id="acuenta" value="{{ $sell_line->quantity * $sell_line->unit_price_inc_tax }}"/>
+                    @else
+                        <input class="hidden" name="acuenta" id="acuenta" value="{{ $contador }}"/>
+                    @endif
+                    <input class="hidden" name="precio" id="precio" value="{{ $sell_line->quantity * $sell_line->unit_price_inc_tax  }}"/>
+                    <form action="/print_contrato" method="post" style="display: contents;">
+                        @csrf
+                            <input type="hidden" name="sell_line" value="{{$sell_line}}">
+                            <input type="hidden" name="sell" value="{{$sell}}">
+                            <input type="hidden" name="contador" value="{{$contador}}">
+                            <button type="submit" style="padding: 0;border-color: transparent;background-color: transparent;color:#3c8dbc"><i class="fas fa-file-alt" aria-hidden="true"></i></button>                                        
+                    </form>
+                @else
+                    <p>--</p>
+                @endif
+                
             </td>
         </tr>
         @if(!empty($sell_line->modifiers))
