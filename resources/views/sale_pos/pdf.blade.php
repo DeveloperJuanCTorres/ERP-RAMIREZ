@@ -68,7 +68,7 @@
 </head>
 <body>
   <header>
-    <div style="padding-top: 70px;">
+    <div style="padding-top: 150px;">
         <div style="padding-left: 620px;">
             <p style="font-size: 15px;color: #000000;font-weight: bold;">{{$fecha}} </p>
         </div>
