@@ -72,7 +72,7 @@
         <div style="padding-left: 620px;">
             <p style="font-size: 15px;color: #000000;font-weight: bold;">{{$fecha}} </p>
         </div>
-        <table style="padding-left: 100px;padding-top: 8px;">
+        <table style="padding-left: 100px;padding-top: 2px;">
             <tr>
                 <td style="width:500px">
                  <span> <strong>{{$cliente}}</strong></span>
@@ -82,7 +82,7 @@
                 </td>
             </tr>
             <tr style="padding-top:10px;">
-                <td style="width:500px;padding-top:8px;">
+                <td style="width:500px;padding-top:4px;">
                  <span> <strong>{{$direccion}}</strong></span>
                 </td>
                 <td>
@@ -93,7 +93,7 @@
     </div>    
   </header>
   
-  <div id="content" style="display: block;padding-top:10px">
+  <div id="content" style="display: block;padding-top:4px">
     <table style="padding:0px; height:15px;">
         <tr style="height:2px;">
             <td style="width:150px;">
@@ -167,7 +167,7 @@
         </tr>
     </table> 
     <div>
-        <table style="padding-left:150px; padding-top:45px;">
+        <table style="padding-left:150px; padding-top:20px;">
             <tr>
                 <td>
                     <span style="font-size:17px;"><strong>{{$acuenta}}</strong></span>
@@ -180,7 +180,7 @@
                 </td>
             </tr>
         </table>
-        <div style="padding-left:645px;padding-top:40px;">
+        <div style="padding-left:645px;padding-top:30px;">
              <span style="font-size:17px;"><strong>{{$precio}}</strong></span>
         </div>
     </div>
