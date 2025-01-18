@@ -167,7 +167,7 @@
         </tr>
     </table> 
     <div>
-        <table style="padding-left:150px; padding-top:20px;">
+        <table style="padding-left:150px; padding-top:10px;">
             <tr>
                 <td>
                     <span style="font-size:17px;"><strong>{{$acuenta}}</strong></span>
