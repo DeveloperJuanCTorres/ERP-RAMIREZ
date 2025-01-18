@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <style>
     body{
-      font-family: sans-serif;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     }
     @page {
       margin-top:  0.5cm;
@@ -83,7 +83,7 @@
             </tr>
             <tr style="padding-top:10px;">
                 <td style="width:500px;padding-top:4px;">
-                 <span style="font-size: 11px !important;"> <strong>{{$direccion}}</strong></span>
+                 <span style="font-size: 11px !important;"> {{$direccion}}</span>
                 </td>
                 <td>
                   <span><strong>{{$telefono}}</strong></span>
@@ -156,7 +156,7 @@
                 <span><strong style="width:150px;"> POLIZA:</strong></span>
             </td>
             <td style="width:250px;">
-                <span><strong> {{$poliza}}</strong></span>
+                <span> {{$poliza}}</span>
             </td>
             <td style="width:100px;">
                 <span><strong>COLOR: </strong></span>
@@ -182,6 +182,9 @@
         </table>
         <div style="padding-left:645px;padding-top:30px;">
              <span style="font-size:17px;"><strong>{{$precio}}</strong></span>
+        </div>
+        <div style="width: 700px;padding-top: 15px;">
+          <span style="font-size:17px;font-size: 12px;">Garantía: La empresa se responsabiliza sólo por falla de fábrica del motor (6000 km recorrido) y de la carrocería por 1 año y se compromete a extraer las piezas dañadas y colocar una original de la misma marca, mas no del daño producido por el mal manejo, falta de mantenimiento y desgaste por uso. No se acepta cambios ni devoluciones</span>
         </div>
     </div>
   </div>
