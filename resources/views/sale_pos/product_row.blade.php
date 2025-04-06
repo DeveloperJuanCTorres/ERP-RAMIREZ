@@ -143,7 +143,7 @@
 			}
 		@endphp
 		@if(!empty($product->lot_numbers) && empty($is_sales_order))
-			<select class="form-control lot_number" data-dropdown-search="true" name="products[{{$row_count}}][lot_no_line_id]" @if(!empty($product->transaction_sell_lines_id)) disabled @endif>
+			<select class="form-control lot_number select2" data-select-search="true" name="products[{{$row_count}}][lot_no_line_id]" @if(!empty($product->transaction_sell_lines_id)) disabled @endif>
 				<option value="">@lang('lang_v1.lot_n_expiry')</option>
 				@foreach($product->lot_numbers as $lot_number)
 					@php
@@ -397,4 +397,11 @@
 		<i class="fa fa-times text-danger pos_remove_row cursor-pointer" aria-hidden="true"></i>
 	</td>
 </tr> 
+<script>
+	$(document).ready(function() {
+  $(".select2").select2({
+    'allowClear': true
+  });
+});
+</script>
 

@@ -46,7 +46,7 @@
 				<div class="col-md-5 no-padding">
 					@include('sale_pos.partials.pos_sidebar')
 				</div>
-				@endif
+				@endif				
 			</div>
 		</div>
 	</div>
