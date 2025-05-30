@@ -30,6 +30,8 @@ use App\Http\Controllers\InvoiceSchemeController;
 use App\Http\Controllers\LabelsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\LocationSettingsController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\LoanPaymentsController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NotificationTemplateController;
@@ -256,6 +258,14 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/labels/show', [LabelsController::class, 'show']);
     Route::get('/labels/add-product-row', [LabelsController::class, 'addProductRow']);
     Route::get('/labels/preview', [LabelsController::class, 'preview']);
+
+    //PRESTAMOS
+    Route::resource('loans', LoanController::class);
+    // Route::resource('loanpayments', LoanPaymentsController::class);
+    Route::get('/loanpayments/{loan_id}', [LoanPaymentsController::class, 'index']);
+    Route::get('/loanpayments/{id}/edit', [LoanPaymentsController::class, 'edit']);
+    Route::post('/loanpayments/{id}', [LoanPaymentsController::class, 'update']);
+
 
     //Reports...
     Route::get('/reports/gst-purchase-report', [ReportController::class, 'gstPurchaseReport']);

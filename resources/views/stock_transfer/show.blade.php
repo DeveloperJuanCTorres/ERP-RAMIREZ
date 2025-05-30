@@ -7,7 +7,7 @@
 		</div>
 		<div class="modal-body">
 				<div class="row invoice-info">
-				  <div class="col-sm-4 invoice-col">
+				  <div class="col-sm-3 invoice-col">
 				    @lang('lang_v1.location_from'):
 				    <address>
 				      <strong>{{ $location_details['sell']->name }}</strong>
@@ -33,7 +33,7 @@
 				    </address>
 				  </div>
 
-				  <div class="col-md-4 invoice-col">
+				  <div class="col-md-3 invoice-col">
 				    @lang('lang_v1.location_to'):
 				    <address>
 				      <strong>{{ $location_details['purchase']->name }}</strong>
@@ -59,7 +59,14 @@
 				    </address>
 				  </div>
 
-				  <div class="col-sm-4 invoice-col">
+				  <div class="col-md-3 invoice-col">
+					<b>Transportista:</b> {{ $sell_transfer->contact->supplier_business_name }}<br/>
+					<b>Chofer:</b> {{ $sell_transfer->chofer_name }}<br/>
+					<b>Licencia:</b> {{ $sell_transfer->licencia }}<br/>
+					<b>Placa:</b> {{ $sell_transfer->placa }}<br/>
+				  </div>
+
+				  <div class="col-sm-3 invoice-col">
 				    <b>@lang('purchase.ref_no'):</b> #{{ $sell_transfer->ref_no }}<br/>
 				    <b>@lang('messages.date'):</b> {{ @format_date($sell_transfer->transaction_date) }}<br/>
 				    <b>@lang('sale.status'):</b> {{$statuses[$sell_transfer->status] ?? ''}}

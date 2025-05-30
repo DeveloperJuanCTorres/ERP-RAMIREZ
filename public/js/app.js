@@ -81,6 +81,158 @@ $(document).ready(function() {
         });
     });
 
+    //Loans table
+    var loans_table = $('#loans_table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '/loans',
+        columnDefs: [
+            {
+                targets: 4,
+                orderable: false,
+                searchable: false,
+            },
+        ],
+    });
+
+    $(document).on('submit', 'form#loan_add_form', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var data = form.serialize();
+
+        $.ajax({
+            method: 'POST',
+            url: $(this).attr('action'),
+            dataType: 'json',
+            data: data,
+            beforeSend: function(xhr) {
+                __disable_submit_button(form.find('button[type="submit"]'));
+            },
+            success: function(result) {
+                if (result.success == true) {
+                    $('div.loans_modal').modal('hide');
+                    toastr.success(result.msg);
+                    loans_table.ajax.reload();
+                    var evt = new CustomEvent("loanAdded", {detail: result.data});
+                    window.dispatchEvent(evt);
+                    
+                } else {
+                    toastr.error(result.msg);
+                }
+            },
+        });
+    });
+
+    $(document).on('click', 'button.edit_loan_button', function() {
+        $('div.loans_modal').load($(this).data('href'), function() {
+            $(this).modal('show');
+
+            $('form#loan_edit_form').submit(function(e) {
+                e.preventDefault();
+                var form = $(this);
+                var data = form.serialize();
+
+                $.ajax({
+                    method: 'POST',
+                    url: $(this).attr('action'),
+                    dataType: 'json',
+                    data: data,
+                    beforeSend: function(xhr) {
+                        __disable_submit_button(form.find('button[type="submit"]'));
+                    },
+                    success: function(result) {
+                        if (result.success == true) {
+                            $('div.loans_modal').modal('hide');
+                            toastr.success(result.msg);
+                            loans_table.ajax.reload();
+                        } else {
+                            toastr.error(result.msg);
+                        }
+                    },
+                });
+            });
+        });
+    });
+
+    $(document).on('click', 'button.delete_loan_button', function() {
+        swal({
+            title: LANG.sure,
+            text: 'Estás seguro de eliminar el préstamo?',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then(willDelete => {
+            if (willDelete) {
+                var href = $(this).data('href');
+                var data = $(this).serialize();
+
+                $.ajax({
+                    method: 'DELETE',
+                    url: href,
+                    dataType: 'json',
+                    data: data,
+                    success: function(result) {
+                        if (result.success == true) {
+                            toastr.success(result.msg);
+                            loans_table.ajax.reload();
+                        } else {
+                            toastr.error(result.msg);
+                        }
+                    },
+                });
+            }
+        });
+    });
+
+     $(document).ready(function () {
+        let loan_id = window.loan_id;
+        window.loan_payments_table = $('#loan_payments_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '/loanpayments/' + loan_id,
+            columns: [
+                { data: 'date_pay', name: 'date_pay' },
+                { data: 'amount_pay', name: 'amount_pay' },
+                { data: 'method_pay', name: 'method_pay' },
+                { data: 'observation', name: 'observation' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
+        });
+    });
+
+    $(document).on('click', 'button.loan_payments_button', function() {
+        var url = $(this).data('href');
+        $('div.loan_payments_modal').load(url, function() {
+            $(this).modal('show');
+
+            $('form#loan_payments_form').submit(function(e) {
+                e.preventDefault();
+                var form = $(this);
+                // var data = form.serialize();
+
+                $.ajax({
+                    method: form.attr('method'),
+                    url: $(this).attr('action'),
+                    dataType: 'json',
+                    data: form.serialize(),
+                    beforeSend: function(xhr) {
+                        __disable_submit_button(form.find('button[type="submit"]'));
+                    },
+                    success: function(result) {
+                        if (result.success == true) {
+                            $('div.loan_payments_modal').modal('hide');
+                            toastr.success(result.msg);
+                            loan_payments_table.ajax.reload();
+                        } else {
+                            toastr.error(result.msg);
+                        }
+                    },
+                });
+            });
+        });
+    });
+
+
     //Brands table
     var brands_table = $('#brands_table').DataTable({
         processing: true,

@@ -106,6 +106,48 @@
 			</div>
 		</div>
 	</div> <!--box end-->
+
+	<div class="box box-solid">
+		<div class="box-header">
+        	<h3 class="box-title">Datos del Transportista</h3>
+       	</div>
+		<div class="box-body">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						{!! Form::label('transportista', 'Transportista:*') !!}
+						<select class="form-control select2" name="contact_id" id="contact_id">
+							<option value="">{{__('messages.please_select')}}</option>
+							@foreach($contacts as $contact)
+								<option value="{{$contact->id}}">{{$contact->supplier_business_name}}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						{!! Form::label('chofer', 'Chofer:') !!}
+						{!! Form::text('chofer_name', null, ['class' => 'form-control']); !!}
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						{!! Form::label('licencia', 'Licencia:') !!}
+						{!! Form::text('licencia', null, ['class' => 'form-control']); !!}
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						{!! Form::label('placa', 'Placa:') !!}
+						{!! Form::text('placa', null, ['class' => 'form-control']); !!}
+					</div>
+				</div>
+				<div class="clearfix"></div>
+								
+			</div>
+		</div>
+	</div> <!--box end-->
+
 	<div class="box box-solid">
 		<div class="box-body">
 			<div class="row">

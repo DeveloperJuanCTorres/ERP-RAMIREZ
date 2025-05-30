@@ -4,6 +4,7 @@ namespace Modules\Manufacturing\Http\Controllers;
 
 use App\BusinessLocation;
 use App\Media;
+use App\Product;
 use App\Transaction;
 use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
@@ -163,8 +164,18 @@ class ProductionController extends Controller
 
         $recipe_dropdown = MfgRecipe::forDropdown($business_id);
 
+        $lot_numbers = DB::table('purchase_lines')
+        ->leftJoin('transaction_sell_lines', 'purchase_lines.id', '=', 'transaction_sell_lines.lot_no_line_id')
+        ->select(
+            'purchase_lines.lot_number as lote',
+            'purchase_lines.id as purchase_line_id'
+        )
+        ->where('purchase_lines.product_id', 1)
+        ->groupBy('purchase_lines.id', 'purchase_lines.lot_number')
+        ->get();
+
         return view('manufacturing::production.create')
-                ->with(compact('business_locations', 'recipe_dropdown'));
+                ->with(compact('business_locations', 'recipe_dropdown','lot_numbers'));
     }
 
     /**

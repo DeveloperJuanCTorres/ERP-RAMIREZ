@@ -820,6 +820,129 @@ class TransactionUtil extends Util
         return true;
     }
 
+    public function createOrUpdatePaymentLinesPrestamos($transaction, $amount, $payments, $business_id = null, $user_id = null, $uf_data = true)
+    {
+        $payments_formatted = [];
+        $edit_ids = [0];
+        $account_transactions = [];
+
+        if (! is_object($transaction)) {
+            $transaction = Transaction::findOrFail($transaction);
+        }
+
+        //If status is draft don't add payment
+        if ($transaction->status == 'draft') {
+            return true;
+        }
+        $c = 0;
+        $prefix_type = 'sell_payment';
+        if ($transaction->type == 'purchase') {
+            $prefix_type = 'purchase_payment';
+        }
+        $contact_balance = Contact::where('id', $transaction->contact_id)->value('balance');
+        $denominations = [];
+        foreach ($payments as $payment) {
+            //Check if transaction_sell_lines_id is set.
+            if (! empty($payment['payment_id'])) {
+                $edit_ids[] = $payment['payment_id'];
+                $this->editPaymentLine($payment, $transaction, $uf_data);
+            } else {
+                $payment_amount = $amount;
+                if ($payment['method'] == 'advance' && $payment_amount > $contact_balance) {
+                    throw new AdvanceBalanceNotAvailable(__('lang_v1.required_advance_balance_not_available'));
+                }
+                //If amount is 0 then skip.
+                if ($payment_amount != 0) {
+                    $prefix_type = 'sell_payment';
+                    if ($transaction->type == 'purchase') {
+                        $prefix_type = 'purchase_payment';
+                    }
+                    $ref_count = $this->setAndGetReferenceCount($prefix_type, $business_id);
+                    //Generate reference number
+                    $payment_ref_no = $this->generateReferenceNumber($prefix_type, $ref_count, $business_id);
+
+                    $paid_on = \Carbon::now()->toDateTimeString();
+
+                    $payment_data = [
+                        'amount' => $payment_amount,
+                        'method' => $payment['method'],
+                        'business_id' => $transaction->business_id,
+                        'is_return' => isset($payment['is_return']) ? $payment['is_return'] : 0,
+                        'card_transaction_number' => isset($payment['card_transaction_number']) ? $payment['card_transaction_number'] : null,
+                        'card_number' => isset($payment['card_number']) ? $payment['card_number'] : null,
+                        'card_type' => 'credit',
+                        'card_holder_name' => null,
+                        'card_month' => null,
+                        'card_security' => null,
+                        'cheque_number' => null,
+                        'bank_account_number' => null,
+                        'note' => null,
+                        'paid_on' => $paid_on,
+                        'created_by' => empty($user_id) ? auth()->user()->id : $user_id,
+                        'payment_for' => $transaction->contact_id,
+                        'payment_ref_no' => $payment_ref_no,
+                        'account_id' => ! empty($payment['account_id']) && $payment['method'] != 'advance' ? $payment['account_id'] : null,
+                    ];
+
+                    for ($i = 1; $i < 8; $i++) {
+                        if ($payment['method'] == 'custom_pay_'.$i) {
+                            $payment_data['transaction_no'] = $payment["transaction_no_{$i}"];
+                        }
+                    }
+
+                    $payments_formatted[] = new TransactionPayment($payment_data);
+
+                    if (! empty($payment['denominations'])) {
+                        $denominations[$payment_ref_no] = $payment['denominations'];
+                    }
+
+                    $account_transactions[$c] = [];
+
+                    //create account transaction
+                    $payment_data['transaction_type'] = $transaction->type;
+                    $account_transactions[$c] = $payment_data;
+
+                    $c++;
+                }
+            }
+        }
+
+        //Delete the payment lines removed.
+        if (! empty($edit_ids)) {
+            $deleted_transaction_payments = $transaction->payment_lines()->whereNotIn('id', $edit_ids)->get();
+
+            $transaction->payment_lines()->whereNotIn('id', $edit_ids)->delete();
+
+            //Fire delete transaction payment event
+            foreach ($deleted_transaction_payments as $deleted_transaction_payment) {
+                event(new TransactionPaymentDeleted($deleted_transaction_payment));
+            }
+        }
+
+        if (! empty($payments_formatted)) {
+            $transaction->payment_lines()->saveMany($payments_formatted);
+            $payment_lines = $transaction->payment_lines;
+            foreach ($account_transactions as $account_transaction) {
+                $payment = $payment_lines->where('payment_ref_no', $account_transaction['payment_ref_no'])->first();
+
+                if (! empty($payment)) {
+                    event(new TransactionPaymentAdded($payment, $account_transaction));
+                }
+            }
+
+            //add denominations
+
+            if (! empty($denominations)) {
+                foreach ($denominations as $key => $value) {
+                    $payment = $payment_lines->where('payment_ref_no', $key)->first();
+                    $this->addCashDenominations($payment, $value);
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Edit transaction payment line
      *
@@ -5613,6 +5736,44 @@ class TransactionUtil extends Util
         $recurring_expense = Transaction::create($data);
 
         return $recurring_expense;
+    }
+
+    public function createPrestamoInterno($request, $business_id, $user_id, $format_data = true)
+    {
+        $transaction_data = $request->only(['user_id', 'amount',
+            'type', 'time', 'tax', 'location_id', ]);
+
+        $transaction_data['business_id'] = $business_id;
+        $transaction_data['created_by'] = $user_id;
+        $transaction_data['type'] = 'expense';
+        $transaction_data['status'] = 'final';
+        $transaction_data['payment_status'] = 'due';
+        $transaction_data['final_total'] = $transaction_data['amount'];
+        $transaction_data['transaction_date'] = \Carbon::now();
+
+        if ($request->has('expense_sub_category_id')) {
+            $transaction_data['expense_sub_category_id'] = $request->input('expense_sub_category_id');
+        }
+
+        $transaction_data['total_before_tax'] = $transaction_data['final_total'];
+
+        //Update reference count
+        $ref_count = $this->setAndGetReferenceCount('expense', $business_id);
+        //Generate reference number
+        if (empty($transaction_data['ref_no'])) {
+            $transaction_data['ref_no'] = $this->generateReferenceNumber('expense', $ref_count, $business_id);
+        }
+
+        $transaction = Transaction::create($transaction_data);
+
+        $payments = ! empty($request->input('payment')) ? $request->input('payment') : [];
+        //add expense payment
+        $this->createOrUpdatePaymentLinesPrestamos($transaction, $transaction_data['amount'], $payments, $business_id);
+
+        //update payment status
+        $this->updatePaymentStatus($transaction->id, $transaction->final_total);
+
+        return $transaction;
     }
 
     public function createExpense($request, $business_id, $user_id, $format_data = true)

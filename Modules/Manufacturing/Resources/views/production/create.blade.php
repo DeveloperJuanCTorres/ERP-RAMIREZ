@@ -90,7 +90,15 @@
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('lot_number', __('lang_v1.lot_number').':') !!}
-						{!! Form::text('lot_number', null, ['class' => 'form-control']); !!}
+						<!-- {!! Form::text('lot_number', null, ['class' => 'form-control']); !!} -->
+						 
+						<select class="form-control lot_number select2" data-select-search="true" name="lote">
+							<option value="">@lang('lang_v1.lot_n_expiry')</option>
+							@foreach($lot_numbers as $lot_number)								
+								<option value="{{$lot_number->purchase_line_id}}">{{$lot_number->lote}}</option>
+							@endforeach
+						</select>
+							
 					</div>
 				</div>
 			@endif

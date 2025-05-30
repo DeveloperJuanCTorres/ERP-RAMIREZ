@@ -62,6 +62,30 @@ class AdminSidebarMenu
                 )->order(10);
             }
 
+            //Adelantos y prestamos internos
+            if (auth()->user()->can('user.view') || auth()->user()->can('user.create') || auth()->user()->can('roles.view')) {
+                $menu->dropdown(
+                    'Gestion de prestamos',
+                    function ($sub) {
+                        if (auth()->user()->can('user.view')) {
+                            $sub->url(
+                                action([\App\Http\Controllers\LoanController::class, 'index']),
+                                'Préstamos internos',
+                                ['icon' => 'fa fas fa-user', 'active' => request()->segment(1) == 'users']
+                            );
+                        }
+                        if (auth()->user()->can('roles.view')) {
+                            $sub->url(
+                                action([\App\Http\Controllers\RoleController::class, 'index']),
+                                'Préstamos bancos',
+                                ['icon' => 'fa fas fa-briefcase', 'active' => request()->segment(1) == 'roles']
+                            );
+                        }
+                    },
+                    ['icon' => 'fa fas fa-users']
+                )->order(10);
+            }
+
             //Contacts dropdown
             if (auth()->user()->can('supplier.view') || auth()->user()->can('customer.view') || auth()->user()->can('supplier.view_own') || auth()->user()->can('customer.view_own')) {
                 $menu->dropdown(

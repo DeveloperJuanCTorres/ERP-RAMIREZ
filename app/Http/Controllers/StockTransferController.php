@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLocation;
+use App\Contact;
 use App\PurchaseLine;
 use App\Transaction;
 use App\TransactionSellLinesPurchaseLines;
@@ -160,8 +161,10 @@ class StockTransferController extends Controller
 
         $statuses = $this->stockTransferStatuses();
 
+        $contacts = Contact::where('type', 'supplier')->get();
+
         return view('stock_transfer.create')
-                ->with(compact('business_locations', 'statuses'));
+                ->with(compact('business_locations', 'statuses', 'contacts'));
     }
 
     private function stockTransferStatuses()
@@ -195,7 +198,7 @@ class StockTransferController extends Controller
 
             DB::beginTransaction();
 
-            $input_data = $request->only(['location_id', 'ref_no', 'transaction_date', 'additional_notes', 'shipping_charges', 'final_total']);
+            $input_data = $request->only(['location_id', 'contact_id', 'ref_no', 'transaction_date', 'additional_notes', 'shipping_charges', 'final_total', 'chofer_name', 'licencia', 'placa']);
             $status = $request->input('status');
             $user_id = $request->session()->get('user.id');
 
@@ -208,7 +211,7 @@ class StockTransferController extends Controller
             $input_data['shipping_charges'] = $this->productUtil->num_uf($input_data['shipping_charges']);
             $input_data['payment_status'] = 'paid';
             $input_data['status'] = $status == 'completed' ? 'final' : $status;
-
+      
             //Update reference count
             $ref_count = $this->productUtil->setAndGetReferenceCount('stock_transfer');
             //Generate reference number
@@ -382,7 +385,7 @@ class StockTransferController extends Controller
                                 'sell_lines.lot_details',
                                 'sell_lines.sub_unit',
                                 'location',
-                                'sell_lines.product.unit'
+                                'sell_lines.product.unit',
                             )
                             ->first();
 
