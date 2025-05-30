@@ -117,7 +117,7 @@ return [
     'edit_variation' => 'Editar variación',
     'received' => 'Recibido',
     'pending' => 'Pendiente',
-    'ordered' => 'Solicitado', /* modified */
+    'ordered' => 'Pedido', /* modified */
     'search_product_placeholder' => 'Introduzca el nombre del producto / SKU / código de barras de escaneo',
     'fixed' => 'Fijo',
     'percentage' => 'Porcentaje',
