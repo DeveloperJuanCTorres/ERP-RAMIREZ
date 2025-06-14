@@ -184,5 +184,5 @@
 	<script src="{{ asset('js/stock_transfer.js?v=' . $asset_v) }}"></script>
 	<script type="text/javascript">
 		__page_leave_confirmation('#stock_transfer_form');
-	</script>
+	</script>	
 @endsection

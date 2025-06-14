@@ -24,7 +24,7 @@
                 <small class="text-muted" style="white-space: nowrap;">@lang('report.current_stock'): <span class="qty_available_text">{{$product->formatted_qty_available}}</span> {{ $product->unit }}</small>
             @endif
             @if(!empty($product->lot_numbers))
-                <select class="form-control lot_number" name="products[{{$row_index}}][lot_no_line_id]">
+                <select class="form-control lot_number select2" data-select-search="true" name="products[{{$row_index}}][lot_no_line_id]">
                     <option value="">@lang('lang_v1.lot_n_expiry')</option>
                     @foreach($product->lot_numbers as $lot_number)
                         @php
@@ -135,3 +135,11 @@
         <i class="fa fa-trash remove_product_row cursor-pointer" aria-hidden="true"></i>
     </td>
 </tr>
+
+<script>
+    $(document).ready(function() {
+    $(".select2").select2({
+        'allowClear': true
+    });
+    });
+</script>
