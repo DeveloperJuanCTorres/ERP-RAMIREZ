@@ -75,6 +75,7 @@
                             <th>@lang('report.current_stock')</th>
                             <th>@lang('report.total_unit_sold')</th>
                             <th>@lang('lang_v1.total_unit_adjusted')</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -96,5 +97,7 @@
 @endsection
 
 @section('javascript')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="{{ asset('js/report.js?v=' . $asset_v) }}"></script>
 @endsection

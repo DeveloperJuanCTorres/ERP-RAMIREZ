@@ -310,6 +310,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/reports/items-report', [ReportController::class, 'itemsReport']);
     Route::get('/reports/get-stock-value', [ReportController::class, 'getStockValue']);
 
+    Route::post('/reports/pay-service', [ReportController::class, 'payService']);
+
     Route::get('business-location/activate-deactivate/{location_id}', [BusinessLocationController::class, 'activateDeactivateLocation']);
 
     //Business Location Settings...

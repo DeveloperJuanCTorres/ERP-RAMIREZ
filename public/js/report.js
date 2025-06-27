@@ -1113,6 +1113,25 @@ $(document).ready(function() {
             { data: 'stock', name: 'stock', searchable: false },
             { data: 'total_sold', name: 'total_sold', searchable: false },
             { data: 'total_adjusted', name: 'total_adjusted', searchable: false },
+            {
+                data: null,
+                name: 'action',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    if (row.transaction_type === 'production_purchase') {
+                        if (row.pay == 0) {
+                            return `<button class="btn btn-sm btn-primary pagar-btn" data-product="${row.product}" data-id="${row.transaction_id}">Pagar</button>`;
+                        }
+                        else{
+                            return `<span class="label bg-light-green">Pagado</span>`; 
+                        }
+                            
+                    } else {
+                        return ''; // No muestra nada para productos no manufacturados
+                    }
+                }
+            }
         ],
 
         fnDrawCallback: function(oSettings) {
@@ -1130,6 +1149,62 @@ $(document).ready(function() {
             lot_report.ajax.reload();
         });
     }
+
+    $(document).on('click', '.pagar-btn', function() {
+        const id = $(this).data('id');
+        const product = $(this).data('product');
+        let token = $('meta[name="csrf-token"]').attr('content');
+
+        // Aquí puedes mostrar un modal o redirigir al usuario
+        Swal.fire({
+            title: '¿Desea realizar el pago?',
+            text: `Producto: ${product}`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, pagar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "/reports/pay-service",
+                    method: "post",
+                    dataType: 'json',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function (response) {   
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Servicio',
+                                text: response.msg,   
+                                confirmButtonColor: "#e75e8d",                           
+                            })
+                            .then(resultado => {
+                                lot_report.ajax.reload();
+                            })                 
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Ups, algo salio mal',
+                                text: response.msg,
+                                confirmButtonColor: "#e75e8d",
+                            })
+                        }
+                    },
+                    error: function (response) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...!!',
+                            text: response.msg,
+                        })
+                    }
+                });
+            }
+        });
+    });
 
     //Purchase Payment Report
     purchase_payment_report = $('table#purchase_payment_report_table').DataTable({

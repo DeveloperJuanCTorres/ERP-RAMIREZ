@@ -2122,6 +2122,7 @@ class ReportController extends Controller
             }
 
             $products = $query->select(
+                'pl.id as id',
                 'products.name as product',
                 'v.name as variation_name',
                 'sub_sku',
@@ -2140,6 +2141,9 @@ class ReportController extends Controller
                 DB::raw('COALESCE(SUM(IF(tspl.sell_line_id IS NULL, 0, (tspl.quantity - tspl.qty_returned)) ), 0) as total_sold'),
                 DB::raw('COALESCE(SUM(IF(tspl.stock_adjustment_line_id IS NULL, 0, tspl.quantity ) ), 0) as total_adjusted'),
                 'products.type',
+                't.type as transaction_type',
+                't.pay_service as pay',
+                't.id as transaction_id',
                 'units.short_name as unit'
             )
             ->whereNotNull('pl.lot_number')
@@ -2187,7 +2191,7 @@ class ReportController extends Controller
                     }
                 })
                 ->removeColumn('unit')
-                ->removeColumn('id')
+                // ->removeColumn('id')
                 ->removeColumn('variation_name')
                 ->rawColumns(['exp_date', 'stock', 'total_sold', 'total_adjusted'])
                 ->make(true);
@@ -3940,5 +3944,20 @@ class ReportController extends Controller
         $suppliers = Contact::suppliersDropdown($business_id);
 
         return view('report.gst_purchase_report')->with(compact('suppliers', 'taxes'));
+    }
+
+    public function payService(Request $request)
+    {
+        $transaction = Transaction::findOrFail($request->id);
+
+        // Validar si ya fue pagado
+        if ($transaction->pay_service == 1) {
+            return response()->json(['status' => false, 'msg' => 'Este servicio ya fue pagado']);
+        }
+
+        $transaction->pay_service = 1;
+        $transaction->save();
+
+        return response()->json(['status' => true, 'msg' => 'Servicio marcado como pagado']);
     }
 }
