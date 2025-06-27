@@ -5,6 +5,7 @@ namespace Modules\Manufacturing\Http\Controllers;
 use App\BusinessLocation;
 use App\Media;
 use App\Product;
+use App\PurchaseLine;
 use App\Transaction;
 use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
@@ -170,7 +171,8 @@ class ProductionController extends Controller
             'purchase_lines.lot_number as lote',
             'purchase_lines.id as purchase_line_id'
         )
-        ->where('purchase_lines.product_id', 1)
+        // ->where('purchase_lines.product_id', 1)
+        ->whereIn('purchase_lines.product_id', [1, 6])
         ->groupBy('purchase_lines.id', 'purchase_lines.lot_number')
         ->get();
 
