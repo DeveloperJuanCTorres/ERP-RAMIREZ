@@ -1168,6 +1168,7 @@ $(document).ready(function() {
                     <select id="cuenta_select" class="swal2-input">
                         ${comboOptions}
                     </select>
+                    <br>
                     <label for="nota_pago">Nº Recibo:</label>
                     <input type="text" id="nota_pago" class="swal2-input" placeholder="Ingrese nota">
                     <br>
