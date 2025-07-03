@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Brands;
 use App\BusinessLocation;
 use App\CashRegister;
@@ -3948,6 +3949,8 @@ class ReportController extends Controller
 
     public function payService(Request $request)
     {
+        $business_id = request()->session()->get('user.business_id');
+        $user_id = $request->session()->get('user.id');
         $transaction = Transaction::findOrFail($request->id);
 
         // Validar si ya fue pagado
@@ -3958,6 +3961,23 @@ class ReportController extends Controller
         $transaction->pay_service = 1;
         $transaction->save();
 
+        //crear el gasto del pago en la cuenta correspondiente
+        $transaction_data['business_id'] = $business_id;
+        $transaction_data['created_by'] = $user_id;
+        $transaction_data['type'] = 'expense';
+        $transaction_data['status'] = 'final';
+        $transaction_data['payment_status'] = 'due';
+        $transaction_data['final_total'] = $transaction_data['amount'];
+        $transaction_data['transaction_date'] = \Carbon::now();
+
         return response()->json(['status' => true, 'msg' => 'Servicio marcado como pagado']);
+    }
+
+    public function obtenerCuentas()
+    {
+        $business_id = request()->session()->get('user.business_id');
+        $accounts = Account::forDropdown($business_id, true, false, true);
+
+        return response()->json($accounts);
     }
 }

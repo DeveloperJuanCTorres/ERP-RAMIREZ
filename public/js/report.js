@@ -1155,56 +1155,147 @@ $(document).ready(function() {
         const product = $(this).data('product');
         let token = $('meta[name="csrf-token"]').attr('content');
 
-        // Aquí puedes mostrar un modal o redirigir al usuario
-        Swal.fire({
-            title: '¿Desea realizar el pago?',
-            text: `Producto: ${product}`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, pagar',
-            cancelButtonText: 'Cancelar',
-        }).then((result) => {
-            if (result.isConfirmed) {
+        $.get('/cuentas-pago', function(cuentas) {
+            let comboOptions = Object.entries(cuentas).map(([id, nombre]) =>
+                `<option value="${id}">${nombre}</option>`
+            ).join('');
 
-                $.ajax({
-                    url: "/reports/pay-service",
-                    method: "post",
-                    dataType: 'json',
-                    data: {
-                        _token: token,
-                        id: id
-                    },
-                    success: function (response) {   
-                        if (response.status) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Servicio',
-                                text: response.msg,   
-                                confirmButtonColor: "#e75e8d",                           
-                            })
-                            .then(resultado => {
-                                lot_report.ajax.reload();
-                            })                 
-                        } else {
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Ups, algo salio mal',
-                                text: response.msg,
-                                confirmButtonColor: "#e75e8d",
-                            })
-                        }
-                    },
-                    error: function (response) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...!!',
-                            text: response.msg,
-                        })
+            Swal.fire({
+                title: '¿Desea realizar el pago?',
+                html: `
+                    <p>Producto: <strong>${product}</strong></p>
+                    <label for="cuenta_select">Cuenta de pago:</label>
+                    <select id="cuenta_select" class="swal2-input">
+                        ${comboOptions}
+                    </select>
+                    <label for="nota_pago">Nº Recibo:</label>
+                    <input type="text" id="nota_pago" class="swal2-input" placeholder="Ingrese nota">
+                    <br>
+                    <label for="monto">Monto:</label>
+                    <input type="number" id="monto" class="swal2-input" placeholder="Ingrese monto">
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Sí, pagar',
+                cancelButtonText: 'Cancelar',
+                preConfirm: () => {
+                    const cuenta_id = document.getElementById('cuenta_select').value;
+                    const nota = document.getElementById('nota_pago').value;
+                    const monto = document.getElementById('monto').value;
+
+                    if (!cuenta_id) {
+                        Swal.showValidationMessage('Debe seleccionar una cuenta de pago');
                     }
-                });
-            }
+
+                    // return { cuenta_id, nota, monto };
+
+                    if (monto == "") {
+                        Swal.showValidationMessage('Debe ingresar el monto a pagar');
+                    }
+
+                    return { cuenta_id, nota, monto };
+                }
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    $.ajax({
+                        url: "/reports/pay-service",
+                        method: "post",
+                        dataType: 'json',
+                        data: {
+                            _token: token,
+                            id: id,
+                            cuenta_id: result.value.cuenta_id,
+                            nota: result.value.nota,
+                            monto: result.value.monto
+                        },
+                        success: function (response) {   
+                            if (response.status) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Servicio',
+                                    text: response.msg,
+                                    confirmButtonColor: "#e75e8d",
+                                }).then(() => {
+                                    lot_report.ajax.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Ups, algo salió mal',
+                                    text: response.msg,
+                                    confirmButtonColor: "#e75e8d",
+                                });
+                            }
+                        },
+                        error: function (response) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...!!',
+                                text: response.responseJSON?.message || 'Error al procesar la solicitud.',
+                            });
+                        }
+                    });
+                }
+            });
         });
     });
+
+    // $(document).on('click', '.pagar-btn', function() {
+    //     const id = $(this).data('id');
+    //     const product = $(this).data('product');
+    //     let token = $('meta[name="csrf-token"]').attr('content');
+
+        
+    //     Swal.fire({
+    //         title: '¿Desea realizar el pago?',
+    //         text: `Producto: ${product}`,
+    //         icon: 'question',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Sí, pagar',
+    //         cancelButtonText: 'Cancelar',
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+
+    //             $.ajax({
+    //                 url: "/reports/pay-service",
+    //                 method: "post",
+    //                 dataType: 'json',
+    //                 data: {
+    //                     _token: token,
+    //                     id: id
+    //                 },
+    //                 success: function (response) {   
+    //                     if (response.status) {
+    //                         Swal.fire({
+    //                             icon: 'success',
+    //                             title: 'Servicio',
+    //                             text: response.msg,   
+    //                             confirmButtonColor: "#e75e8d",                           
+    //                         })
+    //                         .then(resultado => {
+    //                             lot_report.ajax.reload();
+    //                         })                 
+    //                     } else {
+    //                         Swal.fire({
+    //                             icon: 'warning',
+    //                             title: 'Ups, algo salio mal',
+    //                             text: response.msg,
+    //                             confirmButtonColor: "#e75e8d",
+    //                         })
+    //                     }
+    //                 },
+    //                 error: function (response) {
+    //                     Swal.fire({
+    //                         icon: 'error',
+    //                         title: 'Oops...!!',
+    //                         text: response.msg,
+    //                     })
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
+
 
     //Purchase Payment Report
     purchase_payment_report = $('table#purchase_payment_report_table').DataTable({
