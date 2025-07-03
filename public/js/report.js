@@ -1170,7 +1170,7 @@ $(document).ready(function() {
                     </select>
                     <br>
                     <label for="nota_pago">Nº Recibo:</label>
-                    <input type="text" id="nota_pago" class="swal2-input" placeholder="Ingrese nota">
+                    <input type="text" id="nota_pago" class="swal2-input" placeholder="Ingrese Nº de recibo">
                     <br>
                     <label for="monto">Monto:</label>
                     <input type="number" id="monto" class="swal2-input" placeholder="Ingrese monto">
