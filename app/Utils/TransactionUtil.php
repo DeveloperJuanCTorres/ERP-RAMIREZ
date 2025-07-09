@@ -5007,7 +5007,7 @@ class TransactionUtil extends Util
                         'transactions.id',
                         'transactions.document',
                         'transactions.transaction_date',
-                        'transactions.ref_no',
+                        'transactions.custom_field_1',
                         'contacts.name',
                         'contacts.supplier_business_name',
                         'transactions.status',

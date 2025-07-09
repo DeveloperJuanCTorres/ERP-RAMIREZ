@@ -169,8 +169,8 @@ class PurchaseController extends Controller
                     return $html;
                 })
                 ->removeColumn('id')
-                ->editColumn('ref_no', function ($row) {
-                    return ! empty($row->return_exists) ? $row->ref_no.' <small class="label bg-red label-round no-print" title="'.__('lang_v1.some_qty_returned').'"><i class="fas fa-undo"></i></small>' : $row->ref_no;
+                ->editColumn('custom_field_1', function ($row) {
+                    return ! empty($row->return_exists) ? $row->custom_field_1.' <small class="label bg-red label-round no-print" title="'.__('lang_v1.some_qty_returned').'"><i class="fas fa-undo"></i></small>' : $row->custom_field_1;
                 })
                 ->editColumn(
                     'final_total',
@@ -210,7 +210,7 @@ class PurchaseController extends Controller
                             return '';
                         }
                     }, ])
-                ->rawColumns(['final_total', 'action', 'payment_due', 'payment_status', 'status', 'ref_no', 'name'])
+                ->rawColumns(['final_total', 'action', 'payment_due', 'payment_status', 'status', 'custom_field_1', 'name'])
                 ->make(true);
         }
 
