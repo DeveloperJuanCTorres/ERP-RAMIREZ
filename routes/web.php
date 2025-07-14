@@ -1,5 +1,6 @@
 <?php
 
+use App\DailyPart;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\AccountTypeController;
@@ -14,7 +15,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerGroupController;
+use App\Http\Controllers\DailyPartController;
 use App\Http\Controllers\DashboardConfiguratorController;
+use App\Http\Controllers\DiaryPartController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\DocumentAndNoteController;
 use App\Http\Controllers\ExpenseCategoryController;
@@ -266,6 +269,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/loanpayments/{id}/edit', [LoanPaymentsController::class, 'edit']);
     Route::post('/loanpayments/{id}', [LoanPaymentsController::class, 'update']);
 
+    //PARTES DIARIOS
+    Route::resource('parts', DiaryPartController::class);
+    // Route::post('parts', [DiaryPartController::class, 'createDailyPart']);
+    Route::post('parts/{id}', [DiaryPartController::class, 'storeDailyPart']);
 
     //Reports...
     Route::get('/reports/gst-purchase-report', [ReportController::class, 'gstPurchaseReport']);

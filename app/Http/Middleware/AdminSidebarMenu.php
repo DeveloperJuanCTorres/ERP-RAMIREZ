@@ -798,6 +798,10 @@ class AdminSidebarMenu
                     ['icon' => 'fa fas fa-cog', 'id' => 'tour_step3']
                 )->order(85);
             }
+
+            $menu->url(action([\App\Http\Controllers\DiaryPartController::class, 'index']), 'Partes Diarios', ['icon' => 'fa fas fa-file', 'active' => request()->segment(1) == 'partes'])->order(87);
+
+            
         });
 
         //Add menus from modules
