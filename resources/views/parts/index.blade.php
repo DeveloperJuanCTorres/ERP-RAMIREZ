@@ -5,13 +5,33 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>Partes Diarios</small>
+    <h1>Registro de Maquinarias</small>
     </h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
-    @component('components.widget', ['class' => 'box-primary', 'title' => 'Todos los partes'])
+    @component('components.filters', ['title' => __('report.filters')])
+        <div class="col-md-3">
+            <div class="form-group">
+                {!! Form::label('parts_list_filter_location_id',  __('purchase.business_location') . ':') !!}
+                {!! Form::select('parts_list_filter_location_id', $business_locations, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {!! Form::label('parts_list_filter_supplier_id',  __('purchase.supplier') . ':') !!}
+                {!! Form::select('parts_list_filter_supplier_id', $suppliers, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {!! Form::label('parts_list_filter_date_range', __('report.date_range') . ':') !!}
+                {!! Form::text('parts_list_filter_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+            </div>
+        </div>
+    @endcomponent
+    @component('components.widget', ['class' => 'box-primary', 'title' => 'Todos los alquileres'])
         @can('loan.create')
             @slot('tool')
                 <div class="box-tools">
@@ -45,5 +65,26 @@
 
 </section>
 <!-- /.content -->
+
+@stop
+@section('javascript')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    //Date range as a button
+    $('#parts_list_filter_date_range').daterangepicker(
+        dateRangeSettings,
+        function (start, end) {
+            $('#parts_list_filter_date_range').val(start.format(moment_date_format) + ' ~ ' + end.format(moment_date_format));
+           parts_table.ajax.reload();
+        }
+    );
+    $('#parts_list_filter_date_range').on('cancel.daterangepicker', function(ev, picker) {
+        $('#parts_list_filter_date_range').val('');
+        parts_table.ajax.reload();
+    });
+    
+    
+</script>
+
 @endsection

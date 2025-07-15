@@ -49,27 +49,51 @@ class DiaryPartController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
-            $business_id = request()->session()->get('user.business_id');
+        $business_id = request()->session()->get('user.business_id');
 
+        if (request()->ajax()) {
+            
             $parts = Part::where('business_id', $business_id)
                         ->select(['id','created_at', 'proveedor_id', 'product_id', 'observations']);
+            
+            if (!empty(request()->location_id)) {
+                $parts->where('business_id', request()->location_id);
+            }
+
+            if (!empty(request()->supplier_id)) {
+                $parts->where('proveedor_id', request()->supplier_id);
+            }
+
+            if (!empty(request()->date_range)) {
+                $dates = explode(' - ', request()->date_range);
+                try {
+                    $start = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $end = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
+                    $parts->whereBetween('created_at', [$start, $end]);
+                } catch (\Exception $e) {
+                    // Evita romper la app si el formato falla
+                    \Log::error('Error al parsear date_range: ' . $e->getMessage());
+                }
+            }            
 
             return Datatables::of($parts)
-                ->addColumn(
-                    'action',
-                    '@can("loan.view")
-                    <a href="{{action(\'App\Http\Controllers\DiaryPartController@show\', [$id])}}" class="btn btn-info btn-xs"><i class="fa fa-book"></i> Detalle</a>
-                        &nbsp;
-                    @endcan
-                    @can("loan.update")
-                    <button data-href="{{action(\'App\Http\Controllers\DiaryPartController@edit\', [$id])}}" class="btn btn-xs btn-primary edit_part_button"><i class="glyphicon glyphicon-edit"></i> @lang("messages.edit")</button>
-                        &nbsp;
-                    @endcan
-                    @can("loan.delete")
-                        <button data-href="{{action(\'App\Http\Controllers\DiaryPartController@destroy\', [$id])}}" class="btn btn-xs btn-danger delete_part_button"><i class="glyphicon glyphicon-trash"></i> @lang("messages.delete")</button>
-                    @endcan'
-                )
+                ->addColumn('action', function ($row) {
+                    $buttons = '';
+
+                    if (auth()->user()->can('loan.view')) {
+                        $buttons .= '<a href="' . action('App\Http\Controllers\DiaryPartController@show', [$row->id]) . '" class="btn btn-info btn-xs"><i class="fa fa-book"></i> Detalle</a> ';
+                    }
+
+                    if (auth()->user()->can('loan.update')) {
+                        $buttons .= '<button data-href="' . action('App\Http\Controllers\DiaryPartController@edit', [$row->id]) . '" class="btn btn-xs btn-primary edit_part_button"><i class="glyphicon glyphicon-edit"></i> ' . __('messages.edit') . '</button> ';
+                    }
+
+                    if (auth()->user()->can('loan.delete')) {
+                        $buttons .= '<button data-href="' . action('App\Http\Controllers\DiaryPartController@destroy', [$row->id]) . '" class="btn btn-xs btn-danger delete_part_button"><i class="glyphicon glyphicon-trash"></i> ' . __('messages.delete') . '</button>';
+                    }
+
+                    return $buttons;
+                })
                 ->editColumn('proveedor_id', function($row) {
                     $proveedor = Contact::find($row->proveedor_id);
                     return $proveedor ? $proveedor->supplier_business_name . $proveedor->name : '';
@@ -86,7 +110,11 @@ class DiaryPartController extends Controller
                 ->make(true);
         }
 
-        return view('parts.index');
+        $business_locations = BusinessLocation::forDropdown($business_id);
+        $suppliers = Contact::suppliersDropdown($business_id, false);
+
+        return view('parts.index')
+            ->with(compact('business_locations','suppliers'));;
     }
 
     public function show($id)
@@ -102,6 +130,18 @@ class DiaryPartController extends Controller
             $daily_parts = DailyPart::where('part_id', $id)
                         ->select(['id','created_at', 'part_id', 'conductor', 'dni','h_inicio','h_final','zona_trabajo','combustible']);
 
+            if (!empty(request()->date_range)) {
+                $dates = explode(' - ', request()->date_range);
+                try {
+                    $start = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $end = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
+                    $daily_parts->whereBetween('created_at', [$start, $end]);
+                } catch (\Exception $e) {
+                    // Evita romper la app si el formato falla
+                    \Log::error('Error al parsear date_range: ' . $e->getMessage());
+                }
+            }              
+
             return Datatables::of($daily_parts)
                 ->addColumn(
                     'action',
@@ -110,6 +150,9 @@ class DiaryPartController extends Controller
                         &nbsp;
                     @endcan'
                 )
+                ->addColumn('total', function($row) {
+                    return $row->h_final - $row->h_inicio . ' Horas';
+                })
                 ->editColumn('created_at', function($row) {
                     return \Carbon\Carbon::parse($row->created_at)->format('d/m/Y');
                 }) 
@@ -242,7 +285,7 @@ class DiaryPartController extends Controller
           
             $output = ['success' => true,
                 'data' => $parts,
-                'msg' => 'Parte Diario creado con éxito',
+                'msg' => 'Parte Diario creado con éxito :)',
             ];
         } catch (\Exception $e) {
             \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());

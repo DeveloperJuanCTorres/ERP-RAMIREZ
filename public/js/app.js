@@ -236,19 +236,63 @@ $(document).ready(function() {
         });
     });
 
-    //PARTES DIARIOS
-    var parts_table = $('#parts_table').DataTable({
+    // PARTES DIARIOS
+    // const parts_table = new $('#parts_table').DataTable({
+    //     processing: true,
+    //     serverSide: true,
+    //     ajax: '/parts',
+    //     columns: [
+    //         { data: 'created_at', name: 'created_at' },
+    //         { data: 'proveedor_id', name: 'proveedor_id' },
+    //         { data: 'product_id', name: 'product_id' },
+    //         { data: 'observations', name: 'observations' },
+    //         { data: 'action', name: 'action', orderable: false, searchable: false }
+    //     ]
+    // });   
+
+    const parts_table = $('#parts_table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '/parts',
+        ajax: {
+            url: '/parts',
+            data: function (d) {
+                d.location_id = $('#parts_list_filter_location_id').val();
+                d.supplier_id = $('#parts_list_filter_supplier_id').val();
+                d.date_range = $('#parts_list_filter_date_range').val();
+            }
+        },
         columns: [
             { data: 'created_at', name: 'created_at' },
             { data: 'proveedor_id', name: 'proveedor_id' },
             { data: 'product_id', name: 'product_id' },
             { data: 'observations', name: 'observations' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
-        ]
+            ]
     });
+
+    // Evento para recargar la tabla cuando se cambian los filtros
+    $('#parts_list_filter_location_id, #parts_list_filter_supplier_id, #parts_list_filter_date_range').change(function () {
+        parts_table.ajax.reload();
+    });
+
+    // Si usas un daterangepicker, agrega esto:
+    $('#parts_list_filter_date_range').daterangepicker(
+        dateRangeSettings,
+        function (start, end) {
+            $('#parts_list_filter_date_range').val(start.format(moment_date_format) + ' ~ ' + end.format(moment_date_format));
+            parts_table.ajax.reload();
+        }
+    );
+    
+    $(document).on(
+        'change',
+        '#parts_list_filter_location_id, \
+                    #parts_list_filter_supplier_id, #purchase_list_filter_payment_status',
+        function() {
+            parts_table.ajax.reload();
+        }
+    );
+  
 
     $(document).on('submit', 'form#part_add_form', function(e) {
         e.preventDefault();
@@ -279,41 +323,105 @@ $(document).ready(function() {
     });
 
     $(document).on('click', 'button.delete_part_button', function() {
-        swal({
-            title: LANG.sure,
+        let href = $(this).data('href');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
             text: 'Estás seguro de eliminar el parte?',
             icon: 'warning',
-            buttons: true,
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
             dangerMode: true,
-        }).then(willDelete => {
-            if (willDelete) {
-                var href = $(this).data('href');
-                var data = $(this).serialize();
-
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
                     method: 'DELETE',
                     url: href,
                     dataType: 'json',
-                    data: data,
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(result) {
-                        if (result.success == true) {
+                        if (result.success === true) {
                             toastr.success(result.msg);
                             parts_table.ajax.reload();
                         } else {
                             toastr.error(result.msg);
                         }
                     },
+                    error: function() {
+                        toastr.error('Ocurrió un error al intentar eliminar el parte.');
+                    }
                 });
             }
         });
     });
 
+    // $(document).on('click', 'button.delete_part_button', function() {
+    //     Swal({
+    //         title: LANG.sure,
+    //         text: 'Estás seguro de eliminar el parte?',
+    //         icon: 'warning',
+    //         buttons: true,
+    //         dangerMode: true,
+    //     }).then(willDelete => {
+    //         if (willDelete) {
+    //             var href = $(this).data('href');
+    //             var data = $(this).serialize();
+
+    //             $.ajax({
+    //                 method: 'DELETE',
+    //                 url: href,
+    //                 dataType: 'json',
+    //                 data: data,
+    //                 success: function(result) {
+    //                     if (result.success == true) {
+    //                         toastr.success(result.msg);
+    //                         parts_table.ajax.reload();
+    //                     } else {
+    //                         toastr.error(result.msg);
+    //                     }
+    //                 },
+    //             });
+    //         }
+    //     });
+    // });
+
    let part_id = window.part_id;
-    var daily_part_table = $('#daily_part_table').DataTable({
-        
+
+//    const daily_part_table = $('#daily_part_table').DataTable({
+//             processing: true,
+//             serverSide: true,
+//             ajax: {
+//                 url: '/parts/' + part_id,
+//                 data: function (d) {
+//                     d.date_range = $('#parts_list_filter_date_range').val();
+//                 }
+//             },
+//             columns: [
+//                 { data: 'created_at', name: 'created_at' },
+//                 { data: 'part_id', name: 'part_id' },
+//                 { data: 'conductor', name: 'conductor' },
+//                 { data: 'dni', name: 'dni' },
+//                 { data: 'h_inicio', name: 'h_inicio' },
+//                 { data: 'h_final', name: 'h_final' },
+//                 { data: 'total', name: 'total' },
+//                 { data: 'zona_trabajo', name: 'zona_trabajo' },
+//                 { data: 'combustible', name: 'combustible' },
+//                 { data: 'action', name: 'action', orderable: false, searchable: false }
+//                 ]
+//         });
+    
+    const daily_part_table = $('#daily_part_table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '/parts/' + part_id,
+        ajax: {
+            url: '/parts/' + part_id,
+            data: function (d) {
+                d.date_range = $('#parts_list_filter_date_range').val();
+            }
+        },
         columns: [
             { data: 'created_at', name: 'created_at' },
             { data: 'part_id', name: 'part_id' },
@@ -321,11 +429,26 @@ $(document).ready(function() {
             { data: 'dni', name: 'dni' },
             { data: 'h_inicio', name: 'h_inicio' },
             { data: 'h_final', name: 'h_final' },
+            { data: 'total', name: 'total' },
             { data: 'zona_trabajo', name: 'zona_trabajo' },
             { data: 'combustible', name: 'combustible' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
-        ]
+            ]
     });
+
+    // Evento para recargar la tabla cuando se cambian los filtros
+    $('#parts_list_filter_date_range').change(function () {
+        daily_part_table.ajax.reload();
+    });
+
+    // Si usas un daterangepicker, agrega esto:
+    $('#parts_list_filter_date_range').daterangepicker(
+        dateRangeSettings,
+        function (start, end) {
+            $('#parts_list_filter_date_range').val(start.format(moment_date_format) + ' ~ ' + end.format(moment_date_format));
+            daily_part_table.ajax.reload();
+        }
+    );
 
     $(document).on('submit', 'form#daily_part_add_form', function(e) {
         e.preventDefault();
@@ -334,18 +457,15 @@ $(document).ready(function() {
 
         $.ajax({
             method: 'POST',
-            url: 'parts/' + part_id,
+            url: '/parts/' + part_id,
             dataType: 'json',
             data: data,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
             beforeSend: function(xhr) {
                 __disable_submit_button(form.find('button[type="submit"]'));
             },
             success: function(result) {
                 if (result.success == true) {
-                    $('div.daily_part_modal').modal('hide');
+                    $('#daily_part_modal').modal('hide');
                     toastr.success(result.msg);
                     daily_part_table.ajax.reload();
                     var evt = new CustomEvent("partAdded", {detail: result.data});

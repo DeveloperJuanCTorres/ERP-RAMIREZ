@@ -25,6 +25,14 @@
 
 <!-- Main content -->
 <section class="content">
+    @component('components.filters', ['title' => __('report.filters')])        
+        <div class="col-md-3">
+            <div class="form-group">
+                {!! Form::label('parts_list_filter_date_range', __('report.date_range') . ':') !!}
+                {!! Form::text('parts_list_filter_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+            </div>
+        </div>
+    @endcomponent
     @component('components.widget', ['class' => 'box-primary', 'title' => 'Historial de partes'])
         @can('loan.create')
             @slot('tool')
@@ -47,6 +55,7 @@
                             <th>DNI</th>
                             <th>H-Inicio</th>
                             <th>H_Fin</th>
+                            <th>H. Trabajadas</th>
                             <th>Zona trabajo</th>
                             <th>Comubustible</th>
                             <th>@lang( 'messages.action' )</th>
@@ -66,6 +75,27 @@
 
 <!-- /.content -->
 
+@stop
+@section('javascript')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    //Date range as a button
+    $('#parts_list_filter_date_range').daterangepicker(
+        dateRangeSettings,
+        function (start, end) {
+            $('#parts_list_filter_date_range').val(start.format(moment_date_format) + ' ~ ' + end.format(moment_date_format));
+           daily_part_table.ajax.reload();
+        }
+    );
+    $('#parts_list_filter_date_range').on('cancel.daterangepicker', function(ev, picker) {
+        $('#parts_list_filter_date_range').val('');
+        daily_part_table.ajax.reload();
+    });
+    
+    
+</script>
+
+
 
 @endsection
