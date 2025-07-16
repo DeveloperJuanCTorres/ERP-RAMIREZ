@@ -99,8 +99,8 @@ class DiaryPartController extends Controller
                     return $proveedor ? $proveedor->supplier_business_name . $proveedor->name : '';
                 })
                 ->editColumn('product_id', function($row) {
-                    $proveedor = Product::find($row->proveedor_id);
-                    return $proveedor ? $proveedor->supplier_business_name . $proveedor->name : '';
+                    $product = Product::find($row->product_id);
+                    return $product ? $product->name : '';
                 })
                 ->editColumn('created_at', function($row) {
                     return \Carbon\Carbon::parse($row->created_at)->format('d/m/Y');
@@ -178,8 +178,8 @@ class DiaryPartController extends Controller
 
         $is_repair_installed = $this->moduleUtil->isModuleInstalled('Repair');
 
-        $proveedores = Contact::where('type','supplier')->get();
-        $products = Product::where('not_for_selling',1)->get();
+        $proveedores = Contact::where('type','supplier')->where('business_id', $business_id)->get();
+        $products = Product::where('not_for_selling',1)->where('business_id', $business_id)->get();
 
         $payment_line = $this->dummyPaymentLine;
         $payment_types = $this->transactionUtil->payment_types(null, false, $business_id);
