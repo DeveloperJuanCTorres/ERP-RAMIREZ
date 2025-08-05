@@ -100,7 +100,7 @@
 			    <div class="col-sm-4">
 					<div class="form-group">
 						{!! Form::label('final_total', __('sale.total_amount') . ':*') !!}
-						{!! Form::text('final_total', null, ['class' => 'form-control input_number', 'placeholder' => __('sale.total_amount'), 'required']); !!}
+						{!! Form::text('final_total', null, ['class' => 'form-control input_number', 'placeholder' => __('sale.total_amount'), 'required','id' => 'final_total']); !!}
 					</div>
 				</div>
 				<div class="clearfix"></div>
@@ -141,6 +141,119 @@
 </section>
 @endsection
 @section('javascript')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const transactionDate = document.getElementById('expense_transaction_date');
+
+    if (!transactionDate) {
+        console.warn('No se encontró el input con id expense_transaction_date');
+        return;
+    }
+
+    function syncPaidOnDates(value) {
+        document.querySelectorAll('.paid_on').forEach(input => {
+            input.value = value;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+    }
+
+    // copia inicial
+    syncPaidOnDates(transactionDate.value);
+
+    // escucha cambios visibles/manuales
+    ['input', 'change'].forEach(evt => {
+        transactionDate.addEventListener(evt, function () {
+            syncPaidOnDates(transactionDate.value);
+        });
+    });
+
+    // fallback: detecta cambios programáticos por polling
+    let lastDate = transactionDate.value;
+    setInterval(() => {
+        if (transactionDate.value !== lastDate) {
+            lastDate = transactionDate.value;
+            syncPaidOnDates(lastDate);
+        }
+    }, 250);
+
+    // observa inserción de nuevas filas y les aplica la fecha actual
+    const container = document.querySelector('#payments_container') || document.body;
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(m => {
+            m.addedNodes.forEach(node => {
+                if (node.nodeType !== 1) return;
+
+                // si el mismo nodo es .paid_on
+                if (node.matches && node.matches('.paid_on')) {
+                    node.value = transactionDate.value;
+                    node.dispatchEvent(new Event('input', { bubbles: true }));
+                    node.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+                // si contiene .paid_on dentro
+                node.querySelectorAll && node.querySelectorAll('.paid_on').forEach(input => {
+                    input.value = transactionDate.value;
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+            });
+        });
+    });
+    observer.observe(container, { childList: true, subtree: true });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const finalTotal = document.getElementById('final_total');
+
+    function syncToPaymentAmounts(value) {
+        // Si usas algún formateador (por ejemplo num_format) y necesitas limpiar
+        // la máscara antes de copiar, hazlo aquí. Por simplicidad se copia tal cual.
+        document.querySelectorAll('.payment-amount').forEach(input => {
+            input.value = value;
+            // Si hay alguna librería que necesita que se dispare un evento:
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+    }
+
+    if (finalTotal) {
+        finalTotal.addEventListener('input', function () {
+            syncToPaymentAmounts(finalTotal.value);
+        });
+    }
+
+    // Si las filas se agregan dinámicamente via JS, y hay una función que las inserta,
+    // puedes reaplicar el valor actual al nuevo input así:
+    const observer = new MutationObserver(function (mutations) {
+        // Si se inserta un nuevo .payment-amount, le copias el valor actual
+        mutations.forEach(m => {
+            m.addedNodes.forEach(node => {
+                if (node.nodeType === 1) {
+                    const newInputs = node.querySelectorAll
+                        ? node.querySelectorAll('.payment-amount')
+                        : [];
+                    newInputs.forEach(input => {
+                        input.value = finalTotal ? finalTotal.value : '';
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                    });
+                    // Si el nodo mismo es un input:
+                    if (node.matches && node.matches('.payment-amount')) {
+                        node.value = finalTotal ? finalTotal.value : '';
+                        node.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                }
+            });
+        });
+    });
+
+    // Observa el contenedor donde se agregan las filas. Ajusta el selector al contenedor real.
+    const container = document.querySelector('#payments_container') || document.body;
+    observer.observe(container, { childList: true, subtree: true });
+});
+</script>
+
 <script type="text/javascript">
 	$(document).ready( function(){
 		$('.paid_on').datetimepicker({
