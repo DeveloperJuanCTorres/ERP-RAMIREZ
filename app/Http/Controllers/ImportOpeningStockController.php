@@ -165,6 +165,44 @@ class ImportOpeningStockController extends Controller
                         break;
                     }
 
+                    //NUEVOS CAMPOS
+
+                    if (! empty(trim($value[6]))) {
+                        $color = trim($value[6]);
+                        $opening_stock['color'] = $color;
+                    } else {
+                        $is_valid = false;
+                        $error_msg = "Invalid COLOR in row no. $row_no";
+                        break;
+                    }
+
+                    if (! empty(trim($value[7]))) {
+                        $chasis = trim($value[7]);
+                        $opening_stock['chasis'] = $chasis;
+                    } else {
+                        $is_valid = false;
+                        $error_msg = "Invalid CHASIS in row no. $row_no";
+                        break;
+                    }
+
+                    if (! empty(trim($value[8]))) {
+                        $anio = trim($value[8]);
+                        $opening_stock['anio'] = $anio;
+                    } else {
+                        $is_valid = false;
+                        $error_msg = "Invalid ANIO in row no. $row_no";
+                        break;
+                    }
+
+                    if (! empty(trim($value[9]))) {
+                        $poliza = trim($value[9]);
+                        $opening_stock['poliza'] = $poliza;
+                    } else {
+                        $is_valid = false;
+                        $error_msg = "Invalid POLIZA in row no. $row_no";
+                        break;
+                    }
+
                     //Check for tra, location_id, opening_stock_product_id, type=opening stock.
                     $os_transaction = Transaction::where('business_id', $business_id)
                             ->where('location_id', $location->id)
@@ -263,6 +301,11 @@ class ImportOpeningStockController extends Controller
             'purchase_price_inc_tax' => $unit_cost_before_tax + $item_tax,
             'exp_date' => ! empty($opening_stock['exp_date']) ? $opening_stock['exp_date'] : null,
             'lot_number' => ! empty($opening_stock['lot_number']) ? $opening_stock['lot_number'] : null,
+            //NUEVOS CAMPOS
+            'color' => $opening_stock['color'] ?? null,
+            'chasis' => $opening_stock['chasis'] ?? null,
+            'anio' => $opening_stock['anio'] ?? null,
+            'poliza' => $opening_stock['poliza'] ?? null,
         ]);
         //Update variation location details
         $this->productUtil->updateProductQuantity($opening_stock['location_id'], $product->id, $product->variation_id, $opening_stock['quantity']);
