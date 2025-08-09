@@ -221,8 +221,8 @@ class ImportOpeningStockController extends Controller
                         break;
                     }
 
-                    if (! empty(trim($value[11]))) {
-                        $contenedor = trim($value[11]);
+                    if (! empty(trim($value[12]))) {
+                        $contenedor = trim($value[12]);
                         $opening_stock['contenedor'] = $contenedor;
                     } else {
                         $is_valid = false;
