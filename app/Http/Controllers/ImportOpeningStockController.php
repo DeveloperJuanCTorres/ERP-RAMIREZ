@@ -203,6 +203,15 @@ class ImportOpeningStockController extends Controller
                         break;
                     }
 
+                    if (! empty(trim($value[10]))) {
+                        $guia = trim($value[10]);
+                        $opening_stock['guia'] = $guia;
+                    } else {
+                        $is_valid = false;
+                        $error_msg = "Invalid GUIA in row no. $row_no";
+                        break;
+                    }
+
                     //Check for tra, location_id, opening_stock_product_id, type=opening stock.
                     $os_transaction = Transaction::where('business_id', $business_id)
                             ->where('location_id', $location->id)
@@ -306,6 +315,8 @@ class ImportOpeningStockController extends Controller
             'chasis' => $opening_stock['chasis'] ?? null,
             'anio' => $opening_stock['anio'] ?? null,
             'poliza' => $opening_stock['poliza'] ?? null,
+            'anio' => $opening_stock['anio'] ?? null,
+            'guia' => $opening_stock['guia'] ?? null,
         ]);
         //Update variation location details
         $this->productUtil->updateProductQuantity($opening_stock['location_id'], $product->id, $product->variation_id, $opening_stock['quantity']);
