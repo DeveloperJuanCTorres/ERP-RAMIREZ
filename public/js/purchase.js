@@ -557,7 +557,7 @@ $(document).ready(function() {
         columns: [
             { data: 'action', name: 'action', orderable: false, searchable: false },
             { data: 'transaction_date', name: 'transaction_date' },
-            { data: 'custom_field_1', name: 'custom_field_1' },
+            { data: 'ref_no', name: 'ref_no' },
             { data: 'location_name', name: 'BS.name' },
             { data: 'name', name: 'contacts.name' },
             { data: 'status', name: 'status' },

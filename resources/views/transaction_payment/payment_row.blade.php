@@ -170,6 +170,22 @@
             @includeIf('components.document_help_text')</p>
           </div>
         </div>
+
+        <!-- NUEVOS CAMPOS -->
+         <div class="col-md-4">
+          <div class="form-group">
+            {!! Form::label('document', 'Tipo de Cambio:') !!}
+            {!! Form::text("tipo_cambio", null, ['class' => 'form-control', 'id' => 'tipo_cambio']); !!}            
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            {!! Form::label('document', 'Importe $:') !!}
+            {!! Form::text("amount_dolar", null, ['class' => 'form-control', 'id' => 'amount_dolar', 'readonly']); !!}            
+          </div>
+        </div>
+        <!-- FIN NUEVOS CAMPOS -->
+
         <div class="clearfix"></div>
           @include('transaction_payment.payment_type_details')
         <div class="col-md-12">
@@ -190,3 +206,22 @@
 
   </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+
+<script>
+    function calcularDolares() {
+        let monto = parseFloat($(".payment_amount").val().replace(/,/g, "")) || 0;
+        let tipoCambio = parseFloat($("#tipo_cambio").val()) || 0;
+
+        if (monto > 0 && tipoCambio > 0) {
+            let importeDolar = monto / tipoCambio;
+            $("#amount_dolar").val(importeDolar.toFixed(2));
+        } else {
+            $("#amount_dolar").val('');
+        }
+    }
+
+    // Detectar cambios en monto y tipo de cambio
+    $(document).on("keyup change", ".payment_amount, #tipo_cambio", function () {
+        calcularDolares();
+    });
+</script>

@@ -145,10 +145,10 @@ class ImportOpeningStockController extends Controller
 
                     $opening_stock = ['quantity' => trim($value[2]),
                         'location_id' => $location->id,
-                        'lot_number' => trim($value[4]),
+                        'lot_number' => trim($value[7]),
                     ];
-                    if (! empty(trim($value[5]))) {
-                        $opening_stock['exp_date'] = $this->productUtil->uf_date($value[5]);
+                    if (! empty(trim($value[4]))) {
+                        $opening_stock['exp_date'] = $this->productUtil->uf_date($value[4]);
                     }
 
                     if (! empty(trim($value[3]))) {
@@ -167,6 +167,15 @@ class ImportOpeningStockController extends Controller
 
                     //NUEVOS CAMPOS
 
+                    if (! empty(trim($value[7]))) {
+                        $motor = trim($value[7]);
+                        $opening_stock['motor'] = $motor;
+                    } else {
+                        $is_valid = false;
+                        $error_msg = "Invalid Nº Motor in row no. $row_no";
+                        break;
+                    }
+
                     if (! empty(trim($value[6]))) {
                         $color = trim($value[6]);
                         $opening_stock['color'] = $color;
@@ -176,8 +185,8 @@ class ImportOpeningStockController extends Controller
                         break;
                     }
 
-                    if (! empty(trim($value[7]))) {
-                        $chasis = trim($value[7]);
+                    if (! empty(trim($value[8]))) {
+                        $chasis = trim($value[8]);
                         $opening_stock['chasis'] = $chasis;
                     } else {
                         $is_valid = false;
@@ -185,8 +194,8 @@ class ImportOpeningStockController extends Controller
                         break;
                     }
 
-                    if (! empty(trim($value[8]))) {
-                        $anio = trim($value[8]);
+                    if (! empty(trim($value[9]))) {
+                        $anio = trim($value[9]);
                         $opening_stock['anio'] = $anio;
                     } else {
                         $is_valid = false;
@@ -194,8 +203,8 @@ class ImportOpeningStockController extends Controller
                         break;
                     }
 
-                    if (! empty(trim($value[9]))) {
-                        $poliza = trim($value[9]);
+                    if (! empty(trim($value[5]))) {
+                        $poliza = trim($value[5]);
                         $opening_stock['poliza'] = $poliza;
                     } else {
                         $is_valid = false;
@@ -213,8 +222,7 @@ class ImportOpeningStockController extends Controller
                     }
 
                     if (! empty(trim($value[11]))) {
-                        $fecha = trim($value[11]);
-                        $opening_stock['fecha'] = $fecha;
+                        $opening_stock['fecha'] = date($value[11]);
                     } else {
                         $is_valid = false;
                         $error_msg = "Invalid FECHA in row no. $row_no";
@@ -329,6 +337,7 @@ class ImportOpeningStockController extends Controller
             'exp_date' => ! empty($opening_stock['exp_date']) ? $opening_stock['exp_date'] : null,
             'lot_number' => ! empty($opening_stock['lot_number']) ? $opening_stock['lot_number'] : null,
             //NUEVOS CAMPOS
+            'motor' => $opening_stock['motor'] ?? null,
             'color' => $opening_stock['color'] ?? null,
             'chasis' => $opening_stock['chasis'] ?? null,
             'anio' => $opening_stock['anio'] ?? null,
