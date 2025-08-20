@@ -203,12 +203,44 @@
                 @endif
 
               </td>
-              <td class="text-right"><span class="display_currency" data-currency_symbol="true">{{ $purchase_line->pp_without_discount}}</span></td>
+              <td class="text-right">
+                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">s
+                  {{ $purchase_line->pp_without_discount}}
+                </span>
+              </td>
               <td class="text-right"><span class="display_currency">{{ $purchase_line->discount_percent}}</span> %</td>
-              <td class="no-print text-right"><span class="display_currency" data-currency_symbol="true">{{ $purchase_line->purchase_price }}</span></td>
-              <td class="no-print text-right"><span class="display_currency" data-currency_symbol="true">{{ $purchase_line->quantity * $purchase_line->purchase_price }}</span></td>
-              <td class="text-right"><span class="display_currency" data-currency_symbol="true">{{ $purchase_line->item_tax }} </span> <br/><small>@if(!empty($taxes[$purchase_line->tax_id])) ( {{ $taxes[$purchase_line->tax_id]}} ) </small>@endif</td>
-              <td class="text-right"><span class="display_currency" data-currency_symbol="true">{{ $purchase_line->purchase_price_inc_tax }}</span></td>
+              <td class="no-print text-right">
+                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">
+                  {{ $purchase_line->purchase_price }}
+                </span>
+              </td>
+              <td class="no-print text-right">
+                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">
+                  {{ $purchase_line->quantity * $purchase_line->purchase_price }}
+                </span>
+              </td>
+              <td class="text-right">
+                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">
+                  {{ $purchase_line->item_tax }} 
+                </span> 
+                <br/>
+                <small>@if(!empty($taxes[$purchase_line->tax_id])) ( {{ $taxes[$purchase_line->tax_id]}} ) </small>@endif
+              </td>
+              <td class="text-right">
+                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">
+                  {{ $purchase_line->purchase_price_inc_tax }}
+                </span>
+              </td>
               @if($purchase->type != 'purchase_order')
               @if(session('business.enable_lot_number'))
                 <td>{{$purchase_line->lot_number}}</td>
@@ -227,7 +259,12 @@
               </td>
               @endif
               @endif
-              <td class="text-right"><span class="display_currency" data-currency_symbol="true">{{ $purchase_line->purchase_price_inc_tax * $purchase_line->quantity }}</span></td>
+              <td class="text-right">
+                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">
+                  {{ $purchase_line->purchase_price_inc_tax * $purchase_line->quantity }}
+                </span></td>
             </tr>
             @php 
               $total_before_tax += ($purchase_line->quantity * $purchase_line->purchase_price);
@@ -243,16 +280,20 @@
     <div class="col-sm-12 col-xs-12">
       <h4>{{ __('sale.payment_info') }}:</h4>
     </div>
-    <div class="col-md-6 col-sm-12 col-xs-12">
+    <div class="col-md-8 col-sm-12 col-xs-12">
       <div class="table-responsive">
         <table class="table">
           <tr class="bg-green">
             <th>#</th>
             <th>{{ __('messages.date') }}</th>
             <th>{{ __('purchase.ref_no') }}</th>
-            <th>{{ __('sale.amount') }}</th>
+            
             <th>{{ __('sale.payment_mode') }}</th>
-            <th>{{ __('sale.payment_note') }}</th>
+            <th>Nota</th>
+            <th>{{ __('sale.amount') }} S/.</th>
+            
+            <th>T.C</th>
+            <th>Importe $</th>
           </tr>
           @php
             $total_paid = 0;
@@ -265,7 +306,7 @@
               <td>{{ $loop->iteration }}</td>
               <td>{{ @format_date($payment_line->paid_on) }}</td>
               <td>{{ $payment_line->payment_ref_no }}</td>
-              <td><span class="display_currency" data-currency_symbol="true">{{ $payment_line->amount }}</span></td>
+              
               <td>{{ $payment_methods[$payment_line->method] ?? '' }}</td>
               <td>@if($payment_line->note) 
                 {{ ucfirst($payment_line->note) }}
@@ -273,6 +314,18 @@
                 --
                 @endif
               </td>
+              <td>
+                <span class="display_currency" data-currency_symbol="true">
+                  {{ $payment_line->amount }}
+                </span>
+              </td>
+              
+              <td>{{ $payment_line->tipo_cambio ?? '' }}</td>
+              <td>
+                $
+                <span class="display_currency">
+                  {{ $payment_line->amount_dolar ?? '' }}
+                </td>
             </tr>
             @empty
             <tr>
@@ -285,7 +338,7 @@
       </div>
     </div>
     @endif
-    <div class="col-md-6 col-sm-12 col-xs-12 @if($purchase->type == 'purchase_order') col-md-offset-6 @endif">
+    <div class="col-md-4 col-sm-12 col-xs-12 @if($purchase->type == 'purchase_order') col-md-offset-6 @endif">
       <div class="table-responsive">
         <table class="table">
           <!-- <tr class="hide">
@@ -296,7 +349,13 @@
           <tr>
             <th>@lang('purchase.net_total_amount'): </th>
             <td></td>
-            <td><span class="display_currency pull-right" data-currency_symbol="true">{{ $total_before_tax }}</span></td>
+            <td class="pull-right">
+              <!-- <span class="display_currency pull-right" data-currency_symbol="true"> -->
+                $
+                <span class="display_currency">
+                {{ $total_before_tax }}
+              </span>
+            </td>
           </tr>
           <tr>
             <th>@lang('purchase.discount'):</th>
@@ -306,8 +365,10 @@
                 ({{$purchase->discount_amount}} %)
               @endif
             </td>
-            <td>
-              <span class="display_currency pull-right" data-currency_symbol="true">
+            <td class="pull-right">
+              <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                $
+                <span class="display_currency">
                 @if($purchase->discount_type == 'percentage')
                   {{$purchase->discount_amount * $total_before_tax / 100}}
                 @else
@@ -367,7 +428,13 @@
           <tr>
             <th>@lang('purchase.purchase_total'):</th>
             <td></td>
-            <td><span class="display_currency pull-right" data-currency_symbol="true" >{{ $purchase->final_total }}</span></td>
+            <td class="pull-right">
+              <!-- <span class="display_currency pull-right" data-currency_symbol="true" > -->
+                $
+                <span class="display_currency">
+                {{ $purchase->final_total }}
+              </span>
+            </td>
           </tr>
         </table>
       </div>
