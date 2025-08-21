@@ -99,7 +99,7 @@
           </div>
         </div>
 
-        
+        @if($transaction->money_type == "Dolares")
         <div class="col-md-4">
           <div class="form-group">
             {!! Form::label('document', __('sale.amount') . ' S/.:*') !!}
@@ -117,10 +117,15 @@
             {!! Form::text("tipo_cambio", null, ['class' => 'form-control', 'id' => 'tipo_cambio']); !!}            
           </div>
         </div>
+        @endif
         <!-- Cantidad dolares -->
         <div class="col-md-4">
           <div class="form-group">
+            @if($transaction->money_type == "Dolares")
             {!! Form::label("amount" , __('sale.amount') . ' $:*') !!}
+            @else
+            {!! Form::label("amount" , __('sale.amount') . ':*') !!}
+            @endif
             <div class="input-group">
               <span class="input-group-addon">
                 <i class="fas fa-money-bill-alt"></i>
