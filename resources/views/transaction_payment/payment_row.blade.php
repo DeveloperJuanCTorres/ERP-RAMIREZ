@@ -42,7 +42,21 @@
         </div>
         <div class="col-md-4">
           <div class="well">
-            <strong>@lang('sale.total_amount'): </strong><span class="display_currency" data-currency_symbol="true">{{ $transaction->final_total }}</span><br>
+            <!-- <strong>@lang('sale.total_amount'): </strong> -->
+             @if($transaction->money_type=="Dolares")
+             <strong>Total dólares:</strong>
+            <!-- <span class="display_currency" data-currency_symbol="true"> -->
+              $
+              <span class="display_currency">
+              {{ $transaction->final_total }}
+            </span>
+            @else
+            <strong>Total Soles:</strong>
+            <span class="display_currency" data-currency_symbol="true">
+              {{ $transaction->final_total }}
+            </span>
+            @endif
+            <br>
             <strong>@lang('purchase.payment_note'): </strong>
             @if(!empty($transaction->additional_notes))
             {{ $transaction->additional_notes }}
@@ -84,9 +98,29 @@
             </div>
           </div>
         </div>
+
+        
         <div class="col-md-4">
           <div class="form-group">
-            {!! Form::label("amount" , __('sale.amount') . ':*') !!}
+            {!! Form::label('document', __('sale.amount') . ' S/.:*') !!}
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="fas fa-money-bill-alt"></i>
+              </span>
+              {!! Form::text("amount_soles", null, ['class' => 'form-control input_number amount_soles', 'id' => 'amount_soles']); !!}   
+            </div>         
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            {!! Form::label('document', 'Tipo de Cambio:') !!}
+            {!! Form::text("tipo_cambio", null, ['class' => 'form-control', 'id' => 'tipo_cambio']); !!}            
+          </div>
+        </div>
+        <!-- Cantidad dolares -->
+        <div class="col-md-4">
+          <div class="form-group">
+            {!! Form::label("amount" , __('sale.amount') . ' $:*') !!}
             <div class="input-group">
               <span class="input-group-addon">
                 <i class="fas fa-money-bill-alt"></i>
@@ -95,7 +129,7 @@
             </div>
           </div>
         </div>
-
+        <!-- fin cantidad dolares -->
         @php
             $pos_settings = !empty(session()->get('business.pos_settings')) ? json_decode(session()->get('business.pos_settings'), true) : [];
             $enable_cash_denomination_for_payment_methods = !empty($pos_settings['enable_cash_denomination_for_payment_methods']) ? $pos_settings['enable_cash_denomination_for_payment_methods'] : [];
@@ -172,18 +206,8 @@
         </div>
 
         <!-- NUEVOS CAMPOS -->
-         <div class="col-md-4">
-          <div class="form-group">
-            {!! Form::label('document', 'Tipo de Cambio:') !!}
-            {!! Form::text("tipo_cambio", null, ['class' => 'form-control', 'id' => 'tipo_cambio']); !!}            
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            {!! Form::label('document', 'Importe $:') !!}
-            {!! Form::text("amount_dolar", null, ['class' => 'form-control', 'id' => 'amount_dolar', 'readonly']); !!}            
-          </div>
-        </div>
+         
+        
         <!-- FIN NUEVOS CAMPOS -->
 
         <div class="clearfix"></div>
@@ -208,20 +232,38 @@
 </div><!-- /.modal-dialog -->
 
 <script>
-    function calcularDolares() {
+    $("#tipo_cambio").val(1);
+    calcularSoles();
+    function calcularSoles() {
         let monto = parseFloat($(".payment_amount").val().replace(/,/g, "")) || 0;
         let tipoCambio = parseFloat($("#tipo_cambio").val()) || 0;
 
         if (monto > 0 && tipoCambio > 0) {
-            let importeDolar = monto / tipoCambio;
-            $("#amount_dolar").val(importeDolar.toFixed(2));
+            let importeSoles = monto * tipoCambio;
+            $("#amount_soles").val(importeSoles.toFixed(2));
         } else {
-            $("#amount_dolar").val('');
+            $("#amount_soles").val('');
+        }
+    }
+
+    function calcularDolares() {
+        let monto = parseFloat($(".amount_soles").val().replace(/,/g, "")) || 0;
+        let tipoCambio = parseFloat($("#tipo_cambio").val()) || 0;
+
+        if (monto > 0 && tipoCambio > 0) {
+            let importeDolar = monto / tipoCambio;
+            $(".payment_amount").val(importeDolar.toFixed(2));
+        } else {
+            $(".payment_amount").val('');
         }
     }
 
     // Detectar cambios en monto y tipo de cambio
-    $(document).on("keyup change", ".payment_amount, #tipo_cambio", function () {
+    $(document).on("keyup change", ".payment_amount", function () {
+        calcularSoles();
+    });
+
+    $(document).on("keyup change", ".amount_soles, #tipo_cambio", function () {
         calcularDolares();
     });
 </script>
