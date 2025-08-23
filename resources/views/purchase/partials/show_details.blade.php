@@ -316,7 +316,7 @@
               </td>
               <td>
                 <span class="display_currency" data-currency_symbol="true">
-                  {{ $payment_line->amount }}
+                  {{ $payment_line->amount_soles }}
                 </span>
               </td>
               
@@ -324,7 +324,7 @@
               <td>
                 $
                 <span class="display_currency">
-                  {{ $payment_line->amount_soles }}
+                  {{ $payment_line->amount }}
                 </span>
               </td>
             </tr>
