@@ -290,10 +290,10 @@
             
             <th>{{ __('sale.payment_mode') }}</th>
             <th>Nota</th>
-            <th>{{ __('sale.amount') }} S/.</th>
-            
-            <th>T.C</th>
             <th>Importe $</th>
+                        
+            <th>T.C</th>
+            <th>{{ __('sale.amount') }} S/.</th>
           </tr>
           @php
             $total_paid = 0;
