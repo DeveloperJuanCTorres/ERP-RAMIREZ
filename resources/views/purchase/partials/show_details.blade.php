@@ -290,10 +290,10 @@
             
             <th>{{ __('sale.payment_mode') }}</th>
             <th>Nota</th>
-            <th>{{ __('sale.amount') }} $</th>
+            <th>{{ __('sale.amount') }} S/.</th>
             
             <th>T.C</th>
-            <th>Importe S/.</th>
+            <th>Importe $</th>
           </tr>
           @php
             $total_paid = 0;
@@ -316,7 +316,7 @@
               </td>
               <td>
                 <span class="display_currency" data-currency_symbol="true">
-                  {{ $payment_line->amount_soles }}
+                  {{ $payment_line->amount }}
                 </span>
               </td>
               
@@ -324,7 +324,7 @@
               <td>
                 $
                 <span class="display_currency">
-                  {{ $payment_line->amount }}
+                  {{ $payment_line->amount_soles }}
                 </span>
               </td>
             </tr>
