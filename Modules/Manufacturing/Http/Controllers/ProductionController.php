@@ -172,7 +172,7 @@ class ProductionController extends Controller
             'purchase_lines.id as purchase_line_id'
         )
         // ->where('purchase_lines.product_id', 1)
-        ->whereIn('purchase_lines.product_id', [1, 6])
+        ->whereIn('purchase_lines.product_id', [1, 6, 56])
         ->groupBy('purchase_lines.id', 'purchase_lines.lot_number')
         ->get();
 
