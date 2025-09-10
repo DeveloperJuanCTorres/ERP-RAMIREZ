@@ -1,7 +1,8 @@
 <tr>
     <!-- CLUMNA 1 -->
     @if(empty($payment->parent_id))
-    <td @if($count_child_payments > 0) rowspan="{{$count_child_payments + 1}}" style="vertical-align:middle;" @endif>
+    <td @if($count_child_payments > 0) rowspan="{{$count_child_payments + 1}}" style="vertical-align:middle;" @endif
+        data-fecha="{{ \Carbon\Carbon::parse($payment->paid_on)->format('Y-m-d') }}">
         {{@format_datetime($payment->paid_on)}}
     </td>
     @endif

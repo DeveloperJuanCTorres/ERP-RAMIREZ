@@ -1,3 +1,7 @@
+<div style="margin-bottom: 20px;">
+    <label for="filtro_fecha">Filtrar por fecha:</label>
+    <input type="date" id="filtro_fecha" class="form-control" style="width: 200px; display:inline-block;">
+</div>
 
 <table class="table table-bordered" 
 id="contact_payments_table">
@@ -33,9 +37,37 @@ id="contact_payments_table">
 <div class="text-right" style="width: 100%;" id="contact_payments_pagination">{{ $payments->links() }}</div>
 
 
-
-
 <script>
+document.getElementById('filtro_fecha').addEventListener('change', function () {
+    let fechaFiltro = this.value; // yyyy-mm-dd
+    let filas = document.querySelectorAll('#contact_payments_table tbody tr');
+
+    filas.forEach(fila => {
+        let celdaFecha = fila.querySelector('td[data-fecha]');
+
+        if (!celdaFecha) {
+            // si no hay celda de fecha en esta fila (ej: child_payment),
+            // mantenemos visible SOLO si la fila padre ya está visible
+            if (fechaFiltro === '') {
+                fila.style.display = '';
+            } else {
+                fila.style.display = 'none';
+            }
+            return;
+        }
+
+        let fechaCelda = celdaFecha.getAttribute('data-fecha');
+
+        if (!fechaFiltro || fechaFiltro === fechaCelda) {
+            fila.style.display = '';
+        } else {
+            fila.style.display = 'none';
+        }
+    });
+});
+</script>
+
+<!-- <script>
 $(document).ready(function () {
     $('#contact_payments_table').DataTable({
         language: {
@@ -43,4 +75,4 @@ $(document).ready(function () {
         }
     });
 });
-</script>
+</script> -->
