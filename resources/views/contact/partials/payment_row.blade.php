@@ -1,18 +1,25 @@
 <tr>
+    <!-- CLUMNA 1 -->
     @if(empty($payment->parent_id))
     <td @if($count_child_payments > 0) rowspan="{{$count_child_payments + 1}}" style="vertical-align:middle;" @endif>
         {{@format_datetime($payment->paid_on)}}
     </td>
     @endif
+
+    <!-- CLUMNA 2 -->
     <td @if($count_child_payments > 0) class="bg-gray" @endif>
         {{$payment->payment_ref_no}}
         @if(!empty($parent_payment_ref_no))
             <br>@lang('lang_v1.parent_payment'): {{$parent_payment_ref_no}}
         @endif
     </td>
+
+    <!-- CLUMNA 3 -->
     <td @if($count_child_payments > 0) class="bg-gray" @endif>
         <span class="display_currency paid-amount" data-orig-value=" {{$payment->amount}}" data-currency_symbol ="true">{{$payment->amount}}</span>
     </td>
+
+    <!-- CLUMNA 4 -->
     <td @if($count_child_payments > 0) class="bg-gray" @endif>
         @php
             $method = !empty($payment_types[$payment->method]) ? $payment_types[$payment->method] : '';
@@ -35,6 +42,8 @@
         @endphp
         {!! $method ?? '' !!}
     </td>
+
+    <!-- CLUMNA 5 -->
     <td @if($count_child_payments > 0) class="bg-gray" @endif>
         @php
             $transaction_type = $payment->transaction->type ?? $payment->transaction_type;
@@ -58,6 +67,8 @@
             @endif
         @endif
     </td>
+
+    <!-- CLUMNA 6 -->
     <td @if($count_child_payments > 0) class="bg-gray" @endif>
         <button type="button" class="btn btn-primary btn-xs btn-modal" data-href="{{action([\App\Http\Controllers\TransactionPaymentController::class, 'viewPayment'], [$payment->id])}}" data-container=".view_modal"><i class="fas fa-eye"></i>{{__('messages.view')}}</button>
 
