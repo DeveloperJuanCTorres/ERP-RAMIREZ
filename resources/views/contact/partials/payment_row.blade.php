@@ -1,11 +1,13 @@
 <tr>
     <!-- CLUMNA 1 -->
-    @if(empty($payment->parent_id))
-    <td @if($count_child_payments > 0) rowspan="{{$count_child_payments + 1}}" style="vertical-align:middle;" @endif
-        data-fecha="{{ \Carbon\Carbon::parse($payment->paid_on)->format('Y-m-d') }}">
+    <!-- @if(empty($payment->parent_id))
+    <td @if($count_child_payments > 0) rowspan="{{$count_child_payments + 1}}" style="vertical-align:middle;" @endif>
         {{@format_datetime($payment->paid_on)}}
     </td>
-    @endif
+    @endif -->
+    <td>
+        {{@format_datetime($payment->paid_on)}}
+    </td>
 
     <!-- CLUMNA 2 -->
     <td @if($count_child_payments > 0) class="bg-gray" @endif>
