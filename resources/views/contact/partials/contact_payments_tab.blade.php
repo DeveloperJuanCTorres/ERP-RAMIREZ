@@ -30,7 +30,7 @@ id="contact_payments_table">
         @endforelse
     </tbody>
 </table>
-<!-- <div class="text-right" style="width: 100%;" id="contact_payments_pagination">payments->links()</div> -->
+<div class="text-right" style="width: 100%;" id="contact_payments_pagination">{{ $payments->links() }}</div>
 
 
 
