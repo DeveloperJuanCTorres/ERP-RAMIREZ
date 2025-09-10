@@ -31,3 +31,14 @@ id="contact_payments_table">
 </table>
 <div class="text-right" style="width: 100%;" id="contact_payments_pagination">{{ $payments->links() }}</div>
 
+
+<script>
+$(document).ready(function () {
+    $('#contact_payments_table').DataTable({
+        // Opcional: traducción en español
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+        }
+    });
+});
+</script>

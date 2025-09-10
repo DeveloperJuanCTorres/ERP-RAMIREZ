@@ -587,5 +587,6 @@ $(document).on('click', '#print_ledger_pdf', function() {
         });
     });
 </script>
+
 @include('sale_pos.partials.subscriptions_table_javascript', ['contact_id' => $contact->id])
 @endsection
