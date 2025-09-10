@@ -1619,7 +1619,8 @@ class ContactController extends Controller
                 )
                 ->groupBy('transaction_payments.id')
                 ->orderByDesc('transaction_payments.paid_on')
-                ->paginate();
+                ->get();
+                // ->paginate();
 
             $payment_types = $this->transactionUtil->payment_types(null, true, $business_id);
 
