@@ -173,7 +173,7 @@ class ProductionController extends Controller
         )
         // ->where('purchase_lines.product_id', 1)
         ->whereIn('purchase_lines.product_id', [1, 6, 56])
-        ->groupBy('purchase_lines.id', 'purchase_lines.lot_number')
+        ->distinct()
         ->get();
 
         return view('manufacturing::production.create')
