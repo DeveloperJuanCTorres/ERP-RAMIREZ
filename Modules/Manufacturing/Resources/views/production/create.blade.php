@@ -95,7 +95,7 @@
 						<select class="form-control lot_number select2" data-select-search="true" name="lot_number">
 							<option value="">@lang('lang_v1.lot_n_expiry')</option>
 							@foreach($lot_numbers as $lot_number)								
-								<option value="{{$lot_number->lote}}">{{$lot_number->lote - $lot_number->purchase_line_id}}</option>
+								<option value="{{$lot_number->lote}}">{{$lot_number->lote}} - {{$lot_number->purchase_line_id}}</option>
 							@endforeach
 						</select>
 							
