@@ -165,15 +165,27 @@ class ProductionController extends Controller
 
         $recipe_dropdown = MfgRecipe::forDropdown($business_id);
 
+        // $lot_numbers = DB::table('purchase_lines')
+        // ->leftJoin('transaction_sell_lines', 'purchase_lines.id', '=', 'transaction_sell_lines.lot_no_line_id')
+        // ->select(
+        //     'purchase_lines.lot_number as lote',
+        //     'purchase_lines.id as purchase_line_id'
+        // )
+        // ->whereIn('purchase_lines.product_id', [1, 6, 56])
+        // ->distinct()
+        // ->get();
+
         $lot_numbers = DB::table('purchase_lines')
+        ->join('transactions', 'purchase_lines.transaction_id', '=', 'transactions.id')
         ->leftJoin('transaction_sell_lines', 'purchase_lines.id', '=', 'transaction_sell_lines.lot_no_line_id')
         ->select(
             'purchase_lines.lot_number as lote',
             'purchase_lines.id as purchase_line_id'
         )
-        // ->where('purchase_lines.product_id', 1)
+        ->where('transactions.type', 'purchase_transfer')
         ->whereIn('purchase_lines.product_id', [1, 6, 56])
-        ->distinct()
+        ->where('transactions.location_id', 12)
+        ->groupBy('purchase_lines.id', 'purchase_lines.lot_number')
         ->get();
 
         return view('manufacturing::production.create')
