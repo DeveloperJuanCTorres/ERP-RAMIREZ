@@ -239,6 +239,8 @@ class ImportOpeningStockController extends Controller
                     }
 
                     //Check for tra, location_id, opening_stock_product_id, type=opening stock.
+
+                    //AQUI DEBO CREAR UNA NUEVA TRANSACTION
                     $os_transaction = Transaction::where('business_id', $business_id)
                             ->where('location_id', $location->id)
                             ->where('type', 'opening_stock')
@@ -308,9 +310,10 @@ class ImportOpeningStockController extends Controller
         //Add opening stock transaction
         if (empty($transaction)) {
             $transaction = new Transaction();
-            $transaction->type = 'opening_stock';
+            // $transaction->type = 'opening_stock';
+            $transaction->type = 'purchase';
             $transaction->status = 'received';
-            $transaction->opening_stock_product_id = $product->id;
+            // $transaction->opening_stock_product_id = $product->id;
             $transaction->business_id = $business_id;
             $transaction->transaction_date = $transaction_date;
             $transaction->location_id = $opening_stock['location_id'];

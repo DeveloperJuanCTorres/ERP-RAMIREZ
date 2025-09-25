@@ -1,0 +1,920 @@
+[2025-09-25 10:58:37] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\app\Http\Controllers\ImportOpeningStockController.phpLine:262Message:Location with name 'SEC. SAMAN - ALMACEN' not found in row no. 1  
+[2025-09-25 11:00:18] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\app\Http\Controllers\ImportOpeningStockController.phpLine:262Message:Location with name 'SEC. SAMAN - ALMACEN' not found in row no. 1  
+[2025-09-25 11:28:31] local.ERROR: Undefined variable $imported_data {"view":{"view":"D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\purchase\\partials\\purchase_entry_row.blade.php","data":{"asset_v":"<pre class=sf-dump id=sf-dump-1334428511 data-indent-pad=\"  \"><span class=sf-dump-num>511</span>
+</pre><script>Sfdump(\"sf-dump-1334428511\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","errors":"<pre class=sf-dump id=sf-dump-2132911328 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#3043</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
+</samp>}
+</pre><script>Sfdump(\"sf-dump-2132911328\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","product":"<pre class=sf-dump id=sf-dump-596017198 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Product</span> {<a class=sf-dump-ref>#3084</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"8 characters\">products</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+  +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+  +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+  +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:53</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"6 characters\">single</span>\"
+    \"<span class=sf-dump-key>unit_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>secondary_unit_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sub_unit_ids</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>brand_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>category_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>sub_category_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>tax</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>tax_type</span>\" => \"<span class=sf-dump-str title=\"9 characters\">inclusive</span>\"
+    \"<span class=sf-dump-key>enable_stock</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>alert_quantity</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+    \"<span class=sf-dump-key>barcode_type</span>\" => \"<span class=sf-dump-str title=\"4 characters\">C128</span>\"
+    \"<span class=sf-dump-key>expiry_period</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>expiry_period_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>enable_sr_no</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>weight</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_custom_field1</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field2</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field3</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field4</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field5</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field6</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field7</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field8</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field9</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field10</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field11</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field12</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field13</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field14</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field15</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field16</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field17</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field18</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field19</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field20</span>\" => \"\"
+    \"<span class=sf-dump-key>image</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_media_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_description</span>\" => \"<span class=sf-dump-str title=\"11 characters\">&lt;p&gt;Caja&lt;/p&gt;</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>woocommerce_product_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_disable_sync</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>preparation_time_in_minutes</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>warranty_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_inactive</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>repair_model_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>not_for_selling</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-06-30 14:51:50</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2025-09-25 10:57:29</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:53</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"6 characters\">single</span>\"
+    \"<span class=sf-dump-key>unit_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>secondary_unit_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sub_unit_ids</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>brand_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>category_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>sub_category_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>tax</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>tax_type</span>\" => \"<span class=sf-dump-str title=\"9 characters\">inclusive</span>\"
+    \"<span class=sf-dump-key>enable_stock</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>alert_quantity</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+    \"<span class=sf-dump-key>barcode_type</span>\" => \"<span class=sf-dump-str title=\"4 characters\">C128</span>\"
+    \"<span class=sf-dump-key>expiry_period</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>expiry_period_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>enable_sr_no</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>weight</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_custom_field1</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field2</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field3</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field4</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field5</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field6</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field7</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field8</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field9</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field10</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field11</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field12</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field13</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field14</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field15</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field16</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field17</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field18</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field19</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field20</span>\" => \"\"
+    \"<span class=sf-dump-key>image</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_media_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_description</span>\" => \"<span class=sf-dump-str title=\"11 characters\">&lt;p&gt;Caja&lt;/p&gt;</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>woocommerce_product_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_disable_sync</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>preparation_time_in_minutes</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>warranty_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_inactive</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>repair_model_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>not_for_selling</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-06-30 14:51:50</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2025-09-25 10:57:29</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>sub_unit_ids</span>\" => \"<span class=sf-dump-str title=\"5 characters\">array</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">appends</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">image_url</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">relations</span>: <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>unit</span>\" => <span class=sf-dump-note title=\"App\\Unit
+\"><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">App</span><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">\\</span>Unit</span> {<a class=sf-dump-ref>#3107</a><samp data-depth=3 class=sf-dump-compact>
+      #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"5 characters\">units</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+      +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+      +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+      +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+      +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+      #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+      +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+    </samp>}
+    \"<span class=sf-dump-key>second_unit</span>\" => <span class=sf-dump-const>null</span>
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+  +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  </samp>]
+</samp>}
+</pre><script>Sfdump(\"sf-dump-596017198\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","variations":"<pre class=sf-dump id=sf-dump-326665420 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Database\\Eloquent\\Collection</span> {<a class=sf-dump-ref>#3131</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => <span class=sf-dump-note title=\"App\\Variation
+\"><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">App</span><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">\\</span>Variation</span> {<a class=sf-dump-ref>#3130</a><samp data-depth=3 class=sf-dump-compact>
+      #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"10 characters\">variations</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+      +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+      +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+      +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+      +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:16</span> [ &#8230;16]
+      #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:16</span> [ &#8230;16]
+      #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:2</span> [ &#8230;2]
+      #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+      #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">relations</span>: <span class=sf-dump-note>array:2</span> [ &#8230;2]
+      #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+      +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+    </samp>}
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-326665420\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","row_count":"<pre class=sf-dump id=sf-dump-928346170 data-indent-pad=\"  \">\"<span class=sf-dump-str>0</span>\"
+</pre><script>Sfdump(\"sf-dump-928346170\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","variation_id":"<pre class=sf-dump id=sf-dump-1741599674 data-indent-pad=\"  \">\"<span class=sf-dump-str>1</span>\"
+</pre><script>Sfdump(\"sf-dump-1741599674\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","taxes":"<pre class=sf-dump id=sf-dump-1759813584 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Database\\Eloquent\\Collection</span> {<a class=sf-dump-ref>#3147</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => <span class=sf-dump-note title=\"App\\TaxRate
+\"><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">App</span><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">\\</span>TaxRate</span> {<a class=sf-dump-ref>#3148</a><samp data-depth=3 class=sf-dump-compact>
+      #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"9 characters\">tax_rates</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+      +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+      +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+      +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+      +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+      #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+      +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+    </samp>}
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1759813584\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","currency_details":"<pre class=sf-dump id=sf-dump-84466904 data-indent-pad=\"  \">{<a class=sf-dump-ref>#3080</a><samp data-depth=1 class=sf-dump-expanded>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">purchase_in_diff_currency</span>\": <span class=sf-dump-const>false</span>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">p_exchange_rate</span>\": <span class=sf-dump-num>1</span>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">decimal_seperator</span>\": \"<span class=sf-dump-str>.</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">thousand_seperator</span>\": \"<span class=sf-dump-str>,</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">symbol</span>\": \"<span class=sf-dump-str title=\"3 characters\">S/.</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">thousand_separator</span>\": \"<span class=sf-dump-str>,</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">decimal_separator</span>\": \"<span class=sf-dump-str>.</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">code</span>\": \"<span class=sf-dump-str title=\"2 characters\">PE</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">name</span>\": \"<span class=sf-dump-str title=\"12 characters\">Nuevos Soles</span>\"
+</samp>}
+</pre><script>Sfdump(\"sf-dump-84466904\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","hide_tax":"<pre class=sf-dump id=sf-dump-2038096793 data-indent-pad=\"  \">\"\"
+</pre><script>Sfdump(\"sf-dump-2038096793\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","sub_units":"<pre class=sf-dump id=sf-dump-1847748149 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-key>1</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Unidad</span>\"
+    \"<span class=sf-dump-key>multiplier</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>allow_decimal</span>\" => <span class=sf-dump-num>0</span>
+  </samp>]
+</samp>]
+</pre><script>Sfdump(\"sf-dump-1847748149\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","is_purchase_order":"<pre class=sf-dump id=sf-dump-1281629938 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-1281629938\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","last_purchase_line":"<pre class=sf-dump id=sf-dump-845407527 data-indent-pad=\"  \"><span class=sf-dump-const>null</span>
+</pre><script>Sfdump(\"sf-dump-845407527\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","enabled_modules":"<pre class=sf-dump id=sf-dump-209323599 data-indent-pad=\"  \"><span class=sf-dump-note>array:7</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">purchases</span>\"
+  <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"8 characters\">add_sale</span>\"
+  <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"8 characters\">pos_sale</span>\"
+  <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"15 characters\">stock_transfers</span>\"
+  <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"16 characters\">stock_adjustment</span>\"
+  <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"8 characters\">expenses</span>\"
+  <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"7 characters\">account</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-209323599\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","__is_pusher_enabled":"<pre class=sf-dump id=sf-dump-1847631622 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-1847631622\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined variable $imported_data at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\purchase\\partials\\purchase_entry_row.blade.php:16)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\purchase\\partials\\purchase_entry_row.blade.php(16): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(69): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(906): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 200, Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(875): Illuminate\\Routing\\Router::toResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Routing\\Router->prepareResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#70 {main}
+
+[previous exception] [object] (ErrorException(code: 0): Undefined variable $imported_data at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\ceb24100bfd3f1a158f3ae98f29d1d9b4b38a719.php:16)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\ceb24100bfd3f1a158f3ae98f29d1d9b4b38a719.php(16): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(69): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(906): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 200, Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(875): Illuminate\\Routing\\Router::toResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Routing\\Router->prepareResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#70 {main}
+"} 
+[2025-09-25 11:28:48] local.ERROR: Undefined variable $imported_data {"view":{"view":"D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\purchase\\partials\\purchase_entry_row.blade.php","data":{"asset_v":"<pre class=sf-dump id=sf-dump-1257423972 data-indent-pad=\"  \"><span class=sf-dump-num>511</span>
+</pre><script>Sfdump(\"sf-dump-1257423972\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","errors":"<pre class=sf-dump id=sf-dump-1366864454 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#3043</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1366864454\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","product":"<pre class=sf-dump id=sf-dump-1779601947 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Product</span> {<a class=sf-dump-ref>#3084</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"8 characters\">products</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+  +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+  +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+  +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:53</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"6 characters\">single</span>\"
+    \"<span class=sf-dump-key>unit_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>secondary_unit_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sub_unit_ids</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>brand_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>category_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>sub_category_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>tax</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>tax_type</span>\" => \"<span class=sf-dump-str title=\"9 characters\">inclusive</span>\"
+    \"<span class=sf-dump-key>enable_stock</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>alert_quantity</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+    \"<span class=sf-dump-key>barcode_type</span>\" => \"<span class=sf-dump-str title=\"4 characters\">C128</span>\"
+    \"<span class=sf-dump-key>expiry_period</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>expiry_period_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>enable_sr_no</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>weight</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_custom_field1</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field2</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field3</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field4</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field5</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field6</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field7</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field8</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field9</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field10</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field11</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field12</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field13</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field14</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field15</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field16</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field17</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field18</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field19</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field20</span>\" => \"\"
+    \"<span class=sf-dump-key>image</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_media_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_description</span>\" => \"<span class=sf-dump-str title=\"11 characters\">&lt;p&gt;Caja&lt;/p&gt;</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>woocommerce_product_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_disable_sync</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>preparation_time_in_minutes</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>warranty_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_inactive</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>repair_model_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>not_for_selling</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-06-30 14:51:50</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2025-09-25 10:57:29</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:53</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"6 characters\">single</span>\"
+    \"<span class=sf-dump-key>unit_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>secondary_unit_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sub_unit_ids</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>brand_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>category_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>sub_category_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>tax</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>tax_type</span>\" => \"<span class=sf-dump-str title=\"9 characters\">inclusive</span>\"
+    \"<span class=sf-dump-key>enable_stock</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>alert_quantity</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+    \"<span class=sf-dump-key>barcode_type</span>\" => \"<span class=sf-dump-str title=\"4 characters\">C128</span>\"
+    \"<span class=sf-dump-key>expiry_period</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>expiry_period_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>enable_sr_no</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>weight</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_custom_field1</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field2</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field3</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field4</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field5</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field6</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field7</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field8</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field9</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field10</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field11</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field12</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field13</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field14</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field15</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field16</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field17</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field18</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field19</span>\" => \"\"
+    \"<span class=sf-dump-key>product_custom_field20</span>\" => \"\"
+    \"<span class=sf-dump-key>image</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_media_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>product_description</span>\" => \"<span class=sf-dump-str title=\"11 characters\">&lt;p&gt;Caja&lt;/p&gt;</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>woocommerce_product_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>woocommerce_disable_sync</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>preparation_time_in_minutes</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>warranty_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_inactive</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>repair_model_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>not_for_selling</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2024-06-30 14:51:50</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2025-09-25 10:57:29</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>sub_unit_ids</span>\" => \"<span class=sf-dump-str title=\"5 characters\">array</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">appends</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">image_url</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">relations</span>: <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>unit</span>\" => <span class=sf-dump-note title=\"App\\Unit
+\"><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">App</span><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">\\</span>Unit</span> {<a class=sf-dump-ref>#3107</a><samp data-depth=3 class=sf-dump-compact>
+      #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"5 characters\">units</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+      +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+      +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+      +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+      +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+      #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+      +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+    </samp>}
+    \"<span class=sf-dump-key>second_unit</span>\" => <span class=sf-dump-const>null</span>
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+  +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  </samp>]
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1779601947\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","variations":"<pre class=sf-dump id=sf-dump-1376097161 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Database\\Eloquent\\Collection</span> {<a class=sf-dump-ref>#3131</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => <span class=sf-dump-note title=\"App\\Variation
+\"><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">App</span><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">\\</span>Variation</span> {<a class=sf-dump-ref>#3130</a><samp data-depth=3 class=sf-dump-compact>
+      #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"10 characters\">variations</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+      +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+      +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+      +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+      +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:16</span> [ &#8230;16]
+      #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:16</span> [ &#8230;16]
+      #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:2</span> [ &#8230;2]
+      #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+      #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">relations</span>: <span class=sf-dump-note>array:2</span> [ &#8230;2]
+      #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+      +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+    </samp>}
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1376097161\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","row_count":"<pre class=sf-dump id=sf-dump-967083226 data-indent-pad=\"  \">\"<span class=sf-dump-str>0</span>\"
+</pre><script>Sfdump(\"sf-dump-967083226\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","variation_id":"<pre class=sf-dump id=sf-dump-167824726 data-indent-pad=\"  \">\"<span class=sf-dump-str>1</span>\"
+</pre><script>Sfdump(\"sf-dump-167824726\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","taxes":"<pre class=sf-dump id=sf-dump-1697042346 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Database\\Eloquent\\Collection</span> {<a class=sf-dump-ref>#3147</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => <span class=sf-dump-note title=\"App\\TaxRate
+\"><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">App</span><span class=\"sf-dump-ellipsis sf-dump-ellipsis-note\">\\</span>TaxRate</span> {<a class=sf-dump-ref>#3148</a><samp data-depth=3 class=sf-dump-compact>
+      #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"9 characters\">tax_rates</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+      #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+      +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+      +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+      +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+      +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+      #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:11</span> [ &#8230;11]
+      #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+      #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+      +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+      #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+      #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [ &#8230;1]
+      #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+    </samp>}
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1697042346\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","currency_details":"<pre class=sf-dump id=sf-dump-1684130790 data-indent-pad=\"  \">{<a class=sf-dump-ref>#3080</a><samp data-depth=1 class=sf-dump-expanded>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">purchase_in_diff_currency</span>\": <span class=sf-dump-const>false</span>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">p_exchange_rate</span>\": <span class=sf-dump-num>1</span>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">decimal_seperator</span>\": \"<span class=sf-dump-str>.</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">thousand_seperator</span>\": \"<span class=sf-dump-str>,</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">symbol</span>\": \"<span class=sf-dump-str title=\"3 characters\">S/.</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">thousand_separator</span>\": \"<span class=sf-dump-str>,</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">decimal_separator</span>\": \"<span class=sf-dump-str>.</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">code</span>\": \"<span class=sf-dump-str title=\"2 characters\">PE</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">name</span>\": \"<span class=sf-dump-str title=\"12 characters\">Nuevos Soles</span>\"
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1684130790\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","hide_tax":"<pre class=sf-dump id=sf-dump-2002350117 data-indent-pad=\"  \">\"\"
+</pre><script>Sfdump(\"sf-dump-2002350117\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","sub_units":"<pre class=sf-dump id=sf-dump-1045254646 data-indent-pad=\"  \"><span class=sf-dump-note>array:1</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-key>1</span> => <span class=sf-dump-note>array:3</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"6 characters\">Unidad</span>\"
+    \"<span class=sf-dump-key>multiplier</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>allow_decimal</span>\" => <span class=sf-dump-num>0</span>
+  </samp>]
+</samp>]
+</pre><script>Sfdump(\"sf-dump-1045254646\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","is_purchase_order":"<pre class=sf-dump id=sf-dump-47321073 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-47321073\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","last_purchase_line":"<pre class=sf-dump id=sf-dump-1324029168 data-indent-pad=\"  \"><span class=sf-dump-const>null</span>
+</pre><script>Sfdump(\"sf-dump-1324029168\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","enabled_modules":"<pre class=sf-dump id=sf-dump-2136377063 data-indent-pad=\"  \"><span class=sf-dump-note>array:7</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">purchases</span>\"
+  <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"8 characters\">add_sale</span>\"
+  <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"8 characters\">pos_sale</span>\"
+  <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"15 characters\">stock_transfers</span>\"
+  <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"16 characters\">stock_adjustment</span>\"
+  <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"8 characters\">expenses</span>\"
+  <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"7 characters\">account</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-2136377063\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","__is_pusher_enabled":"<pre class=sf-dump id=sf-dump-768083531 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-768083531\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined variable $imported_data at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\purchase\\partials\\purchase_entry_row.blade.php:16)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\purchase\\partials\\purchase_entry_row.blade.php(16): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(69): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(906): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 200, Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(875): Illuminate\\Routing\\Router::toResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Routing\\Router->prepareResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#70 {main}
+
+[previous exception] [object] (ErrorException(code: 0): Undefined variable $imported_data at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\ceb24100bfd3f1a158f3ae98f29d1d9b4b38a719.php:16)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\ceb24100bfd3f1a158f3ae98f29d1d9b4b38a719.php(16): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined varia...', 'D:\\\\PROYECTOS\\\\IM...', 16)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(69): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(906): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 200, Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(875): Illuminate\\Routing\\Router::toResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Routing\\Router->prepareResponse(Object(Illuminate\\Http\\Request), Object(Illuminate\\View\\View))
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#70 {main}
+"} 
