@@ -98,6 +98,34 @@ class ImportOpeningStockController extends Controller
                 $is_valid = true;
                 $error_msg = '';
 
+                // Obtén la primera fila para definir el location de toda la transacción
+                $first_row = $imported_data[0];
+                $location_name = trim($first_row[1]);
+
+                $location = BusinessLocation::where('name', $location_name)
+                    ->where('business_id', $business_id)
+                    ->first();
+
+                if (empty($location)) {
+                    throw new \Exception("Location with name '$location_name' not found in first row");
+                }
+
+                // 🔹 Crear la transacción una sola vez
+                $purchase_transaction = Transaction::create([
+                    'business_id' => $business_id,
+                    'location_id' => $location->id, // 👈 cuidado: si el CSV tiene varias locations, hay que manejarlo
+                    'type' => 'opening_stock',
+                    'status' => 'received',
+                    'payment_status' => 'paid',
+                    'transaction_date' => \Carbon\Carbon::now(),
+                    'created_by' => $user_id,
+                    'final_total' => 0,
+                    'total_before_tax' => 0,
+                    'tax_amount' => 0,
+                ]);
+
+                $final_total = 0;
+
                 DB::beginTransaction();
                 foreach ($imported_data as $key => $value) {
                     $row_no = $key + 1;
@@ -241,13 +269,16 @@ class ImportOpeningStockController extends Controller
                     //Check for tra, location_id, opening_stock_product_id, type=opening stock.
 
                     //AQUI DEBO CREAR UNA NUEVA TRANSACTION
-                    $os_transaction = Transaction::where('business_id', $business_id)
-                            ->where('location_id', $location->id)
-                            ->where('type', 'opening_stock')
-                            ->where('opening_stock_product_id', $product_info->id)
-                            ->first();
+                    // $os_transaction = Transaction::where('business_id', $business_id)
+                    //         ->where('location_id', $location->id)
+                    //         ->where('type', 'opening_stock')
+                    //         ->where('opening_stock_product_id', $product_info->id)
+                    //         ->first();
 
-                    $this->addOpeningStock($opening_stock, $product_info, $business_id, $unit_cost_before_tax, $os_transaction);
+                    $this->addOpeningStock($opening_stock, $product_info, $business_id, $unit_cost_before_tax, $purchase_transaction);
+
+                    // acumular total
+                    $final_total += ($unit_cost_before_tax * $opening_stock['quantity']);
 
                     // //If exist add to it.
                     // if(!empty($os_transaction)){
@@ -258,6 +289,10 @@ class ImportOpeningStockController extends Controller
                     //  $this->addOpeningStock($opening_stock, $product_info, $business_id, $unit_cost_before_tax);
                     // }
                 }
+
+                $purchase_transaction->final_total = $final_total;
+                $purchase_transaction->total_before_tax = $final_total;
+                $purchase_transaction->save();
             }
 
             if (! $is_valid) {
