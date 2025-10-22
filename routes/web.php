@@ -248,6 +248,19 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/barcodes/set_default/{id}', [BarcodeController::class, 'setDefault']);
     Route::resource('barcodes', BarcodeController::class);
 
+    //PANEL SUNAT
+    Route::get('/panelSunat',[App\Http\Controllers\SellController::class,'panelSunat'])->name('panelSunat');
+    Route::get('/sunatpdf/{id}',[App\Http\Controllers\SellController::class,'sunatpdf'])->name('sunatpdf');
+    Route::get('/sunatxml/{id}',[App\Http\Controllers\SellController::class,'sunatxml'])->name('sunatxml');
+    Route::get('/sunatcdr/{id}',[App\Http\Controllers\SellController::class,'sunatcdr'])->name('sunatcdr');
+    Route::post('/enviarsunat',[App\Http\Controllers\SellController::class,'enviarsunat'])->name('enviarsunat');
+    Route::post('/anulacionSunat',[App\Http\Controllers\SellController::class,'anulacionSunat'])->name('anulacionSunat');
+    Route::post('/notaCreditoSunat',[App\Http\Controllers\SellController::class,'notaCreditoSunat'])->name('notaCreditoSunat');
+    Route::get('/notasunatpdf/{id}',[App\Http\Controllers\SellController::class,'notasunatpdf'])->name('notasunatpdf');
+    Route::get('/notasunatxml/{id}',[App\Http\Controllers\SellController::class,'notasunatxml'])->name('notasunatxml');
+    //FIN PANEL SUNAT
+
+
     // CONSULTA RUC DNI
     Route::post('/consulta_ruc',[App\Http\Controllers\ContactController::class,'consultaRuc'])->name('consulta_ruc');
     Route::post('/consulta_dni',[App\Http\Controllers\ContactController::class,'consultaDni'])->name('consulta_dni');

@@ -1721,4 +1721,1015 @@ class SellController extends Controller
         //$mensaje = "Estamos trabajando en ello...";
         //return response()->json(['status' => true, 'msg' => $mensaje ]);
     }
+
+    public function panelSunat()
+    {
+        
+        $is_admin = $this->businessUtil->is_admin(auth()->user());
+
+        if (! $is_admin && ! auth()->user()->hasAnyPermission(['sell.view', 'sell.create', 'direct_sell.access', 'direct_sell.view', 'view_own_sell_only', 'view_commission_agent_sell', 'access_shipping', 'access_own_shipping', 'access_commission_agent_shipping', 'so.view_all', 'so.view_own'])) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $business_id = request()->session()->get('user.business_id');
+        $is_woocommerce = $this->moduleUtil->isModuleInstalled('Woocommerce');
+        $is_crm = $this->moduleUtil->isModuleInstalled('Crm');
+        $is_tables_enabled = $this->transactionUtil->isModuleEnabled('tables');
+        $is_service_staff_enabled = $this->transactionUtil->isModuleEnabled('service_staff');
+        $is_types_service_enabled = $this->moduleUtil->isModuleEnabled('types_of_service');
+
+        if (request()->ajax()) {
+            $payment_types = $this->transactionUtil->payment_types(null, true, $business_id);
+            $with = [];
+            $shipping_statuses = $this->transactionUtil->shipping_statuses();
+
+            $sale_type = ! empty(request()->input('sale_type')) ? request()->input('sale_type') : 'sell';
+
+            $sells = $this->transactionUtil->getListSellsTotal($business_id, $sale_type);
+
+            $permitted_locations = auth()->user()->permitted_locations();
+            if ($permitted_locations != 'all') {
+                $sells->whereIn('transactions.location_id', $permitted_locations);
+            }
+
+            //Add condition for created_by,used in sales representative sales report
+            if (request()->has('created_by')) {
+                $created_by = request()->get('created_by');
+                if (! empty($created_by)) {
+                    $sells->where('transactions.created_by', $created_by);
+                }
+            }
+
+            $partial_permissions = ['view_own_sell_only', 'view_commission_agent_sell', 'access_own_shipping', 'access_commission_agent_shipping'];
+            if (! auth()->user()->can('direct_sell.view')) {
+                $sells->where(function ($q) {
+                    if (auth()->user()->hasAnyPermission(['view_own_sell_only', 'access_own_shipping'])) {
+                        $q->where('transactions.created_by', request()->session()->get('user.id'));
+                    }
+
+                    //if user is commission agent display only assigned sells
+                    if (auth()->user()->hasAnyPermission(['view_commission_agent_sell', 'access_commission_agent_shipping'])) {
+                        $q->orWhere('transactions.commission_agent', request()->session()->get('user.id'));
+                    }
+                });
+            }
+
+            $only_shipments = request()->only_shipments == 'true' ? true : false;
+            if ($only_shipments) {
+                $sells->whereNotNull('transactions.shipping_status');
+
+                if (auth()->user()->hasAnyPermission(['access_pending_shipments_only'])) {
+                    $sells->where('transactions.shipping_status', '!=', 'delivered');
+                }
+            }
+
+            if (! $is_admin && ! $only_shipments && $sale_type != 'sales_order') {
+                $payment_status_arr = [];
+                if (auth()->user()->can('view_paid_sells_only')) {
+                    $payment_status_arr[] = 'paid';
+                }
+
+                if (auth()->user()->can('view_due_sells_only')) {
+                    $payment_status_arr[] = 'due';
+                }
+
+                if (auth()->user()->can('view_partial_sells_only')) {
+                    $payment_status_arr[] = 'partial';
+                }
+
+                if (empty($payment_status_arr)) {
+                    if (auth()->user()->can('view_overdue_sells_only')) {
+                        $sells->OverDue();
+                    }
+                } else {
+                    if (auth()->user()->can('view_overdue_sells_only')) {
+                        $sells->where(function ($q) use ($payment_status_arr) {
+                            $q->whereIn('transactions.payment_status', $payment_status_arr)
+                            ->orWhere(function ($qr) {
+                                $qr->OverDue();
+                            });
+                        });
+                    } else {
+                        $sells->whereIn('transactions.payment_status', $payment_status_arr);
+                    }
+                }
+            }
+
+            if (! empty(request()->input('payment_status')) && request()->input('payment_status') != 'overdue') {
+                $sells->where('transactions.payment_status', request()->input('payment_status'));
+            } elseif (request()->input('payment_status') == 'overdue') {
+                $sells->whereIn('transactions.payment_status', ['due', 'partial'])
+                    ->whereNotNull('transactions.pay_term_number')
+                    ->whereNotNull('transactions.pay_term_type')
+                    ->whereRaw("IF(transactions.pay_term_type='days', DATE_ADD(transactions.transaction_date, INTERVAL transactions.pay_term_number DAY) < CURDATE(), DATE_ADD(transactions.transaction_date, INTERVAL transactions.pay_term_number MONTH) < CURDATE())");
+            }
+
+            //Add condition for location,used in sales representative expense report
+            if (request()->has('location_id')) {
+                $location_id = request()->get('location_id');
+                if (! empty($location_id)) {
+                    $sells->where('transactions.location_id', $location_id);
+                }
+            }
+
+            if (! empty(request()->input('rewards_only')) && request()->input('rewards_only') == true) {
+                $sells->where(function ($q) {
+                    $q->whereNotNull('transactions.rp_earned')
+                    ->orWhere('transactions.rp_redeemed', '>', 0);
+                });
+            }
+
+            if (! empty(request()->customer_id)) {
+                $customer_id = request()->customer_id;
+                $sells->where('contacts.id', $customer_id);
+            }
+            if (! empty(request()->start_date) && ! empty(request()->end_date)) {
+                $start = request()->start_date;
+                $end = request()->end_date;
+                $sells->whereDate('transactions.transaction_date', '>=', $start)
+                            ->whereDate('transactions.transaction_date', '<=', $end);
+            }
+
+            //Check is_direct sell
+            if (request()->has('is_direct_sale')) {
+                $is_direct_sale = request()->is_direct_sale;
+                if ($is_direct_sale == 0) {
+                    $sells->where('transactions.is_direct_sale', 0);
+                    $sells->whereNull('transactions.sub_type');
+                }
+            }
+
+            //Add condition for commission_agent,used in sales representative sales with commission report
+            if (request()->has('commission_agent')) {
+                $commission_agent = request()->get('commission_agent');
+                if (! empty($commission_agent)) {
+                    $sells->where('transactions.commission_agent', $commission_agent);
+                }
+            }
+
+            if (! empty(request()->input('source'))) {
+                //only exception for woocommerce
+                if (request()->input('source') == 'woocommerce') {
+                    $sells->whereNotNull('transactions.woocommerce_order_id');
+                } else {
+                    $sells->where('transactions.source', request()->input('source'));
+                }
+            }
+
+            if ($is_crm) {
+                $sells->addSelect('transactions.crm_is_order_request');
+
+                if (request()->has('crm_is_order_request')) {
+                    $sells->where('transactions.crm_is_order_request', 1);
+                }
+            }
+
+            if (request()->only_subscriptions) {
+                $sells->where(function ($q) {
+                    $q->whereNotNull('transactions.recur_parent_id')
+                        ->orWhere('transactions.is_recurring', 1);
+                });
+            }
+
+            if (! empty(request()->list_for) && request()->list_for == 'service_staff_report') {
+                $sells->whereNotNull('transactions.res_waiter_id');
+            }
+
+            if (! empty(request()->res_waiter_id)) {
+                $sells->where('transactions.res_waiter_id', request()->res_waiter_id);
+            }
+
+            if (! empty(request()->input('sub_type'))) {
+                $sells->where('transactions.sub_type', request()->input('sub_type'));
+            }
+
+            if (! empty(request()->input('created_by'))) {
+                $sells->where('transactions.created_by', request()->input('created_by'));
+            }
+
+            if (! empty(request()->input('status'))) {
+                $sells->where('transactions.status', request()->input('status'));
+            }
+
+            if (! empty(request()->input('sales_cmsn_agnt'))) {
+                $sells->where('transactions.commission_agent', request()->input('sales_cmsn_agnt'));
+            }
+
+            if (! empty(request()->input('service_staffs'))) {
+                $sells->where('transactions.res_waiter_id', request()->input('service_staffs'));
+            }
+
+            $only_pending_shipments = request()->only_pending_shipments == 'true' ? true : false;
+            if ($only_pending_shipments) {
+                $sells->where('transactions.shipping_status', '!=', 'delivered')
+                        ->whereNotNull('transactions.shipping_status');
+                $only_shipments = true;
+            }
+
+            if (! empty(request()->input('shipping_status'))) {
+                $sells->where('transactions.shipping_status', request()->input('shipping_status'));
+            }
+
+            if (! empty(request()->input('for_dashboard_sales_order'))) {
+                $sells->whereIn('transactions.status', ['partial', 'ordered'])
+                    ->orHavingRaw('so_qty_remaining > 0');
+            }
+
+            if ($sale_type == 'sales_order') {
+                if (! auth()->user()->can('so.view_all') && auth()->user()->can('so.view_own')) {
+                    $sells->where('transactions.created_by', request()->session()->get('user.id'));
+                }
+            }
+
+            $sells->where(function ($q) {
+                $q->where('transactions.invoice_no', 'like', 'BBB%')
+                ->orWhere('transactions.invoice_no', 'like', 'FFF%');
+            });
+
+            $sells->groupBy('transactions.id');
+
+            if (! empty(request()->suspended)) {
+                $transaction_sub_type = request()->get('transaction_sub_type');
+                if (! empty($transaction_sub_type)) {
+                    $sells->where('transactions.sub_type', $transaction_sub_type);
+                } else {
+                    $sells->where('transactions.sub_type', null);
+                }
+
+                $with = ['sell_lines'];
+
+                if ($is_tables_enabled) {
+                    $with[] = 'table';
+                }
+
+                if ($is_service_staff_enabled) {
+                    $with[] = 'service_staff';
+                }
+
+                $sales = $sells->where('transactions.is_suspend', 1)
+                            ->with($with)
+                            ->addSelect('transactions.is_suspend', 'transactions.res_table_id', 'transactions.res_waiter_id', 'transactions.additional_notes')
+                            ->get();
+
+                return view('sale_pos.partials.suspended_sales_modal')->with(compact('sales', 'is_tables_enabled', 'is_service_staff_enabled', 'transaction_sub_type'));
+            }
+
+            $with[] = 'payment_lines';
+            if (! empty($with)) {
+                $sells->with($with);
+            }
+            //transaction
+            //$business_details = $this->businessUtil->getDetails($business_id);
+            if ($this->businessUtil->isModuleEnabled('subscription')) {
+                $sells->addSelect('transactions.is_recurring', 'transactions.recur_parent_id');
+            }
+            $sales_order_statuses = Transaction::sales_order_statuses();
+   
+            $datatable = Datatables::of($sells)                
+                ->addColumn(
+                    'sunat',
+                    '
+                    @if(is_null($response_sunat))  
+                        <button data-href="#" class="btn btn-xs btn-primary envio_sunat_button" type-id="{{$type}}" data-id="{{$id}}">Enviar</button> 
+                    @elseif($status_sunat == 1)
+                        @if($type == "sell") 
+                            <button data-href="#" class="btn btn-xs btn-danger anulacion_sunat_button" data-id="{{$id}}">Anular</button> 
+                        @endif
+                    @endif
+                    &nbsp;'  
+                )
+                ->addColumn(
+                    'type',
+                    '
+                    @php
+                        $tipo = "";
+                        if ($type == "sell") {
+                            if (Str::startsWith($invoice_no, "BBB")) {
+                                $tipo = "Boleta Electrónica";
+                            } elseif (Str::startsWith($invoice_no, "FFF")) {
+                                $tipo = "Factura Electrónica";
+                            } else {
+                                $tipo = "Factura Electrónica";
+                            }
+                        } elseif ($type == "sell_return") {
+                            $tipo = "Nota de Crédito";
+                        }
+                    @endphp
+                    {{$tipo}}&nbsp;'
+                )
+                ->addColumn(
+                    'pdf',
+                    '  
+                    @if(!is_null($response_sunat) && $status_sunat == 1)                     
+                        <a href="/sunatpdf/{{$id}}" class="btn btn-xs btn-primary">PDF</a>
+                        &nbsp;
+                    @endif'  
+                )
+                ->addColumn(
+                    'xml',
+                    '
+                    @if(!is_null($response_sunat) && $status_sunat == 1) 
+                        <a href="/sunatxml/{{$id}}" class="btn btn-xs btn-info">XML</a>
+                        &nbsp;
+                    @endif'
+                )
+                ->addColumn(
+                    'cdr',
+                    '
+                    @if(!is_null($response_sunat) && $status_sunat == 1) 
+                        <a href="/sunatcdr/{{$id}}" class="btn btn-xs btn-warning">CDR</a>                  
+                        &nbsp;
+                    @endif'
+                )
+                ->addColumn(
+                    'estado_sunat',
+                    '                    
+                    @if(!is_null($response_sunat))   
+                        @if($status_sunat == 0)     
+                            <span class="label bg-light-red">Anulado</span>       
+                        @endif       
+                        @if($status_sunat == 1)
+                            <span class="label bg-light-green">Aceptada</span>
+                        @endif             
+                        &nbsp;
+                    @endif'
+                )
+                ->addColumn(
+                    'observacion',
+                    '                    
+                    @if(!is_null($response_sunat))   
+                    @php
+                        $json = json_decode($response_sunat);
+                    @endphp
+                    {{$json->sunat_description}}              
+                        &nbsp;
+                    @endif'
+                )
+                ->removeColumn('id')                
+                ->editColumn(
+                    'final_total',
+                    '<span class="final-total" data-orig-value="{{$final_total}}">@format_currency($final_total)</span>'
+                )
+                ->editColumn(
+                    'total_paid',
+                    '<span class="total-tax" data-orig-value="{{$tax_amount}}">@format_currency($tax_amount)</span>'
+                )
+                ->editColumn(
+                    'total_paid',
+                    '<span class="total-paid" data-orig-value="{{$total_paid}}">@format_currency($total_paid)</span>'
+                )
+                ->editColumn(
+                    'total_before_tax',
+                    '<span class="total_before_tax" data-orig-value="{{$total_before_tax}}">@format_currency($total_before_tax)</span>'
+                )
+                ->editColumn(
+                    'discount_amount',
+                    function ($row) {
+                        $discount = ! empty($row->discount_amount) ? $row->discount_amount : 0;
+
+                        if (! empty($discount) && $row->discount_type == 'percentage') {
+                            $discount = $row->total_before_tax * ($discount / 100);
+                        }
+
+                        return '<span class="total-discount" data-orig-value="'.$discount.'">'.$this->transactionUtil->num_f($discount, true).'</span>';
+                    }
+                )
+                ->editColumn('transaction_date', '{{@format_datetime($transaction_date)}}')
+                ->editColumn(
+                    'payment_status',
+                    function ($row) {
+                        $payment_status = Transaction::getPaymentStatus($row);
+
+                        return (string) view('sell.partials.payment_status', ['payment_status' => $payment_status, 'id' => $row->id]);
+                    }
+                )
+                ->editColumn(
+                    'types_of_service_name',
+                    '<span class="service-type-label" data-orig-value="{{$types_of_service_name}}" data-status-name="{{$types_of_service_name}}">{{$types_of_service_name}}</span>'
+                )
+                ->addColumn('total_remaining', function ($row) {
+                    $total_remaining = $row->final_total - $row->total_paid;
+                    $total_remaining_html = '<span class="payment_due" data-orig-value="'.$total_remaining.'">'.$this->transactionUtil->num_f($total_remaining, true).'</span>';
+
+                    return $total_remaining_html;
+                })
+                ->addColumn('return_due', function ($row) {
+                    $return_due_html = '';
+                    if (! empty($row->return_exists)) {
+                        $return_due = $row->amount_return - $row->return_paid;
+                        $return_due_html .= '<a href="'.action([\App\Http\Controllers\TransactionPaymentController::class, 'show'], [$row->return_transaction_id]).'" class="view_purchase_return_payment_modal"><span class="sell_return_due" data-orig-value="'.$return_due.'">'.$this->transactionUtil->num_f($return_due, true).'</span></a>';
+                    }
+
+                    return $return_due_html;
+                })
+                ->editColumn('invoice_no', function ($row) use ($is_crm) {
+                    $invoice_no = $row->invoice_no;
+                    if (! empty($row->woocommerce_order_id)) {
+                        $invoice_no .= ' <i class="fab fa-wordpress text-primary no-print" title="'.__('lang_v1.synced_from_woocommerce').'"></i>';
+                    }
+                    if (! empty($row->return_exists)) {
+                        $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="'.__('lang_v1.some_qty_returned_from_sell').'"><i class="fas fa-undo"></i></small>';
+                    }
+                    if (! empty($row->is_recurring)) {
+                        $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="'.__('lang_v1.subscribed_invoice').'"><i class="fas fa-recycle"></i></small>';
+                    }
+
+                    if (! empty($row->recur_parent_id)) {
+                        $invoice_no .= ' &nbsp;<small class="label bg-info label-round no-print" title="'.__('lang_v1.subscription_invoice').'"><i class="fas fa-recycle"></i></small>';
+                    }
+
+                    if (! empty($row->is_export)) {
+                        $invoice_no .= '</br><small class="label label-default no-print" title="'.__('lang_v1.export').'">'.__('lang_v1.export').'</small>';
+                    }
+
+                    if ($is_crm && ! empty($row->crm_is_order_request)) {
+                        $invoice_no .= ' &nbsp;<small class="label bg-yellow label-round no-print" title="'.__('crm::lang.order_request').'"><i class="fas fa-tasks"></i></small>';
+                    }
+
+                    return $invoice_no;
+                })
+                ->editColumn('shipping_status', function ($row) use ($shipping_statuses) {
+                    $status_color = ! empty($this->shipping_status_colors[$row->shipping_status]) ? $this->shipping_status_colors[$row->shipping_status] : 'bg-gray';
+                    $status = ! empty($row->shipping_status) ? '<a href="#" class="btn-modal" data-href="'.action([\App\Http\Controllers\SellController::class, 'editShipping'], [$row->id]).'" data-container=".view_modal"><span class="label '.$status_color.'">'.$shipping_statuses[$row->shipping_status].'</span></a>' : '';
+
+                    return $status;
+                })
+                ->addColumn('conatct_name', '@if(!empty($supplier_business_name)) {{$supplier_business_name}}, <br> @endif {{$name}}')
+                ->editColumn('total_items', '{{@format_quantity($total_items)}}')
+                ->filterColumn('conatct_name', function ($query, $keyword) {
+                    $query->where(function ($q) use ($keyword) {
+                        $q->where('contacts.name', 'like', "%{$keyword}%")
+                        ->orWhere('contacts.supplier_business_name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->addColumn('payment_methods', function ($row) use ($payment_types) {
+                    $methods = array_unique($row->payment_lines->pluck('method')->toArray());
+                    $count = count($methods);
+                    $payment_method = '';
+                    if ($count == 1) {
+                        $payment_method = $payment_types[$methods[0]] ?? '';
+                    } elseif ($count > 1) {
+                        $payment_method = __('lang_v1.checkout_multi_pay');
+                    }
+
+                    $html = ! empty($payment_method) ? '<span class="payment-method" data-orig-value="'.$payment_method.'" data-status-name="'.$payment_method.'">'.$payment_method.'</span>' : '';
+
+                    return $html;
+                })
+                ->editColumn('status', function ($row) use ($sales_order_statuses, $is_admin) {
+                    $status = '';
+
+                    if ($row->type == 'sales_order') {
+                        if ($is_admin && $row->status != 'completed') {
+                            $status = '<span class="edit-so-status label '.$sales_order_statuses[$row->status]['class'].'" data-href="'.action([\App\Http\Controllers\SalesOrderController::class, 'getEditSalesOrderStatus'], ['id' => $row->id]).'">'.$sales_order_statuses[$row->status]['label'].'</span>';
+                        } else {
+                            $status = '<span class="label '.$sales_order_statuses[$row->status]['class'].'" >'.$sales_order_statuses[$row->status]['label'].'</span>';
+                        }
+                    }
+
+                    return $status;
+                })
+                ->editColumn('so_qty_remaining', '{{@format_quantity($so_qty_remaining)}}')
+                ->setRowAttr([
+                    'data-href' => function ($row) {
+                        if (auth()->user()->can('sell.view') || auth()->user()->can('view_own_sell_only')) {
+                            if ($row->type == 'sell')
+                            {
+                                return  action([\App\Http\Controllers\SellController::class, 'show'], [$row->id]);
+                            }
+                            elseif ($row->type == 'sell_return')
+                            {
+                                return  action([\App\Http\Controllers\SellReturnController::class, 'show'], [$row->return_parent_id]);
+                            }
+                            
+                        } else {
+                            return '';
+                        }
+                    }, ]);
+
+            $rawColumns = ['final_total', 'type', 'sunat', 'pdf', 'xml', 'cdr', 'observacion', 'estado_sunat', 'total_paid', 'total_remaining', 'payment_status', 'invoice_no', 'discount_amount', 'tax_amount', 'total_before_tax', 'shipping_status', 'types_of_service_name', 'payment_methods', 'return_due', 'conatct_name', 'status'];
+
+            return $datatable->rawColumns($rawColumns)
+                      ->make(true);
+        }
+
+        $business_locations = BusinessLocation::forDropdown($business_id, false);
+        $customers = Contact::customersDropdown($business_id, false);
+        $sales_representative = User::forDropdown($business_id, false, false, true);
+
+        //Commission agent filter
+        $is_cmsn_agent_enabled = request()->session()->get('business.sales_cmsn_agnt');
+        $commission_agents = [];
+        if (! empty($is_cmsn_agent_enabled)) {
+            $commission_agents = User::forDropdown($business_id, false, true, true);
+        }
+
+        //Service staff filter
+        $service_staffs = null;
+        if ($this->productUtil->isModuleEnabled('service_staff')) {
+            $service_staffs = $this->productUtil->serviceStaffDropdown($business_id);
+        }
+
+        $shipping_statuses = $this->transactionUtil->shipping_statuses();
+
+        $sources = $this->transactionUtil->getSources($business_id);
+        if ($is_woocommerce) {
+            $sources['woocommerce'] = 'Woocommerce';
+        }
+
+        return view('sell.sunat')
+        ->with(compact('business_locations', 'customers', 'is_woocommerce', 'sales_representative', 'is_cmsn_agent_enabled', 'commission_agents', 'service_staffs', 'is_tables_enabled', 'is_service_staff_enabled', 'is_types_service_enabled', 'shipping_statuses', 'sources'));
+
+    }
+
+    public function sunatpdf($id)
+    {
+        
+        $transaction = Transaction::find($id);
+        $json = json_decode($transaction->response_sunat);      
+        
+        $path = $json->enlace_del_pdf;
+        Storage::disk('local')->put($json->serie.'-'.$json->numero.'.pdf', file_get_contents($path));
+  
+        $path = Storage::path($json->serie.'-'.$json->numero.'.pdf');
+  
+        return response()->download($path); 
+    }
+
+    public function sunatxml($id)
+    {        
+        $transaction = Transaction::find($id);
+        $json = json_decode($transaction->response_sunat);      
+        
+        $path = $json->enlace_del_xml;
+        Storage::disk('local')->put($json->serie.'-'.$json->numero.'.xml', file_get_contents($path));
+  
+        $path = Storage::path($json->serie.'-'.$json->numero.'.xml');
+  
+        return response()->download($path); 
+    }
+
+    public function sunatcdr($id)
+    {
+        
+        $transaction = Transaction::find($id);
+        $json = json_decode($transaction->response_sunat);      
+        
+        $path = $json->enlace_del_cdr;
+        Storage::disk('local')->put($json->serie.'-'.$json->numero.'.cdr', file_get_contents($path));
+  
+        $path = Storage::path($json->serie.'-'.$json->numero.'.cdr');
+  
+        return response()->download($path); 
+    }
+
+    public function enviarsunat(Request $request)
+    {        
+        try {
+            $business_id = request()->session()->get('user.business_id');
+            $business = Business::where('id', $business_id)->get();
+            $id = $request->id;
+            $tipo_nota_value = $request->motivo_id;
+            $transaction = Transaction::find($id);
+
+            $business_location = BusinessLocation::find($transaction->location_id);
+
+            $contact = Contact::find($transaction->contact_id);
+            $invoice = $transaction->invoice_no;
+            $invoice_sus = intval(substr(strrchr($invoice, "-"), 1));
+            $serie = substr($invoice, 0, 4);
+            $tipo_comprobante = 0;
+            $tipo_documento_modifica = "";
+            $serie_modifica = "";
+            $numero_modifica = "";
+            $tipo_nota_credito = "";
+            $cliente_tipo_doc = "";
+            $cliente_name = $contact->name;
+
+            $products = [];
+            $total_gravada = 0;
+            $total_igv = 0;
+
+            $tipo_serie = substr($invoice, 0, 3);
+
+            if($transaction->type == "sell")
+            {
+                
+                if ($tipo_serie == 'FFF') {
+                    $tipo_comprobante = 1;
+                    $cliente_tipo_doc = 6;                    
+                }elseif($tipo_serie == "BBB")
+                {
+                    $tipo_comprobante = 2;   
+                    if ($contact->contact_id == "-")      
+                    {
+                        $cliente_tipo_doc = "-"; 
+                    }
+                    else
+                    {
+                        $cliente_tipo_doc = 1; 
+                    }                                       
+                }
+
+                $query = TransactionSellLine::leftJoin('products','transaction_sell_lines.product_id','=','products.id')
+                ->join('units', 'products.unit_id', '=', 'units.id')
+                ->where('transaction_sell_lines.transaction_id',$id)
+                ->select('units.short_name as unit_code',
+                    'products.name as product',
+                    'transaction_sell_lines.quantity as quantity',
+                    'transaction_sell_lines.unit_price as unit_price',
+                    'transaction_sell_lines.unit_price_inc_tax as unit_price_inc_tax',
+                    'transaction_sell_lines.item_tax as item_tax')->get();
+
+                foreach ($query as $key => $value) {
+                    $valor_unitario = $value->unit_price_inc_tax/1.18;
+                    $igv = ($value->unit_price_inc_tax*$value->quantity) - (($value->unit_price_inc_tax*$value->quantity)/1.18);
+                    $product = array(
+                        "unidad_de_medida"=> $value->unit_code,
+                        "codigo"=> "001",
+                        "codigo_producto_sunat"=> "10000000",
+                        "descripcion"=> $value->product,
+                        "cantidad"=> $value->quantity,
+                        "valor_unitario"=> $valor_unitario,
+                        "precio_unitario"=> ($value->unit_price_inc_tax),
+                        "descuento"=> "",
+                        "subtotal"=> ($valor_unitario*$value->quantity),
+                        "tipo_de_igv"=> 1,
+                        "igv"=> $igv,
+                        "total"=> ($value->unit_price_inc_tax*$value->quantity),
+                        "anticipo_regularizacion"=> false,
+                        "anticipo_documento_serie"=> "",
+                        "anticipo_documento_numero"=> ""
+                    );
+                    array_push($products, $product);
+                    $total_gravada = (($value->unit_price_inc_tax/1.18)*$value->quantity) + $total_gravada;
+                    $total_igv = $igv + $total_igv;
+                }
+            }
+            elseif($transaction->type == "sell_return")
+            {
+                $tipo_comprobante = 3;
+                $serie_modifica = $serie;
+                $tipo_nota_credito = $tipo_nota_value;
+                $transaction_modificar = Transaction::find($transaction->return_parent_id);
+                $invoice_modificar = $transaction_modificar->invoice_no;
+                $numero_modifica = intval(substr($invoice_modificar, 6, 3));
+                
+                if ($tipo_serie == 'FFF') {
+                    $tipo_documento_modifica = 1;                    
+                }elseif($tipo_serie == "BBB")
+                {
+                    $tipo_documento_modifica = 2;
+                }   
+                
+                $business_id = request()->session()->get('user.business_id');
+                $query1 = Transaction::where('business_id', $business_id)
+                                        ->where('id', $transaction->return_parent_id)
+                                        ->with(
+                                            'contact',
+                                            'return_parent',
+                                            'tax',
+                                            'sell_lines',
+                                            'sell_lines.product',
+                                            'sell_lines.variations',
+                                            'sell_lines.sub_unit',
+                                            'sell_lines.product',
+                                            'sell_lines.product.unit',
+                                            'location'
+                                        );
+                $query = $query1->first();
+
+                foreach ($query->sell_lines as $key => $value) {
+                    if (! empty($value->sub_unit_id)) {
+                        $formated_sell_line = $this->transactionUtil->recalculateSellLineTotals($business_id, $value);
+                        $query->sell_lines[$key] = $formated_sell_line;
+                    }
+                } 
+                
+                $sell_taxes = [];
+                if (! empty($query->return_parent->tax)) {
+                    if ($query->return_parent->tax->is_tax_group) {
+                        $sell_taxes = $this->transactionUtil->sumGroupTaxDetails($this->transactionUtil->groupTaxDetails($query->return_parent->tax, $query->return_parent->tax_amount));
+                    } else {
+                        $sell_taxes[$query->return_parent->tax->name] = $query->return_parent->tax_amount;
+                    }
+                }
+
+                $total_discount = 0;
+                if ($query->return_parent->discount_type == 'fixed') {
+                    $total_discount = $query->return_parent->discount_amount;
+                } elseif ($query->return_parent->discount_type == 'percentage') {
+                    $discount_percent = $query->return_parent->discount_amount;
+                    if ($discount_percent == 100) {
+                        $total_discount = $query->return_parent->total_before_tax;
+                    } else {
+                        $total_after_discount = $query->return_parent->final_total - $query->return_parent->tax_amount;
+                        $total_before_discount = $total_after_discount * 100 / (100 - $discount_percent);
+                        $total_discount = $total_before_discount - $total_after_discount;
+                    }
+                }
+
+                foreach ($query->sell_lines as $key => $value) {
+                    $product = array(
+                        "unidad_de_medida"=> $value->product->unit->short_name,
+                        "codigo"=> "001",
+                        "codigo_producto_sunat"=> "10000000",
+                        "descripcion"=> $value->product->name,
+                        "cantidad"=> $value->quantity_returned,
+                        "valor_unitario"=> number_format($value->unit_price,10),
+                        "precio_unitario"=> number_format(($value->unit_price*1.18),10),
+                        "descuento"=> "",
+                        "subtotal"=> number_format(($value->unit_price*$value->quantity_returned),2),
+                        "tipo_de_igv"=> 1,
+                        "igv"=> number_format(($value->unit_price*0.18*$value->quantity_returned),2),
+                        "total"=> number_format(($value->unit_price*1.18*$value->quantity_returned),2),
+                        "anticipo_regularizacion"=> false,
+                        "anticipo_documento_serie"=> "",
+                        "anticipo_documento_numero"=> ""
+                    );
+                    array_push($products, $product);
+                    $total_gravada = ($value->unit_price*$value->quantity_returned) + $total_gravada;
+                }
+
+            }      
+            
+            // $date_now = Carbon::now()->format('d-m-Y');
+            $date_now = Carbon::parse($transaction->transaction_date)->format('d-m-Y');
+            $store = array(
+                "operacion"=> "generar_comprobante",
+                "tipo_de_comprobante"=> $tipo_comprobante,
+                "serie"=> $serie,
+                "numero"=> $invoice_sus,
+                "sunat_transaction"=> 1,
+
+                "cliente_tipo_de_documento"=> $cliente_tipo_doc,
+
+                "cliente_numero_de_documento"=> $contact->contact_id,
+                "cliente_denominacion"=> $cliente_name . $contact->supplier_business_name,
+                "cliente_direccion"=> $contact->address_line_1,
+                "cliente_email"=> $contact->email,
+                "cliente_email_1"=> "",
+                "cliente_email_2"=> "",
+                "fecha_de_emision"=> $date_now,
+                "fecha_de_vencimiento"=> "",
+                "moneda"=> 1,
+                "tipo_de_cambio"=> "",
+                "porcentaje_de_igv"=> 18.00,
+                "descuento_global"=> "",
+                "total_descuento"=> "",
+                "total_anticipo"=> "",
+                "total_gravada"=> $total_gravada,
+                "total_inafecta"=> "",
+                "total_exonerada"=> "",
+                "total_igv"=> $total_igv,
+                "total_gratuita"=> "",
+                "total_otros_cargos"=> "",
+                "total"=> ($total_gravada + $total_igv),
+                "percepcion_tipo"=> "",
+                "percepcion_base_imponible"=> "",
+                "total_percepcion"=> "",
+                "total_incluido_percepcion"=> "",
+                "retencion_tipo"=> "",
+                "retencion_base_imponible"=> "",
+                "total_retencion"=> "",
+                "total_impuestos_bolsas"=> "",
+                "detraccion"=> false,
+                "observaciones"=> "",
+                "documento_que_se_modifica_tipo"=> $tipo_documento_modifica,
+                "documento_que_se_modifica_serie"=> $serie_modifica,
+                "documento_que_se_modifica_numero"=> $numero_modifica,
+                "tipo_de_nota_de_credito"=> $tipo_nota_credito,
+                "tipo_de_nota_de_debito"=> "",
+                "enviar_automaticamente_a_la_sunat"=> true,
+                "enviar_automaticamente_al_cliente"=> false,
+                "condiciones_de_pago"=> "",
+                "medio_de_pago"=> "",
+                "placa_vehiculo"=> "",
+                "orden_compra_servicio"=> "",  
+                "formato_de_pdf"=> "TICKET",
+                "generado_por_contingencia"=> "",
+                "bienes_region_selva"=> "",
+                "servicios_region_selva"=> "",
+                "items" => $products
+                
+            );     
+
+            $respuesta = Http::withHeaders(
+                ['Authorization' => $business_location->token_nubefact])
+            ->post($business_location->ruta_nubefact, $store);
+
+            if ($respuesta->status()==200) {
+                $transaction->response_sunat = $respuesta;
+                $transaction->status_sunat = 1;
+                $resp = json_decode($respuesta);
+                $transaction->save();
+
+                return response()->json(['status' => true, 'msg' => $resp->sunat_description]);
+            }
+            else
+            {
+                $resp = json_decode($respuesta);
+                $test = json_encode($store);
+                return response()->json(['status' => false, 'msg' => $respuesta->body() . $test]);
+            }
+
+
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }
+       
+    }
+
+    public function anulacionSunat(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $motivo = $request->motivo;
+            $transaction = Transaction::find($id);
+            $invoice = $transaction->invoice_no;
+            $invoice_sus = intval(substr($invoice, 6, 3));
+            $serie = substr($invoice, 0, 4);
+            $tipo_comprobante = 0;
+            
+            if ($serie == 'FFF1') {
+                    $tipo_comprobante = 1;
+                }elseif($serie == "BBB1")
+                {
+                    $tipo_comprobante = 2;
+                }
+
+            $store = array(
+                "operacion"=> "generar_anulacion",
+                "tipo_de_comprobante"=> $tipo_comprobante,
+                "serie"=> $serie,
+                "numero"=> $invoice_sus,
+                "motivo"=> $motivo,
+                "codigo_unico"=> "" 
+            );
+
+            $respuesta = Http::withHeaders(
+                ['Authorization' => 'ae08473db907470eacd76306bb8c3edd8d287017bfc345ddbe0e10755d4da85e'])
+            ->post('https://api.nubefact.com/api/v1/9f7c7c55-9c54-4096-af7b-43690e4750e6', $store); 
+
+            if ($respuesta->status()==200)
+            {
+                $transaction->status_sunat = 0;                
+                $transaction->save();
+    
+                return response()->json(['status' => true, 'msg' => "El comprobante".$serie."-".$invoice_sus." ha sido dado de baja"]);
+            }
+            else
+            {
+                $resp = json_decode($respuesta);
+                return response()->json(['status' => false, 'msg' => $resp->errors]);
+            }
+
+            
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'msg' => "Error!!, Try again later"]);
+        }        
+    }
+
+    public function notaCreditoSunat(Request $request)
+    {        
+        try {
+            $id = $request->id;
+            $observacion = $request->observacion;
+            $transaction = Transaction::find($id);
+            $invoice = $transaction->invoice_no;
+            $invoice_sus = intval(substr($invoice, 6, 3));
+            $query = TransactionSellLine::leftJoin('products','transaction_sell_lines.product_id','=','products.id')
+            ->join('units', 'products.unit_id', '=', 'units.id')
+            ->where('transaction_sell_lines.transaction_id',$id)
+            ->select('units.short_name as unit_code',
+                'products.name as product',
+                'transaction_sell_lines.quantity as quantity',
+                'transaction_sell_lines.unit_price as unit_price')->get();
+            $products = [];
+            $total_gravada = 0;
+            $total_igv = 0;
+            foreach ($query as $key => $value) {
+                $product = array(
+                    "unidad_de_medida"=> $value->unit_code,
+                    "codigo"=> "001",
+                    "descripcion"=> $value->product,
+                    "cantidad"=> $value->quantity,
+                    "valor_unitario"=> number_format($value->unit_price,2),
+                    "precio_unitario"=> number_format(($value->unit_price*1.18),2),
+                    "descuento"=> "",
+                    "subtotal"=> number_format(($value->unit_price*$value->quantity),2),
+                    "tipo_de_igv"=> "1",
+                    "igv"=> number_format(($value->unit_price*0.18*$value->quantity),2),
+                    "total"=> number_format(($value->unit_price*1.18*$value->quantity),2),
+                    "anticipo_regularizacion"=> "false",
+                    "anticipo_documento_serie"=> "",
+                    "anticipo_documento_numero"=> "",
+                    "codigo_producto_sunat"=> ""
+                );
+                array_push($products, $product);
+                $total_gravada = ($value->unit_price*$value->quantity) + $total_gravada;
+                //$total_igv = ($value->unit_price*0.18*$value->quantity) + $total_igv;
+            }
+            $total_igv = $total_gravada*0.18;
+            
+            $store = array(
+                "operacion"=> "generar_comprobante",
+                "tipo_de_comprobante"=> 3,
+                "serie"=> "FFF1",
+                "numero"=> $invoice_sus,
+                "sunat_transaction"=> 1,
+                "cliente_tipo_de_documento"=> 6,
+                "cliente_numero_de_documento"=> "20600695771",
+                "cliente_denominacion"=> "NUBEFACT SA",
+                "cliente_direccion"=> "CALLE LIBERTAD 116 MIRAFLORES - LIMA - PERU",
+                "cliente_email"=> "tucliente@gmail.com",
+                "cliente_email_1"=> "",
+                "cliente_email_2"=> "",
+                "fecha_de_emision"=> "08-06-2023",
+                "fecha_de_vencimiento"=> "",
+                "moneda"=> 1,
+                "tipo_de_cambio"=> "",
+                "porcentaje_de_igv"=> 18.00,
+                "descuento_global"=> "",
+                "total_descuento"=> "",
+                "total_anticipo"=> "",
+                "total_gravada"=> number_format($total_gravada,2),
+                "total_inafecta"=> "",
+                "total_exonerada"=> "",
+                "total_igv"=> number_format($total_igv,2),
+                "total_gratuita"=> "",
+                "total_otros_cargos"=> "",
+                "total"=> number_format(($total_gravada + $total_igv),2),
+                "percepcion_tipo"=> "",
+                "percepcion_base_imponible"=> "",
+                "total_percepcion"=> "",
+                "total_incluido_percepcion"=> "",
+                "detraccion"=> false,
+                "observaciones"=> $observacion,
+                "documento_que_se_modifica_tipo"=> 1,
+                "documento_que_se_modifica_serie"=> "FFF1",
+                "documento_que_se_modifica_numero"=> $invoice_sus,
+                "tipo_de_nota_de_credito"=> 1,
+                "tipo_de_nota_de_debito"=> "",
+                "enviar_automaticamente_a_la_sunat"=> true,
+                "enviar_automaticamente_al_cliente"=> false,
+                "condiciones_de_pago"=> "",
+                "medio_de_pago"=> "",
+                "placa_vehiculo"=> "",
+                "orden_compra_servicio"=> "",  
+                "formato_de_pdf"=> "",
+                "items" => $products
+                
+            );
+           
+            $respuesta = Http::withHeaders(
+                ['Authorization' => 'ae08473db907470eacd76306bb8c3edd8d287017bfc345ddbe0e10755d4da85e'])
+            ->post('https://api.nubefact.com/api/v1/9f7c7c55-9c54-4096-af7b-43690e4750e6', $store);   
+
+
+            if ($respuesta->status()==200) {
+                $transaction->response_nota_sunat = $respuesta;
+                $resp = json_decode($respuesta);
+                $transaction->save();
+
+                return response()->json(['status' => true, 'msg' => $resp->sunat_description]);
+            }
+            else
+            {
+                $resp = json_decode($respuesta);
+                return response()->json(['status' => false, 'msg' => $resp->errors]);
+            }
+
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }
+       
+    }
+
+    public function notasunatpdf(Request $request)
+    {
+        $id = $request->id;
+        $transaction = Transaction::find($id);
+        $json = json_decode($transaction->response_nota_sunat);      
+        
+        $path = $json->enlace_del_pdf;
+        Storage::disk('local')->put('NotaCredito.pdf', file_get_contents($path));
+  
+        $path = Storage::path('NotaCredito.pdf');
+  
+        return response()->download($path); 
+    }
+
+    public function notasunatxml($id)
+    {        
+        $transaction = Transaction::find($id);
+        $json = json_decode($transaction->response_nota_sunat);      
+        
+        $path = $json->enlace_del_xml;
+        Storage::disk('local')->put('NotaCredito.xml', file_get_contents($path));
+  
+        $path = Storage::path('NotaCredito.xml');
+  
+        return response()->download($path); 
+    }
 }
