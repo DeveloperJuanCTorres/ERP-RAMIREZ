@@ -15,8 +15,10 @@ class Part extends Model
         'id',
         'business_id',
         'proveedor_id',
+        'cliente_id',
         'product_id',
         'observations',
         'created_at'
+        
     ];
 }

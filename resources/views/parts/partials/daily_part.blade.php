@@ -47,13 +47,13 @@
           <div class="col-md-6 ms-auto">
             <div class="form-group">
               {!! Form::label('h_inicio', 'Horometro inicial:*') !!}
-              {!! Form::number('h_inicio', null, ['class' => 'form-control','placeholder' => 'horometro inicial']); !!}
+              {!! Form::number('h_inicio', null, ['class' => 'form-control','placeholder' => 'horometro inicial', 'step' => '0.01']); !!}
           </div>
           </div>
           <div class="col-md-6 ms-auto">
             <div class="form-group">
               {!! Form::label('h_final', 'Horometro final:*') !!}
-              {!! Form::number('h_final', null, ['class' => 'form-control','placeholder' => 'horometro final']); !!}
+              {!! Form::number('h_final', null, ['class' => 'form-control','placeholder' => 'horometro final', 'step' => '0.01']); !!}
             </div>
           </div>
         </div>  

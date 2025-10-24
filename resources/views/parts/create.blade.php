@@ -42,7 +42,7 @@
 
         <div class="form-group">
             {!! Form::label('name', 'Cliente:*') !!}
-            <select class="form-control" name="proveedor_id" id="proveedor_id">
+            <select class="form-control" name="cliente_id" id="cliente_id">
                 <option value="0">Seleccionar</option>
                 @foreach($clientes as $cliente)
                 <option value="{{$cliente->id}}">{{$cliente->supplier_business_name . $cliente->name}}</option>
