@@ -2551,9 +2551,9 @@ class SellController extends Controller
             $serie = substr($invoice, 0, 4);
             $tipo_comprobante = 0;
             
-            if ($serie == 'FFF1') {
+            if ($serie == 'F001') {
                     $tipo_comprobante = 1;
-                }elseif($serie == "BBB1")
+                }elseif($serie == "B001")
                 {
                     $tipo_comprobante = 2;
                 }
@@ -2635,7 +2635,7 @@ class SellController extends Controller
             $store = array(
                 "operacion"=> "generar_comprobante",
                 "tipo_de_comprobante"=> 3,
-                "serie"=> "FFF1",
+                "serie"=> "F001",
                 "numero"=> $invoice_sus,
                 "sunat_transaction"=> 1,
                 "cliente_tipo_de_documento"=> 6,
@@ -2667,7 +2667,7 @@ class SellController extends Controller
                 "detraccion"=> false,
                 "observaciones"=> $observacion,
                 "documento_que_se_modifica_tipo"=> 1,
-                "documento_que_se_modifica_serie"=> "FFF1",
+                "documento_que_se_modifica_serie"=> "F001",
                 "documento_que_se_modifica_numero"=> $invoice_sus,
                 "tipo_de_nota_de_credito"=> 1,
                 "tipo_de_nota_de_debito"=> "",
