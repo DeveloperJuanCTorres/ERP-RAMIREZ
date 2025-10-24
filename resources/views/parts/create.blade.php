@@ -41,6 +41,16 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('name', 'Cliente:*') !!}
+            <select class="form-control" name="proveedor_id" id="proveedor_id">
+                <option value="0">Seleccionar</option>
+                @foreach($clientes as $cliente)
+                <option value="{{$cliente->id}}">{{$cliente->supplier_business_name . $cliente->name}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
             {!! Form::label('name', 'Producto:*') !!}
             <select class="form-control" name="product_id" id="product_id">
                 <option value="0">Seleccionar</option>

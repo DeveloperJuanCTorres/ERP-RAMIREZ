@@ -179,6 +179,7 @@ class DiaryPartController extends Controller
         $is_repair_installed = $this->moduleUtil->isModuleInstalled('Repair');
 
         $proveedores = Contact::where('type','supplier')->where('business_id', $business_id)->get();
+        $clientes = Contact::where('type','customer')->where('business_id', $business_id)->get();
         $products = Product::where('not_for_selling',1)->where('business_id', $business_id)->get();
 
         $payment_line = $this->dummyPaymentLine;
@@ -195,7 +196,7 @@ class DiaryPartController extends Controller
         }
 
         return view('parts.create')
-                ->with(compact('quick_add', 'is_repair_installed','proveedores','products', 'accounts', 'business_locations', 'bl_attributes','payment_line','payment_types'));
+                ->with(compact('quick_add', 'is_repair_installed','proveedores', 'clientes','products', 'accounts', 'business_locations', 'bl_attributes','payment_line','payment_types'));
     }
 
     public function store(Request $request)
