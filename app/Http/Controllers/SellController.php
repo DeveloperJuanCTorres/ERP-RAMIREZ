@@ -1748,16 +1748,17 @@ class SellController extends Controller
 
             // Buscar datos de la purchase_line (si existe)
             $purchase_line = PurchaseLine::find($line->lot_no_line_id);
+            $purchase_line_product = PurchaseLine::where('lot_number',$purchase_line->lot_number)->first();
 
             $result[] = [
                 'id' => $line->id,
                 'producto' => $product ? $product->name : 'Desconocido',
                 'cantidad' => $line->quantity,
-                'motor' => $purchase_line ? $purchase_line->lot_number : null,
-                'color' => $purchase_line ? $purchase_line->color : null,
-                'chasis' => $purchase_line ? $purchase_line->chasis : null,
-                'anio' => $purchase_line ? $purchase_line->anio : null,
-                'poliza' => $purchase_line ? $purchase_line->poliza : null,
+                'motor' => $purchase_line_product ? $purchase_line_product->lot_number : null,
+                'color' => $purchase_line_product ? $purchase_line_product->color : null,
+                'chasis' => $purchase_line_product ? $purchase_line_product->chasis : null,
+                'anio' => $purchase_line_product ? $purchase_line_product->anio : null,
+                'poliza' => $purchase_line_product ? $purchase_line_product->poliza : null,
                 'precio' => $line->unit_price_inc_tax,
             ];
         }
