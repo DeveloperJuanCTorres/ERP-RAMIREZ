@@ -206,7 +206,7 @@ class DiaryPartController extends Controller
         }
 
         try {
-            $input = $request->only(['proveedor_id', 'product_id', 'observations']);
+            $input = $request->only(['proveedor_id', 'cliente_id', 'product_id', 'observations']);
             $business_id = $request->session()->get('user.business_id');
             $input['business_id'] = $business_id;    
 

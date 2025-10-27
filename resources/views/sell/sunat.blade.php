@@ -26,7 +26,14 @@
     @endcomponent
     <!-- component('components.widget', ['class' => 'box-primary', 'title' => __( 'lang_v1.all_sales')]) -->
     @component('components.widget', ['class' => 'box-primary', 'title' => 'Facturación Electrónica'])
-       
+        @can('direct_sell.access')
+            @slot('tool')
+                <div class="box-tools">
+                    <a class="btn btn-block btn-primary" href="#" data-toggle="modal" data-target="#modalBuscarPedido">
+                    <i class="fa fa-plus"></i> @lang('messages.add')</a>
+                </div>
+            @endslot
+        @endcan
         @if(auth()->user()->can('direct_sell.view') ||  auth()->user()->can('view_own_sell_only') ||  auth()->user()->can('view_commission_agent_sell'))
         @php
             $custom_labels = json_decode(session('business.custom_labels'), true);
@@ -61,6 +68,83 @@
 <div class="modal fade edit_payment_modal" tabindex="-1" role="dialog" 
     aria-labelledby="gridSystemModalLabel">
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalBuscarPedido" tabindex="-1" role="dialog" aria-labelledby="modalBuscarPedidoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header bg-primary text-white">
+                <h3 class="modal-title text-white" id="modalBuscarPedidoLabel">Buscar Pedido por Documento</h3>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Formulario de búsqueda -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <input type="text" id="documento" class="form-control" placeholder="Ingrese N° de documento...">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-success btn-block" id="btnBuscar">
+                            <i class="fa fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 15px;padding-bottom: 15px;">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {!! Form::label('comprobante',  'Comprobante:') !!}
+                            {!! Form::select('invoice_scheme_id', $invoice_schemes, $default_invoice_schemes->id, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('messages.please_select')]); !!}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Cliente:</label>
+                        <p for="" id="cliente"></p>
+                    </div>      
+                    <div class="col-md-3">
+                        <label id="tipodoc"></label>
+                        <p id="numerodoc"></p>
+                    </div>                
+                </div>
+
+                <!-- Tabla de resultados -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="tablaItems">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Motor</th>
+                                <th>Color</th>
+                                <th>Chasis</th>
+                                <th>Poliza</th>
+                                <th>Año</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí se llenan los datos dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- fin modal -->
 
 <!-- This will be printed -->
 <!-- <section class="invoice print_section" id="receipt_section">
@@ -340,4 +424,105 @@ $(document).ready( function(){
 </script>
 
 <script src="{{ asset('js/payment.js?v=' . $asset_v) }}"></script>
+
+
+<script>
+$(document).ready(function() {
+
+    // Acción de buscar
+    $('#btnBuscar').click(function() {
+        let documento = $('#documento').val().trim();
+        if(documento === '') {
+            alert('Ingrese un número de documento');
+            return;
+        }
+
+        // Petición AJAX al servidor
+        $.ajax({
+            url: '/pedidos/buscar', // ruta Laravel
+            method: 'GET',
+            data: { documento: documento },
+            success: function(response) {
+                let tbody = $('#tablaItems tbody');
+                tbody.empty();
+
+               if (response.contact) {
+                    // Mostramos el nombre del cliente en el label
+                    if (response.contact.type == 'customer') {
+                        $('#tipodoc').text('DNI:');
+                        $('#numerodoc').text(response.contact.contact_id);
+                        $('#cliente').text(response.contact.name);
+                    }
+                    else{
+                        $('#tipodoc').text('RUC:');
+                        $('#numerodoc').text(response.contact.contact_id);
+                        $('#cliente').text(response.contact.supplier_business_name);
+                    }
+                    
+                } else {
+                    $('#cliente').text('Cliente no encontrado');
+                }
+
+                if(response.products.length === 0) {
+                    tbody.append('<tr><td colspan="5" class="text-center">No se encontraron resultados</td></tr>');
+                    return;
+                }
+
+                response.products.forEach(item => {
+                    tbody.append(`
+                        <tr data-id="${item.id}">
+                            <td>${item.producto}</td>
+                            <td>${item.motor}</td>
+                            <td>${item.color}</td>
+                            <td>${item.chasis}</td>
+                            <td>${item.poliza}</td>
+                            <td>${item.anio}</td>
+                            <td>${item.cantidad}</td>
+                            <td>
+                                <input type="number" class="form-control form-control-sm precio" value="${item.precio}" min="0" step="0.01">
+                            </td>
+                            <td class="subtotal">${(item.cantidad * item.precio).toFixed(2)}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger btnEliminar"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            },
+            error: function() {
+                alert('Error al buscar el documento');
+            }
+        });
+    });
+
+    // Actualizar subtotal cuando cambie el precio
+    $(document).on('input', '.precio', function() {
+        let row = $(this).closest('tr');
+        
+        // Obtener cantidad y precio como números válidos
+        let cantidad = parseFloat(row.find('td:eq(6)').text()) || 0;
+        let precio = parseFloat($(this).val()) || 0;
+
+        // Calcular subtotal
+        let subtotal = cantidad * precio;
+
+        // Si el subtotal no es un número, mostrar 0.00
+        if (isNaN(subtotal)) subtotal = 0;
+
+        // Actualizar en la tabla con dos decimales
+        row.find('.subtotal').text(subtotal.toFixed(2));
+    });
+
+    // Eliminar ítem
+    $(document).on('click', '.btnEliminar', function() {
+        $(this).closest('tr').remove();
+    });
+
+    $('#modalBuscarPedido').on('hidden.bs.modal', function () {
+        $('#documento').val('');              // limpia el campo de búsqueda
+        $('#tablaItems tbody').empty();       // limpia los resultados
+    });
+
+});
+</script>
 @endsection

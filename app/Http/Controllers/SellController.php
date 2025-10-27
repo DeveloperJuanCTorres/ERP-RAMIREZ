@@ -10,6 +10,7 @@ use App\CustomerGroup;
 use App\InvoiceScheme;
 use App\Media;
 use App\Product;
+use App\PurchaseLine;
 use App\SellingPriceGroup;
 use App\TaxRate;
 use App\Transaction;
@@ -1722,6 +1723,71 @@ class SellController extends Controller
         //return response()->json(['status' => true, 'msg' => $mensaje ]);
     }
 
+    public function buscarDoc(Request $request)
+    {
+        $documento = $request->get('documento');
+        $transaction = Transaction::where('invoice_no', $documento)->first();
+
+        // Validar si existe
+        if (!$transaction) {
+            return response()->json([], 404);
+        }
+
+        // Obtener el contacto (cliente)
+        $contact = Contact::find($transaction->contact_id);
+
+        // Obtener las líneas de venta asociadas
+        $transaction_sell_lines = TransactionSellLine::where('transaction_id', $transaction->id)->get();
+
+        // Crear el array de respuesta
+        $result = [];
+
+        foreach ($transaction_sell_lines as $line) {
+            // Buscar producto
+            $product = Product::find($line->product_id);
+
+            // Buscar datos de la purchase_line (si existe)
+            $purchase_line = PurchaseLine::find($line->lot_no_line_id);
+
+            $result[] = [
+                'id' => $line->id,
+                'producto' => $product ? $product->name : 'Desconocido',
+                'cantidad' => $line->quantity,
+                'motor' => $purchase_line ? $purchase_line->lot_number : null,
+                'color' => $purchase_line ? $purchase_line->color : null,
+                'chasis' => $purchase_line ? $purchase_line->chasis : null,
+                'anio' => $purchase_line ? $purchase_line->anio : null,
+                'poliza' => $purchase_line ? $purchase_line->poliza : null,
+                'precio' => $line->unit_price_inc_tax,
+            ];
+        }
+
+        return response()->json([
+            'contact' => $contact,
+            'products' => $result]);
+
+    }
+
+    public function crearComprobanteSunat(Request $request)
+    {
+        $business_id = request()->session()->get('user.business_id');
+        $status = 'final'; // o el que corresponda: 'draft', etc.
+        $location_id = $request->location_id;
+        $invoice_scheme_id = $request->invoice_scheme_id;
+
+        // Si tienes el sale_type, también puedes pasarlo
+        $sale_type = 'sell'; // opcional
+
+        // Generar número de comprobante usando el método existente
+        $invoice_no = $this->transactionUtil->getInvoiceNumber(
+            $business_id,
+            $status,
+            $location_id,
+            $invoice_scheme_id,
+            $sale_type
+        );
+    }
+
     public function panelSunat()
     {
         
@@ -2217,6 +2283,20 @@ class SellController extends Controller
         $customers = Contact::customersDropdown($business_id, false);
         $sales_representative = User::forDropdown($business_id, false, false, true);
 
+        $default_location = null;
+        foreach ($business_locations as $id => $name) {
+            $default_location = BusinessLocation::findOrFail($id);
+            break;
+        }
+
+        $invoice_schemes = InvoiceScheme::forDropdown($business_id);
+        $default_invoice_schemes = InvoiceScheme::getDefault($business_id);
+
+        if (! empty($default_location) && !empty($default_location->sale_invoice_scheme_id)) {
+            $default_invoice_schemes = InvoiceScheme::where('business_id', $business_id)
+                                        ->findorfail($default_location->sale_invoice_scheme_id);
+        }
+
         //Commission agent filter
         $is_cmsn_agent_enabled = request()->session()->get('business.sales_cmsn_agnt');
         $commission_agents = [];
@@ -2238,7 +2318,19 @@ class SellController extends Controller
         }
 
         return view('sell.sunat')
-        ->with(compact('business_locations', 'customers', 'is_woocommerce', 'sales_representative', 'is_cmsn_agent_enabled', 'commission_agents', 'service_staffs', 'is_tables_enabled', 'is_service_staff_enabled', 'is_types_service_enabled', 'shipping_statuses', 'sources'));
+        ->with(compact('business_locations', 
+                        'customers', 'is_woocommerce', 
+                        'sales_representative', 
+                        'is_cmsn_agent_enabled', 
+                        'commission_agents', 
+                        'service_staffs', 
+                        'is_tables_enabled', 
+                        'is_service_staff_enabled', 
+                        'is_types_service_enabled', 
+                        'shipping_statuses', 
+                        'sources',
+                        'invoice_schemes',
+                        'default_invoice_schemes'));
 
     }
 

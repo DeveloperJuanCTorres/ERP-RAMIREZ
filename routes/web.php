@@ -258,6 +258,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/notaCreditoSunat',[App\Http\Controllers\SellController::class,'notaCreditoSunat'])->name('notaCreditoSunat');
     Route::get('/notasunatpdf/{id}',[App\Http\Controllers\SellController::class,'notasunatpdf'])->name('notasunatpdf');
     Route::get('/notasunatxml/{id}',[App\Http\Controllers\SellController::class,'notasunatxml'])->name('notasunatxml');
+
+    Route::get('/pedidos/buscar',[App\Http\Controllers\SellController::class,'buscarDoc'])->name('buscarDoc');
     //FIN PANEL SUNAT
 
 
