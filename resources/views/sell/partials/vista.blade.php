@@ -136,7 +136,7 @@
 
         <!-- Columna derecha -->
         <div class="factura-box w-50 ml-2" style="width: 30%;">
-            <p><strong>FECHA EMISIÓN:</strong> {{ $comprobante->created_at->format('d/m/Y') }}</p>
+            <p><strong>FECHA EMISIÓN:</strong> {{ $comprobante->fecha_emision->format('d/m/Y') }}</p>
             @if($comprobante->moneda == 1)
             @php
             $simbolo = 'S/. ';
