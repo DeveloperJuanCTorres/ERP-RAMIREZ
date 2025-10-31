@@ -250,7 +250,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     //PANEL SUNAT
     Route::get('/panelSunat',[App\Http\Controllers\SellController::class,'panelSunat'])->name('panelSunat');
-    Route::get('/sunatpdf/{id}',[App\Http\Controllers\SellController::class,'sunatpdf'])->name('sunatpdf');
+    Route::get('/sunatpdf/{id}',[App\Http\Controllers\SellController::class,'vistaComprobante'])->name('sunatpdf');
     Route::get('/sunatxml/{id}',[App\Http\Controllers\SellController::class,'sunatxml'])->name('sunatxml');
     Route::get('/sunatcdr/{id}',[App\Http\Controllers\SellController::class,'sunatcdr'])->name('sunatcdr');
     Route::post('/enviarsunat',[App\Http\Controllers\SellController::class,'enviarsunat'])->name('enviarsunat');

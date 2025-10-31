@@ -108,8 +108,14 @@
         <div class="factura-datos">
             <h3>RUC 20603437331</h3>
             @if(Str::startsWith($comprobante->invoice_no, 'F'))
+                @php
+                $tipo_doc = 'RUC';
+                @endphp
                 <h3>FACTURA ELECTRÓNICA</h3>
             @elseif(Str::startsWith($comprobante->invoice_no, 'B'))
+                @php
+                $tipo_doc = 'DNI';
+                @endphp
                 <h3>BOLETA ELECTRÓNICA</h3>
             @else
                 <h3>COMPROBANTE ELECTRÓNICO</h3>
@@ -123,9 +129,9 @@
 
         <!-- Columna izquierda -->
         <div class="factura-box w-50 mr-2" style="width: 70%;">
-            <p><strong>CLIENTE:</strong> {{ $contact->name . ' ' . $contact->supplier_business_name }}</p>
-            <p><strong>RUC:</strong> {{ $contact->contact_id }}</p>
-            <p><strong>DIRECCIÓN:</strong> {{ $contact->address_line_1 }}</p>
+            <p><strong>CLIENTE:</strong> {{ $comprobante->name}}</p>
+            <p><strong>{{$tipo_doc}}:</strong> {{ $comprobante->numero_doc }}</p>
+            <p><strong>DIRECCIÓN:</strong> {{ $comprobante->address }}</p>
         </div>
 
         <!-- Columna derecha -->
