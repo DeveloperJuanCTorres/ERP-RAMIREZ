@@ -1962,24 +1962,24 @@ class SellController extends Controller
 
             ]);
 
-            // $respuesta = Http::withHeaders(
-            //     ['Authorization' => $business_location->token_nubefact])
-            // ->post($business_location->ruta_nubefact, $store);
+            $respuesta = Http::withHeaders(
+                ['Authorization' => $business_location->token_nubefact])
+            ->post($business_location->ruta_nubefact, $store);
 
-            // if ($respuesta->status()==200) {
-            //     $comprobante_sunat->response_sunat = $respuesta;
-            //     $comprobante_sunat->status_sunat = 1;
-            //     $resp = json_decode($respuesta);
-            //     $comprobante_sunat->save();
+            if ($respuesta->status()==200) {
+                $comprobante_sunat->response_sunat = $respuesta;
+                $comprobante_sunat->status_sunat = 1;
+                $resp = json_decode($respuesta);
+                $comprobante_sunat->save();
 
-            //     return response()->json(['status' => true, 'msg' => $resp->sunat_description]);
-            // }
-            // else
-            // {
-            //     $resp = json_decode($respuesta);
-            //     $test = json_encode($store);
-            //     return response()->json(['status' => false, 'msg' => $respuesta->body() . $test]);
-            // }
+                return response()->json(['status' => true, 'msg' => $resp->sunat_description]);
+            }
+            else
+            {
+                $resp = json_decode($respuesta);
+                $test = json_encode($store);
+                return response()->json(['status' => false, 'msg' => $respuesta->body() . $test]);
+            }
 
         
         return response()->json([
