@@ -728,6 +728,7 @@ $(document).ready(function() {
 
             // 3️⃣ Confirmar acción
             if (!confirm("¿Deseas generar el comprobante con estos productos?")) return;
+          
 
             // 4️⃣ Enviar los datos a tu API Laravel
             $.ajax({
@@ -752,11 +753,13 @@ $(document).ready(function() {
                     alert("✅ Comprobante generado correctamente: " + response.numero_comprobante);
                     $('#modalBuscarPedido').modal('hide');
 
-                    // Mostrar el modal de factura
-                    $('#modalComprobante').modal('show');
+                    $('#sell_table').DataTable().ajax.reload(null, false);
 
-                    // Cargar la vista HTML de la factura dentro del modal
-                    $('#contenidoComprobante').load('/comprobante/vista/' + response.id_comprobante);
+                    // ✅ abrir nueva pestaña antes del AJAX para evitar bloqueo del navegador
+                    let ventana = window.open('', '_blank');
+
+                    let url = '/comprobante/vista/' + response.id_comprobante;
+                    ventana.location.href = url;
                 },
                 error: function (xhr) {
                     console.error(xhr.responseText);

@@ -195,3 +195,10 @@
         <p>Autorizado mediante Resolución de Intendencia No.034-005-0005315</p>
     </div>
 </div>
+
+<script>
+    window.onload = () => {
+        window.print();
+        setTimeout(() => window.close(), 800); // ✅ Se cierra sola luego de imprimir
+    };
+</script>
