@@ -414,25 +414,28 @@
         });
 
         $(document).on('click', 'button.anulacion_sunat_button', function() {
-            swal({
-            title: 'Motivo de la anulación',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },    
-            content: "input",        
-            buttons: true,
-            allowOutsideClick: () => !swal.isLoading()
-            }).then((willDelete) => {
-                if (willDelete) {
-                    var data = $(this).attr("data-id");
-                    console.log(willDelete);
+            Swal.fire({
+                title: 'Motivo de la anulación',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Enviar',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var data = $(this).data("id");
+                    var motivo = result.value;
+                    
                     $.ajax({
                         method: "POST",
                         url: "/anulacionSunat",
                         dataType: "json",
-                        data: {id: data, motivo: willDelete},
+                        data: { id: data, motivo: motivo },
                         success: function(result){
-                            if(result.status == true){
+                            if(result.status){
                                 toastr.success(result.msg);
                                 sell_table.ajax.reload();
                             } else {

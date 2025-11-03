@@ -2631,10 +2631,17 @@ class SellController extends Controller
                 })
 
                 ->addColumn('estado_sunat', function($row) {
-                    if (is_null($row->response_sunat)) return '';
-                    return $row->status_sunat == 1 ?
-                        '<span class="label bg-light-green">Aceptada</span>' :
-                        '<span class="label bg-light-red">Anulada</span>';
+                    if (is_null($row->response_sunat)) {
+                        return '';
+                    }
+
+                    if ($row->status_sunat == 1) {
+                        return '<span class="label bg-light-green">Aceptada</span>';
+                    }
+
+                    return ($row->status_sunat == 1)
+                        ? '<span class="label bg-light-green">Aceptada</span>'
+                        : '<span class="label bg-red">Anulada</span>';
                 })
 
                 ->addColumn('observacion', function($row) {
@@ -2974,17 +2981,24 @@ class SellController extends Controller
     public function anulacionSunat(Request $request)
     {
         try {
+            $business_id = request()->session()->get('user.business_id');
             $id = $request->id;
+            $comprobante = ComprobanteSunat::find($id);
+
+            $business_location = BusinessLocation::find($comprobante->location_id);
+
+            
             $motivo = $request->motivo;
-            $transaction = Transaction::find($id);
-            $invoice = $transaction->invoice_no;
-            $invoice_sus = intval(substr($invoice, 6, 3));
+            $invoice = $comprobante->invoice_no;
+            $invoice_sus = intval(substr(strrchr($invoice, "-"), 1));
             $serie = substr($invoice, 0, 4);
             $tipo_comprobante = 0;
+
+            $tipo_serie = substr($invoice, 0, 3);
             
-            if ($serie == 'F001') {
+            if ($tipo_serie == 'F00') {
                     $tipo_comprobante = 1;
-                }elseif($serie == "B001")
+                }elseif($tipo_serie == "B00")
                 {
                     $tipo_comprobante = 2;
                 }
@@ -2999,13 +3013,13 @@ class SellController extends Controller
             );
 
             $respuesta = Http::withHeaders(
-                ['Authorization' => 'ae08473db907470eacd76306bb8c3edd8d287017bfc345ddbe0e10755d4da85e'])
-            ->post('https://api.nubefact.com/api/v1/9f7c7c55-9c54-4096-af7b-43690e4750e6', $store); 
+                ['Authorization' => $business_location->token_nubefact])
+            ->post($business_location->ruta_nubefact, $store);           
 
             if ($respuesta->status()==200)
             {
-                $transaction->status_sunat = 0;                
-                $transaction->save();
+                $comprobante->status_sunat = 0;                
+                $comprobante->save();
     
                 return response()->json(['status' => true, 'msg' => "El comprobante".$serie."-".$invoice_sus." ha sido dado de baja"]);
             }
@@ -3014,7 +3028,7 @@ class SellController extends Controller
                 $resp = json_decode($respuesta);
                 return response()->json(['status' => false, 'msg' => $resp->errors]);
             }
-
+       
             
         } catch (\Throwable $th) {
             return response()->json(['status' => false, 'msg' => "Error!!, Try again later"]);
