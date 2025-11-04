@@ -27,10 +27,15 @@
     <!-- component('components.widget', ['class' => 'box-primary', 'title' => __( 'lang_v1.all_sales')]) -->
     @component('components.widget', ['class' => 'box-primary', 'title' => 'Facturación Electrónica'])
         @can('direct_sell.access')
-            @slot('tool')
+            @slot('tool')               
+
                 <div class="box-tools">
                     <a class="btn btn-block btn-primary" href="#" data-toggle="modal" data-target="#modalBuscarPedido">
                     <i class="fa fa-plus"></i> @lang('messages.add')</a>
+                </div>
+                <div class="box-tools" style="padding-right: 20px;">
+                    <a class="btn btn-block btn-success" href="#" data-toggle="modal" data-target="#modalServicio">
+                    <i class="fa fa-plus"></i> Facturar Servicios</a>
                 </div>
             @endslot
         @endcan
@@ -189,6 +194,126 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" id="btnGenerarComprobante">
+                    <i class="fa fa-file-invoice"></i> Generar Comprobante
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- fin modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="modalServicio" tabindex="-1" role="dialog" aria-labelledby="modalBuscarPedidoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header bg-success text-white">
+                <h3 class="modal-title text-secondary" id="modalBuscarPedidoLabel">Buscar Pedido por Documento</h3>
+                <button type="button" class="close text-secondary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Formulario de búsqueda -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <input type="text" id="documento_servicio" class="form-control" placeholder="Ingrese N° de documento...">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-success btn-block" id="btnBuscarServicio">
+                            <i class="fa fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 15px;padding-bottom: 15px;">
+                    <input type="hidden" id="ref_no_servicio">
+                    <input type="hidden" id="contact_id_servicio">
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {!! Form::label('comprobante',  'Comprobante:') !!}
+                            {!! Form::select('invoice_scheme_id_servicio', $invoice_schemes, $default_invoice_schemes->id, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('messages.please_select'), 'id' => 'invoice_scheme_id_servicio']); !!}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Moneda:</label>
+                        <select class="form-control select2" style="width: 100%;" name="" id="moneda_servicio">
+                            <option value="1">SOLES</option>
+                            <option value="2">DÓLARES</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="">Fecha Emisión:</label>
+                        <input class="form-control" type="date" id="fecha_emision_servicio" min="" max="">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Cuenta detracción:</label>
+                        <select class="form-control select2" style="width: 100%;" name="" id="tipo_detraccion_servicio">
+                            <option value="17">019 Arrendamiento de bienes muebles</option>
+                        </select>
+                    </div>                    
+                </div>
+                <div class="row" style="padding-bottom: 15px;">
+                    <div class="col-md-2">
+                        <label for="">Tipo Pago:</label>
+                        <select class="form-control select2" style="width: 100%;" name="" id="tipo_pago_servicio">
+                            <option value="contado">CONTADO</option>
+                            <option value="credito">CREDITO</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2" id="grupo_fecha_pago_servicio">
+                        <label for="">Fecha Pago:</label>
+                        <input class="form-control" type="date" id="fecha_pago_servicio" min="" max="">
+                    </div>
+                </div>
+                <div class="row" hidden id="datos_cliente_servicio" style="padding-bottom: 15px;">  
+                    <div class="col-md-4">
+                        <label id="tipodoc_servicio"></label>
+                        <div style="display: flex;">
+                            <!-- <p id="numerodoc"></p> -->
+                             <input class="form-control" type="text" id="numerodoc_servicio">
+                            <button class="btn btn-primary buscar_sunat_servicio" type="button">Buscar</button>
+                        </div>                        
+                    </div> 
+                    <div class="col-md-4">
+                        <label for="">Cliente:</label>
+                        <input class="form-control"  type="text" id="cliente_servicio">
+                        <!-- <p for="" id="cliente"></p> -->
+                    </div>      
+                    <div class="col-md-4">
+                        <label for="">Dirección:</label>
+                        <input class="form-control"  type="text" id="address_servicio">
+                        <!-- <p for="" id="cliente"></p> -->
+                    </div>          
+                </div>
+
+                <!-- Tabla de resultados -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="tablaServicio">
+                        <thead class="thead-dark bg-success">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí se llenan los datos dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGenerarComprobanteServicio">
                     <i class="fa fa-file-invoice"></i> Generar Comprobante
                 </button>
             </div>
@@ -525,167 +650,322 @@
 
 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
 
-    $(document).on('click', '.buscar_sunat', function() {
-        let comprobante = $('#invoice_scheme_id option:selected').text().toLowerCase();
-        $contacto = $('#numerodoc').val();
-        $type = '';
-        if (comprobante.includes('boleta')) {
-            $type = 'boleta'
-        }
-        if (comprobante.includes('factura')) {            
-            $type = 'factura'
-        }
-       
-        console.log($type);
-        if($type=='')
-        {
-            toastr.error('Debe seleccionar el comporbante "Boleta" o "Factura"');
-        }
-        else
-        {
-            if($type == 'boleta')
-            {
-                //toastr.info('Estamos trabajando en ello');
-                $.ajax({
-                    method: 'POST',
-                    url: '/consulta_dni',
-                    dataType: 'json',
-                    data: {id: $contacto},
-                    success: function(result) {
-                        if (result.status == true) {
-                            $('#cliente').val(result.msg.nombres + ' ' + result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
-                            toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
-                        } else {
-                            toastr.error(result.msg);
-                        }
-                    },
-                });
+        $(document).on('click', '.buscar_sunat', function() {
+            let comprobante = $('#invoice_scheme_id option:selected').text().toLowerCase();
+            $contacto = $('#numerodoc').val();
+            $type = '';
+            if (comprobante.includes('boleta')) {
+                $type = 'boleta'
             }
-            if($type == 'factura')
-            {
-                $.ajax({
-                    method: 'POST',
-                    url: '/consulta_ruc',
-                    dataType: 'json',
-                    data: {id: $contacto},
-                    success: function(result) {
-                        if (result.status == true) {
-                            $('#cliente').val(result.msg.razonSocial);
-                            $('#address').val(result.msg.direccion);
-                            toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
-                        } else {
-                            toastr.error(result.msg);
-                        }
-                    },
-                });
+            if (comprobante.includes('factura')) {            
+                $type = 'factura'
             }
-        }  
         
-    });
-
-    // Acción de buscar
-    $('#btnBuscar').click(function() {
-        let documento = $('#documento').val().trim();
-        if(documento === '') {
-            alert('Ingrese un número de documento');
-            return;
-        }
-
-        // Petición AJAX al servidor
-        $.ajax({
-            url: '/pedidos/buscar', // ruta Laravel
-            method: 'GET',
-            data: { documento: documento },
-            success: function(response) {
-                let tbody = $('#tablaItems tbody');
-                $('#datos_cliente').show();
-                tbody.empty();
-
-               if (response.contact) {
-                    // Mostramos el nombre del cliente en el label
-                    $('#contact_id').val(response.contact.id);
-                    $('#ref_no').val(response.ref_no);
-                    if (response.contact.type == 'customer') {
-                        $('#tipodoc').text('DNI:');
-                        $('#numerodoc').val(response.contact.contact_id);
-                        $('#cliente').val(response.contact.name);
-                        $('#address').val(response.contact.address_line_1);
-                    }
-                    else{
-                        $('#tipodoc').text('RUC:');
-                        $('#numerodoc').val(response.contact.contact_id);
-                        $('#cliente').val(response.contact.supplier_business_name);
-                        $('#address').val(response.contact.address_line_1);
-                    }
-                    
-                } else {
-                    $('#cliente').text('Cliente no encontrado');
-                }
-
-                if(response.products.length === 0) {
-                    tbody.append('<tr><td colspan="10" class="text-center">No se encontraron resultados sin facturar</td></tr>');
-                    return;
-                }
-
-                response.products.forEach(item => {
-                    tbody.append(`
-                        <tr data-id="${item.id}">
-                            <td>${item.producto}</td>
-                            <td>${item.motor}</td>
-                            <td>${item.color}</td>
-                            <td>${item.chasis}</td>
-                            <td>${item.poliza}</td>
-                            <td>${item.anio}</td>
-                            <td>${item.cantidad}</td>
-                            <td>
-                                <input type="number" class="form-control form-control-sm precio" value="${item.precio}" min="0" step="0.01">
-                            </td>
-                            <td class="subtotal">${(item.cantidad * item.precio).toFixed(2)}</td>
-                            <td>
-                                <button class="btn btn-sm btn-danger btnEliminar"><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `);
-                });
-            },
-            error: function() {
-                alert('Error al buscar el documento');
+            console.log($type);
+            if($type=='')
+            {
+                toastr.error('Debe seleccionar el comporbante "Boleta" o "Factura"');
             }
+            else
+            {
+                if($type == 'boleta')
+                {
+                    //toastr.info('Estamos trabajando en ello');
+                    $.ajax({
+                        method: 'POST',
+                        url: '/consulta_dni',
+                        dataType: 'json',
+                        data: {id: $contacto},
+                        success: function(result) {
+                            if (result.status == true) {
+                                $('#cliente').val(result.msg.nombres + ' ' + result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
+                                toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
+                            } else {
+                                toastr.error(result.msg);
+                            }
+                        },
+                    });
+                }
+                if($type == 'factura')
+                {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/consulta_ruc',
+                        dataType: 'json',
+                        data: {id: $contacto},
+                        success: function(result) {
+                            if (result.status == true) {
+                                $('#cliente').val(result.msg.razonSocial);
+                                $('#address').val(result.msg.direccion);
+                                toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
+                            } else {
+                                toastr.error(result.msg);
+                            }
+                        },
+                    });
+                }
+            }  
+            
         });
+
+        $(document).on('click', '.buscar_sunat_servicio', function() {
+            let comprobante = $('#invoice_scheme_id_servicio option:selected').text().toLowerCase();
+            $contacto = $('#numerodoc_servicio').val();
+            $type = '';
+            if (comprobante.includes('boleta')) {
+                $type = 'boleta'
+            }
+            if (comprobante.includes('factura')) {            
+                $type = 'factura'
+            }
         
+            console.log($type);
+            if($type=='')
+            {
+                toastr.error('Debe seleccionar el comporbante "Boleta" o "Factura"');
+            }
+            else
+            {
+                if($type == 'boleta')
+                {
+                    //toastr.info('Estamos trabajando en ello');
+                    $.ajax({
+                        method: 'POST',
+                        url: '/consulta_dni',
+                        dataType: 'json',
+                        data: {id: $contacto},
+                        success: function(result) {
+                            if (result.status == true) {
+                                $('#cliente_servicio').val(result.msg.nombres + ' ' + result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
+                                toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
+                            } else {
+                                toastr.error(result.msg);
+                            }
+                        },
+                    });
+                }
+                if($type == 'factura')
+                {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/consulta_ruc',
+                        dataType: 'json',
+                        data: {id: $contacto},
+                        success: function(result) {
+                            if (result.status == true) {
+                                $('#cliente_servicio').val(result.msg.razonSocial);
+                                $('#address_servicio').val(result.msg.direccion);
+                                toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
+                            } else {
+                                toastr.error(result.msg);
+                            }
+                        },
+                    });
+                }
+            }  
+            
+        });
+
+        // Acción de buscar
+        $('#btnBuscar').click(function() {
+            let documento = $('#documento').val().trim();
+            if(documento === '') {
+                alert('Ingrese un número de documento');
+                return;
+            }
+
+            // Petición AJAX al servidor
+            $.ajax({
+                url: '/pedidos/buscar', // ruta Laravel
+                method: 'GET',
+                data: { documento: documento },
+                success: function(response) {
+                    let tbody = $('#tablaItems tbody');
+                    $('#datos_cliente').show();
+                    tbody.empty();
+
+                if (response.contact) {
+                        // Mostramos el nombre del cliente en el label
+                        $('#contact_id').val(response.contact.id);
+                        $('#ref_no').val(response.ref_no);
+                        if (response.contact.type == 'customer') {
+                            $('#tipodoc').text('DNI:');
+                            $('#numerodoc').val(response.contact.contact_id);
+                            $('#cliente').val(response.contact.name);
+                            $('#address').val(response.contact.address_line_1);
+                        }
+                        else{
+                            $('#tipodoc').text('RUC:');
+                            $('#numerodoc').val(response.contact.contact_id);
+                            $('#cliente').val(response.contact.supplier_business_name);
+                            $('#address').val(response.contact.address_line_1);
+                        }
+                        
+                    } else {
+                        $('#cliente').text('Cliente no encontrado');
+                    }
+
+                    if(response.products.length === 0) {
+                        tbody.append('<tr><td colspan="10" class="text-center">No se encontraron resultados sin facturar</td></tr>');
+                        return;
+                    }
+
+                    response.products.forEach(item => {
+                        tbody.append(`
+                            <tr data-id="${item.id}">
+                                <td>${item.producto}</td>
+                                <td>${item.motor}</td>
+                                <td>${item.color}</td>
+                                <td>${item.chasis}</td>
+                                <td>${item.poliza}</td>
+                                <td>${item.anio}</td>
+                                <td>${item.cantidad}</td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm precio" value="${item.precio}" min="0" step="0.01">
+                                </td>
+                                <td class="subtotal">${(item.cantidad * item.precio).toFixed(2)}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger btnEliminar"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function() {
+                    alert('Error al buscar el documento');
+                }
+            });
+            
+        });
+
+        // Acción de buscar servicio
+        $('#btnBuscarServicio').click(function() {
+            let documento = $('#documento_servicio').val().trim();
+            if(documento === '') {
+                alert('Ingrese un número de documento');
+                return;
+            }
+
+            // Petición AJAX al servidor
+            $.ajax({
+                url: '/pedidos/buscar', // ruta Laravel
+                method: 'GET',
+                data: { documento: documento },
+                success: function(response) {
+                    let tbody = $('#tablaServicio tbody');
+                    $('#datos_cliente_servicio').show();
+                    tbody.empty();
+
+                if (response.contact) {
+                        // Mostramos el nombre del cliente en el label
+                        $('#contact_id_servicio').val(response.contact.id);
+                        $('#ref_no_servicio').val(response.ref_no);
+                        if (response.contact.type == 'customer') {
+                            $('#tipodoc_servicio').text('DNI:');
+                            $('#numerodoc_servicio').val(response.contact.contact_id);
+                            $('#cliente_servicio').val(response.contact.name);
+                            $('#address_servicio').val(response.contact.address_line_1);
+                        }
+                        else{
+                            $('#tipodoc_servicio').text('RUC:');
+                            $('#numerodoc_servicio').val(response.contact.contact_id);
+                            $('#cliente_servicio').val(response.contact.supplier_business_name);
+                            $('#address_servicio').val(response.contact.address_line_1);
+                        }
+                        
+                    } else {
+                        $('#cliente_servicio').text('Cliente no encontrado');
+                    }
+
+                    if(response.products.length === 0) {
+                        tbody.append('<tr><td colspan="10" class="text-center">No se encontraron resultados sin facturar</td></tr>');
+                        return;
+                    }
+
+                    response.products.forEach(item => {
+                        tbody.append(`
+                            <tr data-id="${item.id}">
+                                <td>
+                                    <input type="text" class="form-control form-control-sm producto_servicio" value="${item.producto}">
+                                </td>
+                                <td>${item.cantidad}</td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm precio_servicio" value="${item.precio}" min="0" step="0.01">
+                                </td>
+                                <td class="subtotal_servicio">${(item.cantidad * item.precio).toFixed(2)}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger btnEliminarServicio"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function() {
+                    alert('Error al buscar el documento');
+                }
+            });
+            
+        });
+
+        // Actualizar subtotal cuando cambie el precio
+        $(document).on('input', '.precio', function() {
+            let row = $(this).closest('tr');
+            
+            // Obtener cantidad y precio como números válidos
+            let cantidad = parseFloat(row.find('td:eq(6)').text()) || 0;
+            let precio = parseFloat($(this).val()) || 0;
+
+            // Calcular subtotal
+            let subtotal = cantidad * precio;
+
+            // Si el subtotal no es un número, mostrar 0.00
+            if (isNaN(subtotal)) subtotal = 0;
+
+            // Actualizar en la tabla con dos decimales
+            row.find('.subtotal').text(subtotal.toFixed(2));
+        });
+
+        // Actualizar subtotal cuando cambie el precio SERVICIO
+        $(document).on('input', '.precio_servicio', function() {
+            let row = $(this).closest('tr');
+            
+            // Obtener cantidad y precio como números válidos
+            let cantidad = parseFloat(row.find('td:eq(1)').text()) || 0;
+            let precio = parseFloat($(this).val()) || 0;
+
+            // Calcular subtotal
+            let subtotal = cantidad * precio;
+
+            // Si el subtotal no es un número, mostrar 0.00
+            if (isNaN(subtotal)) subtotal = 0;
+
+            // Actualizar en la tabla con dos decimales
+            row.find('.subtotal_servicio').text(subtotal.toFixed(2));
+        });
+
+        // Eliminar ítem
+        $(document).on('click', '.btnEliminar', function() {
+            $(this).closest('tr').remove();
+        });
+
+        // Eliminar ítem SERVICIO
+        $(document).on('click', '.btnEliminarServicio', function() {
+            $(this).closest('tr').remove();
+        });
+
+        $('#modalBuscarPedido').on('hidden.bs.modal', function () {
+            $('#documento').val('');              // limpia el campo de búsqueda
+            $('#tablaItems tbody').empty();       // limpia los resultados
+        });
+
+        $('#modalServicio').on('hidden.bs.modal', function () {
+            $('#documento_servicio').val('');              // limpia el campo de búsqueda
+            $('#tablaServicio tbody').empty();       // limpia los resultados
+        });
+
     });
-
-    // Actualizar subtotal cuando cambie el precio
-    $(document).on('input', '.precio', function() {
-        let row = $(this).closest('tr');
-        
-        // Obtener cantidad y precio como números válidos
-        let cantidad = parseFloat(row.find('td:eq(6)').text()) || 0;
-        let precio = parseFloat($(this).val()) || 0;
-
-        // Calcular subtotal
-        let subtotal = cantidad * precio;
-
-        // Si el subtotal no es un número, mostrar 0.00
-        if (isNaN(subtotal)) subtotal = 0;
-
-        // Actualizar en la tabla con dos decimales
-        row.find('.subtotal').text(subtotal.toFixed(2));
-    });
-
-    // Eliminar ítem
-    $(document).on('click', '.btnEliminar', function() {
-        $(this).closest('tr').remove();
-    });
-
-    $('#modalBuscarPedido').on('hidden.bs.modal', function () {
-        $('#documento').val('');              // limpia el campo de búsqueda
-        $('#tablaItems tbody').empty();       // limpia los resultados
-    });
-
-});
 </script>
 
 <script>
@@ -755,6 +1035,89 @@ $(document).ready(function() {
                 success: function (response) {
                     alert("✅ Comprobante generado correctamente: " + response.numero_comprobante);
                     $('#modalBuscarPedido').modal('hide');
+
+                    $('#sell_table').DataTable().ajax.reload(null, false);
+
+                    // ✅ abrir nueva pestaña antes del AJAX para evitar bloqueo del navegador
+                    let ventana = window.open('', '_blank');
+
+                    let url = '/comprobante/vista/' + response.id_comprobante;
+                    ventana.location.href = url;
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText);
+                    alert("❌ Error al generar el comprobante.");
+                }
+            });
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        // Cuando el usuario hace clic en "Generar Comprobante"
+        $('#btnGenerarComprobanteServicio').click(function () {
+
+            // 1️⃣ Obtener datos del cliente
+            let contact_id = $('#contact_id_servicio').val();
+            let ref_no = $('#ref_no_servicio').val();
+            let tipo_doc = $('#tipodoc_servicio').text();
+            let numero_doc = $('#numerodoc_servicio').val();
+            let cliente = $('#cliente_servicio').val();
+            let direccion = $('#address_servicio').val();
+            let fecha_emision = $('#fecha_emision_servicio').val();
+            let tipo_pago = $('#tipo_pago_servicio').val();
+            let tipo_detraccion = $('#tipo_detraccion_servicio').val();
+            let fecha_pago = $('#fecha_pago_servicio').val();
+            let moneda = $('#moneda_servicio').val();
+            let comprobante_id = $('select[name="invoice_scheme_id_servicio"]').val();
+
+            // 2️⃣ Obtener los productos de la tabla
+            let productos = [];
+            $('#tablaServicio tbody tr').each(function () {
+                let fila = $(this);
+                productos.push({
+                    producto: fila.find('.producto_servicio').val(),
+                    cantidad: fila.find('td:eq(1)').text(),
+                    precio: parseFloat(fila.find('.precio_servicio').val()) || 0,
+                    subtotal: fila.find('td:eq(3)').text(),
+                });
+            });
+
+            if (productos.length === 0) {
+                alert("No hay productos para generar el comprobante.");
+                return;
+            }
+
+            // 3️⃣ Confirmar acción
+            if (!confirm("¿Deseas generar el comprobante con estos productos?")) return;
+          
+
+            // 4️⃣ Enviar los datos a tu API Laravel
+            $.ajax({
+                url: '/generar-comprobante-servicio',
+                method: 'POST',
+                data: {
+                    contact_id: contact_id,
+                    ref_no: ref_no,
+                    tipo_doc: tipo_doc,
+                    numero_doc: numero_doc,
+                    cliente: cliente,
+                    direccion: direccion,
+                    comprobante_id: comprobante_id,
+                    productos: productos,
+                    fecha_emision: fecha_emision,
+                    tipo_pago: tipo_pago,
+                    tipo_detraccion: tipo_detraccion,
+                    fecha_pago: fecha_pago,
+                    moneda: moneda,
+                    _token: '{{ csrf_token() }}' // por seguridad si no usas Sanctum
+                },
+                success: function (response) {
+                    alert("✅ Comprobante generado correctamente: " + response.numero_comprobante);
+                    $('#modalServicio').modal('hide');
 
                     $('#sell_table').DataTable().ajax.reload(null, false);
 
@@ -850,6 +1213,30 @@ $(document).ready(function() {
         return true;
     }
 
+    function validarFechaEmisionServicio() {
+        let input = $('#fecha_emision_servicio');
+        let fecha_val = input.val();
+
+        if (!fecha_val) return true;
+
+        let fecha = new Date(fecha_val);
+        let min = new Date(input.attr('min'));
+        let max = new Date(input.attr('max'));
+
+        if (input.attr('min') && fecha < min || input.attr('max') && fecha > max) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Fecha inválida',
+                text: `Debe estar entre ${input.attr('min')} y ${input.attr('max')}`,
+            }).then(() => {
+                input.val('');
+                input.focus();
+            });
+            return false;
+        }
+        return true;
+    }
+
     function validarFechaPago() {
         let tipoPago = $('#tipo_pago').val();
         let fechaPago = new Date($('#fecha_pago').val());
@@ -863,6 +1250,26 @@ $(document).ready(function() {
                     text: 'La fecha de pago debe ser igual o mayor a la de emisión.',
                 }).then(() => {
                     $('#fecha_pago').val($('#fecha_emision').val()).focus();
+                });
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function validarFechaPagoServicio() {
+        let tipoPago = $('#tipo_pago_servicio').val();
+        let fechaPago = new Date($('#fecha_pago_servicio').val());
+        let fechaEmision = new Date($('#fecha_emision_servicio').val());
+
+        if (tipoPago === 'credito') {
+            if ($('#fecha_pago').val() && fechaPago < fechaEmision) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Fecha incorrecta',
+                    text: 'La fecha de pago debe ser igual o mayor a la de emisión.',
+                }).then(() => {
+                    $('#fecha_pago_servicio').val($('#fecha_emision_servicio').val()).focus();
                 });
                 return false;
             }
@@ -892,6 +1299,28 @@ $(document).ready(function() {
         $('#fecha_emision').attr('min', minFormat);
     }
 
+    function actualizarRestriccionesFechaServicio() {
+        let comprobante = $('#invoice_scheme_id_servicio option:selected').text().toLowerCase();
+        let fechaActual = new Date();
+        let fechaMin = new Date();
+
+        if (comprobante.includes('factura')) {
+            $('#tipodoc_servicio').text('RUC:');
+            fechaMin.setDate(fechaActual.getDate() - 3);
+        } else if (comprobante.includes('boleta')) {
+            $('#tipodoc_servicio').text('DNI:');
+            fechaMin.setDate(fechaActual.getDate() - 7);
+        } else {
+            fechaMin = null;
+        }
+
+        let minFormat = fechaMin ? fechaMin.toISOString().split('T')[0] : "";
+        let maxFormat = fechaActual.toISOString().split('T')[0];
+
+        $('#fecha_emision_servicio').attr('max', maxFormat);
+        $('#fecha_emision_servicio').attr('min', minFormat);
+    }
+
     function actualizarFechaPago() {
         let tipoPago = $('#tipo_pago').val();
         let fechaEmision = $('#fecha_emision').val();
@@ -916,20 +1345,57 @@ $(document).ready(function() {
         }
     }
 
+    function actualizarFechaPagoServicio() {
+        let tipoPago = $('#tipo_pago_servicio').val();
+        let fechaEmision = $('#fecha_emision_servicio').val();
+
+        if (tipoPago === 'contado') {
+            $('#grupo_fecha_pago_servicio').hide();
+            $('#fecha_pago_servicio').val('');
+            $('#fecha_pago_servicio').removeAttr('required');
+        } else {
+            $('#grupo_fecha_pago_servicio').show();
+            $('#fecha_pago_servicio').attr('required', true);
+
+            if (fechaEmision) {
+                $('#fecha_pago_servicio').attr('min', fechaEmision);
+                if (!$('#fecha_pago_servicio').val()) {
+                    $('#fecha_pago_servicio').val(fechaEmision);
+                }
+            } else {
+                $('#fecha_pago_servicio').val('');
+                $('#fecha_pago_servicio').removeAttr('min');
+            }
+        }
+    }
+
     // Eventos
     $('#fecha_emision').on('change', function() {
         validarFechaEmision();
         actualizarFechaPago();
     });
 
+    $('#fecha_emision_servicio').on('change', function() {
+        validarFechaEmisionServicio();
+        actualizarFechaPagoServicio();
+    });
+
     $('#fecha_pago').on('change', validarFechaPago);
     $('#invoice_scheme_id').change(actualizarRestriccionesFecha);
     $('#tipo_pago').change(actualizarFechaPago);
 
+    $('#fecha_pago_servicio').on('change', validarFechaPagoServicio);
+    $('#invoice_scheme_id_servicio').change(actualizarRestriccionesFechaServicio);
+    $('#tipo_pago_servicio').change(actualizarFechaPagoServicio);
+
     $('#grupo_fecha_pago').hide(); // Inicial oculto si es contado
+    $('#grupo_fecha_pago_servicio').hide(); // Inicial oculto si es contado
 
     actualizarRestriccionesFecha();
     actualizarFechaPago();
+
+    actualizarRestriccionesFechaServicio();
+    actualizarFechaPagoServicio();
 
 });
 </script>

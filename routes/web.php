@@ -261,6 +261,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::get('/pedidos/buscar',[App\Http\Controllers\SellController::class,'buscarDoc'])->name('buscarDoc');
     Route::post('/generar-comprobante', [App\Http\Controllers\SellController::class, 'generarComprobanteSunat']);
+    Route::post('/generar-comprobante-servicio', [App\Http\Controllers\SellController::class, 'generarComprobanteServicioSunat']);
     Route::get('/comprobante/vista/{id}', [App\Http\Controllers\SellController::class, 'vistaComprobante'])->name('comprobante.vista');
     //FIN PANEL SUNAT
 

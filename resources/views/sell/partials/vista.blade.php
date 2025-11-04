@@ -190,11 +190,23 @@
     </div>
 
     {{-- PIE DE PÁGINA --}}
-    <div class="factura-footer">
-        <p>Representación impresa de la FACTURA ELECTRÓNICA, visita www.nubefact.com/10481130145</p>
-        <p>Autorizado mediante Resolución de Intendencia No.034-005-0005315</p>
+    @if($comprobante->detraccion == 1)
+    <div class="factura-box w-50 mr-2">
+        <h2>Información de la detracción</h2>
+        <p><strong>Leyenda:</strong> Operación sujeta al Sistema de Pago de Obligaciones Tributarias con el Gobierno Central</p>
+        <p><strong>Bien o Servicio:</strong> 019 Arrendamiento de bienes muebles</p>
+        <p><strong>Medio de pago:</strong> 001  Depósito en cuenta</p>
+        <p><strong>Nro. Cta. Banco de la Nación:</strong> 00274019956</p>
+        <p><strong>Porcentaje de detracción:</strong> 10.00</p>
+        <p><strong>Monto de detracción:</strong> {{$simbolo}} {{ number_format($comprobante->total*0.10, 2) }}</p>
     </div>
-</div>
+    @endif
+
+    <div class="factura-footer">
+            <p>Representación impresa de la FACTURA ELECTRÓNICA, visita www.nubefact.com/10481130145</p>
+            <p>Autorizado mediante Resolución de Intendencia No.034-005-0005315</p>
+        </div>
+    </div>
 
 <script>
     window.onload = () => {

@@ -26,6 +26,7 @@ class ComprobanteSunat extends Model
         'response_nota_sunat',
         'status_sunat',
         'productos',
+        'detraccion',
         'moneda',
         'fecha_emision',
         'fecha_vencimiento',
