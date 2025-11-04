@@ -2106,7 +2106,7 @@ class SellController extends Controller
                 "tipo_de_comprobante"=> $tipo_comprobante,
                 "serie"=> $serie,
                 "numero"=> $invoice_sus,
-                "sunat_transaction"=> 1,
+                "sunat_transaction"=> 30,
 
                 "cliente_tipo_de_documento"=> $cliente_tipo_doc,
 
