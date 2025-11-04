@@ -1972,7 +1972,11 @@ class SellController extends Controller
                 $resp = json_decode($respuesta);
                 $comprobante_sunat->save();
 
-                return response()->json(['status' => true, 'msg' => $resp->sunat_description]);
+                return response()->json([
+                    'status' => 'success',
+                    'numero_comprobante' => $invoice,
+                    'id_comprobante' => $comprobante_sunat->id,
+                ]);
             }
             else
             {
@@ -1982,11 +1986,11 @@ class SellController extends Controller
             }
 
         
-        return response()->json([
-            'status' => 'success',
-            'numero_comprobante' => $invoice,
-            'id_comprobante' => $comprobante_sunat->id,
-        ]);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'numero_comprobante' => $invoice,
+        //     'id_comprobante' => $comprobante_sunat->id,
+        // ]);
 
 
         } catch (\Throwable $th) {
@@ -2194,7 +2198,11 @@ class SellController extends Controller
                 $resp = json_decode($respuesta);
                 $comprobante_sunat->save();
 
-                return response()->json(['status' => true, 'msg' => $resp->sunat_description]);
+                return response()->json([
+                    'status' => 'success',
+                    'numero_comprobante' => $invoice,
+                    'id_comprobante' => $comprobante_sunat->id,
+                ]);
             }
             else
             {
@@ -2204,11 +2212,11 @@ class SellController extends Controller
             }
 
         
-        return response()->json([
-            'status' => 'success',
-            'numero_comprobante' => $invoice,
-            'id_comprobante' => $comprobante_sunat->id,
-        ]);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'numero_comprobante' => $invoice,
+        //     'id_comprobante' => $comprobante_sunat->id,
+        // ]);
 
 
         } catch (\Throwable $th) {
