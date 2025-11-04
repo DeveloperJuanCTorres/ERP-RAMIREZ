@@ -251,7 +251,7 @@
                         <input class="form-control" type="date" id="fecha_emision_servicio" min="" max="">
                     </div>
                     <div class="col-md-4">
-                        <label for="">Cuenta detracción:</label>
+                        <label for="">Tipo detracción:</label>
                         <select class="form-control select2" style="width: 100%;" name="" id="tipo_detraccion_servicio">
                             <option value="17">019 Arrendamiento de bienes muebles</option>
                         </select>
