@@ -2836,9 +2836,19 @@ class SellController extends Controller
                 ->addColumn('sunat', function($row) {
                     if (is_null($row->response_sunat)) {
                         return '<button class="btn btn-xs btn-primary envio_sunat_button" data-id="'.$row->id.'">Enviar</button>';
-                    } elseif ($row->status_sunat == 1) {
-                        return '<button class="btn btn-xs btn-danger anulacion_sunat_button" data-id="'.$row->id.'">Anular</button>';
                     }
+
+                    if ($row->status_sunat == 1) {
+
+                        // Validar si está dentro del rango de 7 días
+                        $fechaEmision = \Carbon\Carbon::parse($row->fecha_emision);
+                        $limite = now()->subDays(7);
+
+                        if ($fechaEmision->greaterThanOrEqualTo($limite)) {
+                            return '<button class="btn btn-xs btn-danger anulacion_sunat_button" data-id="'.$row->id.'">Anular</button>';
+                        }
+                    }
+
                     return '';
                 })
 
