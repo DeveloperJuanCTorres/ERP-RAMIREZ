@@ -253,6 +253,7 @@
                     <div class="col-md-4">
                         <label for="">Tipo detracción:</label>
                         <select class="form-control select2" style="width: 100%;" name="" id="tipo_detraccion_servicio">
+                            <option value="0">Operacion NO sujeta a detracción</option>
                             <option value="17">019 Arrendamiento de bienes muebles</option>
                         </select>
                     </div>                    
@@ -790,7 +791,7 @@
                         // Mostramos el nombre del cliente en el label
                         $('#contact_id').val(response.contact.id);
                         $('#ref_no').val(response.ref_no);
-                        if (response.contact.type == 'customer') {
+                        if (response.contact.name) {
                             $('#tipodoc').text('DNI:');
                             $('#numerodoc').val(response.contact.contact_id);
                             $('#cliente').val(response.contact.name);
@@ -862,7 +863,7 @@
                         // Mostramos el nombre del cliente en el label
                         $('#contact_id_servicio').val(response.contact.id);
                         $('#ref_no_servicio').val(response.ref_no);
-                        if (response.contact.type == 'customer') {
+                        if (response.contact.name) {
                             $('#tipodoc_servicio').text('DNI:');
                             $('#numerodoc_servicio').val(response.contact.contact_id);
                             $('#cliente_servicio').val(response.contact.name);

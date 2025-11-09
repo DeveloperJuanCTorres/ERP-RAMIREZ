@@ -2105,15 +2105,27 @@ class SellController extends Controller
             $fecha_emision_formateada = $fecha_emision->format('d-m-Y');
             $fecha_vencimiento_formateada = $fecha_vencimiento->format('d-m-Y');
 
+            $sunat_transaction = 1;
+            $detraccion_tipo = '';            
+            $detraccion_total = '';
+            $medio_de_pago_detraccion = '';
+            
+
+            if ($request->tipo_detraccion != 0) {
+                $sunat_transaction = 30;
+                $detraccion_tipo = $request->tipo_detraccion;            
+                $detraccion_total = ($total_gravada + $total_igv) * 0.10;
+                $medio_de_pago_detraccion = 1;
+            }
+
+
             $store = array(
                 "operacion"=> "generar_comprobante",
                 "tipo_de_comprobante"=> $tipo_comprobante,
                 "serie"=> $serie,
                 "numero"=> $invoice_sus,
-                "sunat_transaction"=> 30,
-
+                "sunat_transaction"=> $sunat_transaction,
                 "cliente_tipo_de_documento"=> $cliente_tipo_doc,
-
                 "cliente_numero_de_documento"=> $request->numero_doc,
                 "cliente_denominacion"=> $request->cliente,
                 "cliente_direccion"=> $request->direccion,
@@ -2157,9 +2169,9 @@ class SellController extends Controller
                 "medio_de_pago"=> "",
                 "placa_vehiculo"=> "",
                 "orden_compra_servicio"=> "",
-               "detraccion_tipo" => $request->tipo_detraccion,
-                "detraccion_total" => ($total_gravada + $total_igv) * 0.10,
-                "medio_de_pago_detraccion" => 1,
+               "detraccion_tipo" => $detraccion_tipo,               
+                "detraccion_total" => $detraccion_total,
+                "medio_de_pago_detraccion" => $medio_de_pago_detraccion,
                 "formato_de_pdf"=> "A4",
                 "generado_por_contingencia"=> "",
                 "bienes_region_selva"=> "",
