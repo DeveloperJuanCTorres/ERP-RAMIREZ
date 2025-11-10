@@ -2109,6 +2109,8 @@ class SellController extends Controller
             $detraccion_tipo = '';            
             $detraccion_total = '';
             $medio_de_pago_detraccion = '';
+            $detraccion = false;
+            $detraccionbd = 0;
             
 
             if ($request->tipo_detraccion != 0) {
@@ -2116,6 +2118,8 @@ class SellController extends Controller
                 $detraccion_tipo = $request->tipo_detraccion;            
                 $detraccion_total = ($total_gravada + $total_igv) * 0.10;
                 $medio_de_pago_detraccion = 1;
+                $detraccion = true;
+                $detraccionbd = 0;
             }
 
 
@@ -2156,7 +2160,7 @@ class SellController extends Controller
                 "retencion_base_imponible"=> "",
                 "total_retencion"=> "",
                 "total_impuestos_bolsas"=> "",
-                "detraccion"=> true,                
+                "detraccion"=> $detraccion,                
                 "observaciones"=> "",
                 "documento_que_se_modifica_tipo"=> $tipo_documento_modifica,
                 "documento_que_se_modifica_serie"=> $serie_modifica,
@@ -2195,7 +2199,7 @@ class SellController extends Controller
                 'fecha_emision' => $fecha_emision,
                 'fecha_vencimiento' => $fecha_vencimiento,
                 'tipo_pago' => $request->tipo_pago,
-                'detraccion' => 1,
+                'detraccion' => $detraccionbd,
                 'productos' => json_encode($products)
 
             ]);
