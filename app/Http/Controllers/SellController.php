@@ -2119,7 +2119,7 @@ class SellController extends Controller
                 $detraccion_total = ($total_gravada + $total_igv) * 0.10;
                 $medio_de_pago_detraccion = 1;
                 $detraccion = true;
-                $detraccionbd = 0;
+                $detraccionbd = 1;
             }
 
 
