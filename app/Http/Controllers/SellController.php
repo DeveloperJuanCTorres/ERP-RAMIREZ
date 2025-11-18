@@ -2302,7 +2302,9 @@ class SellController extends Controller
             $cliente_tipo_doc = "";
             $cliente_name = $comprobante->name;
 
-            $products = $comprobante->productos;
+            // $products = $comprobante->productos;
+            $products = json_decode($comprobante->productos, true);
+
             $total_gravada = $comprobante->total / 1.18;
             $total_igv = $comprobante->total - $total_gravada;
             $type = '';
@@ -2331,6 +2333,28 @@ class SellController extends Controller
             $medio_de_pago_detraccion = '';
             $detraccion = false;
             $detraccionbd = 0;
+
+            $items = [];
+
+            foreach ($products as $p) {
+                $items[] = [
+                    "unidad_de_medida" => "NIU",
+                    "codigo" => $p['codigo'] ?? '001',
+                    "descripcion" => $p['descripcion'],
+                    "cantidad" => $p['cantidad'] ?? "1",
+                    "valor_unitario" => $p['valor_unitario'],
+                    "precio_unitario" => $p['precio_unitario'],
+                    "descuento" => "",
+                    "subtotal" => $p['subtotal'],
+                    "tipo_de_igv" => 1,
+                    "igv" => $p['igv'],
+                    "total" => $p['total'],
+                    "anticipo_regularizacion" => false,
+                    "anticipo_documento_serie" => "",
+                    "anticipo_documento_numero" => "",
+                    "codigo_producto_sunat" => $p['codigo_producto_sunat'] ?? "10000000",
+                ];
+            }
 
                         
             $store = array(
@@ -2390,7 +2414,7 @@ class SellController extends Controller
                 // "generado_por_contingencia"=> "",
                 // "bienes_region_selva"=> "",
                 // "servicios_region_selva"=> "",
-                "items" => $products
+                "items" => $items
                 
             );  
 
