@@ -2259,6 +2259,202 @@ class SellController extends Controller
         return view('sell.partials.vista', compact('comprobante','productos', 'contact','totalEnLetras'));
     }
 
+    public function notaCreditoInfo($id)
+    {
+        $comprobante = ComprobanteSunat::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $comprobante,
+        ]);
+    }
+
+    public function generarNotaCredito(Request $request, $id)
+    {      
+        try {            
+            $comprobante = ComprobanteSunat::findOrFail($id);
+            $business_id = $comprobante->business_id;
+
+            $status = 'final';
+            $business_location = BusinessLocation::find($comprobante->location_id);
+            $invoice_scheme_id = $request->invoice_scheme_id;
+
+            // Si tienes el sale_type, también puedes pasarlo
+            $sale_type = 'sell'; // opcional
+
+            // Generar número de comprobante usando el método existente
+            $invoice_no = $this->transactionUtil->getInvoiceNumber(
+                $business_id,
+                $status,
+                $business_location->id,
+                $invoice_scheme_id,
+                $sale_type
+            );
+
+            $invoice = $invoice_no;
+            $invoice_sus = intval(substr(strrchr($invoice, "-"), 1));
+            $serie = substr($invoice, 0, 4);
+            $tipo_comprobante = 0;
+            $tipo_documento_modifica = "";
+            $serie_modifica = substr($comprobante->invoice_no, 0, 4);
+            $numero_modifica = intval(substr(strrchr($comprobante->invoice_no, "-"), 1));
+            $tipo_nota_credito = $request->tipo;
+            $cliente_tipo_doc = "";
+            $cliente_name = $comprobante->name;
+
+            $products = $comprobante->productos;
+            $total_gravada = $comprobante->total / 1.18;
+            $total_igv = $comprobante->total - $total_gravada;
+            $type = '';
+
+            $tipo_serie = substr($invoice, 0, 3);
+
+            if ($tipo_serie == 'F00') {
+                $tipo_comprobante = 3;
+                $cliente_tipo_doc = 6;    
+                $tipo_documento_modifica = 1;
+                $type = 'Nota de Crédito Electrónica';             
+            }elseif($tipo_serie == "B00")
+            {
+                $type = 'Nota de Crédito Electrónica';     
+                $tipo_comprobante = 3;   
+                $cliente_tipo_doc = 1;    
+                $tipo_documento_modifica = 2;                                  
+            }
+            $fecha_emision = Carbon::now()->format('d-m-Y');
+            $fecha_vencimiento = Carbon::now()->format('d-m-Y');           
+
+           
+            $sunat_transaction = 1;
+            $detraccion_tipo = '';            
+            $detraccion_total = '';
+            $medio_de_pago_detraccion = '';
+            $detraccion = false;
+            $detraccionbd = 0;
+
+                        
+            $store = array(
+                "operacion"=> "generar_comprobante",
+                "tipo_de_comprobante"=> $tipo_comprobante,
+                "serie"=> $serie,
+                "numero"=> $invoice_sus,
+                "sunat_transaction"=> $sunat_transaction,
+                "cliente_tipo_de_documento"=> $cliente_tipo_doc,
+                "cliente_numero_de_documento"=> $comprobante->numero_doc,
+                "cliente_denominacion"=> $comprobante->name,
+                "cliente_direccion"=> $comprobante->address,
+                "cliente_email"=> "",
+                // "cliente_email"=> $contact->email,
+                "cliente_email_1"=> "",
+                "cliente_email_2"=> "",
+                "fecha_de_emision"=> $fecha_emision,
+                "fecha_de_vencimiento"=> $fecha_vencimiento,
+                "moneda"=> $comprobante->moneda,
+                "tipo_de_cambio"=> "",
+                "porcentaje_de_igv"=> 18.00,
+                "descuento_global"=> "",
+                "total_descuento"=> "",
+                "total_anticipo"=> "",
+                "total_gravada"=> $total_gravada,
+                "total_inafecta"=> "",
+                "total_exonerada"=> "",
+                "total_igv"=> $total_igv,
+                "total_gratuita"=> "",
+                "total_otros_cargos"=> "",
+                "total"=> $comprobante->total,
+                "percepcion_tipo"=> "",
+                "percepcion_base_imponible"=> "",
+                "total_percepcion"=> "",
+                "total_incluido_percepcion"=> "",
+                "retencion_tipo"=> "",
+                "retencion_base_imponible"=> "",
+                "total_retencion"=> "",
+                "total_impuestos_bolsas"=> "",
+                "detraccion"=> $detraccion,                
+                "observaciones"=> "",
+                "documento_que_se_modifica_tipo"=> $tipo_documento_modifica,
+                "documento_que_se_modifica_serie"=> $serie_modifica,
+                "documento_que_se_modifica_numero"=> $numero_modifica,
+                "tipo_de_nota_de_credito"=> $tipo_nota_credito,
+                "tipo_de_nota_de_debito"=> "",
+                "enviar_automaticamente_a_la_sunat"=> true,
+                "enviar_automaticamente_al_cliente"=> false,
+                "condiciones_de_pago"=> "",
+                "medio_de_pago"=> "",
+                "placa_vehiculo"=> "",
+                "orden_compra_servicio"=> "",
+                //    "detraccion_tipo" => $detraccion_tipo,               
+                //     "detraccion_total" => $detraccion_total,
+                //     "medio_de_pago_detraccion" => $medio_de_pago_detraccion,
+                "formato_de_pdf"=> "A4",
+                // "generado_por_contingencia"=> "",
+                // "bienes_region_selva"=> "",
+                // "servicios_region_selva"=> "",
+                "items" => $products
+                
+            );  
+
+            $fecha_emision_formateada = Carbon::now()->format('Y-m-d');
+            $fecha_vencimiento_formateada = Carbon::now()->format('Y-m-d');
+
+            $comprobante_sunat = ComprobanteSunat::create([
+                'business_id' => $business_id,
+                'location_id' => $business_location->id,
+                'contact_id' => $comprobante->contact_id,
+                'numero_doc' => $comprobante->numero_doc,
+                'name' => $comprobante->name,
+                'address' => $comprobante->address,
+                'type' => $type,
+                'invoice_no' => $invoice,
+                'ref_no' => $comprobante->invoice_no,
+                'total' => $total_gravada + $total_igv,
+                'moneda' => $comprobante->moneda,
+                'fecha_emision' => $fecha_emision_formateada,
+                'fecha_vencimiento' => $fecha_vencimiento_formateada,
+                'tipo_pago' => $comprobante->tipo_pago,
+                'detraccion' => $detraccionbd,
+                'productos' => $products
+
+            ]);
+
+            $comprobante->status_sunat = 0;
+            $comprobante->save();
+
+            $respuesta = Http::withHeaders(
+                ['Authorization' => $business_location->token_nubefact])
+            ->post($business_location->ruta_nubefact, $store);
+
+            if ($respuesta->status()==200) {
+                $comprobante_sunat->response_sunat = $respuesta;
+                $comprobante_sunat->status_sunat = 1;
+                $resp = json_decode($respuesta);
+                $comprobante_sunat->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Nota de Crédito generada correctamente',
+                ]);
+            }
+            else
+            {
+                $resp = json_decode($respuesta);
+                $test = json_encode($store);
+                return response()->json(['status' => false, 'message' => $respuesta->body() . $test]);
+            }
+
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Nota de Crédito generada correctamente' . $products,
+            // ]);
+            
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
+
     // public function panelSunat()
     // {
         
@@ -2862,6 +3058,9 @@ class SellController extends Controller
 
                         if ($fechaEmision->greaterThanOrEqualTo($limite)) {
                             return '<button class="btn btn-xs btn-danger anulacion_sunat_button" data-id="'.$row->id.'">Anular</button>';
+                        }
+                        else {
+                            return '<button class="btn btn-xs btn-danger nota_credito_sunat_button" data-id="'.$row->id.'">Nota Crédito</button>';
                         }
                     }
 

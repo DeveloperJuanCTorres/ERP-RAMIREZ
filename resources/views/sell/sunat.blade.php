@@ -324,6 +324,32 @@
 </div>
 <!-- fin modal -->
 
+<!-- Modal Nota de Crédito -->
+<div class="modal fade" id="modalNotaCredito" tabindex="-1" role="dialog" aria-labelledby="modalNotaCreditoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title text-white">Generar Nota de Crédito</h5>
+                <button type="button" class="close text-secondary" data-dismiss="modal" aria-label="Close">
+                    <span class="text-secondary" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Aquí se carga la info vía Ajax -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGenerarNC">Generar Nota de Crédito</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Nota de Crédito -->
+
 @include('sell.partials.modal_comprobante')
 
 <!-- This will be printed -->
@@ -1400,4 +1426,87 @@
 
 });
 </script>
+
+<!-- nota de credito info  -->
+ <script>
+    $(document).on('click', '.nota_credito_sunat_button', function () {
+        let id = $(this).data('id');
+
+        // Mostrar loading mientras trae la info
+        $('#modalNotaCredito .modal-body').html('<p>Cargando información...</p>');
+        $('#modalNotaCredito').modal('show');
+
+        $.ajax({
+            url: `/comprobantes/${id}/nota-credito-info`,
+            type: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    let c = res.data;
+
+                    let html = `
+                        <div class="alert alert-info text-center"><h4>Comprobante: ${c.invoice_no}</h4> </div>
+
+                                <div class="form-group">
+                                    {!! Form::label('comprobante',  'Comprobante:') !!}
+                                    {!! Form::select('invoice_scheme_id_servicio', $invoice_schemes, $default_invoice_schemes->id, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('messages.please_select'), 'id' => 'invoice_scheme_id_nota']); !!}
+                                </div>
+                                <p><b>Cliente:</b> ${c.name}</p>
+                                <p><b>Dirección:</b> ${c.address}</p>
+                                <p><b>Fecha emisión:</b> ${c.fecha_emision}</p>
+                                <p><b>Total:</b> S/ ${c.total}</p>
+
+                                <div class="form-group mt-2">
+                                    <label>Tipo de Nota de Crédito</label>
+                                    <select id="tipo_nc" class="form-control">
+                                        <option value="1">ANULACIÓN DE LA OPERACIÓN</option>
+                                        <option value="2">ANULACIÓN POR ERROR EN EL RUC</option>
+                                        <option value="3">CORRECCIÓN POR ERROR EN LA DESCRIPCIÓN</option>
+                                        <option value="4">DESCUENTO GLOBAL</option>
+                                        <option value="5">DESCUENTO POR ÍTEM</option>
+                                        <option value="6">DEVOLUCIÓN TOTAL</option>
+                                        <option value="7">DEVOLUCIÓN POR ÍTEM</option>
+                                        <option value="8">BONIFICACIÓN</option>
+                                        <option value="9">DISMINUCIÓN EN EL VALOR</option>
+                                        <option value="10">OTROS CONCEPTOS</option>
+                                        <option value="11">AJUSTES AFECTOS AL IVAP</option>
+                                        <option value="12">AJUSTES DE OPERACIONES DE EXPORTACIÓN</option>
+                                        <option value="13">AJUSTES - MONTOS Y/O FECHAS DE PAGO</option>
+                                    </select>
+                                </div>
+                    `;
+
+                    $('#modalNotaCredito .modal-body').html(html);
+                    $('#btnGenerarNC').data('id', c.id);                    
+                }
+            }
+        });
+    });
+
+ </script>
+ <!-- Generar nota de credito -->
+  <script>
+    $('#btnGenerarNC').on('click', function () {
+        let id = $(this).data('id');
+        let tipo = $('#tipo_nc').val();
+        let invoice_scheme_id = $('#invoice_scheme_id_nota').val();
+
+        $.ajax({
+            url: `/comprobantes/${id}/generar-nota-credito`,
+            type: 'POST',
+            data: {
+                tipo: tipo,
+                invoice_scheme_id: invoice_scheme_id,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (res) {
+                if (res.success) {
+                    $('#modalNotaCredito').modal('hide');
+                    toastr.success('Nota de Crédito generada correctamente.');
+                    $('#sell_table').DataTable().ajax.reload(null, false);
+                }
+            }
+        });
+    });
+
+  </script>
 @endsection

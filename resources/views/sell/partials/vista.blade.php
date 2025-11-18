@@ -111,12 +111,12 @@
                 @php
                 $tipo_doc = 'RUC';
                 @endphp
-                <h3>FACTURA ELECTRÓNICA</h3>
+                <h3>{{$comprobante->type}}</h3>
             @elseif(Str::startsWith($comprobante->invoice_no, 'B'))
                 @php
                 $tipo_doc = 'DNI';
                 @endphp
-                <h3>BOLETA ELECTRÓNICA</h3>
+                <h3>{{$comprobante->type}}</h3>
             @else
                 <h3>COMPROBANTE ELECTRÓNICO</h3>
             @endif

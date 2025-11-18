@@ -263,6 +263,12 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/generar-comprobante', [App\Http\Controllers\SellController::class, 'generarComprobanteSunat']);
     Route::post('/generar-comprobante-servicio', [App\Http\Controllers\SellController::class, 'generarComprobanteServicioSunat']);
     Route::get('/comprobante/vista/{id}', [App\Http\Controllers\SellController::class, 'vistaComprobante'])->name('comprobante.vista');
+
+    Route::get('/comprobantes/{id}/nota-credito-info', [App\Http\Controllers\SellController::class, 'notaCreditoInfo'])
+        ->name('comprobantes.nota_credito_info');
+
+    Route::post('/comprobantes/{id}/generar-nota-credito', [App\Http\Controllers\SellController::class, 'generarNotaCredito'])
+        ->name('comprobantes.generar_nota_credito');
     //FIN PANEL SUNAT
 
 
