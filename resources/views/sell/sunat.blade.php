@@ -1499,10 +1499,13 @@
                 _token: $('meta[name="csrf-token"]').attr('content')
             },
             success: function (res) {
-                if (res.success) {
+                if (res.status) {
                     $('#modalNotaCredito').modal('hide');
                     toastr.success('Nota de Crédito generada correctamente.');
                     $('#sell_table').DataTable().ajax.reload(null, false);
+                }
+                else{
+                    toastr.error(res.message);
                 }
             }
         });
