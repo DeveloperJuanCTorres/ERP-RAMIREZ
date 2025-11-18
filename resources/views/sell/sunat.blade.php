@@ -1501,7 +1501,7 @@
             success: function (res) {
                 if (res.status) {
                     $('#modalNotaCredito').modal('hide');
-                    toastr.success('Nota de Crédito generada correctamente.');
+                    toastr.success(res.message);
                     $('#sell_table').DataTable().ajax.reload(null, false);
                 }
                 else{

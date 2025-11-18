@@ -2455,7 +2455,7 @@ class SellController extends Controller
                 $comprobante_sunat->save();
 
                 return response()->json([
-                    'success' => true,
+                    'status' => true,
                     'message' => 'Nota de Crédito generada correctamente',
                 ]);
             }
