@@ -2437,7 +2437,7 @@ class SellController extends Controller
                 'fecha_vencimiento' => $fecha_vencimiento_formateada,
                 'tipo_pago' => $comprobante->tipo_pago,
                 'detraccion' => $detraccionbd,
-                'productos' => $products
+                'productos' => json_encode($items, JSON_UNESCAPED_UNICODE)
 
             ]);
 
