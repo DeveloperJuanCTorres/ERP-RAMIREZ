@@ -2323,8 +2323,8 @@ class SellController extends Controller
                 $cliente_tipo_doc = 1;    
                 $tipo_documento_modifica = 2;                                  
             }
-            $fecha_emision = Carbon::now()->format('d-m-Y');
-            $fecha_vencimiento = Carbon::now()->format('d-m-Y');           
+            $fecha_emision = Carbon::now('America/Lima')->format('d-m-Y');
+            $fecha_vencimiento = Carbon::now('America/Lima')->format('d-m-Y');         
 
            
             $sunat_transaction = 1;
