@@ -2418,8 +2418,8 @@ class SellController extends Controller
                 
             );  
 
-            $fecha_emision_formateada = Carbon::now()->format('Y-m-d');
-            $fecha_vencimiento_formateada = Carbon::now()->format('Y-m-d');
+            $fecha_emision_formateada = Carbon::now('America/Lima')->format('Y-m-d');
+            $fecha_vencimiento_formateada = Carbon::now('America/Lima')->format('Y-m-d');
 
             $comprobante_sunat = ComprobanteSunat::create([
                 'business_id' => $business_id,
