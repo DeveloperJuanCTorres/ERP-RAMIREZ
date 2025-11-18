@@ -3980,4 +3980,74 @@ class ReportController extends Controller
 
         return response()->json($accounts);
     }
+
+    public function reportPorLote()
+    {
+        return view('report.reportPorLote');
+    }
+
+    public function buscarLote(Request $request)
+    {
+        $request->validate([
+            'lot_number' => 'required|string'
+        ]);
+
+        $lot = $request->lot_number;
+
+        $data = DB::select("
+            SELECT 
+                pl.id AS purchase_line_id,
+                p.name AS product_name,
+                pl.lot_number,
+                pl.quantity AS quantity_purchased,
+                t.id AS purchase_transaction_id,
+                t.transaction_date AS purchase_date,
+                t.type AS purchase_type,
+                t.invoice_no AS purchase_invoice_no,
+                supplier.name AS supplier_name,
+
+                tsl.quantity AS sell_quantity,
+                ts.invoice_no AS sell_invoice_no,
+                ts.transaction_date AS sell_date,
+                customer.name AS customer_name,
+
+                (
+                    pl.quantity 
+                    - COALESCE((
+                        SELECT SUM(quantity) 
+                        FROM transaction_sell_lines_purchase_lines AS slpl2 
+                        WHERE slpl2.purchase_line_id = pl.id
+                    ), 0)
+                ) AS stock_remaining
+
+            FROM purchase_lines AS pl
+            LEFT JOIN transactions AS t 
+                ON t.id = pl.transaction_id
+
+            LEFT JOIN products AS p 
+                ON p.id = pl.product_id
+
+            LEFT JOIN contacts AS supplier
+                ON supplier.id = t.contact_id 
+                AND supplier.type = 'supplier'
+
+            LEFT JOIN transaction_sell_lines_purchase_lines AS slpl
+                ON slpl.purchase_line_id = pl.id
+
+            LEFT JOIN transaction_sell_lines AS tsl
+                ON tsl.id = slpl.sell_line_id
+
+            LEFT JOIN transactions AS ts
+                ON ts.id = tsl.transaction_id
+
+            LEFT JOIN contacts AS customer
+                ON customer.id = ts.contact_id
+                AND customer.type = 'customer'
+
+            WHERE pl.lot_number = ?
+            ORDER BY ts.transaction_date
+        ", [$lot]);
+
+        return view('report.reportPorLote', compact('data', 'lot'));
+    }
 }

@@ -344,6 +344,14 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/reports/pay-service', [ReportController::class, 'payService']);
     Route::get('/cuentas-pago', [ReportController::class, 'obtenerCuentas']);
 
+
+    // ------REPORTES NUEVOS
+    Route::get('/reporte/lote', [ReportController::class, 'reportPorLote'])->name('reporte.lote');
+    Route::get('/reporte/lote/buscar', [ReportController::class, 'buscarLote'])->name('reporte.lote.buscar');
+
+
+    
+
     Route::get('business-location/activate-deactivate/{location_id}', [BusinessLocationController::class, 'activateDeactivateLocation']);
 
     //Business Location Settings...

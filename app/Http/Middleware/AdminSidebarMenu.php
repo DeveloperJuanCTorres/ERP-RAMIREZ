@@ -526,6 +526,13 @@ class AdminSidebarMenu
                     function ($sub) use ($enabled_modules, $is_admin) {
                         if (auth()->user()->can('profit_loss_report.view')) {
                             $sub->url(
+                                action([\App\Http\Controllers\ReportController::class, 'reportPorLote']),
+                                'Consultar Lote',
+                                ['icon' => 'fa fas fa-file-invoice-dollar', 'active' => request()->segment(2) == 'reportPorLote']
+                            );
+                        }
+                        if (auth()->user()->can('profit_loss_report.view')) {
+                            $sub->url(
                                 action([\App\Http\Controllers\ReportController::class, 'getProfitLoss']),
                                 __('report.profit_loss'),
                                 ['icon' => 'fa fas fa-file-invoice-dollar', 'active' => request()->segment(2) == 'profit-loss']
