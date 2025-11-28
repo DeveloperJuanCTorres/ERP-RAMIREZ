@@ -1821,7 +1821,7 @@ class ContactController extends Controller
         $pdf = Pdf::loadView(
             'contact.estado_cuenta_pdf',
             compact('cliente','compras','pagos','totales','inicio','fin')
-        )->setPaper('a4', 'landscape');
+        )->setPaper('a4', 'portrait');
 
         return $pdf->download('Estado_Cuenta_'.$cliente->name.'.pdf');
     }
