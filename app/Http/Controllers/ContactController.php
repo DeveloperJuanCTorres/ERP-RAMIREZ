@@ -16,6 +16,7 @@ use App\Utils\ModuleUtil;
 use App\Utils\NotificationUtil;
 use App\Utils\TransactionUtil;
 use App\Utils\Util;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
 use Excel;
 use Illuminate\Http\Request;
@@ -412,6 +413,14 @@ class ContactController extends Controller
 
                     $html .= '<li class="divider"></li>';
                     if (auth()->user()->can('customer.view')) {
+                       $html .= '<li>
+                                    <a href="#" 
+                                    class="btn-estado-cuenta"
+                                    data-cliente="'.$row->id.'"
+                                    data-nombre="'.$row->name.'">
+                                        <i class="fas fa-file-pdf text-danger"></i> Estado de Cuenta
+                                    </a>
+                                </li>';
                         $html .= '
                                 <li>
                                     <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=ledger">
@@ -1741,4 +1750,80 @@ class ContactController extends Controller
             return response()->json(['status' => false, 'msg' => $th->getMessage()]);
         }        
     }
+
+    public function estadoCuenta($cliente_id)
+    {
+        $inicio = request('inicio');
+        $fin = request('fin');
+
+        $cliente = Contact::findOrFail($cliente_id);
+
+        $compras = DB::select("
+            SELECT 
+                DATE(t.transaction_date) AS fecha,
+                pl.guia AS guia,
+                pl.lot_number AS nro_motor,
+                tsl.id AS item,
+                p.name AS modelo,
+                (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price,0)) AS importe_venta,
+                (SELECT SUM(COALESCE(tl.quantity,1) * COALESCE(tl.unit_price,0))
+                FROM transaction_sell_lines tl
+                WHERE tl.transaction_id = t.id
+                ) AS subtotal_guia,
+                t.id AS transaction_id
+            FROM transactions t
+            JOIN transaction_sell_lines tsl ON tsl.transaction_id = t.id
+            LEFT JOIN purchase_lines pl ON pl.id = tsl.lot_no_line_id
+            LEFT JOIN products p ON p.id = tsl.product_id
+            WHERE t.contact_id = ?
+            AND t.status = 'final'
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+            ORDER BY t.transaction_date ASC, pl.guia
+        ", [$cliente_id, $inicio, $fin]);
+
+        $pagos = DB::select("
+            SELECT
+                tp.id AS itm,
+                (SELECT acc.name
+                FROM account_transactions at
+                JOIN accounts acc ON acc.id = at.account_id
+                WHERE at.transaction_payment_id = tp.id
+                LIMIT 1) AS cuenta,
+                tp.payment_ref_no AS nota_pago,
+                COALESCE(tp.amount,0) AS importe_cancelado,
+                DATE(tp.paid_on) AS fecha_pago
+            FROM transaction_payments tp
+            JOIN transactions t ON t.id = tp.transaction_id
+            WHERE t.contact_id = ?
+            AND DATE(tp.paid_on) BETWEEN ? AND ?
+            ORDER BY tp.paid_on ASC
+        ", [$cliente_id, $inicio, $fin]);
+
+        $totales = DB::selectOne("
+            SELECT
+            (SELECT IFNULL(SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price,0)),0)
+            FROM transaction_sell_lines tsl
+            JOIN transactions t2 ON t2.id = tsl.transaction_id
+            WHERE t2.contact_id = ?
+                AND t2.status = 'final'
+                AND DATE(t2.transaction_date) BETWEEN ? AND ?) AS total_compras,
+
+            (SELECT IFNULL(SUM(COALESCE(tp.amount,0)),0)
+            FROM transaction_payments tp
+            JOIN transactions t3 ON t3.id = tp.transaction_id
+            WHERE t3.contact_id = ?
+                AND DATE(tp.paid_on) BETWEEN ? AND ?) AS total_pagos
+        ", [$cliente_id, $inicio, $fin, $cliente_id, $inicio, $fin]);
+
+        $totales->saldo_final = $totales->total_compras - $totales->total_pagos;
+
+
+        $pdf = Pdf::loadView(
+            'contact.estado_cuenta_pdf',
+            compact('cliente','compras','pagos','totales','inicio','fin')
+        )->setPaper('a4', 'landscape');
+
+        return $pdf->download('Estado_Cuenta_'.$cliente->name.'.pdf');
+    }
+
 }

@@ -156,6 +156,15 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/contacts/customers', [ContactController::class, 'getCustomers']);
     Route::resource('contacts', ContactController::class);
 
+    // REPORTE ESTADO DE CUENTA
+
+   Route::get('/clientes/{id}/estado-cuenta',
+        [ContactController::class,'estadoCuenta']
+    )->name('cliente.estado.cuenta');
+
+
+
+
     Route::get('taxonomies-ajax-index-page', [TaxonomyController::class, 'getTaxonomyIndexPage']);
     Route::resource('taxonomies', TaxonomyController::class);
 

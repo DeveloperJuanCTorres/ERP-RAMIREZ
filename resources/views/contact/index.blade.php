@@ -230,9 +230,68 @@
 
 </section>
 <!-- /.content -->
+
+<!-- modal estado de cuenta -->
+ <div class="modal fade" id="modalEstadoCuenta" tabindex="-1">
+    <div class="modal-dialog">
+        <form method="GET" id="formEstadoCuenta" target="_blank">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white">
+                        Estado de Cuenta - <span id="nombreCliente"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="cliente_id" name="cliente_id">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Desde:</label>
+                            <input type="date" name="inicio" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Hasta:</label>
+                            <input type="date" name="fin" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i> Descargar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 @stop
 @section('javascript')
+<script>
+    $(document).on('click', '.btn-estado-cuenta', function (e) {
+        e.preventDefault();
+
+        let cliente_id = $(this).data('cliente');
+        let nombre = $(this).data('nombre');
+
+        console.log(cliente_id, nombre); // 👈 solo para probar
+
+        $('#cliente_id').val(cliente_id);
+        $('#nombreCliente').text(nombre);
+
+        $('#modalEstadoCuenta').modal('show');
+    });
+
+    $('#formEstadoCuenta').submit(function () {
+        let id = $('#cliente_id').val();
+        this.action = '/clientes/' + id + '/estado-cuenta';
+    });
+</script>
 @if(!empty($api_key))
+
 <script>
   // This example adds a search box to a map, using the Google Place Autocomplete
   // feature. People can enter geographical searches. The search box will return a
