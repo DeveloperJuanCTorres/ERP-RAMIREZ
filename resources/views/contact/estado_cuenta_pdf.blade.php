@@ -28,24 +28,16 @@
             background: #f0f0f0;
         }
 
+        tr {
+            page-break-inside: avoid;
+        }
+
+        .date {
+            white-space: nowrap;
+        }
+
         .text-right { text-align: right; }
         .text-left { text-align: left; }
-
-        /* ✅ ANCHOS COMPRAS */
-        .c-fecha { width: 10%; }
-        .c-guia { width: 12%; }
-        .c-motor { width: 15%; }
-        .c-item { width: 8%; }
-        .c-modelo { width: 25%; }
-        .c-importe { width: 15%; text-align: right; }
-        .c-subtotal { width: 15%; text-align: right; }
-
-        /* ✅ ANCHOS PAGOS (AQUÍ ERA EL PROBLEMA) */
-        .p-fecha { width: 12%; }
-        .p-cuenta { width: 18%; }
-        .p-nota { width: 35%; text-align: left; }
-        .p-importe { width: 15%; text-align: right; }
-        .p-saldo { width: 20%; text-align: right; }
 
         .titulo {
             font-size: 16px;
@@ -81,9 +73,16 @@
 
 @php
     $filasPorPagina = 20;
+
     $comprasChunks = array_chunk($compras, $filasPorPagina);
-    $pagosChunks   = array_chunk($pagos, $filasPorPagina);
-    $maxPaginas = max(count($comprasChunks), count($pagosChunks));
+
+    $pagosList = array_values($pagos);
+    $pIndex = 0;
+
+    $maxPaginas = max(
+        count($comprasChunks),
+        (int) ceil(count($pagosList) / $filasPorPagina)
+    );
 @endphp
 
 @for($pagina = 0; $pagina < $maxPaginas; $pagina++)
@@ -97,19 +96,19 @@
     <thead>
         <tr><th colspan="7">COMPRAS</th></tr>
         <tr>
-            <th class="c-fecha">Fecha</th>
-            <th class="c-guia">Guía</th>
-            <th class="c-motor">Motor</th>
-            <th class="c-item">Item</th>
-            <th class="c-modelo">Modelo</th>
-            <th class="c-importe">Importe</th>
-            <th class="c-subtotal">Subtotal</th>
+            <th>Fecha</th>
+            <th>Guía</th>
+            <th>Motor</th>
+            <th>Item</th>
+            <th>Modelo</th>
+            <th>Importe</th>
+            <th>Subtotal</th>
         </tr>
     </thead>
     <tbody>
         @foreach($comprasChunks[$pagina] ?? [] as $c)
         <tr>
-            <td>{{ $c->fecha }}</td>
+            <td class="date">{{ $c->fecha }}</td>
             <td>{{ $c->guia }}</td>
             <td>{{ $c->nro_motor }}</td>
             <td>{{ $c->item }}</td>
@@ -125,16 +124,16 @@
 <td width="50%" valign="top">
 
 {{-- ================= PAGOS ================= --}}
-@if(!empty($pagosChunks[$pagina]))
+@if($pIndex < count($pagosList))
 <table>
     <thead>
         <tr><th colspan="5">PAGOS</th></tr>
         <tr>
-            <th class="p-fecha">Fecha</th>
-            <th class="p-cuenta">Cuenta</th>
-            <th class="p-nota">Nota</th>
-            <th class="p-importe">Importe</th>
-            <th class="p-saldo">Saldo</th>
+            <th>Fecha</th>
+            <th>Cuenta</th>
+            <th>Nota</th>
+            <th>Importe</th>
+            <th>Saldo</th>
         </tr>
     </thead>
     <tbody>
@@ -145,16 +144,19 @@
             }
         @endphp
 
-        @foreach($pagosChunks[$pagina] as $p)
-            @php $saldo -= $p->importe_cancelado; @endphp
+        @for($i = 0; $i < $filasPorPagina && $pIndex < count($pagosList); $i++, $pIndex++)
+            @php
+                $p = $pagosList[$pIndex];
+                $saldo -= $p->importe_cancelado;
+            @endphp
             <tr>
-                <td>{{ $p->fecha_pago }}</td>
+                <td class="date">{{ $p->fecha_pago }}</td>
                 <td class="text-left">{{ $p->cuenta }}</td>
                 <td class="text-left">{{ $p->nota_pago }}</td>
                 <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
                 <td class="text-right">{{ number_format($saldo, 2) }}</td>
             </tr>
-        @endforeach
+        @endfor
 
     </tbody>
 </table>
