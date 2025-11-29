@@ -81,81 +81,85 @@
 {{-- ================== CICLO DE PAGINAS ================== --}}
 @for($pagina = 0; $pagina < $maxPaginas; $pagina++)
 
-<div style="height: 100%; display: flex; flex-direction: row; page-break-after: always;">
+<table width="100%" style="margin-top:10px; height: 100%;">
+<tr>
+<td width="50%" valign="top">
 
-    {{-- ================= COMPRAS ================= --}}
-    <div style="width: 50%; height: 100%;">
-        <table style="height: 100%;">
-            <thead>
-                <tr><th colspan="6">COMPRAS</th></tr>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Guía</th>
-                    <th>Motor</th>
-                    <th>Modelo</th>
-                    <th>Importe</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody style="height: 100%;">
-                @foreach($comprasChunks[$pagina] ?? [] as $c)
-                <tr>
-                    <td>{{ $c->fecha }}</td>
-                    <td>{{ $c->guia }}</td>
-                    <td>{{ $c->nro_motor }}</td>
-                    <td class="text-left">{{ $c->modelo }}</td>
-                    <td class="text-right">{{ number_format($c->importe_venta, 2) }}</td>
-                    <td class="text-right">{{ number_format($c->subtotal_guia, 2) }}</td>
-                </tr>
-                @endforeach
-                @for($i = count($comprasChunks[$pagina] ?? []) ; $i < $filasPorPagina; $i++)
-                <tr>
-                    <td colspan="6">&nbsp;</td>
-                </tr>
-                @endfor
-            </tbody>
-        </table>
-    </div>
+{{-- ================= COMPRAS ================= --}}
+<table>
+    <thead>
+        <tr><th colspan="6">COMPRAS</th></tr>
+        <tr>
+            <th>Fecha</th>
+            <th>Guía</th>
+            <th>Motor</th>
+            <th>Modelo</th>
+            <th>Importe</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($comprasChunks[$pagina] ?? [] as $c)
+        <tr>
+            <td>{{ $c->fecha }}</td>
+            <td>{{ $c->guia }}</td>
+            <td>{{ $c->nro_motor }}</td>
+            <td class="text-left">{{ $c->modelo }}</td>
+            <td class="text-right">{{ number_format($c->importe_venta, 2) }}</td>
+            <td class="text-right">{{ number_format($c->subtotal_guia, 2) }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 
-    {{-- ================= PAGOS ================= --}}
-    <div style="width: 50%; height: 100%;">
-        @if(!empty($pagosChunks[$pagina]))
-        <table style="height: 100%;">
-            <thead>
-                <tr><th colspan="5">PAGOS</th></tr>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Cuenta</th>
-                    <th>Nota</th>
-                    <th>Importe</th>
-                    <th>Saldo</th>
-                </tr>
-            </thead>
-            <tbody style="height: 100%;">
-                @php if ($pagina == 0) { $saldo = $totales->total_compras; } @endphp
-                @foreach($pagosChunks[$pagina] as $p)
-                    @php $saldo -= $p->importe_cancelado; @endphp
-                    <tr>
-                        <td>{{ $p->fecha_pago }}</td>
-                        <td class="text-left">{{ $p->cuenta }}</td>
-                        <td class="nota-una-linea" title="{{ $p->nota_pago }}">
-                            {{ str_replace(["\r","\n","\t"], ' ', $p->nota_pago) }}
-                        </td>
-                        <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
-                        <td class="text-right">{{ number_format($saldo, 2) }}</td>
-                    </tr>
-                @endforeach
-                @for($i = count($pagosChunks[$pagina]) ; $i < $filasPorPagina; $i++)
-                <tr>
-                    <td colspan="5">&nbsp;</td>
-                </tr>
-                @endfor
-            </tbody>
-        </table>
-        @endif
-    </div>
+</td>
+<td width="50%" valign="top">
 
-</div>
+{{-- ================= PAGOS (OPCIÓN 1: SOLO SI HAY REGISTROS) ================= --}}
+@if(!empty($pagosChunks[$pagina]))
+<table>
+    <thead>
+        <tr><th colspan="5">PAGOS</th></tr>
+        <tr>
+            <th style="width: 15%;">Fecha</th>
+            <th style="width: 25%;">Cuenta</th>
+            <th style="width: 24%;">Nota</th>
+            <th style="width: 18%;">Importe</th>
+            <th style="width: 18%;">Saldo</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @php
+            if ($pagina == 0) {
+                $saldo = $totales->total_compras;
+            }
+        @endphp
+
+        @foreach($pagosChunks[$pagina] as $p)
+            @php $saldo -= $p->importe_cancelado; @endphp
+            <tr>
+                <td>{{ $p->fecha_pago }}</td>
+                <td class="text-left">{{ $p->cuenta }}</td>
+                <td class="nota-una-linea" title="{{ $p->nota_pago }}">
+                    {{ str_replace(["\r","\n","\t"], ' ', $p->nota_pago) }}
+                </td>
+                <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
+                <td class="text-right">{{ number_format($saldo, 2) }}</td>
+            </tr>
+        @endforeach
+
+    </tbody>
+</table>
+@endif
+
+</td>
+</tr>
+</table>
+
+@if($pagina < $maxPaginas - 1)
+<div class="page-break"></div>
+@endif
 
 @endfor
 
