@@ -1,4 +1,3 @@
-@php use Illuminate\Support\Str; @endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,40 +13,20 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
         }
 
         th, td {
             border: 1px solid #000;
             padding: 4px;
             text-align: center;
-            word-wrap: break-word;
-            overflow: hidden;
         }
 
         th {
             background: #f0f0f0;
         }
 
-        tr {
-            page-break-inside: avoid;
-        }
-
-        .date {
-            white-space: nowrap;
-        }
-
-        .nota-fija {
-            white-space: normal;
-            word-break: break-word;
-        }
-
-        tbody tr {
-            height: 18px;
-        }
-
         .text-right { text-align: right; }
-        .text-left  { text-align: left; }
+        .text-left { text-align: left; }
 
         .titulo {
             font-size: 16px;
@@ -73,6 +52,7 @@
 </head>
 <body>
 
+{{-- ================== ENCABEZADO ================== --}}
 <div class="titulo">ESTADO DE CUENTA POR CLIENTE</div>
 
 <div class="subtitulo">
@@ -82,22 +62,19 @@
 </div>
 
 @php
+    // Cantidad máxima de filas por página
     $filasPorPagina = 20;
 
     $comprasChunks = array_chunk($compras, $filasPorPagina);
+    $pagosChunks   = array_chunk($pagos, $filasPorPagina);
 
-    $pagosList = array_values($pagos);
-    $pIndex = 0;
-
-    $maxPaginas = max(
-        count($comprasChunks),
-        (int) ceil(count($pagosList) / $filasPorPagina)
-    );
+    $maxPaginas = max(count($comprasChunks), count($pagosChunks));
 @endphp
 
+{{-- ================== CICLO DE PAGINAS ================== --}}
 @for($pagina = 0; $pagina < $maxPaginas; $pagina++)
 
-<table style="margin-top:10px;">
+<table width="100%" style="margin-top:10px;">
 <tr>
 <td width="50%" valign="top">
 
@@ -118,7 +95,7 @@
     <tbody>
         @foreach($comprasChunks[$pagina] ?? [] as $c)
         <tr>
-            <td class="date">{{ $c->fecha }}</td>
+            <td>{{ $c->fecha }}</td>
             <td>{{ $c->guia }}</td>
             <td>{{ $c->nro_motor }}</td>
             <td>{{ $c->item }}</td>
@@ -133,8 +110,8 @@
 </td>
 <td width="50%" valign="top">
 
-{{-- ================= PAGOS ================= --}}
-@if($pIndex < count($pagosList))
+{{-- ================= PAGOS (OPCIÓN 1: SOLO SI HAY REGISTROS) ================= --}}
+@if(!empty($pagosChunks[$pagina]))
 <table>
     <thead>
         <tr><th colspan="5">PAGOS</th></tr>
@@ -154,32 +131,16 @@
             }
         @endphp
 
-        @for($i = 0; $i < $filasPorPagina && $pIndex < count($pagosList); $i++, $pIndex++)
-            @php
-                $p = $pagosList[$pIndex];
-                $saldo -= $p->importe_cancelado;
-            @endphp
+        @foreach($pagosChunks[$pagina] as $p)
+            @php $saldo -= $p->importe_cancelado; @endphp
             <tr>
-                <td class="date">{{ $p->fecha_pago }}</td>
+                <td>{{ $p->fecha_pago }}</td>
                 <td class="text-left">{{ $p->cuenta }}</td>
-                <td class="text-left nota-fija">
-                    {{
-                        Str::limit(
-                            trim(
-                                str_replace(
-                                    ["\r", "\n", "\t"],
-                                    ' ',
-                                    $p->nota_pago
-                                )
-                            ),
-                            120
-                        )
-                    }}
-                </td>
+                <td>{{ $p->nota_pago }}</td>
                 <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
                 <td class="text-right">{{ number_format($saldo, 2) }}</td>
             </tr>
-        @endfor
+        @endforeach
 
     </tbody>
 </table>
@@ -195,7 +156,7 @@
 
 @endfor
 
-{{-- ================= TOTALES ================= --}}
+{{-- ================= TOTALES FINALES ================= --}}
 <table style="margin-top:15px;">
     <tr class="totales">
         <td width="70%">TOTAL COMPRAS</td>
@@ -213,6 +174,7 @@
 
 <br><br>
 
+{{-- ================= FIRMAS ================= --}}
 <table style="width:100%; border:none;">
 <tr>
     <td style="border:none; text-align:center">__________________________</td>
