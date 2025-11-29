@@ -121,11 +121,11 @@
     <thead>
         <tr><th colspan="5">PAGOS</th></tr>
         <tr>
-            <th>Fecha</th>
-            <th>Cuenta</th>
-            <th>Nota</th>
-            <th>Importe</th>
-            <th>Saldo</th>
+            <th style="width: 15%;">Fecha</th>
+            <th style="width: 20%;">Cuenta</th>
+            <th style="width: 25%;">Nota</th>
+            <th style="width: 20%;">Importe</th>
+            <th style="width: 20%;">Saldo</th>
         </tr>
     </thead>
     <tbody>
