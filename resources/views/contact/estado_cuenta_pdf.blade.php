@@ -81,7 +81,7 @@
 {{-- ================== CICLO DE PAGINAS ================== --}}
 @for($pagina = 0; $pagina < $maxPaginas; $pagina++)
 
-<table width="100%" style="margin-top:10px; height: 100%;">
+<table width="100%" style="margin-top:10px;">
 <tr>
 <td width="50%" valign="top">
 
