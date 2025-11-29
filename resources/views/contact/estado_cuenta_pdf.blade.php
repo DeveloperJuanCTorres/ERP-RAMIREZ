@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Str; @endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,8 +37,19 @@
             white-space: nowrap;
         }
 
+        .nota-fija {
+            white-space: pre-line;
+            word-break: break-word;
+            max-height: 38px;
+            overflow: hidden;
+        }
+
+        tbody tr {
+            height: 18px;
+        }
+
         .text-right { text-align: right; }
-        .text-left { text-align: left; }
+        .text-left  { text-align: left; }
 
         .titulo {
             font-size: 16px;
@@ -152,7 +164,9 @@
             <tr>
                 <td class="date">{{ $p->fecha_pago }}</td>
                 <td class="text-left">{{ $p->cuenta }}</td>
-                <td class="text-left">{{ $p->nota_pago }}</td>
+                <td class="text-left nota-fija">
+                    {{ Str::limit(preg_replace('/\s+/', ' ', $p->nota_pago), 120) }}
+                </td>
                 <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
                 <td class="text-right">{{ number_format($saldo, 2) }}</td>
             </tr>
