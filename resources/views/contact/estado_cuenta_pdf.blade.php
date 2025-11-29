@@ -13,12 +13,15 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         th, td {
             border: 1px solid #000;
             padding: 4px;
             text-align: center;
+            word-wrap: break-word;
+            overflow: hidden;
         }
 
         th {
@@ -27,6 +30,22 @@
 
         .text-right { text-align: right; }
         .text-left { text-align: left; }
+
+        /* ✅ ANCHOS COMPRAS */
+        .c-fecha { width: 10%; }
+        .c-guia { width: 12%; }
+        .c-motor { width: 15%; }
+        .c-item { width: 8%; }
+        .c-modelo { width: 25%; }
+        .c-importe { width: 15%; text-align: right; }
+        .c-subtotal { width: 15%; text-align: right; }
+
+        /* ✅ ANCHOS PAGOS (AQUÍ ERA EL PROBLEMA) */
+        .p-fecha { width: 12%; }
+        .p-cuenta { width: 18%; }
+        .p-nota { width: 35%; text-align: left; }
+        .p-importe { width: 15%; text-align: right; }
+        .p-saldo { width: 20%; text-align: right; }
 
         .titulo {
             font-size: 16px;
@@ -52,7 +71,6 @@
 </head>
 <body>
 
-{{-- ================== ENCABEZADO ================== --}}
 <div class="titulo">ESTADO DE CUENTA POR CLIENTE</div>
 
 <div class="subtitulo">
@@ -62,19 +80,15 @@
 </div>
 
 @php
-    // Cantidad máxima de filas por página
     $filasPorPagina = 20;
-
     $comprasChunks = array_chunk($compras, $filasPorPagina);
     $pagosChunks   = array_chunk($pagos, $filasPorPagina);
-
     $maxPaginas = max(count($comprasChunks), count($pagosChunks));
 @endphp
 
-{{-- ================== CICLO DE PAGINAS ================== --}}
 @for($pagina = 0; $pagina < $maxPaginas; $pagina++)
 
-<table width="100%" style="margin-top:10px;">
+<table style="margin-top:10px;">
 <tr>
 <td width="50%" valign="top">
 
@@ -83,13 +97,13 @@
     <thead>
         <tr><th colspan="7">COMPRAS</th></tr>
         <tr>
-            <th>Fecha</th>
-            <th>Guía</th>
-            <th>Motor</th>
-            <th>Item</th>
-            <th>Modelo</th>
-            <th>Importe</th>
-            <th>Subtotal</th>
+            <th class="c-fecha">Fecha</th>
+            <th class="c-guia">Guía</th>
+            <th class="c-motor">Motor</th>
+            <th class="c-item">Item</th>
+            <th class="c-modelo">Modelo</th>
+            <th class="c-importe">Importe</th>
+            <th class="c-subtotal">Subtotal</th>
         </tr>
     </thead>
     <tbody>
@@ -110,17 +124,17 @@
 </td>
 <td width="50%" valign="top">
 
-{{-- ================= PAGOS (OPCIÓN 1: SOLO SI HAY REGISTROS) ================= --}}
+{{-- ================= PAGOS ================= --}}
 @if(!empty($pagosChunks[$pagina]))
 <table>
     <thead>
         <tr><th colspan="5">PAGOS</th></tr>
         <tr>
-            <th>Fecha</th>
-            <th>Cuenta</th>
-            <th>Nota</th>
-            <th>Importe</th>
-            <th>Saldo</th>
+            <th class="p-fecha">Fecha</th>
+            <th class="p-cuenta">Cuenta</th>
+            <th class="p-nota">Nota</th>
+            <th class="p-importe">Importe</th>
+            <th class="p-saldo">Saldo</th>
         </tr>
     </thead>
     <tbody>
@@ -136,7 +150,7 @@
             <tr>
                 <td>{{ $p->fecha_pago }}</td>
                 <td class="text-left">{{ $p->cuenta }}</td>
-                <td>{{ $p->nota_pago }}</td>
+                <td class="text-left">{{ $p->nota_pago }}</td>
                 <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
                 <td class="text-right">{{ number_format($saldo, 2) }}</td>
             </tr>
@@ -156,7 +170,7 @@
 
 @endfor
 
-{{-- ================= TOTALES FINALES ================= --}}
+{{-- ================= TOTALES ================= --}}
 <table style="margin-top:15px;">
     <tr class="totales">
         <td width="70%">TOTAL COMPRAS</td>
@@ -174,7 +188,6 @@
 
 <br><br>
 
-{{-- ================= FIRMAS ================= --}}
 <table style="width:100%; border:none;">
 <tr>
     <td style="border:none; text-align:center">__________________________</td>
