@@ -81,7 +81,7 @@
 {{-- ================= COMPRAS ================= --}}
 <table>
     <thead>
-        <tr><th colspan="7">COMPRAS</th></tr>
+        <tr><th colspan="6">COMPRAS</th></tr>
         <tr>
             <th>Fecha</th>
             <th>Guía</th>
