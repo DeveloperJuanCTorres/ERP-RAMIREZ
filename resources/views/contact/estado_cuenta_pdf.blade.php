@@ -52,6 +52,7 @@
 </head>
 <body>
 
+{{-- ================== ENCABEZADO ================== --}}
 <div class="titulo">ESTADO DE CUENTA POR CLIENTE</div>
 
 <div class="subtitulo">
@@ -70,6 +71,7 @@
     $maxPaginas = max(count($comprasChunks), count($pagosChunks));
 @endphp
 
+{{-- ================== CICLO DE PAGINAS ================== --}}
 @for($pagina = 0; $pagina < $maxPaginas; $pagina++)
 
 <table width="100%" style="margin-top:10px;">
@@ -108,7 +110,8 @@
 </td>
 <td width="50%" valign="top">
 
-{{-- ================= PAGOS ================= --}}
+{{-- ================= PAGOS (OPCIÓN 1: SOLO SI HAY REGISTROS) ================= --}}
+@if(!empty($pagosChunks[$pagina]))
 <table>
     <thead>
         <tr><th colspan="5">PAGOS</th></tr>
@@ -128,7 +131,7 @@
             }
         @endphp
 
-        @foreach($pagosChunks[$pagina] ?? [] as $p)
+        @foreach($pagosChunks[$pagina] as $p)
             @php $saldo -= $p->importe_cancelado; @endphp
             <tr>
                 <td>{{ $p->fecha_pago }}</td>
@@ -141,6 +144,7 @@
 
     </tbody>
 </table>
+@endif
 
 </td>
 </tr>
@@ -170,6 +174,7 @@
 
 <br><br>
 
+{{-- ================= FIRMAS ================= --}}
 <table style="width:100%; border:none;">
 <tr>
     <td style="border:none; text-align:center">__________________________</td>
