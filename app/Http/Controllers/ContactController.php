@@ -1789,7 +1789,7 @@ class ContactController extends Controller
                 JOIN accounts acc ON acc.id = at.account_id
                 WHERE at.transaction_payment_id = tp.id
                 LIMIT 1) AS cuenta,
-                tp.payment_ref_no AS nota_pago,
+                tp.note AS nota_pago,
                 COALESCE(tp.amount,0) AS importe_cancelado,
                 DATE(tp.paid_on) AS fecha_pago
             FROM transaction_payments tp
