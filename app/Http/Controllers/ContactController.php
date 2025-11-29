@@ -1768,8 +1768,7 @@ class ContactController extends Controller
                 (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price,0)) AS importe_venta,
                 (SELECT SUM(COALESCE(tl.quantity,1) * COALESCE(tl.unit_price,0))
                 FROM transaction_sell_lines tl
-                WHERE tl.transaction_id = t.id
-                ) AS subtotal_guia,
+                WHERE tl.transaction_id = t.id) AS subtotal_guia,
                 t.id AS transaction_id
             FROM transactions t
             JOIN transaction_sell_lines tsl ON tsl.transaction_id = t.id
@@ -1781,6 +1780,7 @@ class ContactController extends Controller
             ORDER BY t.transaction_date ASC, pl.guia
         ", [$cliente_id, $inicio, $fin]);
 
+        // ✅ PAGOS LIMPIOS DESDE SQL
         $pagos = DB::select("
             SELECT
                 tp.id AS itm,
@@ -1789,9 +1789,18 @@ class ContactController extends Controller
                 JOIN accounts acc ON acc.id = at.account_id
                 WHERE at.transaction_payment_id = tp.id
                 LIMIT 1) AS cuenta,
-                tp.note AS nota_pago,
+
+                TRIM(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(tp.note, '\r', ' '),
+                        '\n', ' '),
+                    '\t', ' ')
+                ) AS nota_pago,
+
                 COALESCE(tp.amount,0) AS importe_cancelado,
                 DATE(tp.paid_on) AS fecha_pago
+
             FROM transaction_payments tp
             JOIN transactions t ON t.id = tp.transaction_id
             WHERE t.contact_id = ?
@@ -1799,24 +1808,30 @@ class ContactController extends Controller
             ORDER BY tp.paid_on ASC
         ", [$cliente_id, $inicio, $fin]);
 
+        // ✅ DOBLE SEGURIDAD EN PHP
+        foreach ($pagos as $p) {
+            $p->nota_pago = trim(
+                preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago)
+            );
+        }
+
         $totales = DB::selectOne("
             SELECT
             (SELECT IFNULL(SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price,0)),0)
             FROM transaction_sell_lines tsl
             JOIN transactions t2 ON t2.id = tsl.transaction_id
             WHERE t2.contact_id = ?
-                AND t2.status = 'final'
-                AND DATE(t2.transaction_date) BETWEEN ? AND ?) AS total_compras,
+            AND t2.status = 'final'
+            AND DATE(t2.transaction_date) BETWEEN ? AND ?) AS total_compras,
 
             (SELECT IFNULL(SUM(COALESCE(tp.amount,0)),0)
             FROM transaction_payments tp
             JOIN transactions t3 ON t3.id = tp.transaction_id
             WHERE t3.contact_id = ?
-                AND DATE(tp.paid_on) BETWEEN ? AND ?) AS total_pagos
+            AND DATE(tp.paid_on) BETWEEN ? AND ?) AS total_pagos
         ", [$cliente_id, $inicio, $fin, $cliente_id, $inicio, $fin]);
 
         $totales->saldo_final = $totales->total_compras - $totales->total_pagos;
-
 
         $pdf = Pdf::loadView(
             'contact.estado_cuenta_pdf',
@@ -1827,9 +1842,7 @@ class ContactController extends Controller
         ]);
 
         return $pdf->stream('estado_cuenta.pdf');
-
-
-        // return $pdf->download('Estado_Cuenta_'.$cliente->name.'.pdf');
     }
+
 
 }
