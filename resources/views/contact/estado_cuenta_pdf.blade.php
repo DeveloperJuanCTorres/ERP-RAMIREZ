@@ -19,6 +19,7 @@
             border: 1px solid #000;
             padding: 4px;
             text-align: center;
+            vertical-align: middle;
         }
 
         th {
@@ -49,9 +50,21 @@
             page-break-after: always;
         }
 
+        /* ================= SOLUCIÓN DEFINITIVA ================= */
+
+        /* Altura fija que acepta MÁXIMO 2 líneas */
         tbody tr {
-            height: 12px;
+            height: 22px;
         }
+
+        .celda-dos-lineas {
+            height: 22px;
+            line-height: 11px;     /* 2 líneas exactas */
+            overflow: hidden;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
     </style>
 </head>
 <body>
@@ -66,28 +79,12 @@
 </div>
 
 @php
-    // Cantidad máxima de filas por página
     $filasPorPagina = 20;
 
     $comprasChunks = array_chunk($compras, $filasPorPagina);
     $pagosChunks   = array_chunk($pagos, $filasPorPagina);
 
     $maxPaginas = max(count($comprasChunks), count($pagosChunks));
-
-    for ($i = 0; $i < $maxPaginas; $i++) {
-        $comprasChunks[$i] = $comprasChunks[$i] ?? [];
-        $pagosChunks[$i]   = $pagosChunks[$i] ?? [];
-
-        // ✅ RELLENAR COMPRAS SI FALTAN FILAS
-        while (count($comprasChunks[$i]) < $filasPorPagina) {
-            $comprasChunks[$i][] = null;
-        }
-
-        // ✅ RELLENAR PAGOS SI FALTAN FILAS
-        while (count($pagosChunks[$i]) < $filasPorPagina) {
-            $pagosChunks[$i][] = null;
-        }
-    }
 @endphp
 
 {{-- ================== CICLO DE PAGINAS ================== --}}
@@ -111,14 +108,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($comprasChunks[$pagina] as $c)
+        @foreach($comprasChunks[$pagina] ?? [] as $c)
         <tr>
-            <td>{{ $c->fecha ?? '' }}</td>
-            <td>{{ $c->guia ?? '' }}</td>
-            <td>{{ $c->nro_motor ?? '' }}</td>
-            <td class="text-left">{{ $c->modelo ?? '' }}</td>
-            <td class="text-right">{{ isset($c) ? number_format($c->importe_venta, 2) : '' }}</td>
-            <td class="text-right">{{ isset($c) ? number_format($c->subtotal_guia, 2) : '' }}</td>
+            <td class="celda-dos-lineas">{{ $c->fecha }}</td>
+            <td class="celda-dos-lineas">{{ $c->guia }}</td>
+            <td class="celda-dos-lineas">{{ $c->nro_motor }}</td>
+            <td class="celda-dos-lineas text-left">{{ $c->modelo }}</td>
+            <td class="celda-dos-lineas text-right">{{ number_format($c->importe_venta, 2) }}</td>
+            <td class="celda-dos-lineas text-right">{{ number_format($c->subtotal_guia, 2) }}</td>
         </tr>
         @endforeach
     </tbody>
@@ -127,7 +124,7 @@
 </td>
 <td width="50%" valign="top">
 
-{{-- ================= PAGOS (OPCIÓN 1: SOLO SI HAY REGISTROS) ================= --}}
+{{-- ================= PAGOS ================= --}}
 @if(!empty($pagosChunks[$pagina]))
 <table>
     <thead>
@@ -149,21 +146,18 @@
         @endphp
 
         @foreach($pagosChunks[$pagina] as $p)
-
-        @php
-            if ($p) {
-                $saldo -= $p->importe_cancelado;
-            }
-        @endphp
-
-        <tr>
-            <td>{{ $p->fecha_pago ?? '' }}</td>
-            <td class="text-left">{{ $p->cuenta ?? '' }}</td>
-            <td>{{ $p->nota_pago ?? '' }}</td>
-            <td class="text-right">{{ isset($p) ? number_format($p->importe_cancelado, 2) : '' }}</td>
-            <td class="text-right">{{ isset($p) ? number_format($saldo, 2) : '' }}</td>
-        </tr>
-
+            @php $saldo -= $p->importe_cancelado; @endphp
+            <tr>
+                <td class="celda-dos-lineas">{{ $p->fecha_pago }}</td>
+                <td class="celda-dos-lineas text-left">
+                    {{ str_replace(["\r","\n","\t"], ' ', $p->cuenta) }}
+                </td>
+                <td class="celda-dos-lineas text-left">
+                    {{ str_replace(["\r","\n","\t"], ' ', $p->nota_pago) }}
+                </td>
+                <td class="celda-dos-lineas text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
+                <td class="celda-dos-lineas text-right">{{ number_format($saldo, 2) }}</td>
+            </tr>
         @endforeach
 
     </tbody>
