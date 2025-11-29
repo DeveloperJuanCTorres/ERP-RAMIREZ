@@ -1765,8 +1765,8 @@ class ContactController extends Controller
                 pl.lot_number AS nro_motor,
                 tsl.id AS item,
                 p.name AS modelo,
-                (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price,0)) AS importe_venta,
-                (SELECT SUM(COALESCE(tl.quantity,1) * COALESCE(tl.unit_price,0))
+                (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS importe_venta,
+                (SELECT SUM(COALESCE(tl.quantity,1) * COALESCE(tl.unit_price_inc_tax,0))
                 FROM transaction_sell_lines tl
                 WHERE tl.transaction_id = t.id) AS subtotal_guia,
                 t.id AS transaction_id
@@ -1817,7 +1817,7 @@ class ContactController extends Controller
 
         $totales = DB::selectOne("
             SELECT
-            (SELECT IFNULL(SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price,0)),0)
+            (SELECT IFNULL(SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)),0)
             FROM transaction_sell_lines tsl
             JOIN transactions t2 ON t2.id = tsl.transaction_id
             WHERE t2.contact_id = ?
