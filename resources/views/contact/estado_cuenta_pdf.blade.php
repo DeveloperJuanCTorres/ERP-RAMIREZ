@@ -48,6 +48,13 @@
         .page-break {
             page-break-after: always;
         }
+
+        .nota-una-linea {
+            white-space: nowrap;       /* no permite saltos */
+            overflow: hidden;          /* oculta lo que sobra */
+            text-overflow: ellipsis;   /* muestra ... */
+            max-width: 200px;          /* ajusta según tu diseño */
+        }
     </style>
 </head>
 <body>
@@ -134,7 +141,9 @@
             <tr>
                 <td>{{ $p->fecha_pago }}</td>
                 <td class="text-left">{{ $p->cuenta }}</td>
-                <td>{{ $p->nota_pago }}</td>
+                <td class="nota-una-linea" title="{{ $p->nota_pago }}">
+                    {{ str_replace(["\r","\n","\t"], ' ', $p->nota_pago) }}
+                </td>
                 <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
                 <td class="text-right">{{ number_format($saldo, 2) }}</td>
             </tr>
