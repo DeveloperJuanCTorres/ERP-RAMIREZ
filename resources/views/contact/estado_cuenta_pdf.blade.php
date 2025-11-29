@@ -48,6 +48,10 @@
         .page-break {
             page-break-after: always;
         }
+
+        tbody tr {
+            height: 12px;
+        }
     </style>
 </head>
 <body>
@@ -69,6 +73,21 @@
     $pagosChunks   = array_chunk($pagos, $filasPorPagina);
 
     $maxPaginas = max(count($comprasChunks), count($pagosChunks));
+
+    for ($i = 0; $i < $maxPaginas; $i++) {
+        $comprasChunks[$i] = $comprasChunks[$i] ?? [];
+        $pagosChunks[$i]   = $pagosChunks[$i] ?? [];
+
+        // ✅ RELLENAR COMPRAS SI FALTAN FILAS
+        while (count($comprasChunks[$i]) < $filasPorPagina) {
+            $comprasChunks[$i][] = null;
+        }
+
+        // ✅ RELLENAR PAGOS SI FALTAN FILAS
+        while (count($pagosChunks[$i]) < $filasPorPagina) {
+            $pagosChunks[$i][] = null;
+        }
+    }
 @endphp
 
 {{-- ================== CICLO DE PAGINAS ================== --}}
@@ -92,14 +111,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($comprasChunks[$pagina] ?? [] as $c)
+        @foreach($comprasChunks[$pagina] as $c)
         <tr>
-            <td>{{ $c->fecha }}</td>
-            <td>{{ $c->guia }}</td>
-            <td>{{ $c->nro_motor }}</td>
-            <td class="text-left">{{ $c->modelo }}</td>
-            <td class="text-right">{{ number_format($c->importe_venta, 2) }}</td>
-            <td class="text-right">{{ number_format($c->subtotal_guia, 2) }}</td>
+            <td>{{ $c->fecha ?? '' }}</td>
+            <td>{{ $c->guia ?? '' }}</td>
+            <td>{{ $c->nro_motor ?? '' }}</td>
+            <td class="text-left">{{ $c->modelo ?? '' }}</td>
+            <td class="text-right">{{ isset($c) ? number_format($c->importe_venta, 2) : '' }}</td>
+            <td class="text-right">{{ isset($c) ? number_format($c->subtotal_guia, 2) : '' }}</td>
         </tr>
         @endforeach
     </tbody>
@@ -130,14 +149,21 @@
         @endphp
 
         @foreach($pagosChunks[$pagina] as $p)
-            @php $saldo -= $p->importe_cancelado; @endphp
-            <tr>
-                <td>{{ $p->fecha_pago }}</td>
-                <td class="text-left">{{ $p->cuenta }}</td>
-                <td>{{ $p->nota_pago }}</td>
-                <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
-                <td class="text-right">{{ number_format($saldo, 2) }}</td>
-            </tr>
+
+        @php
+            if ($p) {
+                $saldo -= $p->importe_cancelado;
+            }
+        @endphp
+
+        <tr>
+            <td>{{ $p->fecha_pago ?? '' }}</td>
+            <td class="text-left">{{ $p->cuenta ?? '' }}</td>
+            <td>{{ $p->nota_pago ?? '' }}</td>
+            <td class="text-right">{{ isset($p) ? number_format($p->importe_cancelado, 2) : '' }}</td>
+            <td class="text-right">{{ isset($p) ? number_format($saldo, 2) : '' }}</td>
+        </tr>
+
         @endforeach
 
     </tbody>
