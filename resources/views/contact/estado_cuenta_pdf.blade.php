@@ -38,10 +38,8 @@
         }
 
         .nota-fija {
-            white-space: pre-line;
+            white-space: normal;
             word-break: break-word;
-            max-height: 38px;
-            overflow: hidden;
         }
 
         tbody tr {
@@ -165,7 +163,18 @@
                 <td class="date">{{ $p->fecha_pago }}</td>
                 <td class="text-left">{{ $p->cuenta }}</td>
                 <td class="text-left nota-fija">
-                    {{ Str::limit(preg_replace('/\s+/', ' ', $p->nota_pago), 120) }}
+                    {{
+                        Str::limit(
+                            trim(
+                                str_replace(
+                                    ["\r", "\n", "\t"],
+                                    ' ',
+                                    $p->nota_pago
+                                )
+                            ),
+                            120
+                        )
+                    }}
                 </td>
                 <td class="text-right">{{ number_format($p->importe_cancelado, 2) }}</td>
                 <td class="text-right">{{ number_format($saldo, 2) }}</td>
