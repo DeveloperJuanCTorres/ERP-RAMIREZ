@@ -53,7 +53,7 @@
             white-space: nowrap;       /* no permite saltos */
             overflow: hidden;          /* oculta lo que sobra */
             text-overflow: ellipsis;   /* muestra ... */
-            max-width: 200px;          /* ajusta según tu diseño */
+            max-width: 150px;          /* ajusta según tu diseño */
         }
     </style>
 </head>
