@@ -86,7 +86,7 @@
             <th>Fecha</th>
             <th>Guía</th>
             <th>Motor</th>
-            <th>Item</th>
+            <!-- <th>Item</th> -->
             <th>Modelo</th>
             <th>Importe</th>
             <th>Subtotal</th>
@@ -98,7 +98,7 @@
             <td>{{ $c->fecha }}</td>
             <td>{{ $c->guia }}</td>
             <td>{{ $c->nro_motor }}</td>
-            <td>{{ $c->item }}</td>
+            <!-- <td> $c->item </td> -->
             <td class="text-left">{{ $c->modelo }}</td>
             <td class="text-right">{{ number_format($c->importe_venta, 2) }}</td>
             <td class="text-right">{{ number_format($c->subtotal_guia, 2) }}</td>
