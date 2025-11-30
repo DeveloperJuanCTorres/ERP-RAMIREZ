@@ -1762,7 +1762,7 @@ class ContactController extends Controller
             SELECT 
                 DATE(t.transaction_date) AS fecha,
                 pl.guia AS guia,
-                t.ref_no AS ref_no,
+                t.invoice_no AS invoice_no,
                 pl.lot_number AS nro_motor,
                 tsl.id AS item,
                 p.name AS modelo,

@@ -12,21 +12,10 @@
 
         .text-right { text-align: right; }
         .text-left  { text-align: left; }
-
         .titulo { font-size: 16px; font-weight: bold; text-align: center; }
+
         .subtitulo p { margin: 2px 0; font-size: 13px; }
-
         .totales td { font-weight: bold; background: #e8e8e8; }
-
-        .page-break { page-break-after: always; }
-
-        .nota-una-linea {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 150px;
-            display: inline-block;
-        }
 
         tr { page-break-inside: avoid; }
     </style>
@@ -37,125 +26,116 @@
 
 <div class="subtitulo">
     <p>Cliente: <strong>{{ $cliente->name }} {{ $cliente->supplier_business_name ?? '' }}</strong></p>
-    <p>RUC / DNI: <strong>{{ $cliente->contact_id }}</strong></p>
+    <p>Documento: <strong>{{ $cliente->contact_id }}</strong></p>
     <p>Desde: <strong>{{ $inicio }}</strong> - Hasta: <strong>{{ $fin }}</strong></p>
 </div>
 
 <br>
 
-{{-- ================= AGRUPAMOS COMPRAS POR TRANSACCIÓN ================= --}}
 @php
     $comprasPorVenta = collect($compras)->groupBy('transaction_id');
 @endphp
 
-{{-- ================= RECORREMOS CADA COMPRA ================= --}}
-@foreach($comprasPorVenta as $transaction_id => $detalleCompra)
-
-@php
-    $subtotalVenta = $detalleCompra->first()->subtotal_guia;
-    $fechaVenta    = $detalleCompra->first()->fecha;
-
-    $pagosDeVenta = collect($pagos)->where('transaction_id', $transaction_id);
-@endphp
-
-{{-- ===== CABECERA DE LA COMPRA ===== --}}
-<table style="margin-top:10px;">
-    <tr>
-        <th width="25%">Fecha</th>
-        <th width="25%">Subtotal Venta</th>
-        <th width="25%">Total Pagado</th>
-        <th width="25%">Saldo</th>
-    </tr>
-    <tr>
-        <td>{{ $fechaVenta }}</td>
-        <td class="text-right">{{ number_format($subtotalVenta,2) }}</td>
-        <td class="text-right">{{ number_format($pagosDeVenta->sum('importe_cancelado'),2) }}</td>
-        <td class="text-right">{{ number_format($subtotalVenta - $pagosDeVenta->sum('importe_cancelado'),2) }}</td>
-    </tr>
-</table>
-
-<br>
-
-{{-- ================= COMPRAS vs PAGOS ================= --}}
-<table width="100%">
-<tr>
-
-{{-- ================= COMPRAS (MOTORES) ================= --}}
-<td width="50%" valign="top">
 <table>
     <thead>
-        <tr><th colspan="6">DETALLE DE LA COMPRA</th></tr>
+        <tr>
+            <th colspan="6">COMPRAS</th>
+            <th colspan="4">PAGOS</th>
+        </tr>
         <tr>
             <th>Fecha</th>
             <th>Invoice</th>
             <th>Motor</th>
             <th>Modelo</th>
-            <th>Precio Venta</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($detalleCompra as $c)
-        <tr>
-            <td>{{ $c->fecha }}</td>
-            <td>{{ $c->ref_no }}</td>
-            <td>{{ $c->nro_motor }}</td>
-            <td class="text-left">{{ $c->modelo }}</td>
-            <td class="text-right">{{ number_format($c->importe_venta,2) }}</td>
-            <td class="text-right">{{ number_format($c->subtotal_guia,2) }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-</td>
+            <th>Precio</th>
+            <th>Subtotal Venta</th>
 
-{{-- ================= PAGOS DE ESA COMPRA ================= --}}
-<td width="50%" valign="top">
-
-@if($pagosDeVenta->count())
-<table>
-    <thead>
-        <tr><th colspan="4">PAGOS DE ESTA COMPRA</th></tr>
-        <tr>
-            <th>Fecha</th>
+            <th>Fecha Pago</th>
             <th>Cuenta</th>
             <th>Nota</th>
             <th>Importe</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($pagosDeVenta as $p)
+
+@foreach($comprasPorVenta as $transaction_id => $detalleCompra)
+
+    @php
+        $pagosDeVenta = collect($pagos)->where('transaction_id', $transaction_id)->values();
+        $maxFilas = max($detalleCompra->count(), $pagosDeVenta->count());
+        $subtotalVenta = $detalleCompra->first()->subtotal_guia;
+        $fechaVenta    = $detalleCompra->first()->fecha;
+        $invoiceVenta  = $detalleCompra->first()->invoice_no ?? $detalleCompra->first()->guia;
+    @endphp
+
+    @for($i = 0; $i < $maxFilas; $i++)
+
+        @php
+            $c = $detalleCompra[$i] ?? null;
+            $p = $pagosDeVenta[$i] ?? null;
+        @endphp
+
         <tr>
-            <td>{{ $p->fecha_pago }}</td>
-            <td class="text-left">{{ $p->cuenta }}</td>
-            <td class="text-left">
-                <span class="nota-una-linea" title="{{ $p->nota_pago }}">
-                    {{ $p->nota_pago }}
-                </span>
+
+            {{-- ===== FECHA (SOLO 1 VEZ) ===== --}}
+            @if($i == 0)
+                <td rowspan="{{ $maxFilas }}">{{ $fechaVenta }}</td>
+                <td rowspan="{{ $maxFilas }}">{{ $invoiceVenta }}</td>
+            @endif
+
+            {{-- ===== MOTORES ===== --}}
+            <td>{{ $c->nro_motor ?? '' }}</td>
+            <td class="text-left">{{ $c->modelo ?? '' }}</td>
+            <td class="text-right">
+                {{ isset($c) ? number_format($c->importe_venta,2) : '' }}
             </td>
-            <td class="text-right">{{ number_format($p->importe_cancelado,2) }}</td>
+
+            {{-- ===== SUBTOTAL (SOLO 1 VEZ) ===== --}}
+            @if($i == 0)
+                <td rowspan="{{ $maxFilas }}" class="text-right">
+                    {{ number_format($subtotalVenta,2) }}
+                </td>
+            @endif
+
+            {{-- ===== PAGOS ===== --}}
+            <td>{{ $p->fecha_pago ?? '' }}</td>
+            <td class="text-left">{{ $p->cuenta ?? '' }}</td>
+            <td class="text-left">{{ $p->nota_pago ?? '' }}</td>
+            <td class="text-right">
+                {{ isset($p) ? number_format($p->importe_cancelado,2) : '' }}
+            </td>
+
         </tr>
-        @endforeach
-    </tbody>
-</table>
-@else
-<table>
-    <tr><th>PAGOS</th></tr>
-    <tr><td>SIN PAGOS</td></tr>
-</table>
-@endif
 
-</td>
-</tr>
-</table>
+    @endfor
 
-<br>
-<div class="page-break"></div>
+    {{-- ===== RESUMEN POR VENTA ===== --}}
+    <tr class="totales">
+        <td colspan="5" class="text-right">TOTAL VENTA</td>
+        <td class="text-right">{{ number_format($subtotalVenta,2) }}</td>
+
+        <td colspan="3" class="text-right">TOTAL PAGADO</td>
+        <td class="text-right">
+            {{ number_format($pagosDeVenta->sum('importe_cancelado'),2) }}
+        </td>
+    </tr>
+
+    <tr class="totales">
+        <td colspan="9" class="text-right">SALDO DE ESTA VENTA</td>
+        <td class="text-right">
+            {{ number_format($subtotalVenta - $pagosDeVenta->sum('importe_cancelado'),2) }}
+        </td>
+    </tr>
 
 @endforeach
 
-{{-- ================= TOTALES FINALES ================= --}}
-<table style="margin-top:10px;">
+    </tbody>
+</table>
+
+<br>
+
+{{-- ============ TOTALES GENERALES ============ --}}
+<table style="margin-top:15px;">
     <tr class="totales">
         <td width="70%">TOTAL COMPRAS</td>
         <td class="text-right">{{ number_format($totales->total_compras,2) }}</td>
