@@ -83,8 +83,8 @@
         <tr>
 
             {{-- ====== FECHA / INVOICE (SOLO PRIMERA FILA) ====== --}}
-            <td>{{ $i == 0 ? $fechaVenta : '' }}</td>
-            <td>{{ $i == 0 ? $invoiceVenta : '' }}</td>
+            <td>{{ $fechaVenta ?? ''}}</td>
+            <td>{{ $invoiceVenta ?? '' }}</td>
 
             {{-- ====== MOTORES ====== --}}
             <td>{{ $c->nro_motor ?? '' }}</td>
@@ -95,7 +95,7 @@
 
             {{-- ====== SUBTOTAL (SOLO PRIMERA FILA) ====== --}}
             <td class="text-right">
-                {{ $i == 0 ? number_format($subtotalVenta,2) : '' }}
+                {{ isset($c) ? number_format($c->importe_venta,2) : '' }}
             </td>
 
             {{-- ====== PAGOS ====== --}}
