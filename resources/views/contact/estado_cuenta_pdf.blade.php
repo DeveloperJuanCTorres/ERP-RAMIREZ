@@ -6,7 +6,7 @@
 
     <style>
         body { font-family: DejaVu Sans; font-size: 10px; }
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; page-break-inside: auto;}
         th, td { border: 1px solid #000; padding: 4px; text-align: center; }
         th { background: #f0f0f0; }
 
@@ -17,7 +17,9 @@
         .subtitulo p { margin: 2px 0; font-size: 13px; }
         .totales td { font-weight: bold; background: #e8e8e8; }
 
-        tr { page-break-inside: avoid; }
+        tr { page-break-inside: avoid; page-break-after: auto;}
+        thead { display: table-header-group; }
+        tfoot { display: table-footer-group; }
     </style>
 </head>
 <body>
@@ -61,13 +63,16 @@
 @foreach($comprasPorVenta as $transaction_id => $detalleCompra)
 
     @php
-        $pagosDeVenta = collect($pagos)->where('transaction_id', $transaction_id)->values();
-        $maxFilas = max($detalleCompra->count(), $pagosDeVenta->count());
-        $subtotalVenta = $detalleCompra->first()->subtotal_guia;
-        $fechaVenta    = $detalleCompra->first()->fecha;
-        $invoiceVenta  = $detalleCompra->first()->invoice_no ?? $detalleCompra->first()->guia;
+        $pagosDeVenta   = collect($pagos)->where('transaction_id', $transaction_id)->values();
+        $maxFilas       = max($detalleCompra->count(), $pagosDeVenta->count());
+        $subtotalVenta  = $detalleCompra->first()->subtotal_guia;
+        $fechaVenta     = $detalleCompra->first()->fecha;
+        $invoiceVenta   = $detalleCompra->first()->invoice_no ?? $detalleCompra->first()->guia;
+        $totalPagado    = $pagosDeVenta->sum('importe_cancelado');
+        $saldoVenta     = $subtotalVenta - $totalPagado;
     @endphp
 
+    {{-- ====== FILAS EMPAREJADAS (SIN ROWSPAN) ====== --}}
     @for($i = 0; $i < $maxFilas; $i++)
 
         @php
@@ -77,27 +82,23 @@
 
         <tr>
 
-            {{-- ===== FECHA (SOLO 1 VEZ) ===== --}}
-            @if($i == 0)
-                <td rowspan="{{ $maxFilas }}">{{ $fechaVenta }}</td>
-                <td rowspan="{{ $maxFilas }}">{{ $invoiceVenta }}</td>
-            @endif
+            {{-- ====== FECHA / INVOICE (SOLO PRIMERA FILA) ====== --}}
+            <td>{{ $i == 0 ? $fechaVenta : '' }}</td>
+            <td>{{ $i == 0 ? $invoiceVenta : '' }}</td>
 
-            {{-- ===== MOTORES ===== --}}
+            {{-- ====== MOTORES ====== --}}
             <td>{{ $c->nro_motor ?? '' }}</td>
             <td class="text-left">{{ $c->modelo ?? '' }}</td>
             <td class="text-right">
                 {{ isset($c) ? number_format($c->importe_venta,2) : '' }}
             </td>
 
-            {{-- ===== SUBTOTAL (SOLO 1 VEZ) ===== --}}
-            @if($i == 0)
-                <td rowspan="{{ $maxFilas }}" class="text-right">
-                    {{ number_format($subtotalVenta,2) }}
-                </td>
-            @endif
+            {{-- ====== SUBTOTAL (SOLO PRIMERA FILA) ====== --}}
+            <td class="text-right">
+                {{ $i == 0 ? number_format($subtotalVenta,2) : '' }}
+            </td>
 
-            {{-- ===== PAGOS ===== --}}
+            {{-- ====== PAGOS ====== --}}
             <td>{{ $p->fecha_pago ?? '' }}</td>
             <td class="text-left">{{ $p->cuenta ?? '' }}</td>
             <td class="text-left">{{ $p->nota_pago ?? '' }}</td>
@@ -109,22 +110,18 @@
 
     @endfor
 
-    {{-- ===== RESUMEN POR VENTA ===== --}}
+    {{-- ====== RESUMEN POR VENTA (NO SE ROMPE EN PDF) ====== --}}
     <tr class="totales">
         <td colspan="5" class="text-right">TOTAL VENTA</td>
         <td class="text-right">{{ number_format($subtotalVenta,2) }}</td>
 
         <td colspan="3" class="text-right">TOTAL PAGADO</td>
-        <td class="text-right">
-            {{ number_format($pagosDeVenta->sum('importe_cancelado'),2) }}
-        </td>
+        <td class="text-right">{{ number_format($totalPagado,2) }}</td>
     </tr>
 
     <tr class="totales">
         <td colspan="9" class="text-right">SALDO DE ESTA VENTA</td>
-        <td class="text-right">
-            {{ number_format($subtotalVenta - $pagosDeVenta->sum('importe_cancelado'),2) }}
-        </td>
+        <td class="text-right">{{ number_format($saldoVenta,2) }}</td>
     </tr>
 
 @endforeach
