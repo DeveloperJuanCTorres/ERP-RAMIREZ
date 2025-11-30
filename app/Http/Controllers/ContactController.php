@@ -1751,171 +1751,173 @@ class ContactController extends Controller
         }        
     }
 
-    // public function estadoCuenta($cliente_id)
-    // {
-    //     $inicio = request('inicio');
-    //     $fin = request('fin');
-
-    //     $cliente = Contact::findOrFail($cliente_id);
-
-    //     $compras = DB::select("
-    //         SELECT 
-    //             DATE(t.transaction_date) AS fecha,
-    //             pl.guia AS guia,
-    //             pl.lot_number AS nro_motor,
-    //             tsl.id AS item,
-    //             p.name AS modelo,
-    //             (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS importe_venta,
-    //             (SELECT SUM(COALESCE(tl.quantity,1) * COALESCE(tl.unit_price_inc_tax,0))
-    //             FROM transaction_sell_lines tl
-    //             WHERE tl.transaction_id = t.id) AS subtotal_guia,
-    //             t.id AS transaction_id
-    //         FROM transactions t
-    //         JOIN transaction_sell_lines tsl ON tsl.transaction_id = t.id
-    //         LEFT JOIN purchase_lines pl ON pl.id = tsl.lot_no_line_id
-    //         LEFT JOIN products p ON p.id = tsl.product_id
-    //         WHERE t.contact_id = ?
-    //         AND t.status = 'final'
-    //         AND DATE(t.transaction_date) BETWEEN ? AND ?
-    //         ORDER BY t.transaction_date ASC, pl.guia
-    //     ", [$cliente_id, $inicio, $fin]);
-
-    //     // ✅ PAGOS LIMPIOS DESDE SQL
-    //     $pagos = DB::select("
-    //         SELECT
-    //             tp.id AS itm,
-    //             (SELECT acc.name
-    //             FROM account_transactions at
-    //             JOIN accounts acc ON acc.id = at.account_id
-    //             WHERE at.transaction_payment_id = tp.id
-    //             LIMIT 1) AS cuenta,
-
-    //             TRIM(
-    //                 REPLACE(
-    //                     REPLACE(
-    //                         REPLACE(tp.note, '\r', ' '),
-    //                     '\n', ' '),
-    //                 '\t', ' ')
-    //             ) AS nota_pago,
-
-    //             COALESCE(tp.amount,0) AS importe_cancelado,
-    //             DATE(tp.paid_on) AS fecha_pago
-
-    //         FROM transaction_payments tp
-    //         JOIN transactions t ON t.id = tp.transaction_id
-    //         WHERE t.contact_id = ?
-    //         AND DATE(tp.paid_on) BETWEEN ? AND ?
-    //         ORDER BY tp.paid_on ASC
-    //     ", [$cliente_id, $inicio, $fin]);
-
-    //     // ✅ DOBLE SEGURIDAD EN PHP
-    //     foreach ($pagos as $p) {
-    //         $p->nota_pago = trim(
-    //             preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago)
-    //         );
-    //     }
-
-    //     $totales = DB::selectOne("
-    //         SELECT
-    //         (SELECT IFNULL(SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)),0)
-    //         FROM transaction_sell_lines tsl
-    //         JOIN transactions t2 ON t2.id = tsl.transaction_id
-    //         WHERE t2.contact_id = ?
-    //         AND t2.status = 'final'
-    //         AND DATE(t2.transaction_date) BETWEEN ? AND ?) AS total_compras,
-
-    //         (SELECT IFNULL(SUM(COALESCE(tp.amount,0)),0)
-    //         FROM transaction_payments tp
-    //         JOIN transactions t3 ON t3.id = tp.transaction_id
-    //         WHERE t3.contact_id = ?
-    //         AND DATE(tp.paid_on) BETWEEN ? AND ?) AS total_pagos
-    //     ", [$cliente_id, $inicio, $fin, $cliente_id, $inicio, $fin]);
-
-    //     $totales->saldo_final = $totales->total_compras - $totales->total_pagos;
-
-    //     $pdf = Pdf::loadView(
-    //         'contact.estado_cuenta_pdf',
-    //         compact('cliente','compras','pagos','totales','inicio','fin')
-    //     )->setPaper('a4', 'landscape')->setOptions([
-    //         'isHtml5ParserEnabled' => true,
-    //         'isRemoteEnabled' => true
-    //     ]);
-
-    //     return $pdf->stream('estado_cuenta.pdf');
-    // }
-
     public function estadoCuenta($cliente_id)
     {
         $inicio = request('inicio');
-        $fin    = request('fin');
+        $fin = request('fin');
 
         $cliente = Contact::findOrFail($cliente_id);
 
-        // ✅ 1) VENTAS (CABECERA)
-        $ventas = DB::select("
+        $compras = DB::select("
             SELECT 
-                t.id,
                 DATE(t.transaction_date) AS fecha,
-                SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS total_venta
+                pl.guia AS guia,
+                t.ref_no AS ref_no,
+                pl.lot_number AS nro_motor,
+                tsl.id AS item,
+                p.name AS modelo,
+                (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS importe_venta,
+                (SELECT SUM(COALESCE(tl.quantity,1) * COALESCE(tl.unit_price_inc_tax,0))
+                FROM transaction_sell_lines tl
+                WHERE tl.transaction_id = t.id) AS subtotal_guia,
+                t.id AS transaction_id
             FROM transactions t
             JOIN transaction_sell_lines tsl ON tsl.transaction_id = t.id
+            LEFT JOIN purchase_lines pl ON pl.id = tsl.lot_no_line_id
+            LEFT JOIN products p ON p.id = tsl.product_id
             WHERE t.contact_id = ?
             AND t.status = 'final'
             AND DATE(t.transaction_date) BETWEEN ? AND ?
-            GROUP BY t.id, t.transaction_date
-            ORDER BY t.transaction_date ASC
+            ORDER BY t.transaction_date ASC, pl.guia
         ", [$cliente_id, $inicio, $fin]);
 
-        foreach ($ventas as $venta) {
+        // ✅ PAGOS LIMPIOS DESDE SQL
+        $pagos = DB::select("
+            SELECT
+                tp.id AS itm,
+                tp.transaction_id,
+                (SELECT acc.name
+                FROM account_transactions at
+                JOIN accounts acc ON acc.id = at.account_id
+                WHERE at.transaction_payment_id = tp.id
+                LIMIT 1) AS cuenta,
 
-            // ✅ 2) LOTES / ITEMS POR VENTA
-            $venta->lotes = DB::select("
-                SELECT 
-                    pl.guia,
-                    pl.lot_number AS nro_motor,
-                    p.name AS modelo,
-                    (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS importe
-                FROM transaction_sell_lines tsl
-                LEFT JOIN purchase_lines pl ON pl.id = tsl.lot_no_line_id
-                LEFT JOIN products p ON p.id = tsl.product_id
-                WHERE tsl.transaction_id = ?
-                ORDER BY pl.guia
-            ", [$venta->id]);
+                TRIM(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(tp.note, '\r', ' '),
+                        '\n', ' '),
+                    '\t', ' ')
+                ) AS nota_pago,
 
-            // ✅ 3) PAGOS POR VENTA
-            $venta->pagos = DB::select("
-                SELECT 
-                    DATE(tp.paid_on) AS fecha_pago,
-                    COALESCE(tp.amount,0) AS importe_cancelado,
-                    TRIM(REPLACE(REPLACE(REPLACE(tp.note, '\r',' '),'\n',' '),'\t',' ')) AS nota_pago,
-                    (SELECT acc.name
-                    FROM account_transactions at
-                    JOIN accounts acc ON acc.id = at.account_id
-                    WHERE at.transaction_payment_id = tp.id
-                    LIMIT 1) AS cuenta
-                FROM transaction_payments tp
-                WHERE tp.transaction_id = ?
-                ORDER BY tp.paid_on ASC
-            ", [$venta->id]);
+                COALESCE(tp.amount,0) AS importe_cancelado,
+                DATE(tp.paid_on) AS fecha_pago
 
-            // ✅ Totales por venta
-            $venta->total_pagado = collect($venta->pagos)->sum('importe_cancelado');
-            $venta->saldo        = $venta->total_venta - $venta->total_pagado;
+            FROM transaction_payments tp
+            JOIN transactions t ON t.id = tp.transaction_id
+            WHERE t.contact_id = ?
+            AND DATE(tp.paid_on) BETWEEN ? AND ?
+            ORDER BY tp.paid_on ASC
+        ", [$cliente_id, $inicio, $fin]);
+
+        // ✅ DOBLE SEGURIDAD EN PHP
+        foreach ($pagos as $p) {
+            $p->nota_pago = trim(
+                preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago)
+            );
         }
 
-        // ✅ 4) TOTALES GENERALES
-        $totales = new \stdClass();
-        $totales->total_compras = collect($ventas)->sum('total_venta');
-        $totales->total_pagos   = collect($ventas)->sum('total_pagado');
-        $totales->saldo_final  = $totales->total_compras - $totales->total_pagos;
+        $totales = DB::selectOne("
+            SELECT
+            (SELECT IFNULL(SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)),0)
+            FROM transaction_sell_lines tsl
+            JOIN transactions t2 ON t2.id = tsl.transaction_id
+            WHERE t2.contact_id = ?
+            AND t2.status = 'final'
+            AND DATE(t2.transaction_date) BETWEEN ? AND ?) AS total_compras,
+
+            (SELECT IFNULL(SUM(COALESCE(tp.amount,0)),0)
+            FROM transaction_payments tp
+            JOIN transactions t3 ON t3.id = tp.transaction_id
+            WHERE t3.contact_id = ?
+            AND DATE(tp.paid_on) BETWEEN ? AND ?) AS total_pagos
+        ", [$cliente_id, $inicio, $fin, $cliente_id, $inicio, $fin]);
+
+        $totales->saldo_final = $totales->total_compras - $totales->total_pagos;
 
         $pdf = Pdf::loadView(
             'contact.estado_cuenta_pdf',
-            compact('cliente','ventas','totales','inicio','fin')
-        )->setPaper('a4', 'landscape');
+            compact('cliente','compras','pagos','totales','inicio','fin')
+        )->setPaper('a4', 'landscape')->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true
+        ]);
 
         return $pdf->stream('estado_cuenta.pdf');
     }
+
+    // public function estadoCuenta($cliente_id)
+    // {
+    //     $inicio = request('inicio');
+    //     $fin    = request('fin');
+
+    //     $cliente = Contact::findOrFail($cliente_id);
+
+    //     // ✅ 1) VENTAS (CABECERA)
+    //     $ventas = DB::select("
+    //         SELECT 
+    //             t.id,
+    //             DATE(t.transaction_date) AS fecha,
+    //             SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS total_venta
+    //         FROM transactions t
+    //         JOIN transaction_sell_lines tsl ON tsl.transaction_id = t.id
+    //         WHERE t.contact_id = ?
+    //         AND t.status = 'final'
+    //         AND DATE(t.transaction_date) BETWEEN ? AND ?
+    //         GROUP BY t.id, t.transaction_date
+    //         ORDER BY t.transaction_date ASC
+    //     ", [$cliente_id, $inicio, $fin]);
+
+    //     foreach ($ventas as $venta) {
+
+    //         // ✅ 2) LOTES / ITEMS POR VENTA
+    //         $venta->lotes = DB::select("
+    //             SELECT 
+    //                 pl.guia,
+    //                 pl.lot_number AS nro_motor,
+    //                 p.name AS modelo,
+    //                 (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS importe
+    //             FROM transaction_sell_lines tsl
+    //             LEFT JOIN purchase_lines pl ON pl.id = tsl.lot_no_line_id
+    //             LEFT JOIN products p ON p.id = tsl.product_id
+    //             WHERE tsl.transaction_id = ?
+    //             ORDER BY pl.guia
+    //         ", [$venta->id]);
+
+    //         // ✅ 3) PAGOS POR VENTA
+    //         $venta->pagos = DB::select("
+    //             SELECT 
+    //                 DATE(tp.paid_on) AS fecha_pago,
+    //                 COALESCE(tp.amount,0) AS importe_cancelado,
+    //                 TRIM(REPLACE(REPLACE(REPLACE(tp.note, '\r',' '),'\n',' '),'\t',' ')) AS nota_pago,
+    //                 (SELECT acc.name
+    //                 FROM account_transactions at
+    //                 JOIN accounts acc ON acc.id = at.account_id
+    //                 WHERE at.transaction_payment_id = tp.id
+    //                 LIMIT 1) AS cuenta
+    //             FROM transaction_payments tp
+    //             WHERE tp.transaction_id = ?
+    //             ORDER BY tp.paid_on ASC
+    //         ", [$venta->id]);
+
+    //         // ✅ Totales por venta
+    //         $venta->total_pagado = collect($venta->pagos)->sum('importe_cancelado');
+    //         $venta->saldo        = $venta->total_venta - $venta->total_pagado;
+    //     }
+
+    //     // ✅ 4) TOTALES GENERALES
+    //     $totales = new \stdClass();
+    //     $totales->total_compras = collect($ventas)->sum('total_venta');
+    //     $totales->total_pagos   = collect($ventas)->sum('total_pagado');
+    //     $totales->saldo_final  = $totales->total_compras - $totales->total_pagos;
+
+    //     $pdf = Pdf::loadView(
+    //         'contact.estado_cuenta_pdf',
+    //         compact('cliente','ventas','totales','inicio','fin')
+    //     )->setPaper('a4', 'landscape');
+
+    //     return $pdf->stream('estado_cuenta.pdf');
+    // }
 
 
 
