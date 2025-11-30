@@ -46,7 +46,7 @@
         </tr>
         <tr>
             <th>Fecha</th>
-            <th>Invoice</th>
+            <th>Pedido</th>
             <th>Motor</th>
             <th>Modelo</th>
             <th>Precio</th>
