@@ -83,8 +83,8 @@
         <tr>
 
             {{-- ====== FECHA / INVOICE (SOLO PRIMERA FILA) ====== --}}
-            <td>{{ $fechaVenta ?? ''}}</td>
-            <td>{{ $invoiceVenta ?? '' }}</td>
+            <td>{{ $c->fecha ?? ''}}</td>
+            <td>{{ $c->invoice_no ?? '' }}</td>
 
             {{-- ====== MOTORES ====== --}}
             <td>{{ $c->nro_motor ?? '' }}</td>
