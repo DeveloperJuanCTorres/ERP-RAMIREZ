@@ -29,23 +29,23 @@
         @can('direct_sell.access')
             @slot('tool')               
 
-                <!-- <div class="box-tools">
+                <div class="box-tools">
                     <a class="btn btn-block btn-primary" href="#" data-toggle="modal" data-target="#modalBuscarPedido">
                     <i class="fa fa-plus"></i> @lang('messages.add')</a>
                 </div>
                 <div class="box-tools" style="padding-right: 20px;">
                     <a class="btn btn-block btn-success" href="#" data-toggle="modal" data-target="#modalServicio">
                     <i class="fa fa-plus"></i> Facturar Servicios</a>
-                </div> -->
+                </div>
 
-                <button type="button" 
+                <!-- <button type="button" 
                         class="btn btn-danger box-tools" 
                         data-toggle="popover" 
                         title="Alerta de pago" 
                         data-placement="left"
                         data-content="Facturación Electrónica suspendida por falta de pago, comunicarse con el Área de Soporte">
                         Alerta de pago
-                </button>
+                </button> -->
             @endslot
         @endcan
         @if(auth()->user()->can('direct_sell.view') ||  auth()->user()->can('view_own_sell_only') ||  auth()->user()->can('view_commission_agent_sell'))
