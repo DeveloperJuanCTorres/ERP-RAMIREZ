@@ -43,7 +43,7 @@
                         data-toggle="popover" 
                         title="Alerta de pago" 
                         data-placement="left"
-                        data-content="Facturación Electrónica suspendida por falta de pago, comunicarse con el area de Soporte">
+                        data-content="Facturación Electrónica suspendida por falta de pago, comunicarse con el Área de Soporte">
                         Alerta de pago
                 </button>
             @endslot
