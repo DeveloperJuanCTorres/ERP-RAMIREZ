@@ -17,7 +17,7 @@
 <h3 class="text-center">REPORTE DE PAGOS</h3>
 
 <p>
-    <strong>Cliente:</strong> {{ $cliente->name }} <br>
+    <strong>Cliente:</strong> {{ $cliente->name . $cliente->supplier_business_name}} <br>
     <strong>Desde:</strong> {{ $inicio }} <br>
     <strong>Hasta:</strong> {{ $fin }}
 </p>
