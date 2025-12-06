@@ -1903,7 +1903,7 @@ class ContactController extends Controller
         $pdf = Pdf::loadView(
             'contact.partials.reporte_pagos_pdf',
             compact('cliente', 'pagos', 'total', 'inicio', 'fin')
-        )->setPaper('a4', 'landscape')->setOptions([
+        )->setPaper('a4', 'portrait')->setOptions([
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true
         ]);
