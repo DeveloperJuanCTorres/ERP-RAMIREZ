@@ -268,6 +268,41 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalReportePagos" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Reporte de Pagos</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="cliente_id_pagos">
+
+                <div class="form-group">
+                    <label>Fecha inicio</label>
+                    <input type="date" class="form-control" id="inicio_pagos">
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha fin</label>
+                    <input type="date" class="form-control" id="fin_pagos">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-success" id="btnGenerarReportePagos">
+                    <i class="fas fa-file-pdf"></i> Generar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @stop
 @section('javascript')
 <script>
@@ -288,6 +323,36 @@
     $('#formEstadoCuenta').submit(function () {
         let id = $('#cliente_id').val();
         this.action = '/clientes/' + id + '/estado-cuenta';
+    });
+
+
+
+    $(document).on('click', '.btn-reporte-pagos', function () {
+        $('#cliente_id_pagos').val($(this).data('cliente'));
+        $('#inicio_pagos').val('');
+        $('#fin_pagos').val('');
+        $('#modalReportePagos').modal('show');
+    });
+
+    $('#btnGenerarReportePagos').on('click', function () {
+        let cliente_id = $('#cliente_id_pagos').val();
+        let inicio = $('#inicio_pagos').val();
+        let fin = $('#fin_pagos').val();
+
+        if (!inicio || !fin) {
+            alert('Seleccione ambas fechas');
+            return;
+        }
+
+        if (fin < inicio) {
+            alert('La fecha fin no puede ser menor a la fecha inicio');
+            return;
+        }
+
+        let url = `/cliente/${cliente_id}/reporte-pagos?inicio=${inicio}&fin=${fin}`;
+        window.open(url, '_blank');
+
+        $('#modalReportePagos').modal('hide');
     });
 </script>
 @if(!empty($api_key))

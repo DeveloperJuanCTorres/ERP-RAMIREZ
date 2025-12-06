@@ -414,13 +414,21 @@ class ContactController extends Controller
                     $html .= '<li class="divider"></li>';
                     if (auth()->user()->can('customer.view')) {
                        $html .= '<li>
-                                    <a href="#" 
-                                    class="btn-estado-cuenta"
+                                <a href="#" 
+                                class="btn-estado-cuenta"
+                                data-cliente="'.$row->id.'"
+                                data-nombre="'.$row->name.'">
+                                    <i class="fas fa-file-pdf text-danger"></i> Estado de Cuenta
+                                </a>
+                            </li>';
+                        $html .= '<li>
+                                <a href="#" 
+                                    class="btn-reporte-pagos"
                                     data-cliente="'.$row->id.'"
                                     data-nombre="'.$row->name.'">
-                                        <i class="fas fa-file-pdf text-danger"></i> Estado de Cuenta
-                                    </a>
-                                </li>';
+                                    <i class="fas fa-file-pdf text-warning"></i> Reporte de Pagos
+                                </a>
+                            </li>';
                         $html .= '
                                 <li>
                                     <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=ledger">
@@ -1845,6 +1853,64 @@ class ContactController extends Controller
 
         return $pdf->stream('estado_cuenta.pdf');
     }
+
+    public function reportePagosCliente($cliente_id)
+    {
+        $inicio = request('inicio');
+        $fin = request('fin');
+
+        $cliente = Contact::findOrFail($cliente_id);
+
+        // ✅ PAGOS DEL CLIENTE
+        $pagos = DB::select("
+            SELECT
+                tp.id,
+                DATE(tp.paid_on) AS fecha_pago,
+                COALESCE(tp.amount,0) AS importe,
+                TRIM(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(tp.note, '\r', ' '),
+                        '\n', ' '),
+                    '\t', ' ')
+                ) AS nota_pago,
+                (SELECT acc.name
+                FROM account_transactions at
+                JOIN accounts acc ON acc.id = at.account_id
+                WHERE at.transaction_payment_id = tp.id
+                LIMIT 1) AS cuenta
+            FROM transaction_payments tp
+            JOIN transactions t ON t.id = tp.transaction_id
+            WHERE t.contact_id = ?
+            AND DATE(tp.paid_on) BETWEEN ? AND ?
+            ORDER BY tp.paid_on ASC
+        ", [$cliente_id, $inicio, $fin]);
+
+        // ✅ LIMPIEZA EXTRA
+        foreach ($pagos as $p) {
+            $p->nota_pago = trim(preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago));
+        }
+
+        // ✅ TOTAL PAGOS
+        $total = DB::selectOne("
+            SELECT IFNULL(SUM(COALESCE(tp.amount,0)),0) AS total_pagos
+            FROM transaction_payments tp
+            JOIN transactions t ON t.id = tp.transaction_id
+            WHERE t.contact_id = ?
+            AND DATE(tp.paid_on) BETWEEN ? AND ?
+        ", [$cliente_id, $inicio, $fin]);
+
+        $pdf = Pdf::loadView(
+            'contact.partials.reporte_pagos_pdf',
+            compact('cliente', 'pagos', 'total', 'inicio', 'fin')
+        )->setPaper('a4', 'landscape')->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true
+        ]);
+
+        return $pdf->stream('reporte_pagos.pdf');
+    }
+
 
     // public function estadoCuenta($cliente_id)
     // {
