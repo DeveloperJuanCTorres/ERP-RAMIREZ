@@ -26,27 +26,31 @@
     <thead>
         <tr>
             <th>#</th>
+            <th>Opcional</th>
             <th>Fecha Pago</th>
+            <th>Monto</th>
             <th>Cuenta</th>
             <th>Nota</th>
-            <th>Monto</th>
+            
         </tr>
     </thead>
     <tbody>
         @foreach($pagos as $i => $p)
         <tr>
             <td class="text-center">{{ $i+1 }}</td>
+            <td></td>       
             <td class="text-center">{{ $p->fecha_pago }}</td>
-            <td>{{ $p->cuenta }}</td>
-            <td>{{ $p->nota_pago }}</td>
             <td class="text-right">{{ number_format($p->importe, 2) }}</td>
+            <td>{{ $p->cuenta }}</td>
+            <td>{{ $p->nota_pago }}</td>            
         </tr>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="4" class="text-right">TOTAL PAGOS</th>
+            <th colspan="3" class="text-right">TOTAL PAGOS</th>
             <th class="text-right">{{ number_format($total->total_pagos,2) }}</th>
+            <th colspan="2"></th>
         </tr>
     </tfoot>
 </table>
