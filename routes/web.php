@@ -162,6 +162,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         [ContactController::class,'estadoCuenta']
     )->name('cliente.estado.cuenta');
 
+    Route::get('/clientes/{id}/estado-cuenta-final',
+        [ContactController::class,'estadoCuentaFinal']
+    )->name('cliente.estado.cuenta.final');
+
     //REPORTE DE PAGOS
     Route::get('/cliente/{id}/reporte-pagos', 
         [\App\Http\Controllers\ContactController::class, 'reportePagosCliente'])

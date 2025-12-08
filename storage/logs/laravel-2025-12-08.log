@@ -1,0 +1,1251 @@
+[2025-12-08 14:34:45] local.ERROR: Undefined array key "invoice_no" {"view":{"view":"D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php","data":{"asset_v":"<pre class=sf-dump id=sf-dump-480466685 data-indent-pad=\"  \"><span class=sf-dump-num>511</span>
+</pre><script>Sfdump(\"sf-dump-480466685\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","errors":"<pre class=sf-dump id=sf-dump-405026514 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#3108</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
+</samp>}
+</pre><script>Sfdump(\"sf-dump-405026514\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","cliente":"<pre class=sf-dump id=sf-dump-2115789314 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Contact</span> {<a class=sf-dump-ref>#3760</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"8 characters\">contacts</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+  +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+  +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+  +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:60</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"8 characters\">customer</span>\"
+    \"<span class=sf-dump-key>supplier_business_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">Walk-In Customer</span>\"
+    \"<span class=sf-dump-key>prefix</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>first_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>middle_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>last_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>email</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>contact_id</span>\" => \"<span class=sf-dump-str title=\"6 characters\">CO0001</span>\"
+    \"<span class=sf-dump-key>contact_status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
+    \"<span class=sf-dump-key>tax_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>city</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>state</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>country</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>zip_code</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>dob</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>mobile</span>\" => \"\"
+    \"<span class=sf-dump-key>landline</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>alternate_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>credit_limit</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>converted_by</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>converted_on</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>balance</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>total_rp</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_used</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_expired</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>is_default</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>shipping_address</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_export</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>export_custom_field_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>position</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>customer_group_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_source</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_life_stage</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field7</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field8</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field9</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field10</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>deleted_at</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:60</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"8 characters\">customer</span>\"
+    \"<span class=sf-dump-key>supplier_business_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">Walk-In Customer</span>\"
+    \"<span class=sf-dump-key>prefix</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>first_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>middle_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>last_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>email</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>contact_id</span>\" => \"<span class=sf-dump-str title=\"6 characters\">CO0001</span>\"
+    \"<span class=sf-dump-key>contact_status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
+    \"<span class=sf-dump-key>tax_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>city</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>state</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>country</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>zip_code</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>dob</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>mobile</span>\" => \"\"
+    \"<span class=sf-dump-key>landline</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>alternate_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>credit_limit</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>converted_by</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>converted_on</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>balance</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>total_rp</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_used</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_expired</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>is_default</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>shipping_address</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_export</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>export_custom_field_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>position</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>customer_group_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_source</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_life_stage</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field7</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field8</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field9</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field10</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>deleted_at</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => \"<span class=sf-dump-str title=\"5 characters\">array</span>\"
+    \"<span class=sf-dump-key>deleted_at</span>\" => \"<span class=sf-dump-str title=\"8 characters\">datetime</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+  +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">rememberTokenName</span>: \"<span class=sf-dump-str title=\"14 characters\">remember_token</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-2115789314\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","movimientos":"<pre class=sf-dump id=sf-dump-1226470280 data-indent-pad=\"  \"><span class=sf-dump-note>array:5</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"6 characters\">COMPRA</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>3</span>
+    \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>importe</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>subtotal</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe_pago</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>3300.0</span>
+  </samp>]
+  <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"6 characters\">COMPRA</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => \"<span class=sf-dump-str title=\"16 characters\">WX55566677788890</span>\"
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>6</span>
+    \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>importe</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>subtotal</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe_pago</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>6600.0</span>
+  </samp>]
+  <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>10</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">3300.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>3300.0</span>
+  </samp>]
+  <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-08-21</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>28</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => \"<span class=sf-dump-str title=\"25 characters\">BANCO DE CREDITO DEL PERU</span>\"
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"<span class=sf-dump-str title=\"4 characters\">test</span>\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">1000.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>2300.0</span>
+  </samp>]
+  <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-08-21</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>29</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"<span class=sf-dump-str title=\"37 characters\">Esta operacion es de prueba  OP:12458</span>\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">1500.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>800.0</span>
+  </samp>]
+</samp>]
+</pre><script>Sfdump(\"sf-dump-1226470280\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","totales":"<pre class=sf-dump id=sf-dump-2120536312 data-indent-pad=\"  \">{<a class=sf-dump-ref>#3710</a><samp data-depth=1 class=sf-dump-expanded>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">total_compras</span>\": \"<span class=sf-dump-str title=\"13 characters\">6600.00000000</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">total_pagos</span>\": \"<span class=sf-dump-str title=\"9 characters\">5800.0000</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">saldo_final</span>\": <span class=sf-dump-num>800.0</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-2120536312\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","inicio":"<pre class=sf-dump id=sf-dump-709049527 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"10 characters\">2025-01-01</span>\"
+</pre><script>Sfdump(\"sf-dump-709049527\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","fin":"<pre class=sf-dump id=sf-dump-1452830402 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"10 characters\">2025-12-08</span>\"
+</pre><script>Sfdump(\"sf-dump-1452830402\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","enabled_modules":"<pre class=sf-dump id=sf-dump-1980716215 data-indent-pad=\"  \"><span class=sf-dump-note>array:7</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">purchases</span>\"
+  <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"8 characters\">add_sale</span>\"
+  <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"8 characters\">pos_sale</span>\"
+  <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"15 characters\">stock_transfers</span>\"
+  <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"16 characters\">stock_adjustment</span>\"
+  <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"8 characters\">expenses</span>\"
+  <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"7 characters\">account</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-1980716215\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","__is_pusher_enabled":"<pre class=sf-dump id=sf-dump-216591729 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-216591729\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined array key \"invoice_no\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php:30)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php(30): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('contact.estado_...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\ContactController.php(2001): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\ContactController->estadoCuentaFinal('1')
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('estadoCuentaFin...', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ContactController), 'estadoCuentaFin...')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(833): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+
+[previous exception] [object] (ErrorException(code: 0): Undefined array key \"invoice_no\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5c22fda2f3a1d2f61cafe0afd34158fd48ac538c.php:30)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5c22fda2f3a1d2f61cafe0afd34158fd48ac538c.php(30): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('contact.estado_...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\ContactController.php(2001): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\ContactController->estadoCuentaFinal('1')
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('estadoCuentaFin...', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ContactController), 'estadoCuentaFin...')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(833): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+"} 
+[2025-12-08 14:35:22] local.ERROR: Undefined array key "invoice_no" {"view":{"view":"D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php","data":{"asset_v":"<pre class=sf-dump id=sf-dump-383275350 data-indent-pad=\"  \"><span class=sf-dump-num>511</span>
+</pre><script>Sfdump(\"sf-dump-383275350\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","errors":"<pre class=sf-dump id=sf-dump-1858328478 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#3108</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1858328478\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","cliente":"<pre class=sf-dump id=sf-dump-1351060920 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Contact</span> {<a class=sf-dump-ref>#3760</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"8 characters\">contacts</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+  +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+  +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+  +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:60</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"8 characters\">customer</span>\"
+    \"<span class=sf-dump-key>supplier_business_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">Walk-In Customer</span>\"
+    \"<span class=sf-dump-key>prefix</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>first_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>middle_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>last_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>email</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>contact_id</span>\" => \"<span class=sf-dump-str title=\"6 characters\">CO0001</span>\"
+    \"<span class=sf-dump-key>contact_status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
+    \"<span class=sf-dump-key>tax_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>city</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>state</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>country</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>zip_code</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>dob</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>mobile</span>\" => \"\"
+    \"<span class=sf-dump-key>landline</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>alternate_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>credit_limit</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>converted_by</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>converted_on</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>balance</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>total_rp</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_used</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_expired</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>is_default</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>shipping_address</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_export</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>export_custom_field_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>position</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>customer_group_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_source</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_life_stage</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field7</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field8</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field9</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field10</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>deleted_at</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:60</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"8 characters\">customer</span>\"
+    \"<span class=sf-dump-key>supplier_business_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">Walk-In Customer</span>\"
+    \"<span class=sf-dump-key>prefix</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>first_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>middle_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>last_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>email</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>contact_id</span>\" => \"<span class=sf-dump-str title=\"6 characters\">CO0001</span>\"
+    \"<span class=sf-dump-key>contact_status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
+    \"<span class=sf-dump-key>tax_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>city</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>state</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>country</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>zip_code</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>dob</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>mobile</span>\" => \"\"
+    \"<span class=sf-dump-key>landline</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>alternate_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>credit_limit</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>converted_by</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>converted_on</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>balance</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>total_rp</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_used</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_expired</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>is_default</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>shipping_address</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_export</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>export_custom_field_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>position</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>customer_group_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_source</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_life_stage</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field7</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field8</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field9</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field10</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>deleted_at</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => \"<span class=sf-dump-str title=\"5 characters\">array</span>\"
+    \"<span class=sf-dump-key>deleted_at</span>\" => \"<span class=sf-dump-str title=\"8 characters\">datetime</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+  +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">rememberTokenName</span>: \"<span class=sf-dump-str title=\"14 characters\">remember_token</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-1351060920\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","movimientos":"<pre class=sf-dump id=sf-dump-1465353274 data-indent-pad=\"  \"><span class=sf-dump-note>array:5</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"6 characters\">COMPRA</span>\"
+    \"<span class=sf-dump-key>invoice_no</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0002</span>\"
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>3</span>
+    \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>importe</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>subtotal</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe_pago</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>3300.0</span>
+  </samp>]
+  <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"6 characters\">COMPRA</span>\"
+    \"<span class=sf-dump-key>invoice_no</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0003</span>\"
+    \"<span class=sf-dump-key>motor</span>\" => \"<span class=sf-dump-str title=\"16 characters\">WX55566677788890</span>\"
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>6</span>
+    \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>importe</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>subtotal</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe_pago</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>6600.0</span>
+  </samp>]
+  <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>10</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">3300.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>3300.0</span>
+  </samp>]
+  <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-08-21</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>28</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => \"<span class=sf-dump-str title=\"25 characters\">BANCO DE CREDITO DEL PERU</span>\"
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"<span class=sf-dump-str title=\"4 characters\">test</span>\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">1000.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>2300.0</span>
+  </samp>]
+  <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-08-21</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>29</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"<span class=sf-dump-str title=\"37 characters\">Esta operacion es de prueba  OP:12458</span>\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">1500.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>800.0</span>
+  </samp>]
+</samp>]
+</pre><script>Sfdump(\"sf-dump-1465353274\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","totales":"<pre class=sf-dump id=sf-dump-144541031 data-indent-pad=\"  \">{<a class=sf-dump-ref>#3710</a><samp data-depth=1 class=sf-dump-expanded>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">total_compras</span>\": \"<span class=sf-dump-str title=\"13 characters\">6600.00000000</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">total_pagos</span>\": \"<span class=sf-dump-str title=\"9 characters\">5800.0000</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">saldo_final</span>\": <span class=sf-dump-num>800.0</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-144541031\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","inicio":"<pre class=sf-dump id=sf-dump-874786244 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"10 characters\">2025-01-01</span>\"
+</pre><script>Sfdump(\"sf-dump-874786244\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","fin":"<pre class=sf-dump id=sf-dump-323238765 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"10 characters\">2025-12-08</span>\"
+</pre><script>Sfdump(\"sf-dump-323238765\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","enabled_modules":"<pre class=sf-dump id=sf-dump-914878640 data-indent-pad=\"  \"><span class=sf-dump-note>array:7</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">purchases</span>\"
+  <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"8 characters\">add_sale</span>\"
+  <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"8 characters\">pos_sale</span>\"
+  <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"15 characters\">stock_transfers</span>\"
+  <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"16 characters\">stock_adjustment</span>\"
+  <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"8 characters\">expenses</span>\"
+  <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"7 characters\">account</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-914878640\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","__is_pusher_enabled":"<pre class=sf-dump id=sf-dump-1049806091 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-1049806091\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined array key \"invoice_no\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php:30)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php(30): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('contact.estado_...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\ContactController.php(2001): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\ContactController->estadoCuentaFinal('1')
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('estadoCuentaFin...', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ContactController), 'estadoCuentaFin...')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(833): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+
+[previous exception] [object] (ErrorException(code: 0): Undefined array key \"invoice_no\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5c22fda2f3a1d2f61cafe0afd34158fd48ac538c.php:30)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5c22fda2f3a1d2f61cafe0afd34158fd48ac538c.php(30): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('contact.estado_...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\ContactController.php(2001): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\ContactController->estadoCuentaFinal('1')
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('estadoCuentaFin...', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ContactController), 'estadoCuentaFin...')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(833): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+"} 
+[2025-12-08 14:36:35] local.ERROR: Undefined array key "invoice_no" {"view":{"view":"D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php","data":{"asset_v":"<pre class=sf-dump id=sf-dump-1042427521 data-indent-pad=\"  \"><span class=sf-dump-num>511</span>
+</pre><script>Sfdump(\"sf-dump-1042427521\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","errors":"<pre class=sf-dump id=sf-dump-406910582 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#3108</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
+</samp>}
+</pre><script>Sfdump(\"sf-dump-406910582\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","cliente":"<pre class=sf-dump id=sf-dump-504605114 data-indent-pad=\"  \"><span class=sf-dump-note>App\\Contact</span> {<a class=sf-dump-ref>#3760</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">connection</span>: \"<span class=sf-dump-str title=\"5 characters\">mysql</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">table</span>: \"<span class=sf-dump-str title=\"8 characters\">contacts</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">primaryKey</span>: \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">keyType</span>: \"<span class=sf-dump-str title=\"3 characters\">int</span>\"
+  +<span class=sf-dump-public title=\"Public property\">incrementing</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">with</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">withCount</span>: []
+  +<span class=sf-dump-public title=\"Public property\">preventsLazyLoading</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">perPage</span>: <span class=sf-dump-num>15</span>
+  +<span class=sf-dump-public title=\"Public property\">exists</span>: <span class=sf-dump-const>true</span>
+  +<span class=sf-dump-public title=\"Public property\">wasRecentlyCreated</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+  #<span class=sf-dump-protected title=\"Protected property\">attributes</span>: <span class=sf-dump-note>array:60</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"8 characters\">customer</span>\"
+    \"<span class=sf-dump-key>supplier_business_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">Walk-In Customer</span>\"
+    \"<span class=sf-dump-key>prefix</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>first_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>middle_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>last_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>email</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>contact_id</span>\" => \"<span class=sf-dump-str title=\"6 characters\">CO0001</span>\"
+    \"<span class=sf-dump-key>contact_status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
+    \"<span class=sf-dump-key>tax_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>city</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>state</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>country</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>zip_code</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>dob</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>mobile</span>\" => \"\"
+    \"<span class=sf-dump-key>landline</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>alternate_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>credit_limit</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>converted_by</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>converted_on</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>balance</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>total_rp</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_used</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_expired</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>is_default</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>shipping_address</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_export</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>export_custom_field_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>position</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>customer_group_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_source</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_life_stage</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field7</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field8</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field9</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field10</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>deleted_at</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">original</span>: <span class=sf-dump-note>array:60</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>business_id</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>type</span>\" => \"<span class=sf-dump-str title=\"8 characters\">customer</span>\"
+    \"<span class=sf-dump-key>supplier_business_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>name</span>\" => \"<span class=sf-dump-str title=\"16 characters\">Walk-In Customer</span>\"
+    \"<span class=sf-dump-key>prefix</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>first_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>middle_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>last_name</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>email</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>contact_id</span>\" => \"<span class=sf-dump-str title=\"6 characters\">CO0001</span>\"
+    \"<span class=sf-dump-key>contact_status</span>\" => \"<span class=sf-dump-str title=\"6 characters\">active</span>\"
+    \"<span class=sf-dump-key>tax_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>city</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>state</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>country</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>address_line_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>zip_code</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>dob</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>mobile</span>\" => \"\"
+    \"<span class=sf-dump-key>landline</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>alternate_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_number</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>pay_term_type</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>credit_limit</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>created_by</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>converted_by</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>converted_on</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>balance</span>\" => \"<span class=sf-dump-str title=\"6 characters\">0.0000</span>\"
+    \"<span class=sf-dump-key>total_rp</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_used</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>total_rp_expired</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>is_default</span>\" => <span class=sf-dump-num>1</span>
+    \"<span class=sf-dump-key>shipping_address</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>is_export</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>export_custom_field_1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>export_custom_field_6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>position</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>customer_group_id</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_source</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>crm_life_stage</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field1</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field2</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field3</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field4</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field5</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field6</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field7</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field8</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field9</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>custom_field10</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>deleted_at</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>created_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+    \"<span class=sf-dump-key>updated_at</span>\" => \"<span class=sf-dump-str title=\"19 characters\">2023-06-16 20:33:40</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">changes</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">casts</span>: <span class=sf-dump-note>array:2</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>shipping_custom_field_details</span>\" => \"<span class=sf-dump-str title=\"5 characters\">array</span>\"
+    \"<span class=sf-dump-key>deleted_at</span>\" => \"<span class=sf-dump-str title=\"8 characters\">datetime</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">classCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">attributeCastCache</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dates</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dateFormat</span>: <span class=sf-dump-const>null</span>
+  #<span class=sf-dump-protected title=\"Protected property\">appends</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">dispatchesEvents</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">observables</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">relations</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">touches</span>: []
+  +<span class=sf-dump-public title=\"Public property\">timestamps</span>: <span class=sf-dump-const>true</span>
+  #<span class=sf-dump-protected title=\"Protected property\">hidden</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">visible</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">fillable</span>: []
+  #<span class=sf-dump-protected title=\"Protected property\">guarded</span>: <span class=sf-dump-note>array:1</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"2 characters\">id</span>\"
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">rememberTokenName</span>: \"<span class=sf-dump-str title=\"14 characters\">remember_token</span>\"
+  #<span class=sf-dump-protected title=\"Protected property\">forceDeleting</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-504605114\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","movimientos":"<pre class=sf-dump id=sf-dump-1002691054 data-indent-pad=\"  \"><span class=sf-dump-note>array:5</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"6 characters\">COMPRA</span>\"
+    \"<span class=sf-dump-key>invoice_no</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0002</span>\"
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>3</span>
+    \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>importe</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>subtotal</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe_pago</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>3300.0</span>
+  </samp>]
+  <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"6 characters\">COMPRA</span>\"
+    \"<span class=sf-dump-key>invoice_no</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0003</span>\"
+    \"<span class=sf-dump-key>motor</span>\" => \"<span class=sf-dump-str title=\"16 characters\">WX55566677788890</span>\"
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>6</span>
+    \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+    \"<span class=sf-dump-key>importe</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>subtotal</span>\" => \"<span class=sf-dump-str title=\"13 characters\">3300.00000000</span>\"
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe_pago</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>6600.0</span>
+  </samp>]
+  <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-05-26</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>10</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">3300.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>3300.0</span>
+  </samp>]
+  <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-08-21</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>28</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => \"<span class=sf-dump-str title=\"25 characters\">BANCO DE CREDITO DEL PERU</span>\"
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"<span class=sf-dump-str title=\"4 characters\">test</span>\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">1000.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>2300.0</span>
+  </samp>]
+  <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=2 class=sf-dump-compact>
+    \"<span class=sf-dump-key>fecha</span>\" => \"<span class=sf-dump-str title=\"10 characters\">2025-08-21</span>\"
+    \"<span class=sf-dump-key>tipo</span>\" => \"<span class=sf-dump-str title=\"4 characters\">PAGO</span>\"
+    \"<span class=sf-dump-key>guia</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>motor</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>item</span>\" => <span class=sf-dump-num>29</span>
+    \"<span class=sf-dump-key>modelo</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>importe</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>subtotal</span>\" => <span class=sf-dump-num>0</span>
+    \"<span class=sf-dump-key>cuenta</span>\" => <span class=sf-dump-const>null</span>
+    \"<span class=sf-dump-key>nota_pago</span>\" => \"<span class=sf-dump-str title=\"37 characters\">Esta operacion es de prueba  OP:12458</span>\"
+    \"<span class=sf-dump-key>importe_pago</span>\" => \"<span class=sf-dump-str title=\"9 characters\">1500.0000</span>\"
+    \"<span class=sf-dump-key>saldo</span>\" => <span class=sf-dump-num>800.0</span>
+  </samp>]
+</samp>]
+</pre><script>Sfdump(\"sf-dump-1002691054\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","totales":"<pre class=sf-dump id=sf-dump-2128850421 data-indent-pad=\"  \">{<a class=sf-dump-ref>#3710</a><samp data-depth=1 class=sf-dump-expanded>
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">total_compras</span>\": \"<span class=sf-dump-str title=\"13 characters\">6600.00000000</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">total_pagos</span>\": \"<span class=sf-dump-str title=\"9 characters\">5800.0000</span>\"
+  +\"<span class=sf-dump-public title=\"Runtime added dynamic property\">saldo_final</span>\": <span class=sf-dump-num>800.0</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-2128850421\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","inicio":"<pre class=sf-dump id=sf-dump-305451888 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"10 characters\">2025-01-01</span>\"
+</pre><script>Sfdump(\"sf-dump-305451888\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","fin":"<pre class=sf-dump id=sf-dump-1408574622 data-indent-pad=\"  \">\"<span class=sf-dump-str title=\"10 characters\">2025-12-08</span>\"
+</pre><script>Sfdump(\"sf-dump-1408574622\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","enabled_modules":"<pre class=sf-dump id=sf-dump-346960888 data-indent-pad=\"  \"><span class=sf-dump-note>array:7</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">purchases</span>\"
+  <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"8 characters\">add_sale</span>\"
+  <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"8 characters\">pos_sale</span>\"
+  <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"15 characters\">stock_transfers</span>\"
+  <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"16 characters\">stock_adjustment</span>\"
+  <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"8 characters\">expenses</span>\"
+  <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"7 characters\">account</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-346960888\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","__is_pusher_enabled":"<pre class=sf-dump id=sf-dump-2048880736 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-2048880736\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined array key \"invoice_no\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php:30)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\contact\\estado_cuenta_final_pdf.blade.php(30): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('contact.estado_...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\ContactController.php(2001): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\ContactController->estadoCuentaFinal('1')
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('estadoCuentaFin...', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ContactController), 'estadoCuentaFin...')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(833): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+
+[previous exception] [object] (ErrorException(code: 0): Undefined array key \"invoice_no\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5c22fda2f3a1d2f61cafe0afd34158fd48ac538c.php:30)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5c22fda2f3a1d2f61cafe0afd34158fd48ac538c.php(30): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 30)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('contact.estado_...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\ContactController.php(2001): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\ContactController->estadoCuentaFinal('1')
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('estadoCuentaFin...', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ContactController), 'estadoCuentaFin...')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(833): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+"} 

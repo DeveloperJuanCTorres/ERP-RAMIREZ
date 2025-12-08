@@ -268,6 +268,43 @@
     </div>
 </div>
 
+<!-- modal estado de cuenta final -->
+ <div class="modal fade" id="modalEstadoCuentaFinal" tabindex="-1">
+    <div class="modal-dialog">
+        <form method="GET" id="formEstadoCuentaFinal" target="_blank">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white">
+                        Estado de Cuenta - <span id="nombreClienteF"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="cliente_id_f" name="cliente_id_f">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Desde:</label>
+                            <input type="date" name="inicio_f" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Hasta:</label>
+                            <input type="date" name="fin_f" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i> Descargar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="modal fade" id="modalReportePagos" tabindex="-1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -325,7 +362,36 @@
         this.action = '/clientes/' + id + '/estado-cuenta';
     });
 
+    ////////////
 
+    $(document).on('click', '.btn-estado-cuenta-final', function (e) {
+        e.preventDefault();
+
+        let cliente_id_f = $(this).data('cliente'); // ✅ mismo nombre
+        let nombre_f     = $(this).data('nombre');
+
+        console.log(cliente_id_f, nombre_f); // ahora sí mostrará el ID real
+
+        $('#cliente_id_f').val(cliente_id_f);
+        $('#nombreClienteF').text(nombre_f);
+
+        $('#modalEstadoCuentaFinal').modal('show');
+    });
+
+    $('#formEstadoCuentaFinal').submit(function () {
+        let id = $('#cliente_id_f').val();
+
+        if (!id) {
+            alert('No se ha seleccionado un cliente.');
+            return false;
+        }
+
+        this.action = '/clientes/' + id + '/estado-cuenta-final';
+        return true; // ✅ IMPORTANTE: permite el submit
+    });
+
+
+    //////////
 
     $(document).on('click', '.btn-reporte-pagos', function () {
         $('#cliente_id_pagos').val($(this).data('cliente'));
