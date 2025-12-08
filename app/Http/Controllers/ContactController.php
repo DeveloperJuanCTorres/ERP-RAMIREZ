@@ -1992,6 +1992,24 @@ class ContactController extends Controller
             $m['saldo'] = $saldo;
         }
 
+        // ✅ MARCAR FILA DONDE SE MOSTRARÁ EL SALDO (JUSTO ANTES DE CADA PAGO)
+        for ($i = 0; $i < count($movimientos); $i++) {
+
+            // Si el movimiento actual es PAGO,
+            // mostramos el saldo en la fila anterior
+            if ($movimientos[$i]['tipo'] === 'PAGO' && $i > 0) {
+
+                $movimientos[$i - 1]['mostrar_saldo'] = true;
+                $movimientos[$i - 1]['saldo_visible'] = $movimientos[$i - 1]['saldo'];
+            }
+        }
+
+        // Inicializar bandera en todos
+        foreach ($movimientos as &$m) {
+            $m['mostrar_saldo']  = $m['mostrar_saldo']  ?? false;
+            $m['saldo_visible'] = $m['saldo_visible'] ?? null;
+        }
+
         // ✅ MARCAR PRIMER Y ÚLTIMO ITEM DE CADA PEDIDO
         $indicesCompra = [];
 

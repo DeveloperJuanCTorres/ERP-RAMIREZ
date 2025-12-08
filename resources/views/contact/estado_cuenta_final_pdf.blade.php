@@ -51,7 +51,7 @@
             </td>
 
             <td align="right">
-                {{ number_format($m['saldo'],2) }}
+                {{ $m['mostrar_saldo'] ? number_format($m['saldo_visible'],2) : '' }}
             </td>
         </tr>
     @endforeach
