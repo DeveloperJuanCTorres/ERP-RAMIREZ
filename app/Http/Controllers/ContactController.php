@@ -1865,7 +1865,7 @@ class ContactController extends Controller
     public function estadoCuentaFinal($cliente_id)
     {
         $inicio = request('inicio_f');
-        $fin = request('fin_f');
+        $fin    = request('fin_f');
 
         $cliente = Contact::findOrFail($cliente_id);
 
@@ -1892,7 +1892,6 @@ class ContactController extends Controller
             ORDER BY t.transaction_date ASC, pl.guia
         ", [$cliente_id, $inicio, $fin]);
 
-        // ✅ PAGOS LIMPIOS DESDE SQL
         $pagos = DB::select("
             SELECT
                 tp.id AS itm,
@@ -1921,11 +1920,8 @@ class ContactController extends Controller
             ORDER BY tp.paid_on ASC
         ", [$cliente_id, $inicio, $fin]);
 
-        // ✅ DOBLE SEGURIDAD EN PHP
         foreach ($pagos as $p) {
-            $p->nota_pago = trim(
-                preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago)
-            );
+            $p->nota_pago = trim(preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago));
         }
 
         $totales = DB::selectOne("
@@ -1946,17 +1942,16 @@ class ContactController extends Controller
 
         $totales->saldo_final = $totales->total_compras - $totales->total_pagos;
 
+        // ✅ UNIFICAR MOVIMIENTOS
         $movimientos = [];
 
-        // ✅ COMPRAS → SUMAN AL SALDO
         foreach ($compras as $c) {
             $movimientos[] = [
                 'fecha'        => $c->fecha,
                 'tipo'         => 'COMPRA',
-                'invoice_no'         => $c->invoice_no,
-                'clave_compra' => $c->invoice_no, // ✅ CLAVE PARA AGRUPAR
+                'invoice_no'   => $c->invoice_no,
+                'clave_compra' => $c->invoice_no,
                 'motor'        => $c->nro_motor,
-                'item'         => $c->item,
                 'modelo'       => $c->modelo,
                 'importe'      => $c->importe_venta,
                 'subtotal'     => $c->subtotal_guia,
@@ -1966,15 +1961,13 @@ class ContactController extends Controller
             ];
         }
 
-        // ✅ PAGOS → RESTAN AL SALDO
         foreach ($pagos as $p) {
             $movimientos[] = [
                 'fecha'        => $p->fecha_pago,
                 'tipo'         => 'PAGO',
-                'invoice_no'         => null,
-                'clave_compra' => null, // ✅ IMPORTANTE
+                'invoice_no'   => null,
+                'clave_compra' => null,
                 'motor'        => null,
-                'item'         => $p->itm,
                 'modelo'       => null,
                 'importe'      => 0,
                 'subtotal'     => 0,
@@ -1984,12 +1977,11 @@ class ContactController extends Controller
             ];
         }
 
-        // ✅ ORDENAR POR FECHA
         usort($movimientos, function($a, $b) {
             return strtotime($a['fecha']) <=> strtotime($b['fecha']);
         });
 
-        // ✅ CALCULAR SALDO PROGRESIVO
+        // ✅ SALDO PROGRESIVO (IGUAL QUE TENÍAS)
         $saldo = 0;
         foreach ($movimientos as &$m) {
             if ($m['tipo'] === 'COMPRA') {
@@ -2000,25 +1992,39 @@ class ContactController extends Controller
             $m['saldo'] = $saldo;
         }
 
-        $conteoCompras = [];
+        // ✅ MARCAR PRIMER Y ÚLTIMO ITEM DE CADA PEDIDO
+        $indicesCompra = [];
 
-        foreach ($movimientos as $m) {
+        foreach ($movimientos as $i => $m) {
             if ($m['tipo'] === 'COMPRA') {
-                $clave = $m['clave_compra'];
-                $conteoCompras[$clave] = ($conteoCompras[$clave] ?? 0) + 1;
+                $indicesCompra[$m['clave_compra']][] = $i;
             }
+        }
+
+        foreach ($indicesCompra as $indices) {
+            foreach ($indices as $pos => $idx) {
+                if ($pos == 0) {
+                    $movimientos[$idx]['es_primero'] = true;
+                }
+                if ($pos == count($indices) - 1) {
+                    $movimientos[$idx]['es_ultimo'] = true;
+                }
+            }
+        }
+
+        foreach ($movimientos as &$m) {
+            $m['es_primero'] = $m['es_primero'] ?? false;
+            $m['es_ultimo']  = $m['es_ultimo']  ?? false;
         }
 
         $pdf = Pdf::loadView(
             'contact.estado_cuenta_final_pdf',
-            compact('cliente','movimientos','totales','inicio','fin','conteoCompras')
-        )->setPaper('a4', 'landscape')->setOptions([
-            'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true
-        ]);
+            compact('cliente','movimientos','totales','inicio','fin')
+        )->setPaper('a4', 'landscape');
 
         return $pdf->stream('estado_cuenta_final.pdf');
     }
+
 
     public function reportePagosCliente($cliente_id)
     {

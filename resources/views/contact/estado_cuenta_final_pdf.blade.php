@@ -21,67 +21,39 @@
             <th>Saldo</th>
         </tr>
     </thead>
-    @php
-        $comprasImpresas = [];
-        $subtotalImpreso = [];
-    @endphp
     <tbody>
-        @foreach($movimientos as $m)
-            <tr>
-                {{-- COMPRAS --}}
-                {{-- FECHA (SOLO UNA VEZ POR COMPRA) --}}
-                @if($m['tipo']=='COMPRA' && !isset($comprasImpresas[$m['clave_compra']]))
-                    <td rowspan="{{ $conteoCompras[$m['clave_compra']] }}">
-                        {{ $m['fecha'] }}
-                    </td>
-                @elseif($m['tipo']=='PAGO')
-                    <td></td>
-                @endif
+    @foreach($movimientos as $m)
+        <tr>
+            <td>{{ ($m['tipo']=='COMPRA' && $m['es_primero']) ? $m['fecha'] : '' }}</td>
+            <td>{{ ($m['tipo']=='COMPRA' && $m['es_primero']) ? $m['invoice_no'] : '' }}</td>
 
-                {{-- PEDIDO --}}
-                @if($m['tipo']=='COMPRA' && !isset($comprasImpresas[$m['clave_compra']]))
-                    <td rowspan="{{ $conteoCompras[$m['clave_compra']] }}">
-                        {{ $m['invoice_no'] }}
-                    </td>
-                    @php
-                        $comprasImpresas[$m['clave_compra']] = true;
-                    @endphp
-                @elseif($m['tipo']=='PAGO')
-                    <td></td>
-                @endif
-                <td>{{ $m['motor'] }}</td>
-                <td>{{ $m['modelo'] }}</td>
-                <td align="right">
-                    {{ $m['tipo']=='COMPRA' ? number_format($m['importe'],2) : '' }}
-                </td>
-                {{-- SUBTOTAL (SOLO UNA VEZ POR PEDIDO) --}}
-                @if($m['tipo']=='COMPRA' && !isset($subtotalImpreso[$m['clave_compra']]))
+            <td>{{ $m['motor'] }}</td>
+            <td>{{ $m['modelo'] }}</td>
 
-                    <td align="right" rowspan="{{ $conteoCompras[$m['clave_compra']] }}">
-                        {{ number_format($m['subtotal'], 2) }}
-                    </td>
+            <td align="right">
+                {{ $m['tipo']=='COMPRA' ? number_format($m['importe'],2) : '' }}
+            </td>
 
-                    @php
-                        $subtotalImpreso[$m['clave_compra']] = true;
-                    @endphp
+            <td align="right">
+                {{ ($m['tipo']=='COMPRA' && $m['es_ultimo']) ? number_format($m['subtotal'],2) : '' }}
+            </td>
 
-                @elseif($m['tipo']=='PAGO')
-                    <td></td>
-                @endif
+            <td>
+                {{ $m['tipo']=='PAGO' ? \Carbon\Carbon::parse($m['fecha'])->format('d/m/Y') : '' }}
+            </td>
 
-                {{-- PAGOS --}}
-                <td>{{ $m['tipo']=='PAGO' ? \Carbon\Carbon::parse($m['fecha'])->format('d/m/Y') : '' }}</td>
-                <td>{{ $m['cuenta'] }}</td>
-                <td style="font-size:10px">{{ $m['nota_pago'] }}</td>
-                <td align="right">
-                    {{ $m['tipo']=='PAGO' ? number_format($m['importe_pago'],2) : '' }}
-                </td>
+            <td>{{ $m['cuenta'] }}</td>
 
-                {{-- SALDO --}}
-                <td align="right">
-                    {{ number_format($m['saldo'],2) }}
-                </td>
-            </tr>
-        @endforeach
+            <td style="font-size:10px">{{ $m['nota_pago'] }}</td>
+
+            <td align="right">
+                {{ $m['tipo']=='PAGO' ? number_format($m['importe_pago'],2) : '' }}
+            </td>
+
+            <td align="right">
+                {{ number_format($m['saldo'],2) }}
+            </td>
+        </tr>
+    @endforeach
     </tbody>
 </table>
