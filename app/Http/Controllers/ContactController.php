@@ -1954,6 +1954,7 @@ class ContactController extends Controller
                 'fecha'        => $c->fecha,
                 'tipo'         => 'COMPRA',
                 'invoice_no'         => $c->invoice_no,
+                'clave_compra' => $c->invoice_no, // ✅ CLAVE PARA AGRUPAR
                 'motor'        => $c->nro_motor,
                 'item'         => $c->item,
                 'modelo'       => $c->modelo,
@@ -1971,6 +1972,7 @@ class ContactController extends Controller
                 'fecha'        => $p->fecha_pago,
                 'tipo'         => 'PAGO',
                 'invoice_no'         => null,
+                'clave_compra' => null, // ✅ IMPORTANTE
                 'motor'        => null,
                 'item'         => $p->itm,
                 'modelo'       => null,
@@ -1998,9 +2000,18 @@ class ContactController extends Controller
             $m['saldo'] = $saldo;
         }
 
+        $conteoCompras = [];
+
+        foreach ($movimientos as $m) {
+            if ($m['tipo'] === 'COMPRA') {
+                $clave = $m['clave_compra'];
+                $conteoCompras[$clave] = ($conteoCompras[$clave] ?? 0) + 1;
+            }
+        }
+
         $pdf = Pdf::loadView(
             'contact.estado_cuenta_final_pdf',
-            compact('cliente','movimientos','totales','inicio','fin')
+            compact('cliente','movimientos','totales','inicio','fin','conteoCompras')
         )->setPaper('a4', 'landscape')->setOptions([
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true
