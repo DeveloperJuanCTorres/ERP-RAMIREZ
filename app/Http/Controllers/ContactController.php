@@ -2053,28 +2053,44 @@ class ContactController extends Controller
 
         // ✅ PAGOS DEL CLIENTE
         $pagos = DB::select("
-            SELECT
-                tp.id,
-                DATE(tp.paid_on) AS fecha_pago,
-                COALESCE(tp.amount,0) AS importe,
+            SELECT DISTINCT
+                at.id,
+                DATE(at.operation_date) AS fecha_pago,
+                COALESCE(at.amount,0) AS importe,
                 TRIM(
                     REPLACE(
                         REPLACE(
-                            REPLACE(tp.note, '\r', ' '),
+                            REPLACE(tp_padre.note, '\r', ' '),
                         '\n', ' '),
                     '\t', ' ')
                 ) AS nota_pago,
-                (SELECT acc.name
-                FROM account_transactions at
-                JOIN accounts acc ON acc.id = at.account_id
-                WHERE at.transaction_payment_id = tp.id
-                LIMIT 1) AS cuenta
-            FROM transaction_payments tp
-            JOIN transactions t ON t.id = tp.transaction_id
+                acc.name AS cuenta
+            FROM account_transactions at
+
+            -- ✅ Pago REAL (PADRE = 4000)
+            JOIN transaction_payments tp_padre
+                ON tp_padre.id = at.transaction_payment_id
+            AND tp_padre.transaction_id IS NULL
+
+            -- ✅ Pagos HIJOS (3000, 1000)
+            JOIN transaction_payments tp_hijo
+                ON tp_hijo.parent_id = tp_padre.id
+
+            -- ✅ Ventas de esos hijos
+            JOIN transactions t
+                ON t.id = tp_hijo.transaction_id
+
+            JOIN accounts acc
+                ON acc.id = at.account_id
+
             WHERE t.contact_id = ?
-            AND DATE(tp.paid_on) BETWEEN ? AND ?
-            ORDER BY tp.paid_on ASC
+            AND at.type = 'credit'
+            AND DATE(at.operation_date) BETWEEN ? AND ?
+
+            ORDER BY at.operation_date ASC
         ", [$cliente_id, $inicio, $fin]);
+
+
 
         // ✅ LIMPIEZA EXTRA
         foreach ($pagos as $p) {
@@ -2083,12 +2099,25 @@ class ContactController extends Controller
 
         // ✅ TOTAL PAGOS
         $total = DB::selectOne("
-            SELECT IFNULL(SUM(COALESCE(tp.amount,0)),0) AS total_pagos
-            FROM transaction_payments tp
-            JOIN transactions t ON t.id = tp.transaction_id
+            SELECT SUM(DISTINCT at.amount) AS total_pagos
+            FROM account_transactions at
+
+            JOIN transaction_payments tp_padre
+                ON tp_padre.id = at.transaction_payment_id
+            AND tp_padre.transaction_id IS NULL
+
+            JOIN transaction_payments tp_hijo
+                ON tp_hijo.parent_id = tp_padre.id
+
+            JOIN transactions t
+                ON t.id = tp_hijo.transaction_id
+
             WHERE t.contact_id = ?
-            AND DATE(tp.paid_on) BETWEEN ? AND ?
+            AND at.type = 'credit'
+            AND DATE(at.operation_date) BETWEEN ? AND ?
         ", [$cliente_id, $inicio, $fin]);
+
+
 
         $pdf = Pdf::loadView(
             'contact.partials.reporte_pagos_pdf',

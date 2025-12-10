@@ -4,10 +4,22 @@
     <meta charset="UTF-8">
     <title>Reporte de Pagos</title>
     <style>
-        body { font-family: sans-serif; font-size: 12px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #000; padding: 4px; }
-        th { background: #f2f2f2; }
+        body { 
+            font-family: sans-serif; 
+            font-size: 12px; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 10px;
+        }
+        th, td { 
+            border: 1px solid #000; 
+            padding: 5px; 
+        }
+        th { 
+            background: #f2f2f2; 
+        }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
     </style>
@@ -17,7 +29,9 @@
 <h3 class="text-center">REPORTE DE PAGOS</h3>
 
 <p>
-    <strong>Cliente:</strong> {{ $cliente->name . $cliente->supplier_business_name}} <br>
+    <strong>Cliente:</strong> 
+    {{ $cliente->name }} {{ $cliente->supplier_business_name ?? '' }} <br>
+
     <strong>Desde:</strong> {{ $inicio }} <br>
     <strong>Hasta:</strong> {{ $fin }}
 </p>
@@ -25,31 +39,34 @@
 <table>
     <thead>
         <tr>
-            <th>#</th>
-            <th>Opcional</th>
-            <th>Fecha Pago</th>
-            <th>Monto</th>
-            <th>Cuenta</th>
-            <th>Nota</th>
-            
+            <th width="5%">#</th>
+            <th width="10%">Fecha Pago</th>
+            <th width="15%">Monto</th>
+            <th width="25%">Cuenta</th>
+            <th width="45%">Nota</th>
         </tr>
     </thead>
+
     <tbody>
-        @foreach($pagos as $i => $p)
+        @forelse($pagos as $i => $p)
         <tr>
-            <td class="text-center">{{ $i+1 }}</td>
-            <td></td>       
+            <td class="text-center">{{ $i + 1 }}</td>
             <td class="text-center">{{ $p->fecha_pago }}</td>
             <td class="text-right">{{ number_format($p->importe, 2) }}</td>
             <td>{{ $p->cuenta }}</td>
-            <td>{{ $p->nota_pago }}</td>            
+            <td>{{ $p->nota_pago }}</td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="5" class="text-center">No se registran pagos en este rango de fechas</td>
+        </tr>
+        @endforelse
     </tbody>
+
     <tfoot>
         <tr>
-            <th colspan="3" class="text-right">TOTAL PAGOS</th>
-            <th class="text-right">{{ number_format($total->total_pagos,2) }}</th>
+            <th colspan="2" class="text-right">TOTAL PAGOS</th>
+            <th class="text-right">{{ number_format($total->total_pagos, 2) }}</th>
             <th colspan="2"></th>
         </tr>
     </tfoot>
