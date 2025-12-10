@@ -1900,6 +1900,7 @@ class ContactController extends Controller
                 FROM account_transactions at
                 JOIN accounts acc ON acc.id = at.account_id
                 WHERE at.transaction_payment_id = tp.id
+                AND at.type = 'credit'
                 LIMIT 1) AS cuenta,
 
                 TRIM(
@@ -1915,10 +1916,52 @@ class ContactController extends Controller
 
             FROM transaction_payments tp
             JOIN transactions t ON t.id = tp.transaction_id
-            WHERE t.contact_id = ?
+            WHERE t.contact_id = ?            
             AND DATE(tp.paid_on) BETWEEN ? AND ?
             ORDER BY tp.paid_on ASC
         ", [$cliente_id, $inicio, $fin]);
+
+        // $pagos = DB::select("
+        //     SELECT DISTINCT
+        //         at.id AS itm,
+        //         NULL AS transaction_id,
+        //         acc.name AS cuenta,
+
+        //         TRIM(
+        //             REPLACE(
+        //                 REPLACE(
+        //                     REPLACE(tp_padre.note, '\r', ' '),
+        //                 '\n', ' '),
+        //             '\t', ' ')
+        //         ) AS nota_pago,
+
+        //         COALESCE(at.amount,0) AS importe_cancelado,
+        //         DATE(at.operation_date) AS fecha_pago
+
+        //     FROM account_transactions at
+
+        //     -- ✅ PAGO REAL (PADRE)
+        //     JOIN transaction_payments tp_padre
+        //         ON tp_padre.id = at.transaction_payment_id
+        //     AND tp_padre.transaction_id IS NULL
+
+        //     -- ✅ HIJOS (DISTRIBUCIÓN)
+        //     JOIN transaction_payments tp_hijo
+        //         ON tp_hijo.parent_id = tp_padre.id
+
+        //     -- ✅ VENTA DEL CLIENTE
+        //     JOIN transactions t
+        //         ON t.id = tp_hijo.transaction_id
+
+        //     JOIN accounts acc
+        //         ON acc.id = at.account_id
+
+        //     WHERE t.contact_id = ?
+        //     AND DATE(at.operation_date) BETWEEN ? AND ?
+
+        //     ORDER BY at.operation_date ASC
+        // ", [$cliente_id, $inicio, $fin]);
+
 
         foreach ($pagos as $p) {
             $p->nota_pago = trim(preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago));
@@ -1939,6 +1982,33 @@ class ContactController extends Controller
             WHERE t3.contact_id = ?
             AND DATE(tp.paid_on) BETWEEN ? AND ?) AS total_pagos
         ", [$cliente_id, $inicio, $fin, $cliente_id, $inicio, $fin]);
+
+        // $totales = DB::selectOne("
+        //     SELECT
+        //     (SELECT IFNULL(SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)),0)
+        //     FROM transaction_sell_lines tsl
+        //     JOIN transactions t2 ON t2.id = tsl.transaction_id
+        //     WHERE t2.contact_id = ?
+        //     AND t2.status = 'final'
+        //     AND DATE(t2.transaction_date) BETWEEN ? AND ?) AS total_compras,
+
+        //     (SELECT IFNULL(SUM(DISTINCT at.amount),0)
+        //     FROM account_transactions at
+
+        //     JOIN transaction_payments tp_padre
+        //         ON tp_padre.id = at.transaction_payment_id
+        //     AND tp_padre.transaction_id IS NULL
+
+        //     JOIN transaction_payments tp_hijo
+        //         ON tp_hijo.parent_id = tp_padre.id
+
+        //     JOIN transactions t3
+        //         ON t3.id = tp_hijo.transaction_id
+
+        //     WHERE t3.contact_id = ?
+        //     AND DATE(at.operation_date) BETWEEN ? AND ?) AS total_pagos
+        // ", [$cliente_id, $inicio, $fin, $cliente_id, $inicio, $fin]);
+
 
         $totales->saldo_final = $totales->total_compras - $totales->total_pagos;
 
