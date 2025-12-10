@@ -2170,7 +2170,9 @@ class ContactController extends Controller
                 TRIM(
                     REPLACE(
                         REPLACE(
-                            REPLACE(tp_padre.note, '\r', ' '),
+                            REPLACE(
+                                COALESCE(tp_padre.note, at.note),
+                            '\r', ' '),
                         '\n', ' '),
                     '\t', ' ')
                 ) AS nota_pago,
@@ -2179,32 +2181,30 @@ class ContactController extends Controller
 
             FROM account_transactions at
 
-            -- ✅ Pago padre real
-            JOIN transaction_payments tp_padre
-                ON tp_padre.id = at.transaction_payment_id
-            AND tp_padre.transaction_id IS NULL
+            JOIN accounts acc 
+                ON acc.id = at.account_id
 
-            -- ✅ Hijos (PUEDE NO EXISTIR)
+            -- ✅ PUEDE NO EXISTIR
+            LEFT JOIN transaction_payments tp_padre
+                ON tp_padre.id = at.transaction_payment_id
+
             LEFT JOIN transaction_payments tp_hijo
                 ON tp_hijo.parent_id = tp_padre.id
 
-            -- ✅ Venta del hijo (PUEDE NO EXISTIR)
             LEFT JOIN transactions t
                 ON t.id = tp_hijo.transaction_id
-
-            JOIN accounts acc
-                ON acc.id = at.account_id
 
             WHERE at.type = 'credit'
             AND DATE(at.operation_date) BETWEEN ? AND ?
 
             AND (
-                    t.contact_id = ?   -- pagos aplicados a ventas
-                    OR tp_hijo.id IS NULL  -- pagos sueltos (enero, anticipos, migrados)
+                    t.contact_id = ?
+                    OR at.transaction_payment_id IS NULL
                 )
 
             ORDER BY at.operation_date ASC
         ", [$inicio, $fin, $cliente_id]);
+
 
 
 
@@ -2238,9 +2238,8 @@ class ContactController extends Controller
             SELECT SUM(DISTINCT at.amount) AS total_pagos
             FROM account_transactions at
 
-            JOIN transaction_payments tp_padre
+            LEFT JOIN transaction_payments tp_padre
                 ON tp_padre.id = at.transaction_payment_id
-            AND tp_padre.transaction_id IS NULL
 
             LEFT JOIN transaction_payments tp_hijo
                 ON tp_hijo.parent_id = tp_padre.id
@@ -2253,9 +2252,10 @@ class ContactController extends Controller
 
             AND (
                     t.contact_id = ?
-                    OR tp_hijo.id IS NULL
+                    OR at.transaction_payment_id IS NULL
                 )
         ", [$inicio, $fin, $cliente_id]);
+
 
 
 
