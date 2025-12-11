@@ -2162,44 +2162,52 @@ class ContactController extends Controller
         // ", [$cliente_id, $inicio, $fin]);
 
         $pagos = DB::select("
+            -- PAGOS DESDE LA VENTA
+            SELECT 
+                at.id,
+                DATE(at.operation_date) AS fecha_pago,
+                COALESCE(at.amount,0) AS importe,
+
+                TRIM(REPLACE(REPLACE(REPLACE(tp.note, '\r',' '), '\n',' '), '\t',' ')) AS nota_pago,
+
+                acc.name AS cuenta
+            FROM account_transactions at
+            JOIN accounts acc ON acc.id = at.account_id
+            JOIN transaction_payments tp ON tp.id = at.transaction_payment_id
+            JOIN transactions t ON t.id = tp.transaction_id
+            WHERE at.type = 'credit'
+            AND t.contact_id = ?
+            AND DATE(at.operation_date) BETWEEN ? AND ?
+
+            UNION ALL
+
+            -- PAGOS DESDE EL CONTACTO (padre + hijo)
             SELECT DISTINCT
                 at.id,
                 DATE(at.operation_date) AS fecha_pago,
                 COALESCE(at.amount,0) AS importe,
 
-                TRIM(
-                    REPLACE(
-                        REPLACE(
-                            REPLACE(tp_padre.note, '\r', ' '),
-                        '\n', ' '),
-                    '\t', ' ')
-                ) AS nota_pago,
+                TRIM(REPLACE(REPLACE(REPLACE(tp_padre.note, '\r',' '), '\n',' '), '\t',' ')) AS nota_pago,
 
                 acc.name AS cuenta
-
             FROM account_transactions at
-            JOIN accounts acc 
-                ON acc.id = at.account_id
-
-            -- ✅ Pago padre real
-            JOIN transaction_payments tp_padre
+            JOIN accounts acc ON acc.id = at.account_id
+            JOIN transaction_payments tp_padre 
                 ON tp_padre.id = at.transaction_payment_id
             AND tp_padre.transaction_id IS NULL
-
-            -- ✅ Hijos del pago
-            JOIN transaction_payments tp_hijo
+            JOIN transaction_payments tp_hijo 
                 ON tp_hijo.parent_id = tp_padre.id
-
-            -- ✅ Venta DEL CLIENTE
-            JOIN transactions t
-                ON t.id = tp_hijo.transaction_id
-            AND t.contact_id = ?
-
+            JOIN transactions t ON t.id = tp_hijo.transaction_id
             WHERE at.type = 'credit'
+            AND t.contact_id = ?
             AND DATE(at.operation_date) BETWEEN ? AND ?
 
-            ORDER BY at.operation_date ASC
-        ", [$cliente_id, $inicio, $fin]);
+            ORDER BY fecha_pago ASC
+        ", [
+            $cliente_id, $inicio, $fin,   // parámetros del primer SELECT
+            $cliente_id, $inicio, $fin    // parámetros del segundo SELECT
+        ]);
+
 
 
 
@@ -2230,25 +2238,42 @@ class ContactController extends Controller
         // ", [$cliente_id, $inicio, $fin]);
 
         $total = DB::selectOne("
-            SELECT SUM(DISTINCT at.amount) AS total_pagos
-            FROM account_transactions at
+            SELECT SUM(importe) AS total_pagos
+            FROM (
 
-            JOIN transaction_payments tp_padre
-                ON tp_padre.id = at.transaction_payment_id
-            AND tp_padre.transaction_id IS NULL
+                -- PAGOS DESDE LA VENTA
+                SELECT DISTINCT
+                    at.id,
+                    at.amount AS importe
+                FROM account_transactions at
+                JOIN transaction_payments tp ON tp.id = at.transaction_payment_id
+                JOIN transactions t ON t.id = tp.transaction_id
+                WHERE at.type = 'credit'
+                AND t.contact_id = ?
+                AND DATE(at.operation_date) BETWEEN ? AND ?
 
-            JOIN transaction_payments tp_hijo
-                ON tp_hijo.parent_id = tp_padre.id
+                UNION
 
-            JOIN transactions t
-                ON t.id = tp_hijo.transaction_id
-            AND t.contact_id = ?
+                -- PAGOS DESDE CONTACTO (padre + hijo)
+                SELECT DISTINCT
+                    at.id,
+                    at.amount AS importe
+                FROM account_transactions at
+                JOIN transaction_payments tp_padre 
+                    ON tp_padre.id = at.transaction_payment_id
+                AND tp_padre.transaction_id IS NULL
+                JOIN transaction_payments tp_hijo 
+                    ON tp_hijo.parent_id = tp_padre.id
+                JOIN transactions t ON t.id = tp_hijo.transaction_id
+                WHERE at.type = 'credit'
+                AND t.contact_id = ?
+                AND DATE(at.operation_date) BETWEEN ? AND ?
 
-            WHERE at.type = 'credit'
-            AND DATE(at.operation_date) BETWEEN ? AND ?
-        ", [$cliente_id, $inicio, $fin]);
-
-
+            ) pagos;
+        ", [
+            $cliente_id, $inicio, $fin,
+            $cliente_id, $inicio, $fin
+        ]);
 
 
 
