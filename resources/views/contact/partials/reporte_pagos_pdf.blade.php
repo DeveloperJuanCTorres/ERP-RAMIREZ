@@ -40,10 +40,10 @@
     <thead>
         <tr>
             <th width="5%">#</th>
-            <th width="10%">Fecha Pago</th>
+            <th width="15%">Fecha Pago</th>
             <th width="15%">Monto</th>
-            <th width="25%">Cuenta</th>
-            <th width="45%">Nota</th>
+            <th width="30%">Cuenta</th>
+            <th width="35%">Nota</th>
         </tr>
     </thead>
 
