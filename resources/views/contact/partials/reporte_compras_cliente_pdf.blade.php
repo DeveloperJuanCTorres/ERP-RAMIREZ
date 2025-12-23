@@ -76,11 +76,12 @@
     <table>
         <thead>
             <tr>
-                <th>Fecha</th>
+                <!-- <th>Fecha</th> -->
                 <th>Factura</th>
                 <th>Producto</th>
                 <th>Motor</th>
                 <th>Guía</th>
+                <th>Contenedor</th>
                 <th>Cant.</th>
                 <th>P. Unit.</th>
                 <th>Total</th>
@@ -102,11 +103,12 @@
 
             {{-- ITEM --}}
             <tr>
-                <td class="text-center">{{ $m['fecha'] }}</td>
+                <!-- <td class="text-center">{{ $m['fecha'] }}</td> -->
                 <td class="text-center">{{ $m['factura'] }}</td>
                 <td>{{ $m['producto'] }}</td>
                 <td class="text-center">{{ $m['motor'] }}</td>
                 <td class="text-center">{{ $m['guia'] }}</td>
+                <td class="text-center">{{ $m['contenedor'] }}</td>
                 <td class="text-center">{{ number_format($m['cantidad'], 0) }}</td>
                 <td class="text-right">{{ number_format($m['precio_unitario'], 2) }}</td>
                 <td class="text-right">{{ number_format($m['total_item'], 2) }}</td>

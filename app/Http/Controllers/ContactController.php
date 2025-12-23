@@ -2262,6 +2262,7 @@ class ContactController extends Controller
                 (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS total_item,
 
                 pl.guia AS guia,
+                pl.contenedor AS contenedor,
                 pl.lot_number AS nro_motor,
                 pl.exp_date AS fecha_lote,
 
@@ -2320,6 +2321,7 @@ class ContactController extends Controller
                 'producto'       => $c->producto,
                 'motor'          => $c->nro_motor,
                 'guia'           => $c->guia,
+                'contenedor'     => $c->contenedor,
                 'cantidad'       => $c->cantidad,
                 'precio_unitario'=> $c->precio_unitario,
                 'total_item'     => $c->total_item,
