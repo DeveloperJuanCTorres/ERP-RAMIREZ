@@ -171,6 +171,12 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         [\App\Http\Controllers\ContactController::class, 'reportePagosCliente'])
         ->name('cliente.reporte_pagos');
 
+    //REPORTE DE COMPRAS
+    Route::get(
+        'clientes/{cliente}/reporte-compras',
+        [ContactController::class, 'reporteComprasCliente']
+    );
+
 
 
 

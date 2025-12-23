@@ -437,6 +437,15 @@ class ContactController extends Controller
                                     <i class="fas fa-file-pdf text-warning"></i> Reporte de Pagos
                                 </a>
                             </li>';
+
+                        $html .= '<li>
+                                <a href="#" 
+                                    class="btn-reporte-compras"
+                                    data-cliente="'.$row->id.'"
+                                    data-nombre="'.$row->name.'">
+                                    <i class="fas fa-file-pdf text-warning"></i> Reporte de Compras
+                                </a>
+                            </li>';
                         $html .= '
                                 <li>
                                     <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=ledger">
@@ -2122,45 +2131,6 @@ class ContactController extends Controller
 
         $cliente = Contact::findOrFail($cliente_id);
 
-        // ✅ PAGOS DEL CLIENTE
-        // $pagos = DB::select("
-        //     SELECT DISTINCT
-        //         at.id,
-        //         DATE(at.operation_date) AS fecha_pago,
-        //         COALESCE(at.amount,0) AS importe,
-        //         TRIM(
-        //             REPLACE(
-        //                 REPLACE(
-        //                     REPLACE(tp_padre.note, '\r', ' '),
-        //                 '\n', ' '),
-        //             '\t', ' ')
-        //         ) AS nota_pago,
-        //         acc.name AS cuenta
-        //     FROM account_transactions at
-
-        //     -- ✅ Pago REAL (PADRE = 4000)
-        //     JOIN transaction_payments tp_padre
-        //         ON tp_padre.id = at.transaction_payment_id
-        //     AND tp_padre.transaction_id IS NULL
-
-        //     -- ✅ Pagos HIJOS (3000, 1000)
-        //     JOIN transaction_payments tp_hijo
-        //         ON tp_hijo.parent_id = tp_padre.id
-
-        //     -- ✅ Ventas de esos hijos
-        //     JOIN transactions t
-        //         ON t.id = tp_hijo.transaction_id
-
-        //     JOIN accounts acc
-        //         ON acc.id = at.account_id
-
-        //     WHERE t.contact_id = ?
-        //     AND at.type = 'credit'
-        //     AND DATE(at.operation_date) BETWEEN ? AND ?
-
-        //     ORDER BY at.operation_date ASC
-        // ", [$cliente_id, $inicio, $fin]);
-
         $pagos = DB::select("
             -- PAGOS DESDE LA VENTA
             SELECT 
@@ -2215,27 +2185,7 @@ class ContactController extends Controller
         // ✅ LIMPIEZA EXTRA
         foreach ($pagos as $p) {
             $p->nota_pago = trim(preg_replace('/[\r\n\t]+/', ' ', $p->nota_pago));
-        }
-
-        // ✅ TOTAL PAGOS
-        // $total = DB::selectOne("
-        //     SELECT SUM(DISTINCT at.amount) AS total_pagos
-        //     FROM account_transactions at
-
-        //     JOIN transaction_payments tp_padre
-        //         ON tp_padre.id = at.transaction_payment_id
-        //     AND tp_padre.transaction_id IS NULL
-
-        //     JOIN transaction_payments tp_hijo
-        //         ON tp_hijo.parent_id = tp_padre.id
-
-        //     JOIN transactions t
-        //         ON t.id = tp_hijo.transaction_id
-
-        //     WHERE t.contact_id = ?
-        //     AND at.type = 'credit'
-        //     AND DATE(at.operation_date) BETWEEN ? AND ?
-        // ", [$cliente_id, $inicio, $fin]);
+        } 
 
         $total = DB::selectOne("
             SELECT SUM(importe) AS total_pagos
@@ -2288,6 +2238,143 @@ class ContactController extends Controller
 
         return $pdf->stream('reporte_pagos.pdf');
     }
+
+    public function reporteComprasCliente($cliente_id)
+    {
+        $inicio = request('inicio');
+        $fin    = request('fin');
+
+        $cliente = Contact::findOrFail($cliente_id);
+
+        // =========================
+        // COMPRAS DETALLADAS
+        // =========================
+        $compras = DB::select("
+            SELECT
+                DATE(t.transaction_date) AS fecha,
+                t.invoice_no AS factura,
+                t.ref_no AS referencia,
+
+                tsl.id AS item_id,
+                p.name AS producto,
+                tsl.quantity AS cantidad,
+                tsl.unit_price_inc_tax AS precio_unitario,
+                (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS total_item,
+
+                pl.guia AS guia,
+                pl.lot_number AS nro_motor,
+                pl.exp_date AS fecha_lote,
+
+                t.id AS transaction_id
+
+            FROM transactions t
+            JOIN transaction_sell_lines tsl 
+                ON tsl.transaction_id = t.id
+
+            LEFT JOIN purchase_lines pl 
+                ON pl.id = tsl.lot_no_line_id
+
+            LEFT JOIN products p 
+                ON p.id = tsl.product_id
+
+            WHERE t.type = 'sell'
+            AND t.status = 'final'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+            ORDER BY t.transaction_date ASC, t.invoice_no ASC
+        ", [$cliente_id, $inicio, $fin]);
+
+        // =========================
+        // SUBTOTALES POR FACTURA
+        // =========================
+        $subtotales = DB::select("
+            SELECT
+                t.id AS transaction_id,
+                SUM(COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS subtotal_factura
+            FROM transactions t
+            JOIN transaction_sell_lines tsl 
+                ON tsl.transaction_id = t.id
+            WHERE t.type = 'sell'
+            AND t.status = 'final'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+            GROUP BY t.id
+        ", [$cliente_id, $inicio, $fin]);
+
+        // Convertir subtotales a array asociativo
+        $mapSubtotales = [];
+        foreach ($subtotales as $s) {
+            $mapSubtotales[$s->transaction_id] = $s->subtotal_factura;
+        }
+
+        // =========================
+        // UNIFICAR Y MARCAR PRIMERO / ÚLTIMO
+        // =========================
+        $movimientos = [];
+
+        foreach ($compras as $c) {
+            $movimientos[] = [
+                'fecha'          => $c->fecha,
+                'factura'        => $c->factura,
+                'producto'       => $c->producto,
+                'motor'          => $c->nro_motor,
+                'guia'           => $c->guia,
+                'cantidad'       => $c->cantidad,
+                'precio_unitario'=> $c->precio_unitario,
+                'total_item'     => $c->total_item,
+                'transaction_id' => $c->transaction_id,
+                'subtotal'       => $mapSubtotales[$c->transaction_id] ?? 0
+            ];
+        }
+
+        // Marcar primero y último item por factura
+        $indices = [];
+        foreach ($movimientos as $i => $m) {
+            $indices[$m['transaction_id']][] = $i;
+        }
+
+        foreach ($indices as $idxs) {
+            foreach ($idxs as $pos => $idx) {
+                if ($pos == 0) {
+                    $movimientos[$idx]['es_primero'] = true;
+                }
+                if ($pos == count($idxs) - 1) {
+                    $movimientos[$idx]['es_ultimo'] = true;
+                }
+            }
+        }
+
+        foreach ($movimientos as &$m) {
+            $m['es_primero'] = $m['es_primero'] ?? false;
+            $m['es_ultimo']  = $m['es_ultimo']  ?? false;
+        }
+
+        // =========================
+        // TOTAL GENERAL
+        // =========================
+        $totalGeneral = array_sum(array_column($mapSubtotales, null));
+
+        // =========================
+        // PDF
+        // =========================
+        $pdf = Pdf::loadView(
+            'contact.partials.reporte_compras_cliente_pdf',
+            compact(
+                'cliente',
+                'movimientos',
+                'inicio',
+                'fin',
+                'totalGeneral'
+            )
+        )->setPaper('a4', 'landscape')->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true
+        ]);
+
+        return $pdf->stream('reporte_compras_cliente.pdf');
+    }
+
 
 
     // public function estadoCuenta($cliente_id)

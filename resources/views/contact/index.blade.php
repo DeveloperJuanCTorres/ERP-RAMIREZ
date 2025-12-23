@@ -339,6 +339,44 @@
     </div>
 </div>
 
+<!-- Reporte de Compras -->
+ <div class="modal fade" id="modalReporteCompras" tabindex="-1">
+    <div class="modal-dialog">
+        <form method="GET" id="formReporteCompras" target="_blank">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white">
+                        Reporte de Compras - <span id="nombreClienteCompras"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="cliente_id_compras" name="cliente_id">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Desde:</label>
+                            <input type="date" name="inicio" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Hasta:</label>
+                            <input type="date" name="fin" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i> Descargar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 
 @stop
 @section('javascript')
@@ -392,6 +430,25 @@
 
 
     //////////
+
+    $(document).on('click', '.btn-reporte-compras', function (e) {
+        e.preventDefault();
+
+        let cliente_id = $(this).data('cliente');
+        let nombre     = $(this).data('nombre');
+
+        console.log(cliente_id, nombre); // 👈 solo para probar
+
+        $('#cliente_id_compras').val(cliente_id);
+        $('#nombreClienteCompras').text(nombre);
+
+        $('#modalReporteCompras').modal('show');
+    });
+
+    $('#formReporteCompras').submit(function () {
+        let id = $('#cliente_id_compras').val();
+        this.action = '/clientes/' + id + '/reporte-compras';
+    });
 
     $(document).on('click', '.btn-reporte-pagos', function () {
         $('#cliente_id_pagos').val($(this).data('cliente'));
