@@ -2367,7 +2367,7 @@ class ContactController extends Controller
                 'fin',
                 'totalGeneral'
             )
-        )->setPaper('a4', 'landscape')->setOptions([
+        )->setPaper('a4', 'portrait')->setOptions([
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true
         ]);
