@@ -68,7 +68,7 @@
     <div class="titulo">REPORTE DE COMPRAS POR CLIENTE</div>
 
     <div class="subtitulo">
-        <strong>Cliente:</strong> {{ $cliente->name }} <br>
+        <strong>Cliente:</strong> {{ $cliente->name . $cliente->supplier_business_name}} <br>
         <strong>Desde:</strong> {{ $inicio }} &nbsp;&nbsp;
         <strong>Hasta:</strong> {{ $fin }}
     </div>
