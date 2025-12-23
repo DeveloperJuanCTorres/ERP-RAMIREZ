@@ -528,6 +528,8 @@ class TransactionPaymentController extends Controller
                         ->with(compact('contact_details', 'payment_types', 'payment_line', 'due_payment_type', 'ob_due', 'amount_formated', 'accounts'));
         }
     }
+ 
+
 
     /**
      * Adds Payments for Contact due
@@ -583,6 +585,8 @@ class TransactionPaymentController extends Controller
 
         return redirect()->back()->with(['status' => $output]);
     }
+
+    
 
     /**
      * view details of single..,

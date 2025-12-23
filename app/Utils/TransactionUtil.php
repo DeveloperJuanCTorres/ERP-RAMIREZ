@@ -3180,9 +3180,111 @@ class TransactionUtil extends Util
      * @param  obj  $parent_payment, string $type
      * @return void
      */
+    // public function payAtOnce($parent_payment, $type)
+    // {
+
+    //     //Get all unpaid transaction for the contact
+    //     $types = ['opening_balance', $type];
+
+    //     if ($type == 'purchase_return') {
+    //         $types = [$type];
+    //     }
+
+    //     $due_transactions = Transaction::where('contact_id', $parent_payment->payment_for)
+    //                             ->whereIn('type', $types)
+    //                             ->where('payment_status', '!=', 'paid')
+    //                             ->orderBy('transaction_date', 'asc')
+    //                             ->get();
+
+    //     $total_amount = $parent_payment->amount;
+
+    //     $tranaction_payments = [];
+    //     if ($due_transactions->count()) {
+    //         foreach ($due_transactions as $transaction) {
+    //             $transaction_before = $transaction->replicate();
+    //             //If sell check status is final
+    //             if ($transaction->type == 'sell' && $transaction->status != 'final') {
+    //                 continue;
+    //             }
+    //             if ($total_amount > 0) {
+    //                 $total_paid = $this->getTotalPaid($transaction->id);
+    //                 $due = $transaction->final_total - $total_paid;
+
+    //                 $now = \Carbon::now()->toDateTimeString();
+
+    //                 $array = [
+    //                     'transaction_id' => $transaction->id,
+    //                     'business_id' => $parent_payment->business_id,
+    //                     'method' => $parent_payment->method,
+    //                     'transaction_no' => $parent_payment->method,
+    //                     'card_transaction_number' => $parent_payment->card_transaction_number,
+    //                     'card_number' => $parent_payment->card_number,
+    //                     'card_type' => $parent_payment->card_type,
+    //                     'card_holder_name' => $parent_payment->card_holder_name,
+    //                     'card_month' => $parent_payment->card_month,
+    //                     'card_year' => $parent_payment->card_year,
+    //                     'card_security' => $parent_payment->card_security,
+    //                     'cheque_number' => $parent_payment->cheque_number,
+    //                     'bank_account_number' => $parent_payment->bank_account_number,
+    //                     'paid_on' => $parent_payment->paid_on,
+    //                     'created_by' => $parent_payment->created_by,
+    //                     'payment_for' => $parent_payment->payment_for,
+    //                     'parent_id' => $parent_payment->id,
+    //                     'created_at' => $now,
+    //                     'updated_at' => $now,
+    //                 ];
+
+    //                 $prefix_type = 'purchase_payment';
+    //                 if (in_array($transaction->type, ['sell', 'sell_return'])) {
+    //                     $prefix_type = 'sell_payment';
+    //                 }
+    //                 $ref_count = $this->setAndGetReferenceCount($prefix_type, $parent_payment->business_id);
+    //                 //Generate reference number
+    //                 $payment_ref_no = $this->generateReferenceNumber($prefix_type, $ref_count, $parent_payment->business_id);
+    //                 $array['payment_ref_no'] = $payment_ref_no;
+
+    //                 if ($due <= $total_amount) {
+    //                     $array['amount'] = $due;
+    //                     $tranaction_payments[] = $array;
+
+    //                     //Update transaction status to paid
+    //                     $transaction->payment_status = 'paid';
+    //                     $transaction->save();
+
+    //                     if ($transaction->type == 'sell') {
+    //                         $moduleUtil = new ModuleUtil();
+    //                         $moduleUtil->getModuleData('after_sale_saved', ['transaction' => $transaction, 'input' => []]);
+    //                     }
+
+    //                     $total_amount = $total_amount - $due;
+
+    //                     $this->activityLog($transaction, 'payment_edited', $transaction_before);
+    //                 } else {
+    //                     $array['amount'] = $total_amount;
+    //                     $tranaction_payments[] = $array;
+
+    //                     //Update transaction status to partial
+    //                     $transaction->payment_status = 'partial';
+    //                     $transaction->save();
+    //                     $total_amount = 0;
+    //                     $this->activityLog($transaction, 'payment_edited', $transaction_before);
+
+    //                     break;
+    //                 }
+    //             }
+    //         }
+
+    //         //Insert new transaction payments
+    //         if (! empty($tranaction_payments)) {
+    //             TransactionPayment::insert($tranaction_payments);
+    //         }
+    //     }
+
+    //     return $total_amount;
+    // }
+
     public function payAtOnce($parent_payment, $type)
     {
-
         //Get all unpaid transaction for the contact
         $types = ['opening_balance', $type];
 
@@ -3191,24 +3293,44 @@ class TransactionUtil extends Util
         }
 
         $due_transactions = Transaction::where('contact_id', $parent_payment->payment_for)
-                                ->whereIn('type', $types)
-                                ->where('payment_status', '!=', 'paid')
-                                ->orderBy('transaction_date', 'asc')
-                                ->get();
+            ->whereIn('type', $types)
+            ->where('payment_status', '!=', 'paid')
+            ->orderBy('transaction_date', 'asc')
+            ->get();
 
         $total_amount = $parent_payment->amount;
 
         $tranaction_payments = [];
+
         if ($due_transactions->count()) {
             foreach ($due_transactions as $transaction) {
+
                 $transaction_before = $transaction->replicate();
-                //If sell check status is final
+
+                /*
+                |--------------------------------------------------------------------------
+                | VALIDACIONES DE STATUS SEGÚN TIPO
+                |--------------------------------------------------------------------------
+                */
+
+                // SELL: solo final
                 if ($transaction->type == 'sell' && $transaction->status != 'final') {
                     continue;
                 }
+
+                // PURCHASE: solo ordered
+                if ($transaction->type == 'purchase' && $transaction->status != 'ordered') {
+                    continue;
+                }
+
                 if ($total_amount > 0) {
+
                     $total_paid = $this->getTotalPaid($transaction->id);
                     $due = $transaction->final_total - $total_paid;
+
+                    if ($due <= 0) {
+                        continue;
+                    }
 
                     $now = \Carbon::now()->toDateTimeString();
 
@@ -3238,35 +3360,48 @@ class TransactionUtil extends Util
                     if (in_array($transaction->type, ['sell', 'sell_return'])) {
                         $prefix_type = 'sell_payment';
                     }
-                    $ref_count = $this->setAndGetReferenceCount($prefix_type, $parent_payment->business_id);
-                    //Generate reference number
-                    $payment_ref_no = $this->generateReferenceNumber($prefix_type, $ref_count, $parent_payment->business_id);
-                    $array['payment_ref_no'] = $payment_ref_no;
+
+                    $ref_count = $this->setAndGetReferenceCount(
+                        $prefix_type,
+                        $parent_payment->business_id
+                    );
+
+                    $array['payment_ref_no'] = $this->generateReferenceNumber(
+                        $prefix_type,
+                        $ref_count,
+                        $parent_payment->business_id
+                    );
 
                     if ($due <= $total_amount) {
+
                         $array['amount'] = $due;
                         $tranaction_payments[] = $array;
 
-                        //Update transaction status to paid
                         $transaction->payment_status = 'paid';
                         $transaction->save();
 
                         if ($transaction->type == 'sell') {
                             $moduleUtil = new ModuleUtil();
-                            $moduleUtil->getModuleData('after_sale_saved', ['transaction' => $transaction, 'input' => []]);
+                            $moduleUtil->getModuleData(
+                                'after_sale_saved',
+                                ['transaction' => $transaction, 'input' => []]
+                            );
                         }
 
-                        $total_amount = $total_amount - $due;
+                        $total_amount -= $due;
 
                         $this->activityLog($transaction, 'payment_edited', $transaction_before);
+
                     } else {
+
                         $array['amount'] = $total_amount;
                         $tranaction_payments[] = $array;
 
-                        //Update transaction status to partial
                         $transaction->payment_status = 'partial';
                         $transaction->save();
+
                         $total_amount = 0;
+
                         $this->activityLog($transaction, 'payment_edited', $transaction_before);
 
                         break;
@@ -3282,6 +3417,7 @@ class TransactionUtil extends Util
 
         return $total_amount;
     }
+
 
     /**
      * Add a mapping between purchase & sell lines.
