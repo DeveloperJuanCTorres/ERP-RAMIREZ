@@ -436,7 +436,7 @@
 					</div>
 				</div>
 			@endcomponent
-			@component('components.widget', ['class' => 'box-solid'])
+			@component('components.widget', ['class' => 'box-solid hidden'])
 				<div class="col-md-4  @if($sale_type == 'sales_order') hide @endif">
 			        <div class="form-group">
 			            {!! Form::label('discount_type', __('sale.discount_type') . ':*' ) !!}
@@ -529,7 +529,8 @@
 			    </div>
 				<input type="hidden" name="is_direct_sale" value="1">
 			@endcomponent
-			@component('components.widget', ['class' => 'box-solid'])
+			
+			@component('components.widget', ['class' => 'box-solid hidden'])
 			<div class="col-md-4">
 				<div class="form-group">
 		            {!! Form::label('shipping_details', __('sale.shipping_details')) !!}
