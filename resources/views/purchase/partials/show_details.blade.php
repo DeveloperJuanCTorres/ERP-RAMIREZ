@@ -337,7 +337,7 @@
           <tr class="bg-green">
             <th>#</th>
             <th>{{ __('messages.date') }}</th>
-            <th>{{ __('purchase.ref_no') }}</th>
+            <th class="no-print-after">{{ __('purchase.ref_no') }}</th>
             
             <th>{{ __('sale.payment_mode') }}</th>
             <th>Nota</th>
@@ -359,7 +359,7 @@
             <tr>
               <td>{{ $loop->iteration }}</td>
               <td>{{ @format_date($payment_line->paid_on) }}</td>
-              <td>{{ $payment_line->payment_ref_no }}</td>
+              <td class="no-print-after">{{ $payment_line->payment_ref_no }}</td>
               
               <td>{{ $payment_methods[$payment_line->method] ?? '' }}</td>
               <td>@if($payment_line->note) 
