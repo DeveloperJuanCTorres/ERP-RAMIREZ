@@ -1,3 +1,54 @@
+<style>
+@media print {
+
+  /* Fuente general */
+  body {
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Tablas */
+  table {
+    font-size: 13px !important;
+  }
+
+  th, td {
+    padding: 2px 3px !important;
+  }
+
+  /* Títulos */
+  h2 { font-size: 14px !important; margin: 2px 0 !important; }
+  h3 { font-size: 13px !important; margin: 2px 0 !important; }
+  h4 { font-size: 12px !important; margin: 2px 0 !important; }
+
+  /* Párrafos */
+  p {
+    margin: 2px 0 !important;
+  }
+
+  address {
+    line-height: 1.1 !important;
+  }
+
+  /* Quitar fondos */
+  .bg-gray,
+  .bg-green,
+  .well {
+    background: #fff !important;
+  }
+
+  /* Quitar sombras */
+  .well {
+    box-shadow: none !important;
+    padding: 4px !important;
+  }
+
+  .no-print-after {
+    display: none !important;
+  }
+}
+</style>
+
 <div class="modal-header">
     <button type="button" class="close no-print" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     @php
@@ -290,17 +341,20 @@
             
             <th>{{ __('sale.payment_mode') }}</th>
             <th>Nota</th>
-            <th>{{ __('sale.amount') }} S/.</th>
+            <th>Importe S/.</th>
             
             <th>T.C</th>
             <th>Importe $</th>
+            <th>Saldo $</th>
           </tr>
           @php
             $total_paid = 0;
+            $saldo = $purchase->final_total;
           @endphp
           @forelse($purchase->payment_lines as $payment_line)
             @php
               $total_paid += $payment_line->amount;
+              $saldo -= $payment_line->amount;
             @endphp
             <tr>
               <td>{{ $loop->iteration }}</td>
@@ -327,6 +381,12 @@
                   {{ $payment_line->amount }}
                 </span>
               </td>
+              <td>
+                $
+                <span class="display_currency">
+                  {{ max($saldo, 0) }}
+                </span>
+              </td>
             </tr>
             @empty
             <tr>
@@ -347,85 +407,87 @@
             <td></td>
             <td><span class="display_currency pull-right">{{ $total_before_tax }}</span></td>
           </tr> -->
-          <tr>
-            <th>@lang('purchase.net_total_amount'): </th>
-            <td></td>
-            <td class="pull-right">
-              <!-- <span class="display_currency pull-right" data-currency_symbol="true"> -->
-                $
-                <span class="display_currency">
-                {{ $total_before_tax }}
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <th>@lang('purchase.discount'):</th>
-            <td>
-              <b>(-)</b>
-              @if($purchase->discount_type == 'percentage')
-                ({{$purchase->discount_amount}} %)
-              @endif
-            </td>
-            <td class="pull-right">
-              <!-- <span class="display_currency" data-currency_symbol="true"> -->
-                $
-                <span class="display_currency">
+          <!-- <div class="no-print-after"> -->
+            <tr class="no-print-after">
+              <th>@lang('purchase.net_total_amount'): </th>
+              <td></td>
+              <td class="pull-right">
+                <!-- <span class="display_currency pull-right" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">
+                  {{ $total_before_tax }}
+                </span>
+              </td>
+            </tr>
+            <tr class="no-print-after">
+              <th>@lang('purchase.discount'):</th>
+              <td>
+                <b>(-)</b>
                 @if($purchase->discount_type == 'percentage')
-                  {{$purchase->discount_amount * $total_before_tax / 100}}
-                @else
-                  {{$purchase->discount_amount}}
-                @endif                  
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <th>@lang('purchase.purchase_tax'):</th>
-            <td><b>(+)</b></td>
-            <td class="text-right">
-                @if(!empty($purchase_taxes))
-                  @foreach($purchase_taxes as $k => $v)
-                    <strong><small>{{$k}}</small></strong> - <span class="display_currency pull-right" data-currency_symbol="true">{{ $v }}</span><br>
-                  @endforeach
-                @else
-                0.00
+                  ({{$purchase->discount_amount}} %)
                 @endif
               </td>
-          </tr>
-          @if( !empty( $purchase->shipping_charges ) )
-            <tr>
-              <th>@lang('purchase.additional_shipping_charges'):</th>
-              <td><b>(+)</b></td>
-              <td><span class="display_currency pull-right" >{{ $purchase->shipping_charges }}</span></td>
+              <td class="pull-right">
+                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+                  $
+                  <span class="display_currency">
+                  @if($purchase->discount_type == 'percentage')
+                    {{$purchase->discount_amount * $total_before_tax / 100}}
+                  @else
+                    {{$purchase->discount_amount}}
+                  @endif                  
+                </span>
+              </td>
             </tr>
-          @endif
-          @if( !empty( $purchase->additional_expense_value_1 )  && !empty( $purchase->additional_expense_key_1 ))
-            <tr>
-              <th>{{ $purchase->additional_expense_key_1 }}:</th>
+            <tr class="no-print-after">
+              <th>@lang('purchase.purchase_tax'):</th>
               <td><b>(+)</b></td>
-              <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_1 }}</span></td>
+              <td class="text-right">
+                  @if(!empty($purchase_taxes))
+                    @foreach($purchase_taxes as $k => $v)
+                      <strong><small>{{$k}}</small></strong> - <span class="display_currency pull-right" data-currency_symbol="true">{{ $v }}</span><br>
+                    @endforeach
+                  @else
+                  0.00
+                  @endif
+                </td>
             </tr>
-          @endif
-          @if( !empty( $purchase->additional_expense_value_2 )  && !empty( $purchase->additional_expense_key_2 ))
-            <tr>
-              <th>{{ $purchase->additional_expense_key_2 }}:</th>
-              <td><b>(+)</b></td>
-              <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_2 }}</span></td>
-            </tr>
-          @endif
-          @if( !empty( $purchase->additional_expense_value_3 )  && !empty( $purchase->additional_expense_key_3 ))
-            <tr>
-              <th>{{ $purchase->additional_expense_key_3 }}:</th>
-              <td><b>(+)</b></td>
-              <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_3 }}</span></td>
-            </tr>
-          @endif
-          @if( !empty( $purchase->additional_expense_value_4 ) && !empty( $purchase->additional_expense_key_4 ))
-            <tr>
-              <th>{{ $purchase->additional_expense_key_4 }}:</th>
-              <td><b>(+)</b></td>
-              <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_4 }}</span></td>
-            </tr>
-          @endif
+            
+            @if( !empty( $purchase->shipping_charges ) )
+              <tr class="no-print-after">
+                <th>@lang('purchase.additional_shipping_charges'):</th>
+                <td><b>(+)</b></td>
+                <td><span class="display_currency pull-right" >{{ $purchase->shipping_charges }}</span></td>
+              </tr>
+            @endif
+            @if( !empty( $purchase->additional_expense_value_1 )  && !empty( $purchase->additional_expense_key_1 ))
+              <tr class="no-print-after">
+                <th>{{ $purchase->additional_expense_key_1 }}:</th>
+                <td><b>(+)</b></td>
+                <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_1 }}</span></td>
+              </tr>
+            @endif
+            @if( !empty( $purchase->additional_expense_value_2 )  && !empty( $purchase->additional_expense_key_2 ))
+              <tr class="no-print-after">
+                <th>{{ $purchase->additional_expense_key_2 }}:</th>
+                <td><b>(+)</b></td>
+                <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_2 }}</span></td>
+              </tr>
+            @endif
+            @if( !empty( $purchase->additional_expense_value_3 )  && !empty( $purchase->additional_expense_key_3 ))
+              <tr class="no-print-after">
+                <th>{{ $purchase->additional_expense_key_3 }}:</th>
+                <td><b>(+)</b></td>
+                <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_3 }}</span></td>
+              </tr>
+            @endif
+            @if( !empty( $purchase->additional_expense_value_4 ) && !empty( $purchase->additional_expense_key_4 ))
+              <tr class="no-print-after">
+                <th>{{ $purchase->additional_expense_key_4 }}:</th>
+                <td><b>(+)</b></td>
+                <td><span class="display_currency pull-right" >{{ $purchase->additional_expense_value_4 }}</span></td>
+              </tr>
+            @endif
           <tr>
             <th>@lang('purchase.purchase_total'):</th>
             <td></td>
@@ -437,52 +499,77 @@
               </span>
             </td>
           </tr>
+          <tr>
+            <th>Total Pagado:</th>
+            <td></td>
+            <td class="pull-right">
+              <!-- <span class="display_currency pull-right" data-currency_symbol="true" > -->
+                $
+                <span class="display_currency">
+                {{ $total_paid }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th>Saldo:</th>
+            <td></td>
+            <td class="pull-right">
+              <!-- <span class="display_currency pull-right" data-currency_symbol="true" > -->
+                $
+                <span class="display_currency">
+                {{ $saldo }}
+              </span>
+            </td>
+          </tr>
         </table>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <strong>@lang('purchase.shipping_details'):</strong><br>
-      <p class="well well-sm no-shadow bg-gray">
-        {{ $purchase->shipping_details ?? '' }}
 
-        @if(!empty($purchase->shipping_custom_field_1))
-          <br><strong>{{$custom_labels['purchase_shipping']['custom_field_1'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_1}}
-        @endif
-        @if(!empty($purchase->shipping_custom_field_2))
-          <br><strong>{{$custom_labels['purchase_shipping']['custom_field_2'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_2}}
-        @endif
-        @if(!empty($purchase->shipping_custom_field_3))
-          <br><strong>{{$custom_labels['purchase_shipping']['custom_field_3'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_3}}
-        @endif
-        @if(!empty($purchase->shipping_custom_field_4))
-          <br><strong>{{$custom_labels['purchase_shipping']['custom_field_4'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_4}}
-        @endif
-        @if(!empty($purchase->shipping_custom_field_5))
-          <br><strong>{{$custom_labels['purchase_shipping']['custom_field_5'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_5}}
-        @endif
-      </p>
-    </div>
-    <div class="col-sm-6">
-      <strong>@lang('purchase.additional_notes'):</strong><br>
-      <p class="well well-sm no-shadow bg-gray">
-        @if($purchase->additional_notes)
-          {{ $purchase->additional_notes }}
-        @else
-          --
-        @endif
-      </p>
-    </div>
-  </div>
-  @if(!empty($activities))
-  <div class="row">
-    <div class="col-md-12">
-          <strong>{{ __('lang_v1.activities') }}:</strong><br>
-          @includeIf('activity_log.activities', ['activity_type' => 'purchase'])
+  <div class="no-print-after">
+    <div class="row">
+      <div class="col-sm-6">
+        <strong>@lang('purchase.shipping_details'):</strong><br>
+        <p class="well well-sm no-shadow bg-gray">
+          {{ $purchase->shipping_details ?? '' }}
+
+          @if(!empty($purchase->shipping_custom_field_1))
+            <br><strong>{{$custom_labels['purchase_shipping']['custom_field_1'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_1}}
+          @endif
+          @if(!empty($purchase->shipping_custom_field_2))
+            <br><strong>{{$custom_labels['purchase_shipping']['custom_field_2'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_2}}
+          @endif
+          @if(!empty($purchase->shipping_custom_field_3))
+            <br><strong>{{$custom_labels['purchase_shipping']['custom_field_3'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_3}}
+          @endif
+          @if(!empty($purchase->shipping_custom_field_4))
+            <br><strong>{{$custom_labels['purchase_shipping']['custom_field_4'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_4}}
+          @endif
+          @if(!empty($purchase->shipping_custom_field_5))
+            <br><strong>{{$custom_labels['purchase_shipping']['custom_field_5'] ?? ''}}: </strong> {{$purchase->shipping_custom_field_5}}
+          @endif
+        </p>
       </div>
+      <div class="col-sm-6">
+        <strong>@lang('purchase.additional_notes'):</strong><br>
+        <p class="well well-sm no-shadow bg-gray">
+          @if($purchase->additional_notes)
+            {{ $purchase->additional_notes }}
+          @else
+            --
+          @endif
+        </p>
+      </div>
+    </div>
+    @if(!empty($activities))
+    <div class="row">
+      <div class="col-md-12">
+            <strong>{{ __('lang_v1.activities') }}:</strong><br>
+            @includeIf('activity_log.activities', ['activity_type' => 'purchase'])
+        </div>
+    </div>
+    @endif
   </div>
-  @endif
 
   {{-- Barcode --}}
   <div class="row print_section">

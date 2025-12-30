@@ -2,7 +2,7 @@
 
  return [
      'supplier' => 'Proveedor',
-     'ref_no' => 'Numero de referencia',
+     'ref_no' => '# referencia',
      'business_location' => 'Ubicación de la empresa',
      'purchases' => 'Pedidos',
      'add_payment' => 'Agregar pago',
