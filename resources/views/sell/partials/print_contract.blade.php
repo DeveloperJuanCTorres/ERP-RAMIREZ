@@ -83,11 +83,9 @@
 <table>
     <thead>
         <tr>
-            <th>Producto</th>
-            <th>Motor</th>
-            <th>Serie</th>
-            <th>Marca</th>
             <th>Modelo</th>
+            <th>Marca</th>
+            <th>Motor</th>            
             <th>Color</th>
             <th>Chasis</th>
             <th>Año</th>
@@ -100,10 +98,8 @@
             @php $lot = $line->lot_details; @endphp
             <tr>
                 <td>{{ $line->product->name }}</td>
-                <td>{{ $lot->motor ?? '--' }}</td>
-                <td>{{ $lot->serie ?? '--' }}</td>
                 <td>{{ $line->product->brand->name ?? '--' }}</td>
-                <td>{{ $line->product->name }}</td>
+                <td>{{ $lot->motor ?? '--' }}</td>                
                 <td>{{ $lot->color ?? '--' }}</td>
                 <td>{{ $lot->chasis ?? '--' }}</td>
                 <td>{{ $lot->anio ?? '--' }}</td>
