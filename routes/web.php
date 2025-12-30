@@ -177,6 +177,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         [ContactController::class, 'reporteComprasCliente']
     );
 
+    //IMRPIMIR CONTRATO
+    Route::get('/sell/{id}/print-contract', [SellController::class, 'printContract'])
+        ->name('sell.printContract');
+
 
 
 

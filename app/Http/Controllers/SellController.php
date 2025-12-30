@@ -384,7 +384,7 @@ class SellController extends Controller
 
                         if (config('constants.enable_download_pdf') && auth()->user()->can('print_invoice') && $sale_type != 'sales_order') {
                             $html .= '<li><a href="'.route('sell.downloadPdf', [$row->id]).'" target="_blank"><i class="fas fa-print" aria-hidden="true"></i> '.__('lang_v1.download_pdf').'</a></li>';
-
+                            
                             if (! empty($row->shipping_status)) {
                                 $html .= '<li><a href="'.route('packing.downloadPdf', [$row->id]).'" target="_blank"><i class="fas fa-print" aria-hidden="true"></i> '.__('lang_v1.download_paking_pdf').'</a></li>';
                             }
@@ -1724,6 +1724,34 @@ class SellController extends Controller
         //$mensaje = "Estamos trabajando en ello...";
         //return response()->json(['status' => true, 'msg' => $mensaje ]);
     }
+
+    // public function printContract($id)
+    // {
+    //     $sell = Transaction::with([
+    //         'contact',
+    //         'sell_lines.product.brand',
+    //         'business',
+    //         'sell_lines.lot_details'
+    //     ])->findOrFail($id);
+
+    //     return view('sell.partials.print_contract', compact('sell'));
+    // }
+
+    public function printContract($id)
+    {
+        $sell = Transaction::with([
+            'contact',
+            'sell_lines.product.brand',
+            'business',
+            'sell_lines.lot_details'
+        ])->findOrFail($id);
+
+        $pdf = Pdf::setOption('isRemoteEnabled', true)
+            ->loadView('sell.partials.print_contract', compact('sell'));
+
+        return $pdf->stream('contrato_venta.pdf');
+    }
+
 
     public function buscarDoc(Request $request)
     {
