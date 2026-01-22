@@ -183,7 +183,7 @@ class ProductionController extends Controller
             'purchase_lines.id as purchase_line_id'
         )
         ->where('transactions.type', 'purchase_transfer')
-        ->whereIn('purchase_lines.product_id', [1, 6, 56])
+        ->whereIn('purchase_lines.product_id', [1, 6, 56, 138, 141, 190])
         // ->where('transactions.location_id', 2)
         ->where('transactions.location_id', 12)
         ->groupBy('purchase_lines.id', 'purchase_lines.lot_number')
