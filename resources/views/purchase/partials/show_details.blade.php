@@ -197,22 +197,23 @@
           <thead>
             <tr class="bg-green">
               <th>#</th>
-              <th>@lang('product.product_name')</th>
-              <th>@lang('product.sku')</th>
+              <!-- <th>@lang('product.product_name')</th> -->
+               <th>Producto</th>
+              <!-- <th>@lang('product.sku')</th> -->
               @if($purchase->type == 'purchase_order')
                 <th class="text-right">@lang( 'lang_v1.quantity_remaining' )</th>
               @endif
-              <th class="text-right">@if($purchase->type == 'purchase_order') @lang('lang_v1.order_quantity') @else @lang('purchase.purchase_quantity') @endif</th>
-              <th class="text-right">@lang( 'lang_v1.unit_cost_before_discount' )</th>
+              <th>@if($purchase->type == 'purchase_order') @lang('lang_v1.order_quantity') @else Cantidad @endif</th>
+              <!-- <th class="text-right">@lang( 'lang_v1.unit_cost_before_discount' )</th>
               <th class="text-right">@lang( 'lang_v1.discount_percent' )</th>
-              <th class="no-print text-right">@lang('purchase.unit_cost_before_tax')</th>
-              <th class="no-print text-right">@lang('purchase.subtotal_before_tax')</th>
-              <th class="text-right">@lang('sale.tax')</th>
-              <th class="text-right">@lang('purchase.unit_cost_after_tax')</th>
+              <th class="no-print text-right">@lang('purchase.unit_cost_before_tax')</th> -->
+              <!-- <th class="no-print text-right">Precio Unit.</th> -->
+              <!-- <th class="text-right">@lang('sale.tax')</th> -->
+              <th class="text-right">Precio Unit.</th>
               @if($purchase->type != 'purchase_order')
-              @if(session('business.enable_lot_number'))
+              <!-- @if(session('business.enable_lot_number'))
                 <th>@lang('lang_v1.lot_number')</th>
-              @endif
+              @endif -->
               @if(session('business.enable_product_expiry'))
                 <th>@lang('product.mfg_date')</th>
                 <th>@lang('product.exp_date')</th>
@@ -234,13 +235,13 @@
                   - {{ $purchase_line->variations->name}}
                  @endif
               </td>
-              <td>
+              <!-- <td>
                  @if( $purchase_line->product->type == 'variable')
                   {{ $purchase_line->variations->sub_sku}}
                   @else
                   {{ $purchase_line->product->sku }}
                  @endif
-              </td>
+              </td> -->
               @if($purchase->type == 'purchase_order')
               <td>
                 <span class="display_currency" data-is_quantity="true" data-currency_symbol="false">{{ $purchase_line->quantity - $purchase_line->po_quantity_purchased }}</span> @if(!empty($purchase_line->sub_unit)) {{$purchase_line->sub_unit->short_name}} @else {{$purchase_line->product->unit->short_name}} @endif
@@ -250,12 +251,11 @@
 
                 @if(!empty($purchase_line->product->second_unit) && $purchase_line->secondary_unit_quantity != 0)
                     <br>
-                    <span class="display_currency" data-is_quantity="true" data-currency_symbol="false">{{ $purchase_line->secondary_unit_quantity }}</span> {{$purchase_line->product->second_unit->short_name}}
+                    <span class="display_currency text-center" data-is_quantity="true" data-currency_symbol="false">{{ $purchase_line->secondary_unit_quantity }}</span> {{$purchase_line->product->second_unit->short_name}}
                 @endif
 
               </td>
-              <td class="text-right">
-                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+              <!-- <td class="text-right">
                   $
                   <span class="display_currency">s
                   {{ $purchase_line->pp_without_discount}}
@@ -263,28 +263,25 @@
               </td>
               <td class="text-right"><span class="display_currency">{{ $purchase_line->discount_percent}}</span> %</td>
               <td class="no-print text-right">
-                <!-- <span class="display_currency" data-currency_symbol="true"> -->
                   $
                   <span class="display_currency">
                   {{ $purchase_line->purchase_price }}
                 </span>
-              </td>
-              <td class="no-print text-right">
-                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+              </td> -->
+              <!-- <td class="no-print text-right">
                   $
                   <span class="display_currency">
                   {{ $purchase_line->quantity * $purchase_line->purchase_price }}
                 </span>
-              </td>
-              <td class="text-right">
-                <!-- <span class="display_currency" data-currency_symbol="true"> -->
+              </td> -->
+              <!-- <td class="text-right">
                   $
                   <span class="display_currency">
                   {{ $purchase_line->item_tax }} 
                 </span> 
                 <br/>
                 <small>@if(!empty($taxes[$purchase_line->tax_id])) ( {{ $taxes[$purchase_line->tax_id]}} ) </small>@endif
-              </td>
+              </td> -->
               <td class="text-right">
                 <!-- <span class="display_currency" data-currency_symbol="true"> -->
                   $
@@ -293,9 +290,9 @@
                 </span>
               </td>
               @if($purchase->type != 'purchase_order')
-              @if(session('business.enable_lot_number'))
+              <!-- @if(session('business.enable_lot_number'))
                 <td>{{$purchase_line->lot_number}}</td>
-              @endif
+              @endif -->
 
               @if(session('business.enable_product_expiry'))
               <td>
