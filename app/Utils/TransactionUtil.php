@@ -2215,6 +2215,11 @@ class TransactionUtil extends Util
                 $line_array['lot_number_label'] = __('lang_v1.lot');
             }
 
+            // 🔹 DATOS ADICIONALES
+            $line_array['color'] = optional($line->purchase_line)->color;
+            $line_array['chasis'] = optional($line->purchase_line)->chasis;
+            
+
             if ($is_product_expiry_enabled == 1 && $il->show_expiry == 1) {
                 $line_array['product_expiry'] = ! empty($line->lot_details->exp_date) ? $this->format_date($line->lot_details->exp_date, false, $business_details) : null;
                 $line_array['product_expiry_label'] = __('lang_v1.expiry');
