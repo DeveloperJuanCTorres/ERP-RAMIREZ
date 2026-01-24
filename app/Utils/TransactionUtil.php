@@ -2081,7 +2081,7 @@ class TransactionUtil extends Util
         $product_custom_fields_settings = ! empty($il->product_custom_fields) ? $il->product_custom_fields : [];
 
         $is_warranty_enabled = ! empty($business_details->common_settings['enable_product_warranty']) ? true : false;
-
+        
         foreach ($lines as $line) {
             $product = $line->product;
             $variation = $line->variations;
@@ -2214,11 +2214,11 @@ class TransactionUtil extends Util
                 $line_array['lot_number'] = ! empty($line->lot_details->lot_number) ? $line->lot_details->lot_number : null;
                 $line_array['lot_number_label'] = __('lang_v1.lot');
             }
-
+            
             // 🔹 DATOS ADICIONALES
             $line_array['color'] = optional($line->purchase_line)->color;
             $line_array['chasis'] = optional($line->purchase_line)->chasis;
-            
+
 
             if ($is_product_expiry_enabled == 1 && $il->show_expiry == 1) {
                 $line_array['product_expiry'] = ! empty($line->lot_details->exp_date) ? $this->format_date($line->lot_details->exp_date, false, $business_details) : null;

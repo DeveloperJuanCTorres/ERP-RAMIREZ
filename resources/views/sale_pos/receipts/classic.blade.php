@@ -270,7 +270,7 @@
 			<thead>
 				<tr>
 					<th width="{{$p_width}}%">{{$receipt_details->table_product_label}}</th>
-					<th class="text-center" width="15%"># Motor</th> 
+					<th class="text-center" width="30%"># Motor</th> 
 					<!-- <th class="text-right" width="15%">{{$receipt_details->table_qty_label}}</th> -->
 					<!-- <th class="text-right" width="15%">{{$receipt_details->table_unit_price_label}}</th> -->
 					@if(!empty($receipt_details->discounted_unit_price_label))
@@ -316,7 +316,8 @@
                             </small>
                             @endif
                         </td>
-						<td class="text-center">@if(!empty($line['lot_number'])){{$line['lot_number']}} - color: {{$line['color']}} - {{$line['chasis']}} @else -- @endif </td>
+						
+						<td class="text-center">@if(!empty($line['lot_number'])){{$line['lot_number']}} @else -- @endif </td>
 						<!-- <td class="text-right">
 							{{$line['quantity']}} {{$line['units']}} 
 
