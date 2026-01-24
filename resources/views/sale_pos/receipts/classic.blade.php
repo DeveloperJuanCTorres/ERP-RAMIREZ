@@ -1,5 +1,5 @@
 <!-- business information here -->
-<div class="receipt-wrapper" style="font-size:10px !important; line-height: 1.2;">
+<div class="receipt-wrapper" style="font-size:12px !important; line-height: 1.2;">
 
 
 <div class="row" style="color: #000000 !important;">
@@ -316,7 +316,7 @@
                             </small>
                             @endif
                         </td>
-						<td class="text-center">@if(!empty($line['lot_number'])){{$line['lot_number']}} @else -- @endif </td>
+						<td class="text-center">@if(!empty($line['lot_number'])){{$line['lot_number']}} - color: {{$line['color']}} @else -- @endif </td>
 						<!-- <td class="text-right">
 							{{$line['quantity']}} {{$line['units']}} 
 
