@@ -316,7 +316,7 @@
                             </small>
                             @endif
                         </td>
-						<td class="text-center">@if(!empty($line['lot_number'])){{$line['lot_number'] $line['color'] $line['chasis']}} {{$line['color']}} @else -- @endif </td>
+						<td class="text-center">@if(!empty($line['lot_number'])){{$line['lot_number']}} - color: {{$line['color']}} - {{$line['chasis']}} @else -- @endif </td>
 						<!-- <td class="text-right">
 							{{$line['quantity']}} {{$line['units']}} 
 
