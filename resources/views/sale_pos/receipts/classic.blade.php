@@ -1,4 +1,6 @@
 <!-- business information here -->
+<div class="receipt-wrapper" style="font-size:10px !important; line-height: 1.2;">
+
 
 <div class="row" style="color: #000000 !important;">
 	@if(empty($receipt_details->letter_head))
@@ -268,8 +270,9 @@
 			<thead>
 				<tr>
 					<th width="{{$p_width}}%">{{$receipt_details->table_product_label}}</th>
-					<th class="text-right" width="15%">{{$receipt_details->table_qty_label}}</th>
-					<th class="text-right" width="15%">{{$receipt_details->table_unit_price_label}}</th>
+					@if(!empty($line['lot_number']))<th class="text-right" width="15%"># Motor</th>@endif 
+					<!-- <th class="text-right" width="15%">{{$receipt_details->table_qty_label}}</th> -->
+					<!-- <th class="text-right" width="15%">{{$receipt_details->table_unit_price_label}}</th> -->
 					@if(!empty($receipt_details->discounted_unit_price_label))
 						<th class="text-right" width="10%">{{$receipt_details->discounted_unit_price_label}}</th>
 					@endif
@@ -300,7 +303,7 @@
                             	{!!$line['sell_line_note']!!}
                             </small>
                             @endif 
-                            @if(!empty($line['lot_number']))<br> {{$line['lot_number_label']}}:  {{$line['lot_number']}} @endif 
+                            <!-- @if(!empty($line['lot_number']))<br> {{$line['lot_number_label']}}:  {{$line['lot_number']}} @endif  -->
                             @if(!empty($line['product_expiry'])), {{$line['product_expiry_label']}}:  {{$line['product_expiry']}} @endif
 
                             @if(!empty($line['warranty_name'])) <br><small>{{$line['warranty_name']}} </small>@endif @if(!empty($line['warranty_exp_date'])) <small>- {{@format_date($line['warranty_exp_date'])}} </small>@endif
@@ -313,7 +316,8 @@
                             </small>
                             @endif
                         </td>
-						<td class="text-right">
+						@if(!empty($line['lot_number']))<td><br>{{$line['lot_number']}} </td>@endif 
+						<!-- <td class="text-right">
 							{{$line['quantity']}} {{$line['units']}} 
 
 							@if($receipt_details->show_base_unit_details && $line['quantity'] && $line['base_unit_multiplier'] !== 1)
@@ -321,8 +325,8 @@
                             	{{$line['quantity']}} x {{$line['base_unit_multiplier']}} = {{$line['orig_quantity']}} {{$line['base_unit_name']}}
                             </small>
                             @endif
-						</td>
-						<td class="text-right">{{$line['unit_price_before_discount']}}</td>
+						</td> -->
+						<!-- <td class="text-right">{{$line['unit_price_before_discount']}}</td> -->
 						@if(!empty($receipt_details->discounted_unit_price_label))
 							<td class="text-right">
 								{{$line['unit_price_inc_tax']}} 
@@ -377,7 +381,7 @@
 
 <div class="row" style="color: #000000 !important;">
 	<div class="col-md-12"><hr/></div>
-	<div class="col-xs-6">
+	<div class="col-xs-12">
 
 		<table class="table table-slim">
 
@@ -428,7 +432,7 @@
 		</table>
 	</div>
 
-	<div class="col-xs-6">
+	<div class="col-xs-12">
         <div class="table-responsive">
           	<table class="table table-slim">
 				<tbody>
@@ -612,6 +616,7 @@
     @endif
     
 </div>
+
 <div class="row" style="color: #000000 !important;">
 	@if(!empty($receipt_details->footer_text))
 	<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
@@ -630,4 +635,7 @@
 			@endif
 		</div>
 	@endif
+</div>
+
+
 </div>
