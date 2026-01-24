@@ -114,4 +114,9 @@ class TransactionPayment extends Model
     {
         return $this->morphMany(\App\CashDenomination::class, 'model');
     }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

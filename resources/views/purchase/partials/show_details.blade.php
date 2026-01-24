@@ -322,7 +322,9 @@
       </div>
     </div>
   </div>
+
   <br>
+  
   <div class="row">
     @if(!empty($purchase->type == 'purchase'))
     <div class="col-sm-12 col-xs-12">
@@ -358,7 +360,7 @@
               <td>{{ @format_date($payment_line->paid_on) }}</td>
               <td class="no-print-after">{{ $payment_line->payment_ref_no }}</td>
               
-              <td>{{ $payment_methods[$payment_line->method] ?? '' }}</td>
+              <td>{{ optional($payment_line->account)->name ?? '--' }}</td>
               <td>@if($payment_line->note) 
                 {{ ucfirst($payment_line->note) }}
                 @else
