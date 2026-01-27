@@ -74,10 +74,10 @@
 
 <p class="bold">DATOS DEL CLIENTE</p>
 <p>
-    Nombre: {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
-    Documento: {{ $sell->contact->contact_id ?? '--' }}<br>
-    Dirección: {!! $sell->contact->address_line_1 !!}<br>
-    Teléfono: {{ $sell->contact->mobile ?? '--' }}
+    <strong> Nombre:</strong> {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
+    <strong> Documento:</strong> {{ $sell->contact->contact_id ?? '--' }}<br>
+    <strong> Dirección:</strong> {!! $sell->contact->address_line_1 !!}<br>
+    <strong> Teléfono:</strong> {{ $sell->contact->mobile ?? '--' }}
 </p>
 
 <p class="bold">DETALLE DE LOS PRODUCTOS</p>
