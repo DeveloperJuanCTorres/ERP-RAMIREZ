@@ -74,9 +74,9 @@
 
 <p class="bold">DATOS DEL CLIENTE</p>
 <p>
-    Nombre: {{ $sell->contact->name }}<br>
-    Documento: {{ $sell->contact->tax_number ?? '--' }}<br>
-    Dirección: {!! $sell->contact->contact_address !!}<br>
+    Nombre: {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
+    Documento: {{ $sell->contact->contact_id ?? '--' }}<br>
+    Dirección: {!! $sell->contact->address_line_1 !!}<br>
     Teléfono: {{ $sell->contact->mobile ?? '--' }}
 </p>
 
