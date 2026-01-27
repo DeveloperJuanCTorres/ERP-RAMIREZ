@@ -24,8 +24,8 @@
         }
 
         th, td {
-            border: 1px solid #000;
-            padding: 4px;
+            /* border: 1px solid #000; */
+            padding: 2px;
         }
 
         .no-border td {
@@ -46,11 +46,10 @@
 <body>
 
 {{-- CABECERA --}}
-<table class="no-border">
+<!-- <table class="no-border">
     <tr>
         <td width="20%">
             @if(!empty($sell->business->logo))
-                <!-- <img src="{{ asset('uploads/business_logos/'.$sell->business->logo) }}" width="90"> -->
             @endif
         </td>
         <td class="text-center">
@@ -59,7 +58,10 @@
             Tel: {{ $sell->business->mobile }}
         </td>
     </tr>
-</table>
+</table> -->
+<div class="row">
+    <img src="img/contratobg.jpeg" width="100%">
+</div>
 
 <hr>
 
@@ -110,12 +112,14 @@
     </tbody>
 </table>
 
-<p class="bold">CERTIFICADO DE GARANTÍA</p>
-<p style="text-align: justify">
-     La empresa se responsabiliza sólo por falla de fábrica del motor (6000 km recorrido) y de la carrocería por 1 año y se
-compromete a extraer las piezas dañadas y colocar una original de la misma marca, mas no del daño producido por el mal manejo,
-falta de mantenimiento y desgaste por uso. No se acepta cambios ni devoluciones
-</p>
+<div style="border: 1px solid #000; padding: 10px; margin-top: 20px;">
+    <p class="bold">CERTIFICADO DE GARANTÍA</p>
+    <p style="text-align: justify">
+        La empresa se responsabiliza sólo por falla de fábrica del motor (6000 km recorrido) y de la carrocería por 1 año y se
+    compromete a extraer las piezas dañadas y colocar una original de la misma marca, mas no del daño producido por el mal manejo,
+    falta de mantenimiento y desgaste por uso. No se acepta cambios ni devoluciones
+    </p>
+</div>
 
 {{-- 🔥 RELLENO PARA EMPUJAR AL FINAL --}}
 <div class="relleno-pagina"></div>
