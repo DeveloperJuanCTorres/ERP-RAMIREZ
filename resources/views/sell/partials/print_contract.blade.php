@@ -34,7 +34,7 @@
 
         /* 🔥 CLAVE: rellena la hoja */
         .relleno-pagina {
-            height: 180px; /* AJUSTA si tu contenido crece */
+            height: 100px; /* AJUSTA si tu contenido crece */
         }
 
         .firmas {
@@ -129,11 +129,13 @@
     <tr>
         <td width="50%" class="text-center">
             ___________________________<br>
-            <strong>Firma Empresa</strong>
+            <strong>Firma Empresa</strong><br>
+            <strong>Imp. Ramirez</strong>
         </td>
         <td width="50%" class="text-center">
             ___________________________<br>
-            <strong>Firma Cliente</strong>
+            <strong>Firma Cliente</strong><br>
+            {{ $sell->contact->name . $sell->contact->supplier_business_name }}
         </td>
     </tr>
 </table>
