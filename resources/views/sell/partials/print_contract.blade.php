@@ -34,7 +34,7 @@
 
         /* 🔥 CLAVE: rellena la hoja */
         .relleno-pagina {
-            height: 100px; /* AJUSTA si tu contenido crece */
+            height: 50px; /* AJUSTA si tu contenido crece */
         }
 
         .firmas {
