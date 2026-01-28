@@ -46,19 +46,6 @@
 <body>
 
 {{-- CABECERA --}}
-<!-- <table class="no-border">
-    <tr>
-        <td width="20%">
-            @if(!empty($sell->business->logo))
-            @endif
-        </td>
-        <td class="text-center">
-            <strong style="font-size:14px">{{ $sell->business->name }}</strong><br>
-            {{ $sell->business->address }}<br>
-            Tel: {{ $sell->business->mobile }}
-        </td>
-    </tr>
-</table> -->
 <div class="row">
     <img src="img/contratobg.jpeg" width="100%">
 </div>
@@ -71,6 +58,48 @@
 </p>
 
 <hr>
+
+@if($salesOrder)
+<p class="bold">DETALLE DE LA ORDEN DE VENTA : {{$salesOrder->invoice_no}}</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Cantidad</th>
+            <th>Modelo</th>
+            <th>Descripción</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @php $total = 0; @endphp
+
+        @foreach($salesOrder->sell_lines as $line)
+            @php
+                $subtotal = $line->quantity * $line->unit_price_inc_tax;
+                $total += $subtotal;
+            @endphp
+            <tr>
+                <td class="text-center">{{ number_format($line->quantity, 0) }}</td>
+                <td>{{ $line->product->name }}</td>
+                <td>{{ $line->product->product_description ?? '--' }}</td>
+                <td class="text-right">{{ number_format($line->unit_price_inc_tax, 2) }}</td>
+                <td class="text-right">{{ number_format($subtotal, 2) }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <th colspan="4" class="text-right">TOTAL</th>
+            <th class="text-right">{{ number_format($total, 2) }}</th>
+        </tr>
+    </tfoot>
+</table>
+
+<hr>
+@endif
 
 <p class="bold">DATOS DEL CLIENTE</p>
 <p>

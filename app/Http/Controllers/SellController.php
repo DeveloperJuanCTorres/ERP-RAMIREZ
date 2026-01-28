@@ -1746,8 +1746,19 @@ class SellController extends Controller
             'sell_lines.lot_details'
         ])->findOrFail($id);
 
+        // 🔥 YA ES ARRAY
+        $salesOrderIds = $sell->sales_order_ids;
+
+        $salesOrder = null;
+
+        if (!empty($salesOrderIds) && is_array($salesOrderIds)) {
+            $salesOrder = Transaction::with([
+                'sell_lines.product'
+            ])->find($salesOrderIds[0]);
+        }
+
         $pdf = Pdf::setOption('isRemoteEnabled', true)
-            ->loadView('sell.partials.print_contract', compact('sell'));
+            ->loadView('sell.partials.print_contract', compact('sell', 'salesOrder'));
 
         return $pdf->stream('contrato_venta.pdf');
     }
