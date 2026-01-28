@@ -58,6 +58,13 @@
 </p>
 
 <hr>
+<p class="bold">DATOS DEL CLIENTE</p>
+<p>
+    <strong> Nombre:</strong> {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
+    <strong> Documento:</strong> {{ $sell->contact->contact_id ?? '--' }}<br>
+    <strong> Dirección:</strong> {!! $sell->contact->address_line_1 !!}<br>
+    <strong> Teléfono:</strong> {{ $sell->contact->mobile ?? '--' }}
+</p>
 
 @if($salesOrder)
 <p class="bold">DETALLE DE LA ORDEN DE VENTA : {{$salesOrder->invoice_no}}</p>
@@ -100,14 +107,6 @@
 
 <hr>
 @endif
-
-<p class="bold">DATOS DEL CLIENTE</p>
-<p>
-    <strong> Nombre:</strong> {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
-    <strong> Documento:</strong> {{ $sell->contact->contact_id ?? '--' }}<br>
-    <strong> Dirección:</strong> {!! $sell->contact->address_line_1 !!}<br>
-    <strong> Teléfono:</strong> {{ $sell->contact->mobile ?? '--' }}
-</p>
 
 <p class="bold">DETALLE DE LOS PRODUCTOS</p>
 
