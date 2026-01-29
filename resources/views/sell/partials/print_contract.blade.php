@@ -181,7 +181,7 @@
                         'card' => 'Tarjeta',
                         'bank_transfer' => 'Transferencia',
                         'cheque' => 'Cheque',
-                        'Custom_pay_1' => 'Depósito'
+                        'custom_pay_1' => 'Depósito'
                     ];
                 @endphp
 
