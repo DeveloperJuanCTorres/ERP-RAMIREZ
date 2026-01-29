@@ -3526,9 +3526,9 @@ class SellController extends Controller
 
             $tipo_serie = substr($invoice, 0, 3);
             
-            if ($tipo_serie == 'F00') {
+            if ($tipo_serie == 'F00'|| $tipo_serie == 'FFF') {
                     $tipo_comprobante = 1;
-                }elseif($tipo_serie == "B00")
+                }elseif($tipo_serie == "B00" || $tipo_serie == 'BBB')
                 {
                     $tipo_comprobante = 2;
                 }
