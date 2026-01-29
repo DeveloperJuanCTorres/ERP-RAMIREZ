@@ -140,14 +140,91 @@
     </tbody>
 </table>
 
-<div style="border: 1px solid #000; padding: 10px; margin-top: 20px;">
+<!-- <div style="border: 1px solid #000; padding: 10px; margin-top: 20px;">
     <p class="bold">CERTIFICADO DE GARANTÍA</p>
     <p style="text-align: justify">
         La empresa se responsabiliza sólo por falla de fábrica del motor (6000 km recorrido) y de la carrocería por 1 año y se
     compromete a extraer las piezas dañadas y colocar una original de la misma marca, mas no del daño producido por el mal manejo,
     falta de mantenimiento y desgaste por uso. No se acepta cambios ni devoluciones
     </p>
-</div>
+</div> -->
+
+<hr>
+
+<p class="bold">RESUMEN DE PAGOS</p>
+
+@php
+    $totalVenta   = $sell->final_total;
+    $totalPagado  = $sell->payment_lines->sum('amount');
+    $saldoPendiente = $totalVenta - $totalPagado;
+@endphp
+
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Método de Pago</th>
+            <th>Referencia</th>
+            <th class="text-right">Monto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($sell->payment_lines as $payment)
+            <tr>
+                <td class="text-center">
+                    {{ @format_date($payment->paid_on) }}
+                </td>
+                @php
+                    $paymentMethods = [
+                        'advance' => 'Anticipo',
+                        'cash' => 'Efectivo',
+                        'card' => 'Tarjeta',
+                        'bank_transfer' => 'Transferencia',
+                        'cheque' => 'Cheque'
+                    ];
+                @endphp
+
+                <td>
+                    {{ $paymentMethods[$payment->method] ?? ucfirst($payment->method ?? '--') }}
+                </td>
+                <td>
+                    {{ $payment->note ?? '--' }}
+                </td>
+                <td class="text-right">
+                    {{ number_format($payment->amount, 2) }}
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="4" class="text-center">
+                    No se registran pagos
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
+<br>
+
+<table>
+    <tr>
+        <th class="text-right" width="80%">TOTAL VENTA</th>
+        <th class="text-right">{{ number_format($totalVenta, 2) }}</th>
+    </tr>
+    <tr>
+        <th class="text-right">TOTAL PAGADO</th>
+        <th class="text-right">{{ number_format($totalPagado, 2) }}</th>
+    </tr>
+    <tr>
+        <th class="text-right">SALDO PENDIENTE</th>
+        <th class="text-right">
+            {{ number_format($saldoPendiente, 2) }}
+        </th>
+    </tr>
+</table>
+
+
+
 
 {{-- 🔥 RELLENO PARA EMPUJAR AL FINAL --}}
 <div class="relleno-pagina"></div>
