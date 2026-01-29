@@ -107,7 +107,11 @@
                 $imgData = base64_encode(file_get_contents($imgPath));
                 $imgType = pathinfo($imgPath, PATHINFO_EXTENSION);
             @endphp
-            <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="{{$alt}}">
+            @if($business_id = 1)
+                <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="250" alt="{{$alt}}">
+            @else
+                <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="{{$alt}}">
+            @endif
             @if($business_id = 1)
                 <h3 style="padding-top: 20px;">IMPORTACIONES RAMIREZ E.I.R.L.</h3>
                 <p>7 de Enero 1850 - Chiclayo</p>
