@@ -1807,9 +1807,20 @@ class SellController extends Controller
             }            
         }
 
+        // 👉 Invoice schemes por location
+        $invoice_schemes = InvoiceScheme::where('business_id', $business_id)
+            ->where(function ($q) use ($transaction) {
+                $q->whereNull('locacion_id')
+                ->orWhere('locacion_id', $transaction->location_id);
+            })
+            ->select('id', 'name', 'prefix', 'is_default')
+            ->get();
+
         return response()->json([
             'ref_no' => $documento,
             'contact' => $contact,
+            'location_id' => $transaction->location_id,
+            'invoice_schemes' => $invoice_schemes,
             'products' => $result]);
 
     }

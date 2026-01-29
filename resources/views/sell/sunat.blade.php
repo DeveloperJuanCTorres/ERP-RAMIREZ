@@ -128,7 +128,17 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {!! Form::label('comprobante',  'Comprobante:') !!}
-                            {!! Form::select('invoice_scheme_id', $invoice_schemes, $default_invoice_schemes->id, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('messages.please_select'), 'id' => 'invoice_scheme_id']); !!}
+                            {!! Form::select(
+                                'invoice_scheme_id',
+                                [],
+                                null,
+                                [
+                                    'class' => 'form-control select2',
+                                    'style' => 'width:100%',
+                                    'placeholder' => __('messages.please_select'),
+                                    'id' => 'invoice_scheme_id'
+                                ]
+                            ); !!}
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -821,6 +831,32 @@
                     let tbody = $('#tablaItems tbody');
                     $('#datos_cliente').show();
                     tbody.empty();
+
+
+                    let $invoiceSelect = $('#invoice_scheme_id');
+
+                    $invoiceSelect.empty();
+                    $invoiceSelect.append('<option value="">Seleccione comprobante</option>');
+
+                    if (response.invoice_schemes && response.invoice_schemes.length > 0) {
+                        response.invoice_schemes.forEach(item => {
+
+                            let texto = item.prefix
+                                ? `${item.name} - ${item.prefix}`
+                                : item.name;
+
+                            let selected = item.is_default == 1 ? 'selected' : '';
+
+                            $invoiceSelect.append(`
+                                <option value="${item.id}" ${selected}>
+                                    ${texto}
+                                </option>
+                            `);
+                        });
+                    }
+
+                    // refrescar select2
+                    $invoiceSelect.trigger('change.select2');
 
                 if (response.contact) {
                         // Mostramos el nombre del cliente en el label
