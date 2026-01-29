@@ -95,13 +95,13 @@
     aria-labelledby="gridSystemModalLabel">
 </div>
 
-<!-- Modal -->
+<!-- Modal venta-->
 <div class="modal fade" id="modalBuscarPedido" tabindex="-1" role="dialog" aria-labelledby="modalBuscarPedidoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             
             <div class="modal-header bg-primary text-white">
-                <h3 class="modal-title text-white" id="modalBuscarPedidoLabel">Buscar Pedido por Documento</h3>
+                <h3 class="modal-title text-white" id="modalBuscarPedidoLabel">Buscar Pedido por Documento1</h3>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -212,7 +212,7 @@
 </div>
 <!-- fin modal -->
 
-<!-- Modal -->
+<!-- Modal Servicio -->
 <div class="modal fade" id="modalServicio" tabindex="-1" role="dialog" aria-labelledby="modalBuscarPedidoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">

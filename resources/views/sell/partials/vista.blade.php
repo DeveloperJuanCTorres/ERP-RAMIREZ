@@ -95,18 +95,39 @@
     <div class="factura-header">
         <div class="factura-empresa">
             @php
-                $imgPath = public_path('img/a1ramirez.jpeg');
+                @if($business_id = 1)
+                    $imgPath = public_path('img/importaciones.jpeg');
+                    $alt = "imp-ramirez";
+                @else
+                    $imgPath = public_path('img/a1ramirez.jpeg');
+                    $alt = "a1-ramirez";
+                @endif
+
                 $imgData = base64_encode(file_get_contents($imgPath));
                 $imgType = pathinfo($imgPath, PATHINFO_EXTENSION);
             @endphp
-            <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="a1ramirez">
-            <h3 style="padding-top: 20px;">A1 RAMIREZ SAC</h3>
-            <p>AV. SALOMON VILCHEZ M. NRO. 740 - CUTERVO - CUTERVO - CAJAMARCA</p>
-            <p>E-mail: {{ $comprobante->empresa_email ?? 'cutervo@importacionesramirez.com' }}</p>
+            <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="{{$alt}}">
+            @if($business_id = 1)
+                <h3 style="padding-top: 20px;">IMPORTACIONES RAMIREZ E.I.R.L.</h3>
+                <p>7 de Enero 1850 - Chiclayo</p>
+                <p>Jr. Industrial 109  Mcdo. Nuevo Oriente - Cutervo</p>
+                <p>Jr. Coronel Secada 104 - Moyobamba</p>
+                <p>Carretera Pomalca KM 2.5</p>
+                <p>Calle Próceres 117 - Chiclayo</p>
+                <p>E-mail: informes@importacionesramirez.pe</p>
+            @else
+                <h3 style="padding-top: 20px;">A1 RAMIREZ SAC</h3>
+                <p>AV. SALOMON VILCHEZ M. NRO. 740 - CUTERVO - CUTERVO - CAJAMARCA</p>
+                <p>E-mail: {{ $comprobante->empresa_email ?? 'cutervo@importacionesramirez.com' }}</p>
+            @endif
         </div>
 
         <div class="factura-datos">
-            <h3>RUC 20603437331</h3>
+            @if($business_id = 1)
+                <h3>RUC 20495764398</h3>
+            @else
+                <h3>RUC 20603437331</h3>
+            @endif
             @if(Str::startsWith($comprobante->invoice_no, 'F'))
                 @php
                 $tipo_doc = 'RUC';

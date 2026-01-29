@@ -2284,6 +2284,7 @@ class SellController extends Controller
 
     public function vistaComprobante($id)
     {
+        $business_id = request()->session()->get('user.business_id');
         $comprobante = ComprobanteSunat::findOrFail($id);
         $productos = json_decode($comprobante->productos);
         $contact = Contact::findOrFail($comprobante->contact_id);
@@ -2295,7 +2296,7 @@ class SellController extends Controller
             $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'DÓLARES', 'CENTAVOS');
         }
 
-        return view('sell.partials.vista', compact('comprobante','productos', 'contact','totalEnLetras'));
+        return view('sell.partials.vista', compact('comprobante','productos', 'contact','totalEnLetras','business_id'));
     }
 
     public function notaCreditoInfo($id)
