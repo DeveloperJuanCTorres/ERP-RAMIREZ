@@ -180,7 +180,8 @@
                         'cash' => 'Efectivo',
                         'card' => 'Tarjeta',
                         'bank_transfer' => 'Transferencia',
-                        'cheque' => 'Cheque'
+                        'cheque' => 'Cheque',
+                        'Custom_pay_1' => 'Depósito'
                     ];
                 @endphp
 
