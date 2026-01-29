@@ -95,13 +95,14 @@
     <div class="factura-header">
         <div class="factura-empresa">
             @php
-                @if($business_id = 1)
+                if($business_id = 1){
                     $imgPath = public_path('img/importaciones.jpeg');
                     $alt = "imp-ramirez";
-                @else
+                }else
+                {
                     $imgPath = public_path('img/a1ramirez.jpeg');
                     $alt = "a1-ramirez";
-                @endif
+                }
 
                 $imgData = base64_encode(file_get_contents($imgPath));
                 $imgType = pathinfo($imgPath, PATHINFO_EXTENSION);
