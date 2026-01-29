@@ -887,7 +887,9 @@
                     response.products.forEach(item => {
                         tbody.append(`
                             <tr data-id="${item.id}">
-                                <td>${item.producto}</td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm producto" value="${item.producto}">
+                                </td>
                                 <td>${item.motor}</td>
                                 <td>${item.color}</td>
                                 <td>${item.chasis}</td>
@@ -1064,7 +1066,7 @@
             $('#tablaItems tbody tr').each(function () {
                 let fila = $(this);
                 productos.push({
-                    producto: fila.find('td:eq(0)').text(),
+                    producto: fila.find('.producto').val(),
                     motor: fila.find('td:eq(1)').text(),
                     color: fila.find('td:eq(2)').text(),
                     chasis: fila.find('td:eq(3)').text(),
