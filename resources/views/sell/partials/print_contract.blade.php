@@ -164,7 +164,7 @@
         <tr>
             <th>Fecha</th>
             <th>Método de Pago</th>
-            <th>Referencia</th>
+            <th>Nota</th>
             <th class="text-right">Monto</th>
         </tr>
     </thead>
@@ -185,10 +185,10 @@
                     ];
                 @endphp
 
-                <td>
+                <td class="text-center">
                     {{ $paymentMethods[$payment->method] ?? ucfirst($payment->method ?? '--') }}
                 </td>
-                <td>
+                <td class="text-center">
                     {{ $payment->note ?? '--' }}
                 </td>
                 <td class="text-right">
