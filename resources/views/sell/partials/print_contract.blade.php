@@ -54,11 +54,11 @@
 
 <p class="text-center bold" style="font-size:13px">
     CONTRATO DE VENTA N° {{ $sell->invoice_no }} <br>
-    Fecha: {{ @format_date($sell->transaction_date) }}
+    <!-- Fecha: {{ @format_date($sell->transaction_date) }} -->
 </p>
 
 <hr>
-<p class="bold">DATOS DEL CLIENTE</p>
+<p class="bold">Fecha: {{ @format_date($sell->transaction_date) }}</p>
 <p>
     <strong> Nombre:</strong> {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
     <strong> Documento:</strong> {{ $sell->contact->contact_id ?? '--' }}<br>
@@ -208,10 +208,10 @@
 <br>
 
 <table>
-    <tr>
+    <!-- <tr>
         <th class="text-right" width="80%">TOTAL VENTA</th>
         <th class="text-right">{{ number_format($totalVenta, 2) }}</th>
-    </tr>
+    </tr> -->
     <tr>
         <th class="text-right">TOTAL PAGADO</th>
         <th class="text-right">{{ number_format($totalPagado, 2) }}</th>
