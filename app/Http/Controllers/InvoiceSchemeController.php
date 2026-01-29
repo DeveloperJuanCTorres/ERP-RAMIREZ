@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLocation;
 use App\InvoiceLayout;
 use App\InvoiceScheme;
 use Datatables;
@@ -30,8 +31,8 @@ class InvoiceSchemeController extends Controller
         $business_id = request()->session()->get('user.business_id');
         if (request()->ajax()) {
             $schemes = InvoiceScheme::where('business_id', $business_id)
-                            ->select(['id', 'name', 'scheme_type', 'prefix', 'number_type', 'start_number', 'invoice_count', 'total_digits', 'is_default']);
-
+                            ->select(['id', 'name', 'locacion_id', 'scheme_type', 'prefix', 'number_type', 'start_number', 'invoice_count', 'total_digits', 'is_default']);
+         
             return Datatables::of($schemes)
                 ->addColumn(
                     'action',
@@ -45,6 +46,16 @@ class InvoiceSchemeController extends Controller
                         @endif
                         '
                 )
+                ->editColumn('locacion_id', function ($row) {
+                    $location_name = BusinessLocation::where('id', $row->locacion_id)->get();
+                    if ($location_name->count() == 0) {
+                        return 'Sin ubicación';
+                        
+                    }
+                    else{
+                        return $location_name[0]->name;
+                    }
+                })
                 ->editColumn('number_type', function ($row) {
                     return $this->number_types[$row->number_type];
                 })
@@ -65,14 +76,15 @@ class InvoiceSchemeController extends Controller
                 ->removeColumn('id')
                 ->removeColumn('is_default')
                 ->removeColumn('scheme_type')
-                ->rawColumns([6, 0])
+                ->rawColumns([7, 0])
                 ->make(false);
         }
 
         $invoice_layouts = InvoiceLayout::where('business_id', $business_id)
                                         ->with(['locations'])
-                                        ->get();
+                                        ->get();        
 
+       
         return view('invoice_scheme.index')
                     ->with(compact('invoice_layouts'));
     }
@@ -88,8 +100,11 @@ class InvoiceSchemeController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $business_id = request()->session()->get('user.business_id');
+
         $number_types = $this->number_types;
-        return view('invoice_scheme.create')->with(compact('number_types'));
+        $locations = BusinessLocation::where('business_id', $business_id)->get();
+        return view('invoice_scheme.create')->with(compact('number_types','locations'));
     }
 
     /**
@@ -105,7 +120,7 @@ class InvoiceSchemeController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'scheme_type', 'prefix', 'start_number', 'total_digits', 'number_type']);
+            $input = $request->only(['name', 'scheme_type', 'prefix', 'start_number', 'total_digits', 'number_type','locacion_id']);
             $business_id = $request->session()->get('user.business_id');
             $input['business_id'] = $business_id;
 
@@ -164,9 +179,10 @@ class InvoiceSchemeController extends Controller
         $invoice = InvoiceScheme::where('business_id', $business_id)->find($id);
 
         $number_types = $this->number_types;
+        $locations = BusinessLocation::where('business_id', $business_id)->get();
 
         return view('invoice_scheme.edit')
-            ->with(compact('invoice', 'number_types'));
+            ->with(compact('invoice', 'number_types','locations'));
     }
 
     /**
@@ -183,7 +199,7 @@ class InvoiceSchemeController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'scheme_type', 'prefix', 'start_number', 'total_digits', 'number_type']);
+            $input = $request->only(['name', 'scheme_type', 'prefix', 'start_number', 'total_digits', 'number_type','locacion_id']);
 
             $input['start_number'] = ($input['number_type'] == 'aleatory') ? '' : $input['start_number'];
 

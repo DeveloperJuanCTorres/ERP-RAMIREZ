@@ -40,6 +40,18 @@
                         {!! Form::text('name', null, ['class' => 'form-control', 'required', 'placeholder' => __( 'invoice.name' ) ]); !!}
                     </div>
                 </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                    {!! Form::label('invoice_ubicacion_comercial', 'Ubicación comercial:*') !!}
+                        <select name="locacion_id" id="locacion_id" class="form-control select2">
+                            @foreach($locations as $item)
+                            <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>                        
+                    </div>
+                </div>
+                
                 <div class="col-sm-12">
                     <div class="form-group">
                         {!! Form::label('invoice_number_type', __( 'invoice.number_type' ) . ':*') !!} @show_tooltip(__('invoice.number_type_tooltip'))

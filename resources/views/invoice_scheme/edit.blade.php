@@ -43,6 +43,17 @@
 
                 <div class="col-sm-12">
                     <div class="form-group">
+                    {!! Form::label('invoice_ubicacion_comercial', 'Ubicación comercial:*') !!}
+                        <select name="locacion_id" id="locacion_id" class="form-control select2">
+                            @foreach($locations as $item)
+                            <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>                       
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
                         {!! Form::label('invoice_number_type', __( 'invoice.number_type' ) . ':*') !!} @show_tooltip(__('invoice.number_type_tooltip'))
                         {!! Form::select('number_type', $number_types, $invoice->number_type, ['class' => 'form-control select2', 'id' => 'invoice_number_type']); !!}
                     </div>
