@@ -107,12 +107,12 @@
                 $imgData = base64_encode(file_get_contents($imgPath));
                 $imgType = pathinfo($imgPath, PATHINFO_EXTENSION);
             @endphp
-            @if($comprobante->location_id === 1 || $comprobante->business_id === 7)
+            @if($comprobante->business_id === 1 || $comprobante->business_id === 7)
                 <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="250" alt="{{$alt}}">
             @else
                 <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="{{$alt}}">
             @endif
-            @if($comprobante->location_id === 1 || $comprobante->business_id === 7)
+            @if($comprobante->business_id === 1 || $comprobante->business_id === 7)
                 <h3 style="padding-top: 20px;">IMPORTACIONES RAMIREZ E.I.R.L.</h3>
                 <p>7 de Enero 1850 - Chiclayo</p>
                 <p>Jr. Industrial 109  Mcdo. Nuevo Oriente - Cutervo</p>
@@ -128,11 +128,12 @@
         </div>
 
         <div class="factura-datos">
-            @if($comprobante->location_id === 1 || $comprobante->business_id === 7)
+            @if($comprobante->business_id === 1 || $comprobante->business_id === 7)
                 <h3>RUC 20495764398</h3>
             @else
                 <h3>RUC 20603437331</h3>
             @endif
+            <h3 style="padding-top: 20px;">{{$comprobante->business_id}}</h3>
             @if(Str::startsWith($comprobante->invoice_no, 'F'))
                 @php
                 $tipo_doc = 'RUC';
