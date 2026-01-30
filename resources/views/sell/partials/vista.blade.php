@@ -125,6 +125,7 @@
                 <p>AV. SALOMON VILCHEZ M. NRO. 740 - CUTERVO - CUTERVO - CAJAMARCA</p>
                 <p>E-mail: {{ $comprobante->empresa_email ?? 'cutervo@importacionesramirez.com' }}</p>
             @endif
+            <h3>{{ $comprobante->location_id}}</h3>
         </div>
 
         <div class="factura-datos">
