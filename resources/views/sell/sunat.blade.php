@@ -888,7 +888,7 @@
                         tbody.append(`
                             <tr data-id="${item.id}">
                                 <td>
-                                    <input type="text" class="form-control form-control-sm producto" value="${item.producto}">
+                                    <input type="text" class="form-control form-control-sm productovar" value="${item.producto}">
                                 </td>
                                 <td>${item.motor}</td>
                                 <td>${item.color}</td>
@@ -1066,7 +1066,7 @@
             $('#tablaItems tbody tr').each(function () {
                 let fila = $(this);
                 productos.push({
-                    producto: fila.find('.producto').val(),
+                    producto: fila.find('.productovar').val(),
                     motor: fila.find('td:eq(1)').text(),
                     color: fila.find('td:eq(2)').text(),
                     chasis: fila.find('td:eq(3)').text(),
@@ -1107,7 +1107,7 @@
                     _token: '{{ csrf_token() }}' // por seguridad si no usas Sanctum
                 },
                 success: function (response) {
-                    alert("✅ Comprobante generado correctamente: " + response.numero_comprobante + Response.msg);
+                    alert("✅ Comprobante generado correctamente: " + response.numero_comprobante);
                     $('#modalBuscarPedido').modal('hide');
 
                     $('#sell_table').DataTable().ajax.reload(null, false);
