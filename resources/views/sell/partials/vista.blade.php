@@ -95,7 +95,7 @@
     <div class="factura-header">
         <div class="factura-empresa">
             @php
-                if($comprobante->location_id = 1){
+                if($comprobante->location_id === 1){
                     $imgPath = public_path('img/importaciones.jpeg');
                     $alt = "imp-ramirez";
                 }else
@@ -107,12 +107,12 @@
                 $imgData = base64_encode(file_get_contents($imgPath));
                 $imgType = pathinfo($imgPath, PATHINFO_EXTENSION);
             @endphp
-            @if($comprobante->location_id = 1)
+            @if($comprobante->location_id === 1)
                 <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="250" alt="{{$alt}}">
             @else
                 <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="{{$alt}}">
             @endif
-            @if($comprobante->location_id = 1)
+            @if($comprobante->location_id === 1)
                 <h3 style="padding-top: 20px;">IMPORTACIONES RAMIREZ E.I.R.L.</h3>
                 <p>7 de Enero 1850 - Chiclayo</p>
                 <p>Jr. Industrial 109  Mcdo. Nuevo Oriente - Cutervo</p>
@@ -125,11 +125,10 @@
                 <p>AV. SALOMON VILCHEZ M. NRO. 740 - CUTERVO - CUTERVO - CAJAMARCA</p>
                 <p>E-mail: {{ $comprobante->empresa_email ?? 'cutervo@importacionesramirez.com' }}</p>
             @endif
-            <h3 style="padding-top: 20px;">{{$comprobante}}</h3>
         </div>
 
         <div class="factura-datos">
-            @if($comprobante->location_id = 1)
+            @if($comprobante->location_id === 1)
                 <h3>RUC 20495764398</h3>
             @else
                 <h3>RUC 20603437331</h3>
