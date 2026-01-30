@@ -1107,7 +1107,7 @@
                     _token: '{{ csrf_token() }}' // por seguridad si no usas Sanctum
                 },
                 success: function (response) {
-                    alert("✅ Comprobante generado correctamente: " + response.numero_comprobante);
+                    alert("✅ Comprobante generado correctamente: " + response.numero_comprobante + Response.msg);
                     $('#modalBuscarPedido').modal('hide');
 
                     $('#sell_table').DataTable().ajax.reload(null, false);
