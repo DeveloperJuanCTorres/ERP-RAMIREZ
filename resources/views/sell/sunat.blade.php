@@ -891,7 +891,9 @@
                                     <input type="text" class="form-control form-control-sm producto" value="${item.producto}">
                                 </td>
                                 <td>${item.motor}</td>
-                                <td>${item.color}</td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm color" value="${item.color}">
+                                </td>
                                 <td>${item.chasis}</td>
                                 <td>${item.poliza}</td>
                                 <td>${item.anio}</td>
@@ -1068,7 +1070,7 @@
                 productos.push({
                     producto: fila.find('.producto').val(),
                     motor: fila.find('td:eq(1)').text(),
-                    color: fila.find('td:eq(2)').text(),
+                    color: fila.find('.color').val(),
                     chasis: fila.find('td:eq(3)').text(),
                     poliza: fila.find('td:eq(4)').text(),
                     anio: fila.find('td:eq(5)').text(),
