@@ -234,69 +234,71 @@
 
 <p class="bold">RESUMEN DE PAGOS</p>
 
+{{-- RESUMEN DE PAGOS --}}
 @php
     $totalVenta = $sell->final_total;
     $aCuenta = $sell->payment_lines->sum('amount');
     $saldoPendiente = $totalVenta - $aCuenta;
 
-    // 👉 Tomamos UN pago (el primero)
-    $pago = $sell->payment_lines->first();
+    // Saldo acumulado para ir restando pago por pago
+    $saldo = $totalVenta;
+
+    $paymentMethods = [
+        'advance' => 'Anticipo',
+        'cash' => 'Efectivo',
+        'card' => 'Tarjeta',
+        'bank_transfer' => 'Transferencia',
+        'cheque' => 'Cheque',
+        'custom_pay_1' => 'Depósito'
+    ];
 @endphp
 
-{{-- CABECERA --}}
 <table>
     <thead>
         <tr>
             <th class="text-center">FECHA</th>
             <th class="text-center">CUENTA DE PAGO</th>
             <th class="text-center">NOTA</th>
-            <th class="text-center">IMPORTE</th>
-            <th class="text-center">SALDO</th>
+            <th class="text-right">IMPORTE</th>
+            <th class="text-right">SALDO</th>
         </tr>
     </thead>
     <tbody>
-        @if($pago)
+        @forelse($sell->payment_lines as $payment)
             @php
-                $paymentMethods = [
-                    'advance' => 'Anticipo',
-                    'cash' => 'Efectivo',
-                    'card' => 'Tarjeta',
-                    'bank_transfer' => 'Transferencia',
-                    'cheque' => 'Cheque',
-                    'custom_pay_1' => 'Depósito'
-                ];
+                $saldo -= $payment->amount;
             @endphp
             <tr>
                 <td class="text-center">
-                    {{ @format_date($pago->paid_on) }}
+                    {{ @format_date($payment->paid_on) }}
                 </td>
                 <td class="text-center">
-                    {{ $paymentMethods[$pago->method] ?? ucfirst($pago->method) }}
+                    {{ $paymentMethods[$payment->method] ?? ucfirst($payment->method) }}
                 </td>
                 <td class="text-center">
-                    {{ $pago->note ?? '--' }}
+                    {{ $payment->note ?? '--' }}
                 </td>
                 <td class="text-right">
-                    {{ number_format($pago->amount, 2) }}
+                    {{ number_format($payment->amount, 2) }}
                 </td>
                 <td class="text-right">
-                    {{ number_format($saldoPendiente, 2) }}
+                    {{ number_format($saldo, 2) }}
                 </td>
             </tr>
-        @else
+        @empty
             <tr>
                 <td colspan="5" class="text-center">
                     No se registran pagos
                 </td>
             </tr>
-        @endif
+        @endforelse
     </tbody>
 </table>
 
 <br>
 
 {{-- RESUMEN FINAL --}}
-<table>
+<table width="100%">
     <tr>
         <th class="text-center">
             A Cta.: {{ number_format($aCuenta, 2) }}
