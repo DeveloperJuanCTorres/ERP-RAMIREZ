@@ -40,6 +40,11 @@
         .firmas {
             margin-top: 10px;
         }
+
+        .thead-bordered th {
+            border: 1px solid #000;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -56,8 +61,7 @@
     CONTRATO DE VENTA N° {{ $sell->invoice_no }} <br>
 </p>
 
-<hr>
-<p class="bold">Fecha: {{ @format_date($sell->transaction_date) }}</p>
+
 <table width="100%">
     <tr>
         {{-- IZQUIERDA --}}
@@ -74,6 +78,9 @@
         {{-- DERECHA --}}
         <td width="50%" valign="top">
             <p>
+                <strong>Fecha: </strong>
+                {{ @format_date($sell->transaction_date) }} <br>
+
                 <strong>Documento:</strong>
                 {{ $sell->contact->contact_id ?? '--' }}<br>
 
@@ -254,7 +261,7 @@
 @endphp
 
 <table>
-    <thead>
+    <thead class="thead-bordered">
         <tr>
             <th class="text-center">FECHA</th>
             <th class="text-center">CUENTA DE PAGO</th>
@@ -273,7 +280,7 @@
                     {{ @format_date($payment->paid_on) }}
                 </td>
                 <td class="text-center">
-                    {{ $payment->account->name ?? 'anticipo' }}
+                    {{ $payment->account->name ?? 'ANTICIPO' }}
                 </td>
                 <td class="text-center">
                     {{ $payment->note ?? '--' }}
