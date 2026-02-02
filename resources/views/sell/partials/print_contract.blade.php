@@ -265,7 +265,7 @@
         <tr>
             <th class="text-center">FECHA</th>
             <th class="text-center">CUENTA DE PAGO</th>
-            <th class="text-center">NOTA</th>
+            <th class="text-center">N° OP.</th>
             <th class="text-right">IMPORTE</th>
             <th class="text-right">SALDO</th>
         </tr>
