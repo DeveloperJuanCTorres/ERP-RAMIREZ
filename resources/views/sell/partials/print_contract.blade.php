@@ -273,7 +273,7 @@
                     {{ @format_date($payment->paid_on) }}
                 </td>
                 <td class="text-center">
-                    {{ $paymentMethods[$payment->method] ?? ucfirst($payment->method) }}
+                    {{ $payment->account->name ?? 'anticipo' }}
                 </td>
                 <td class="text-center">
                     {{ $payment->note ?? '--' }}
