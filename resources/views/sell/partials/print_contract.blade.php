@@ -54,17 +54,35 @@
 
 <p class="text-center bold" style="font-size:13px">
     CONTRATO DE VENTA N° {{ $sell->invoice_no }} <br>
-    <!-- Fecha: {{ @format_date($sell->transaction_date) }} -->
 </p>
 
 <hr>
 <p class="bold">Fecha: {{ @format_date($sell->transaction_date) }}</p>
-<p>
-    <strong> Nombre:</strong> {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
-    <strong> Documento:</strong> {{ $sell->contact->contact_id ?? '--' }}<br>
-    <strong> Dirección:</strong> {!! $sell->contact->address_line_1 !!}<br>
-    <strong> Teléfono:</strong> {{ $sell->contact->mobile ?? '--' }}
-</p>
+<table width="100%">
+    <tr>
+        {{-- IZQUIERDA --}}
+        <td width="50%" valign="top">
+            <p>
+                <strong>Nombre:</strong>
+                {{ $sell->contact->name . $sell->contact->supplier_business_name }}<br>
+
+                <strong>Dirección:</strong>
+                {!! $sell->contact->address_line_1 ?? '--' !!}
+            </p>
+        </td>
+
+        {{-- DERECHA --}}
+        <td width="50%" valign="top">
+            <p>
+                <strong>Documento:</strong>
+                {{ $sell->contact->contact_id ?? '--' }}<br>
+
+                <strong>Teléfono:</strong>
+                {{ $sell->contact->mobile ?? '--' }}
+            </p>
+        </td>
+    </tr>
+</table>
 
 @if($salesOrder)
 <p class="bold">DETALLE DE LA ORDEN DE VENTA : {{$salesOrder->invoice_no}}</p>
@@ -140,16 +158,8 @@
     </tbody>
 </table>
 
-<!-- <div style="border: 1px solid #000; padding: 10px; margin-top: 20px;">
-    <p class="bold">CERTIFICADO DE GARANTÍA</p>
-    <p style="text-align: justify">
-        La empresa se responsabiliza sólo por falla de fábrica del motor (6000 km recorrido) y de la carrocería por 1 año y se
-    compromete a extraer las piezas dañadas y colocar una original de la misma marca, mas no del daño producido por el mal manejo,
-    falta de mantenimiento y desgaste por uso. No se acepta cambios ni devoluciones
-    </p>
-</div> -->
 
-<hr>
+<!-- <hr>
 
 <p class="bold">RESUMEN DE PAGOS</p>
 
@@ -208,10 +218,6 @@
 <br>
 
 <table>
-    <!-- <tr>
-        <th class="text-right" width="80%">TOTAL VENTA</th>
-        <th class="text-right">{{ number_format($totalVenta, 2) }}</th>
-    </tr> -->
     <tr>
         <th class="text-right">TOTAL PAGADO</th>
         <th class="text-right">{{ number_format($totalPagado, 2) }}</th>
@@ -222,7 +228,88 @@
             {{ number_format($saldoPendiente, 2) }}
         </th>
     </tr>
+</table> -->
+
+<hr>
+
+<p class="bold">RESUMEN DE PAGOS</p>
+
+@php
+    $totalVenta = $sell->final_total;
+    $aCuenta = $sell->payment_lines->sum('amount');
+    $saldoPendiente = $totalVenta - $aCuenta;
+
+    // 👉 Tomamos UN pago (el primero)
+    $pago = $sell->payment_lines->first();
+@endphp
+
+{{-- CABECERA --}}
+<table>
+    <thead>
+        <tr>
+            <th class="text-center">FECHA</th>
+            <th class="text-center">CUENTA DE PAGO</th>
+            <th class="text-center">NOTA</th>
+            <th class="text-center">IMPORTE</th>
+            <th class="text-center">SALDO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if($pago)
+            @php
+                $paymentMethods = [
+                    'advance' => 'Anticipo',
+                    'cash' => 'Efectivo',
+                    'card' => 'Tarjeta',
+                    'bank_transfer' => 'Transferencia',
+                    'cheque' => 'Cheque',
+                    'custom_pay_1' => 'Depósito'
+                ];
+            @endphp
+            <tr>
+                <td class="text-center">
+                    {{ @format_date($pago->paid_on) }}
+                </td>
+                <td class="text-center">
+                    {{ $paymentMethods[$pago->method] ?? ucfirst($pago->method) }}
+                </td>
+                <td class="text-center">
+                    {{ $pago->note ?? '--' }}
+                </td>
+                <td class="text-right">
+                    {{ number_format($pago->amount, 2) }}
+                </td>
+                <td class="text-right">
+                    {{ number_format($saldoPendiente, 2) }}
+                </td>
+            </tr>
+        @else
+            <tr>
+                <td colspan="5" class="text-center">
+                    No se registran pagos
+                </td>
+            </tr>
+        @endif
+    </tbody>
 </table>
+
+<br>
+
+{{-- RESUMEN FINAL --}}
+<table>
+    <tr>
+        <th class="text-center">
+            A Cta.: {{ number_format($aCuenta, 2) }}
+        </th>
+        <th class="text-center">
+            Saldo: {{ number_format($saldoPendiente, 2) }}
+        </th>
+        <th class="text-center">
+            Total Compra: {{ number_format($totalVenta, 2) }}
+        </th>
+    </tr>
+</table>
+
 
 
 
