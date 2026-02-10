@@ -1428,19 +1428,23 @@ class PurchaseController extends Controller
 
     public function reporteCompras(Request $request)
     {
+        $business_id = request()->session()->get('user.business_id');
         $query = PurchaseLine::query()
-            ->with(['product', 'transaction.contact'])
-            ->select('purchase_lines.*')
-            ->selectRaw("
-                CASE
-                    WHEN quantity_sold > 0 THEN 'V'
-                    WHEN mfg_quantity_used > 0 THEN 'F'
-                    WHEN quantity_adjusted > 0 THEN 'T'
-                    ELSE 'S'
-                END AS estado
-            ")->whereHas('transaction', function ($q) {
-                $q->where('type', 'opening_stock');
-            });
+        ->with(['product', 'transaction.contact'])
+        ->select('purchase_lines.*')
+        ->selectRaw("
+            CASE
+                WHEN quantity_sold > 0 THEN 'V'
+                WHEN mfg_quantity_used > 0 THEN 'F'
+                WHEN quantity_adjusted > 0 THEN 'T'
+                ELSE 'S'
+            END AS estado
+        ")
+        ->whereHas('transaction', function ($q) use ($business_id) {
+            $q->where('type', 'opening_stock')
+              ->where('business_id', $business_id);
+        });
+
 
         // Filtros
         if ($request->filled(['fecha_inicio', 'fecha_fin'])) {
@@ -1467,8 +1471,9 @@ class PurchaseController extends Controller
         }
 
         if ($request->filled('proveedor_id')) {
-            $query->whereHas('transaction', function ($q) use ($request) {
-                $q->where('contact_id', $request->proveedor_id);
+            $query->whereHas('transaction', function ($q) use ($request, $business_id) {
+                $q->where('contact_id', $request->proveedor_id)
+                ->where('business_id', $business_id);
             });
         }
 
