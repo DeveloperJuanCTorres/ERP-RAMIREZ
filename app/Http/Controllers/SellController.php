@@ -35,6 +35,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\ComprobanteSunat;
 use Luecano\NumeroALetras\NumeroALetras;
 
+
 class SellController extends Controller
 {
     /**
@@ -3715,34 +3716,29 @@ class SellController extends Controller
             'motor' => 'required|min:3'
         ]);
 
-        $motor = $request->motor;
+        $motor = trim($request->motor);
 
         $resultados = DB::table('comprobante_sunat')
             ->select(
                 'name',
                 'type',
                 'invoice_no',
-                DB::raw(
-                    "SUBSTRING_INDEX(
+                DB::raw("
+                    TRIM(
                         SUBSTRING_INDEX(
-                            JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')),
-                            'Motor:', -1
-                        ),
-                        ' ',
-                        1
-                    ) AS motor_completo"
-                )
+                            SUBSTRING_INDEX(
+                                JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')),
+                                'Motor:', -1
+                            ),
+                            ' ',
+                            1
+                        )
+                    ) AS motor_completo
+                ")
             )
             ->whereRaw(
-                "SUBSTRING_INDEX(
-                    SUBSTRING_INDEX(
-                        JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')),
-                        'Motor:', -1
-                    ),
-                    ' ',
-                    1
-                ) LIKE ?",
-                ['%' . $motor]
+                "JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')) LIKE ?",
+                ['%Motor:%' . $motor . '%']
             )
             ->get();
 
