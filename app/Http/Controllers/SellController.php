@@ -1743,6 +1743,7 @@ class SellController extends Controller
             'contact',
             'sell_lines.product.brand',
             'business',
+            'sell_lines.sell_line_purchase_lines.purchase_line',
             'sell_lines.lot_details'
         ])->findOrFail($id);
 

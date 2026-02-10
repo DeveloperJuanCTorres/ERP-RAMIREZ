@@ -150,92 +150,29 @@
     </thead>
     <tbody>
         @foreach($sell->sell_lines as $line)
-            @php $lot = $line->lot_details; @endphp
+            <!-- @php $lot = $line->lot_details; @endphp -->
+             @php
+                // Caso 1: venta directa
+                $purchase = $line->lot_details;
+
+                // Caso 2: producto producido
+                if (!$purchase && $line->sell_line_purchase_lines->count()) {
+                    $purchase = $line->sell_line_purchase_lines->first()->purchase_line;
+                }
+            @endphp
             <tr>
                 <td>{{ $line->product->name }}</td>
                 <td>{{ $line->product->brand->name ?? '--' }}</td>
-                <td>{{ $lot->motor ?? '--' }}</td>                
-                <td>{{ $lot->color ?? '--' }}</td>
-                <td>{{ $lot->chasis ?? '--' }}</td>
-                <td>{{ $lot->anio ?? '--' }}</td>
-                <td>{{ $lot->poliza ?? '--' }}</td>
+                <td>{{ $purchase->motor ?? '--' }}</td>
+                <td>{{ $purchase->color ?? '--' }}</td>
+                <td>{{ $purchase->chasis ?? '--' }}</td>
+                <td>{{ $purchase->anio ?? '--' }}</td>
+                <td>{{ $purchase->poliza ?? '--' }}</td>
                 <td class="text-right">{{ number_format($line->unit_price_inc_tax, 2) }}</td>
             </tr>
         @endforeach
     </tbody>
 </table>
-
-
-<!-- <hr>
-
-<p class="bold">RESUMEN DE PAGOS</p>
-
-@php
-    $totalVenta   = $sell->final_total;
-    $totalPagado  = $sell->payment_lines->sum('amount');
-    $saldoPendiente = $totalVenta - $totalPagado;
-@endphp
-
-<table>
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Método de Pago</th>
-            <th>Nota</th>
-            <th class="text-right">Monto</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($sell->payment_lines as $payment)
-            <tr>
-                <td class="text-center">
-                    {{ @format_date($payment->paid_on) }}
-                </td>
-                @php
-                    $paymentMethods = [
-                        'advance' => 'Anticipo',
-                        'cash' => 'Efectivo',
-                        'card' => 'Tarjeta',
-                        'bank_transfer' => 'Transferencia',
-                        'cheque' => 'Cheque',
-                        'custom_pay_1' => 'Depósito'
-                    ];
-                @endphp
-
-                <td class="text-center">
-                    {{ $paymentMethods[$payment->method] ?? ucfirst($payment->method ?? '--') }}
-                </td>
-                <td class="text-center">
-                    {{ $payment->note ?? '--' }}
-                </td>
-                <td class="text-right">
-                    {{ number_format($payment->amount, 2) }}
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="4" class="text-center">
-                    No se registran pagos
-                </td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
-
-<br>
-
-<table>
-    <tr>
-        <th class="text-right">TOTAL PAGADO</th>
-        <th class="text-right">{{ number_format($totalPagado, 2) }}</th>
-    </tr>
-    <tr>
-        <th class="text-right">SALDO PENDIENTE</th>
-        <th class="text-right">
-            {{ number_format($saldoPendiente, 2) }}
-        </th>
-    </tr>
-</table> -->
 
 <hr>
 
