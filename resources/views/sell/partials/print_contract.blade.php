@@ -151,6 +151,13 @@
     <tbody>
         @foreach($sell->sell_lines as $line)
             <!-- @php $lot = $line->lot_details; @endphp -->
+             <pre>
+            SELL_LINE_ID: {{ $line->id }}
+            lot_no_line_id: {{ $line->lot_no_line_id ?? 'NULL' }}
+
+            sell_line_purchase_lines:
+            {{ json_encode($line->sell_line_purchase_lines->toArray(), JSON_PRETTY_PRINT) }}
+            </pre>
              @php
                 // Caso 1: venta directa
                 $purchase = $line->lot_details;
