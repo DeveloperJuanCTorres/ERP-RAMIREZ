@@ -4,7 +4,7 @@
     <style>
         body { font-family: DejaVu Sans; font-size: 10px; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #000; padding: 4px; }
+        th, td { border: 1px solid #000; padding: 4px; font-size: 10px; }
         th { background: #eaeaea; text-align: center; }
         .filtros td { border: none; padding: 2px 6px; }
         h3 { text-align: center; margin: 5px 0; }
@@ -41,7 +41,7 @@
     <th>PROVEEDOR</th>
     <th>GUÍA</th>
     <th>PRECIO</th>
-    <th>N. CONTENEDOR</th>
+    <th>N. CONT</th>
     <th>ESTADO</th>
 </tr>
 </thead>
