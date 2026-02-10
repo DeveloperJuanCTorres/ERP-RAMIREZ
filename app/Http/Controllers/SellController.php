@@ -3708,4 +3708,44 @@ class SellController extends Controller
   
         return response()->download($path); 
     }
+
+    public function consultarMotor(Request $request)
+    {
+        $request->validate([
+            'motor' => 'required|min:3'
+        ]);
+
+        $motor = $request->motor;
+
+        $resultados = DB::table('comprobante_sunat')
+            ->select(
+                'name',
+                'type',
+                'invoice_no',
+                DB::raw(
+                    "SUBSTRING_INDEX(
+                        SUBSTRING_INDEX(
+                            JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')),
+                            'Motor:', -1
+                        ),
+                        ' ',
+                        1
+                    ) AS motor_completo"
+                )
+            )
+            ->whereRaw(
+                "SUBSTRING_INDEX(
+                    SUBSTRING_INDEX(
+                        JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')),
+                        'Motor:', -1
+                    ),
+                    ' ',
+                    1
+                ) LIKE ?",
+                ['%' . $motor]
+            )
+            ->get();
+
+        return response()->json($resultados);
+    }
 }

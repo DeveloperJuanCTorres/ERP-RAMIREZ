@@ -332,6 +332,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/ajax/reporte-compras-data', [PurchaseController::class, 'getModalData'])
     ->name('ajax.reporte.compras.data');
 
+    Route::post('/consultar-motor', [SellController::class, 'consultarMotor'])
+    ->name('consultar.motor');
+
     //Reports...
     Route::get('/reports/gst-purchase-report', [ReportController::class, 'gstPurchaseReport']);
     Route::get('/reports/gst-sales-report', [ReportController::class, 'gstSalesReport']);

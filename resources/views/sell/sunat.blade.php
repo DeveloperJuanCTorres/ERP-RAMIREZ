@@ -37,6 +37,10 @@
                     <a class="btn btn-block btn-success" href="#" data-toggle="modal" data-target="#modalServicio">
                     <i class="fa fa-plus"></i> Facturar Servicios</a>
                 </div>
+                <div class="box-tools" style="padding-right: 20px;">
+                    <a class="btn btn-block btn-info" href="#" data-toggle="modal" data-target="#modalConsultarSerie">
+                    <i class="fa fa-plus"></i> Consultar Serie</a>
+                </div>
 
                 <!-- <button type="button" 
                         class="btn btn-danger box-tools" 
@@ -74,6 +78,41 @@
             </table>
         @endif
     @endcomponent
+    <div class="modal fade" id="modalConsultarSerie" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <i class="fa fa-search"></i> Consultar Motor
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Últimos 5 dígitos del motor</label>
+                        <input type="text" id="motor" class="form-control"
+                            maxlength="5" placeholder="Ej: 86041">
+                    </div>
+
+                    <button class="btn btn-primary" id="btnBuscarMotor">
+                        <i class="fa fa-search"></i> Buscar
+                    </button>
+
+                    <hr>
+
+                    <!-- RESULTADO -->
+                    <div id="resultadoMotor"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="productDetailModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -1561,4 +1600,66 @@
     });
 
   </script>
+
+<script>
+    $('#btnBuscarMotor').click(function () {
+
+        let motor = $('#motor').val();
+        let html = '';
+
+        if (!motor) {
+            alert('Ingrese los últimos dígitos del motor');
+            return;
+        }
+
+        $('#resultadoMotor').html('<p class="text-info">Buscando...</p>');
+
+        $.post("{{ route('consultar.motor') }}", {
+            _token: "{{ csrf_token() }}",
+            motor: motor
+        }, function (data) {
+
+            if (data.length === 0) {
+                $('#resultadoMotor').html(
+                    '<div class="alert alert-warning">No se encontró información</div>'
+                );
+                return;
+            }
+
+            html += `
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Comprobante</th>
+                        <th>Motor</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            data.forEach(row => {
+                html += `
+                    <tr>
+                        <td>${row.name}</td>
+                        <td>${row.type}</td>
+                        <td>${row.invoice_no}</td>
+                        <td>${row.motor_completo}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+
+            $('#resultadoMotor').html(html);
+
+        }).fail(function () {
+            $('#resultadoMotor').html(
+                '<div class="alert alert-danger">Error al consultar</div>'
+            );
+        });
+    });
+</script>
+
 @endsection
