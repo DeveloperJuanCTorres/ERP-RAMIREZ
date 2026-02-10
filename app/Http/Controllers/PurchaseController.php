@@ -1439,7 +1439,7 @@ class PurchaseController extends Controller
                     ELSE 'S'
                 END AS estado
             ")->whereHas('transaction', function ($q) {
-                $q->where('type', 'purchase');
+                $q->where('type', 'opening_stock');
             });
 
         // Filtros
