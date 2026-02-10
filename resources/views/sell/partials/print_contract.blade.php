@@ -151,20 +151,16 @@
     <tbody>
         @foreach($sell->sell_lines as $line)
             <!-- @php $lot = $line->lot_details; @endphp -->
-             <pre>
-            SELL_LINE_ID: {{ $line->id }}
-            lot_no_line_id: {{ $line->lot_no_line_id ?? 'NULL' }}
-
-            sell_line_purchase_lines:
-            {{ json_encode($line->sell_line_purchase_lines->toArray(), JSON_PRETTY_PRINT) }}
-            </pre>
              @php
-                // Caso 1: venta directa
                 $purchase = $line->lot_details;
 
-                // Caso 2: producto producido
-                if (!$purchase && $line->sell_line_purchase_lines->count()) {
-                    $purchase = $line->sell_line_purchase_lines->first()->purchase_line;
+                // Si no tiene datos físicos, buscar por lot_number
+                if ($purchase && empty($purchase->motor) && !empty($purchase->lot_number)) {
+
+                    $purchase = \App\PurchaseLine::where('lot_number', $purchase->lot_number)
+                        ->whereNotNull('motor')
+                        ->orderBy('id', 'asc') // 🔥 el primero
+                        ->first();
                 }
             @endphp
             <tr>
