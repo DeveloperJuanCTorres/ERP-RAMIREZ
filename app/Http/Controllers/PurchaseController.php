@@ -1586,7 +1586,7 @@ class PurchaseController extends Controller
         $pdf = Pdf::loadView('purchase.partials.compras_productos', compact(
             'purchaseLines',
             'filtros'
-        ))->setPaper('A4', 'landscape');
+        ))->setPaper('A4', 'portrait');
 
         return $pdf->stream('reporte_compras_productos.pdf');
     }
