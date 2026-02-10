@@ -3730,7 +3730,7 @@ class SellController extends Controller
                                 JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')),
                                 'Motor:', -1
                             ),
-                            ' ',
+                            'Color:',
                             1
                         )
                     ) AS motor_completo
