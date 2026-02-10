@@ -1428,7 +1428,7 @@ class PurchaseController extends Controller
 
     public function reporteCompras(Request $request)
     {
-        $business_id = request()->session()->get('user.business_id');
+        $business_id = auth()->user()->business_id;
         $query = PurchaseLine::query()
         ->with(['product', 'transaction.contact'])
         ->select('purchase_lines.*')
@@ -1441,7 +1441,7 @@ class PurchaseController extends Controller
             END AS estado
         ")
         ->whereHas('transaction', function ($q) use ($business_id) {
-            $q->where('type', 'opening_stock')
+            $q->whereIn('type', ['opening_stock', 'purchase'])
               ->where('business_id', $business_id);
         });
 
