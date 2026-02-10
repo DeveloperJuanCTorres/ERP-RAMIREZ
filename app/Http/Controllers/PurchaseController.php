@@ -1511,8 +1511,15 @@ class PurchaseController extends Controller
 
     public function getModalData()
     {
-        $products = Product::select('id', 'name')->orderBy('name')->get();
+        $business_id = auth()->user()->business_id;
+
+        $products = Product::where('business_id', $business_id)
+            ->select('id', 'name')
+            ->orderBy('name')
+            ->get();
+
         $proveedores = Contact::where('type', 'supplier')
+            ->where('business_id', $business_id)
             ->select('id', 'supplier_business_name')
             ->orderBy('supplier_business_name')
             ->get();
