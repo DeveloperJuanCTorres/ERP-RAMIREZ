@@ -128,6 +128,146 @@
                 @includeIf($additional_view)
             @endforeach
         @endif
+
+        <div class="modal fade" id="modalReporteCompras" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <form method="GET"
+                    action="{{ route('reportes.compras.productos') }}"
+                    target="_blank">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fa fa-file-invoice-dollar"></i>
+                                Generar Reporte de Compras
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Desde</label>
+                                    <input type="date" name="fecha_inicio" class="form-control">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Hasta</label>
+                                    <input type="date" name="fecha_fin" class="form-control">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Modelo</label>
+                                    <select name="product_id" id="modal_product_id" class="form-control select2">
+                                        <option value="">Todos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <label>Contenedor</label>
+                                    <input type="text" name="contenedor" class="form-control">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Guía</label>
+                                    <input type="text" name="guia" class="form-control">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Proveedor</label>
+                                    <select name="proveedor_id" id="modal_proveedor_id" class="form-control select2">
+                                        <option value="">Todos</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Estado</label>
+                                    <select name="estado" class="form-control">
+                                        <option value="">Todos</option>
+                                        <option value="V">V</option>
+                                        <option value="S">S</option>
+                                        <option value="F">F</option>
+                                        <option value="T">T</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-search"></i> Generar Reporte
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Cancelar
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+        $('#btn_reporte_compras').on('click', function (e) {
+            e.preventDefault();
+
+            $('#modalReporteCompras').modal('show');
+
+            if (!$('#modalReporteCompras').data('loaded')) {
+
+                $.get("{{ route('ajax.reporte.compras.data') }}", function (data) {
+
+                    // MODELOS
+                    const productSelect = $('#modal_product_id');
+                    productSelect.html('<option value="">Todos</option>');
+
+                    data.products.forEach(p => {
+                        productSelect.append(
+                            `<option value="${p.id}">${p.name}</option>`
+                        );
+                    });
+
+                    // PROVEEDORES
+                    const proveedorSelect = $('#modal_proveedor_id');
+                    proveedorSelect.html('<option value="">Todos</option>');
+
+                    data.proveedores.forEach(p => {
+                        proveedorSelect.append(
+                            `<option value="${p.id}">${p.supplier_business_name}</option>`
+                        );
+                    });
+
+                    // INICIALIZAR SELECT2 (AMBOS)
+                    $('#modal_product_id, #modal_proveedor_id').select2({
+                        dropdownParent: $('#modalReporteCompras'),
+                        placeholder: 'Seleccione una opción',
+                        allowClear: true,
+                        width: '100%'
+                    });
+
+                    $('#modalReporteCompras').data('loaded', true);
+                });
+            }
+        });
+        </script>
+
+
+
+        <script>
+        $('#modalReporteCompras').on('shown.bs.modal', function () {
+            $('.select2').select2({
+                dropdownParent: $('#modalReporteCompras'),
+                placeholder: 'Buscar modelo...',
+                allowClear: true
+            });
+        });
+        </script>
+
     </body>
 
 </html>

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
 use App\Events\PurchaseCreatedOrModified;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PurchaseController extends Controller
 {
@@ -1424,4 +1425,97 @@ class PurchaseController extends Controller
 
         return $output;
     }
+
+    public function reporteCompras(Request $request)
+    {
+        $query = PurchaseLine::query()
+            ->with(['product', 'transaction.contact'])
+            ->select('purchase_lines.*')
+            ->selectRaw("
+                CASE
+                    WHEN quantity_sold > 0 THEN 'V'
+                    WHEN mfg_quantity_used > 0 THEN 'F'
+                    WHEN quantity_adjusted > 0 THEN 'T'
+                    ELSE 'S'
+                END AS estado
+            ")->whereHas('transaction', function ($q) {
+                $q->where('type', 'purchase');
+            });
+
+        // Filtros
+        if ($request->filled(['fecha_inicio', 'fecha_fin'])) {
+            $query->whereBetween('fecha', [
+                $request->fecha_inicio,
+                $request->fecha_fin
+            ]);
+        }
+
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+
+        if ($request->filled('contenedor')) {
+            $query->where('contenedor', $request->contenedor);
+        }
+
+        if ($request->filled('guia')) {
+            $query->where('guia', 'like', "%{$request->guia}%");
+        }
+
+        if ($request->filled('estado')) {
+            $query->having('estado', $request->estado);
+        }
+
+        if ($request->filled('proveedor_id')) {
+            $query->whereHas('transaction', function ($q) use ($request) {
+                $q->where('contact_id', $request->proveedor_id);
+            });
+        }
+
+        $purchaseLines = $query->orderBy('fecha')->get();
+
+        // 🔹 RESOLVER NOMBRES PARA EL PDF
+        $filtros = [
+            'fecha' => $request->filled(['fecha_inicio', 'fecha_fin'])
+                ? $request->fecha_inicio . ' - ' . $request->fecha_fin
+                : 'Todos',
+
+            'modelo' => $request->filled('product_id')
+                ? optional(\App\Models\Product::find($request->product_id))->name
+                : 'Todos',
+
+            'proveedor' => $request->filled('proveedor_id')
+                ? optional(\App\Models\Contact::find($request->proveedor_id))->name
+                : 'Todos',
+
+            'contenedor' => $request->contenedor ?? 'Todos',
+            'guia'       => $request->guia ?? 'Todos',
+
+            'estado' => $request->estado
+                ? $request->estado
+                : 'Todos',
+        ];
+
+        $pdf = Pdf::loadView('purchase.partials.compras_productos', compact(
+            'purchaseLines',
+            'filtros'
+        ))->setPaper('A4', 'landscape');
+
+        return $pdf->stream('reporte_compras_productos.pdf');
+    }
+
+    public function getModalData()
+    {
+        $products = Product::select('id', 'name')->orderBy('name')->get();
+        $proveedores = Contact::where('type', 'supplier')
+            ->select('id', 'supplier_business_name')
+            ->orderBy('supplier_business_name')
+            ->get();
+
+        return response()->json([
+            'products' => $products,
+            'proveedores' => $proveedores
+        ]);
+    }
+
 }

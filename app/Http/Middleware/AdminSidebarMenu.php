@@ -533,6 +533,16 @@ class AdminSidebarMenu
                         }
                         if (auth()->user()->can('profit_loss_report.view')) {
                             $sub->url(
+                                '#',
+                                'Reporte Compras',
+                                [
+                                    'icon' => 'fa fas fa-file-invoice-dollar',
+                                    'id' => 'btn_reporte_compras'
+                                ]
+                            );
+                        }
+                        if (auth()->user()->can('profit_loss_report.view')) {
+                            $sub->url(
                                 action([\App\Http\Controllers\ReportController::class, 'getProfitLoss']),
                                 __('report.profit_loss'),
                                 ['icon' => 'fa fas fa-file-invoice-dollar', 'active' => request()->segment(2) == 'profit-loss']

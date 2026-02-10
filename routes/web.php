@@ -326,6 +326,12 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     // Route::post('parts', [DiaryPartController::class, 'createDailyPart']);
     Route::post('parts/{id}', [DiaryPartController::class, 'storeDailyPart']);
 
+    //REPORRTE DE COMPRAS
+    Route::get('/reportes/compras-productos', [PurchaseController::class, 'reporteCompras'])
+    ->name('reportes.compras.productos');
+    Route::get('/ajax/reporte-compras-data', [PurchaseController::class, 'getModalData'])
+    ->name('ajax.reporte.compras.data');
+
     //Reports...
     Route::get('/reports/gst-purchase-report', [ReportController::class, 'gstPurchaseReport']);
     Route::get('/reports/gst-sales-report', [ReportController::class, 'gstSalesReport']);
