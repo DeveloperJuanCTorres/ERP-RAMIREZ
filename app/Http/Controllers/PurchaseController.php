@@ -1426,44 +1426,130 @@ class PurchaseController extends Controller
         return $output;
     }
 
+    // public function reporteCompras(Request $request)
+    // {
+    //     $business_id = auth()->user()->business_id;
+    //     $query = PurchaseLine::query()
+    //     ->with(['product', 'transaction.contact'])
+    //     ->select('purchase_lines.*')
+    //     ->selectRaw("
+    //         CASE
+    //             WHEN quantity_sold > 0 THEN 'V'
+    //             WHEN mfg_quantity_used > 0 THEN 'F'
+    //             WHEN quantity_adjusted > 0 THEN 'T'
+    //             ELSE 'S'
+    //         END AS estado
+    //     ")
+    //     ->whereHas('transaction', function ($q) use ($business_id) {
+    //         $q->whereIn('type', ['opening_stock', 'purchase'])
+    //           ->where('business_id', $business_id);
+    //     });
+
+
+    //     // Filtros
+    //     if ($request->filled(['fecha_inicio', 'fecha_fin'])) {
+    //         $query->whereBetween('fecha', [
+    //             $request->fecha_inicio,
+    //             $request->fecha_fin
+    //         ]);
+    //     }
+
+    //     if ($request->filled('product_id')) {
+    //         $query->where('product_id', $request->product_id);
+    //     }
+
+    //     if ($request->filled('contenedor')) {
+    //         $query->where('contenedor', $request->contenedor);
+    //     }
+
+    //     if ($request->filled('guia')) {
+    //         $query->where('guia', 'like', "%{$request->guia}%");
+    //     }
+
+    //     if ($request->filled('estado')) {
+    //         $query->having('estado', $request->estado);
+    //     }
+
+    //     if ($request->filled('proveedor_id')) {
+    //         $query->whereHas('transaction', function ($q) use ($request, $business_id) {
+    //             $q->where('contact_id', $request->proveedor_id)
+    //             ->where('business_id', $business_id);
+    //         });
+    //     }
+
+    //     $purchaseLines = $query->orderBy('fecha')->get();
+
+    //     // 🔹 RESOLVER NOMBRES PARA EL PDF
+    //     $filtros = [
+    //         'fecha' => $request->filled(['fecha_inicio', 'fecha_fin'])
+    //             ? $request->fecha_inicio . ' - ' . $request->fecha_fin
+    //             : 'Todos',
+
+    //         'modelo' => $request->filled('product_id')
+    //             ? optional(\App\Models\Product::find($request->product_id))->name
+    //             : 'Todos',
+
+    //         'proveedor' => $request->filled('proveedor_id')
+    //             ? optional(\App\Models\Contact::find($request->proveedor_id))->name
+    //             : 'Todos',
+
+    //         'contenedor' => $request->contenedor ?? 'Todos',
+    //         'guia'       => $request->guia ?? 'Todos',
+
+    //         'estado' => $request->estado
+    //             ? $request->estado
+    //             : 'Todos',
+    //     ];
+
+    //     $pdf = Pdf::loadView('purchase.partials.compras_productos', compact(
+    //         'purchaseLines',
+    //         'filtros'
+    //     ))->setPaper('A4', 'landscape');
+
+    //     return $pdf->stream('reporte_compras_productos.pdf');
+    // }
+
     public function reporteCompras(Request $request)
     {
         $business_id = auth()->user()->business_id;
-        $query = PurchaseLine::query()
-        ->with(['product', 'transaction.contact'])
-        ->select('purchase_lines.*')
-        ->selectRaw("
-            CASE
-                WHEN quantity_sold > 0 THEN 'V'
-                WHEN mfg_quantity_used > 0 THEN 'F'
-                WHEN quantity_adjusted > 0 THEN 'T'
-                ELSE 'S'
-            END AS estado
-        ")
-        ->whereHas('transaction', function ($q) use ($business_id) {
-            $q->whereIn('type', ['opening_stock', 'purchase'])
-              ->where('business_id', $business_id);
-        });
 
+        $query = PurchaseLine::join('transactions', 'transactions.id', '=', 'purchase_lines.transaction_id')
+            ->leftJoin('products', 'products.id', '=', 'purchase_lines.product_id')
+            ->leftJoin('contacts', 'contacts.id', '=', 'transactions.contact_id')
+            ->where('transactions.business_id', $business_id)
+            ->where('transactions.type', 'opening_stock')
+            ->select(
+                'purchase_lines.*',
+                'products.name as producto',
+                'contacts.supplier_business_name as proveedor'
+            )
+            ->selectRaw("
+                CASE
+                    WHEN purchase_lines.quantity_sold > 0 THEN 'V'
+                    WHEN purchase_lines.mfg_quantity_used > 0 THEN 'F'
+                    WHEN purchase_lines.quantity_adjusted > 0 THEN 'T'
+                    ELSE 'S'
+                END AS estado
+            ");
 
-        // Filtros
+        // 🔹 FILTROS
         if ($request->filled(['fecha_inicio', 'fecha_fin'])) {
-            $query->whereBetween('fecha', [
+            $query->whereBetween('purchase_lines.created_at', [
                 $request->fecha_inicio,
                 $request->fecha_fin
             ]);
         }
 
         if ($request->filled('product_id')) {
-            $query->where('product_id', $request->product_id);
+            $query->where('purchase_lines.product_id', $request->product_id);
         }
 
         if ($request->filled('contenedor')) {
-            $query->where('contenedor', $request->contenedor);
+            $query->where('purchase_lines.contenedor', $request->contenedor);
         }
 
         if ($request->filled('guia')) {
-            $query->where('guia', 'like', "%{$request->guia}%");
+            $query->where('purchase_lines.guia', 'like', "%{$request->guia}%");
         }
 
         if ($request->filled('estado')) {
@@ -1471,34 +1557,30 @@ class PurchaseController extends Controller
         }
 
         if ($request->filled('proveedor_id')) {
-            $query->whereHas('transaction', function ($q) use ($request, $business_id) {
-                $q->where('contact_id', $request->proveedor_id)
-                ->where('business_id', $business_id);
-            });
+            $query->where('transactions.contact_id', $request->proveedor_id);
         }
 
-        $purchaseLines = $query->orderBy('fecha')->get();
+        $purchaseLines = $query
+            ->orderBy('purchase_lines.created_at')
+            ->get();
 
-        // 🔹 RESOLVER NOMBRES PARA EL PDF
+        // 🔹 FILTROS VISIBLES EN PDF
         $filtros = [
             'fecha' => $request->filled(['fecha_inicio', 'fecha_fin'])
                 ? $request->fecha_inicio . ' - ' . $request->fecha_fin
                 : 'Todos',
 
             'modelo' => $request->filled('product_id')
-                ? optional(\App\Models\Product::find($request->product_id))->name
+                ? optional(Product::find($request->product_id))->name
                 : 'Todos',
 
             'proveedor' => $request->filled('proveedor_id')
-                ? optional(\App\Models\Contact::find($request->proveedor_id))->name
+                ? optional(Contact::find($request->proveedor_id))->supplier_business_name
                 : 'Todos',
 
             'contenedor' => $request->contenedor ?? 'Todos',
             'guia'       => $request->guia ?? 'Todos',
-
-            'estado' => $request->estado
-                ? $request->estado
-                : 'Todos',
+            'estado'     => $request->estado ?: 'Todos',
         ];
 
         $pdf = Pdf::loadView('purchase.partials.compras_productos', compact(
