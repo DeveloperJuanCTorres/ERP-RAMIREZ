@@ -2364,12 +2364,12 @@ class SellController extends Controller
 
             $tipo_serie = substr($invoice, 0, 3);
 
-            if ($tipo_serie == 'F00') {
+            if ($tipo_serie == 'F00' || $tipo_serie == 'FFF') {
                 $tipo_comprobante = 3;
                 $cliente_tipo_doc = 6;    
                 $tipo_documento_modifica = 1;
                 $type = 'Nota de Crédito Electrónica';             
-            }elseif($tipo_serie == "B00")
+            }elseif($tipo_serie == "B00" || $tipo_serie == 'BBB')
             {
                 $type = 'Nota de Crédito Electrónica';     
                 $tipo_comprobante = 3;   
