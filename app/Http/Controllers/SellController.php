@@ -2315,16 +2315,10 @@ class SellController extends Controller
     public function notaCreditoInfo($id)
     {
         $comprobante = ComprobanteSunat::findOrFail($id);
-        $business_id = request()->session()->get('user.business_id');
-
-        $invoice_schemes = InvoiceScheme::where('business_id', $business_id)
-            ->select('id', 'name', 'prefix', 'is_default')
-            ->get();
 
         return response()->json([
             'success' => true,
-            'data' => $comprobante,
-            'invoice_schemes' => $invoice_schemes
+            'data' => $comprobante
         ]);
     }
 

@@ -1536,18 +1536,7 @@
 
                                 <div class="form-group">
                                     {!! Form::label('comprobante',  'Comprobante:') !!}
-                                    {!! Form::select(
-                                        'invoice_scheme_id',
-                                        [],
-                                        null,
-                                        [
-                                            'class' => 'form-control select2',
-                                            'style' => 'width:100%',
-                                            'placeholder' => __('messages.please_select'),
-                                            'id' => 'invoice_scheme_id'
-                                        ]
-                                    ); !!}
-                                
+                                    {!! Form::select('invoice_scheme_id_servicio', $invoice_schemes, $default_invoice_schemes->id, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('messages.please_select'), 'id' => 'invoice_scheme_id_nota']); !!}
                                 </div>
                                 <p><b>Cliente:</b> ${c.name}</p>
                                 <p><b>Dirección:</b> ${c.address}</p>
