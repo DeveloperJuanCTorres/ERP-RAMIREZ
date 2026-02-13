@@ -106,14 +106,14 @@
         <td width="40%" valign="top">
             <table class="bordered">
                 <tr>
-                    <td><strong>FECHA EMISIÓN:</strong><br>
+                    <td><strong>FECHA EMISIÓN:</strong>
                         {{ \Carbon\Carbon::parse($comprobante->fecha_emision)->format('d/m/Y') }}
                     </td>
                 </tr>
 
                 @if($comprobante->tipo_pago == 'credito')
                 <tr>
-                    <td><strong>FECHA VENC.:</strong><br>
+                    <td><strong>FECHA VENC.:</strong>
                         {{ \Carbon\Carbon::parse($comprobante->fecha_vencimiento)->format('d/m/Y') }}
                     </td>
                 </tr>
