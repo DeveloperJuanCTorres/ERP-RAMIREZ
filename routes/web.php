@@ -297,6 +297,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::post('/comprobantes/{id}/generar-nota-credito', [App\Http\Controllers\SellController::class, 'generarNotaCredito'])
         ->name('comprobantes.generar_nota_credito');
+
+    Route::post('/sunat/enviar-email/{id}', [SellController::class, 'enviarCorreoSunat'])
+        ->name('sunat.enviar.email');
     //FIN PANEL SUNAT
 
 

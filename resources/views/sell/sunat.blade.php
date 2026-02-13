@@ -1662,4 +1662,29 @@
     });
 </script>
 
+<!-- Enviar comporbantes por correo -->
+
+<script>
+    $(document).on('click', '.enviar_correo_sunat_button', function () {
+
+        let id = $(this).data('id');
+
+        if(!confirm('¿Enviar comprobante por correo?')) return;
+
+        $.ajax({
+            url: '/sunat/enviar-email/' + id,
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response){
+                if(response.success){
+                    alert('Correo enviado correctamente');
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
 @endsection

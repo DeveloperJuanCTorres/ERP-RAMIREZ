@@ -1,0 +1,2 @@
+[2026-02-12 21:45:41] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\symfony\mailer\Transport\Smtp\Stream\AbstractStream.phpLine:81Message:Connection to "mail.importacionesramirez.pe:993" timed out.  
+[2026-02-12 21:46:50] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\symfony\mailer\Transport\Smtp\Stream\AbstractStream.phpLine:81Message:Connection to "mail.importacionesramirez.pe:993" timed out.  

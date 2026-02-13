@@ -33,6 +33,8 @@ use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\ComprobanteSunat;
+use App\Mail\ComprobanteSunatMail;
+use Illuminate\Support\Facades\Mail;
 use Luecano\NumeroALetras\NumeroALetras;
 
 
@@ -3162,6 +3164,14 @@ class SellController extends Controller
                         : '';
                 })
 
+                ->addColumn('email', function($row) {
+                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
+                        ? '<button class="btn btn-xs btn-success enviar_correo_sunat_button" data-id="'.$row->id.'">
+                                <i class="fa fa-envelope"></i> Email
+                        </button>'
+                        : '';
+                })
+
                 ->addColumn('estado_sunat', function($row) {
                     if (is_null($row->response_sunat)) {
                         return '';
@@ -3200,7 +3210,7 @@ class SellController extends Controller
                     return \Carbon\Carbon::parse($row->fecha_emision)->format('Y-m-d');
                 })
 
-                ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','productos'])
+                ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','productos','email'])
                 ->make(true);
 
             return $datatable;
@@ -3251,6 +3261,36 @@ class SellController extends Controller
         $path = Storage::path($json->serie.'-'.$json->numero.'.cdr');
   
         return response()->download($path); 
+    }
+
+    public function enviarCorreoSunat($id)
+    {
+        $comprobante = ComprobanteSunat::findOrFail($id);
+        $json = json_decode($comprobante->response_sunat);
+
+        $pdfUrl = $json->enlace_del_pdf;
+        $xmlUrl = $json->enlace_del_xml;
+
+        $pdfName = $json->serie.'-'.$json->numero.'.pdf';
+        $xmlName = $json->serie.'-'.$json->numero.'.xml';
+
+        Storage::disk('local')->put($pdfName, file_get_contents($pdfUrl));
+        Storage::disk('local')->put($xmlName, file_get_contents($xmlUrl));
+
+        $pdfPath = Storage::path($pdfName);
+        $xmlPath = Storage::path($xmlName);
+
+        $clienteEmail = $comprobante->contact->email ?? null;
+
+        if (!$clienteEmail) {
+            return response()->json(['success' => false, 'message' => 'Cliente sin correo registrado']);
+        }
+
+        Mail::to($clienteEmail)->send(
+            new ComprobanteSunatMail($comprobante, $pdfPath, $xmlPath)
+        );
+
+        return response()->json(['success' => true]);
     }
 
     public function enviarsunat(Request $request)
