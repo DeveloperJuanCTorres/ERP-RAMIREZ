@@ -174,8 +174,8 @@
 
 <table width="100%">
     <tr>
-        <td width="60%"></td>
-        <td width="40%">
+        <td width="62%"></td>
+        <td width="38%">
             <table class="totales">
                 <tr>
                     <td><strong>GRAVADA:</strong></td>
