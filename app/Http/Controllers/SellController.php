@@ -3265,34 +3265,50 @@ class SellController extends Controller
         return response()->download($path); 
     }
 
-    // public function enviarCorreoSunat($id)
+    // public function enviarCorreoSunat(Request $request, $id)
     // {
+    //     $request->validate([
+    //         'correo' => 'required|email'
+    //     ]);
+
     //     $comprobante = ComprobanteSunat::findOrFail($id);
-    //     $json = json_decode($comprobante->response_sunat);
 
-    //     $pdfUrl = $json->enlace_del_pdf;
-    //     $xmlUrl = $json->enlace_del_xml;
-
-    //     $pdfName = $json->serie.'-'.$json->numero.'.pdf';
-    //     $xmlName = $json->serie.'-'.$json->numero.'.xml';
-
-    //     Storage::disk('local')->put($pdfName, file_get_contents($pdfUrl));
-    //     Storage::disk('local')->put($xmlName, file_get_contents($xmlUrl));
-
-    //     $pdfPath = Storage::path($pdfName);
-    //     $xmlPath = Storage::path($xmlName);
-
-    //     $clienteEmail = $comprobante->contact->email ?? null;
-
-    //     if (!$clienteEmail) {
-    //         return response()->json(['success' => false, 'message' => 'Cliente sin correo registrado']);
+    //     if (!$comprobante->response_sunat) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Comprobante sin respuesta SUNAT'
+    //         ]);
     //     }
 
-    //     Mail::to($clienteEmail)->send(
-    //         new ComprobanteSunatMail($comprobante, $pdfPath, $xmlPath)
+    //     $json = json_decode($comprobante->response_sunat);
+
+    //     if (!$json || !isset($json->enlace_del_pdf) || !isset($json->enlace_del_xml)) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Datos SUNAT inválidos'
+    //         ]);
+    //     }
+
+    //     // 🔹 Descargar archivos desde SUNAT
+    //     $pdfData = @file_get_contents($json->enlace_del_pdf);
+    //     $xmlData = @file_get_contents($json->enlace_del_xml);
+
+    //     if (!$pdfData || !$xmlData) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'No se pudieron obtener los archivos desde SUNAT'
+    //         ]);
+    //     }
+
+    //     // 🔹 Enviar correo
+    //     Mail::to($request->correo)->send(
+    //         new ComprobanteSunatMail($comprobante, $pdfData, $xmlData)
     //     );
 
-    //     return response()->json(['success' => true]);
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Correo enviado correctamente'
+    //     ]);
     // }
 
     public function enviarCorreoSunat(Request $request, $id)
@@ -3300,6 +3316,8 @@ class SellController extends Controller
         $request->validate([
             'correo' => 'required|email'
         ]);
+
+        $business_id = request()->session()->get('user.business_id');
 
         $comprobante = ComprobanteSunat::findOrFail($id);
 
@@ -3312,27 +3330,75 @@ class SellController extends Controller
 
         $json = json_decode($comprobante->response_sunat);
 
-        if (!$json || !isset($json->enlace_del_pdf) || !isset($json->enlace_del_xml)) {
+        if (!$json || !isset($json->enlace_del_xml)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Datos SUNAT inválidos'
+                'message' => 'XML no disponible'
             ]);
         }
 
-        // 🔹 Descargar archivos desde SUNAT
-        $pdfData = @file_get_contents($json->enlace_del_pdf);
+        /*
+        |--------------------------------------------------------------------------
+        | GENERAR PDF DESDE TU VISTA PERSONALIZADA
+        |--------------------------------------------------------------------------
+        */
+
+        $productos = json_decode($comprobante->productos);
+        $contact = Contact::findOrFail($comprobante->contact_id);
+        $formatter = new NumeroALetras();
+
+        if ($comprobante->moneda == 1) {
+            $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'SOLES', 'CENTIMOS');
+        } else {
+            $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'DÓLARES', 'CENTAVOS');
+        }
+
+        $pdf = Pdf::loadView('sell.partials.vista', compact(
+            'comprobante',
+            'productos',
+            'contact',
+            'totalEnLetras',
+            'business_id'
+        ));
+
+        $pdfData = $pdf->output();
+
+        /*
+        |--------------------------------------------------------------------------
+        | OBTENER XML DESDE SUNAT
+        |--------------------------------------------------------------------------
+        */
+
         $xmlData = @file_get_contents($json->enlace_del_xml);
 
-        if (!$pdfData || !$xmlData) {
+        if (!$xmlData) {
             return response()->json([
                 'success' => false,
-                'message' => 'No se pudieron obtener los archivos desde SUNAT'
+                'message' => 'No se pudo obtener el XML desde SUNAT'
             ]);
         }
 
-        // 🔹 Enviar correo
+        /*
+        |--------------------------------------------------------------------------
+        | NOMBRE DE ARCHIVOS
+        |--------------------------------------------------------------------------
+        */
+
+        $nombreBase = $json->serie . '-' . $json->numero;
+
+        /*
+        |--------------------------------------------------------------------------
+        | ENVIAR CORREO
+        |--------------------------------------------------------------------------
+        */
+
         Mail::to($request->correo)->send(
-            new ComprobanteSunatMail($comprobante, $pdfData, $xmlData)
+            new ComprobanteSunatMail(
+                $comprobante,
+                $pdfData,
+                $xmlData,
+                $nombreBase
+            )
         );
 
         return response()->json([
