@@ -486,6 +486,7 @@
                 { data: 'xml', orderable: false, searchable: false },
                 { data: 'cdr', orderable: false, searchable: false },
                 { data: 'sunat', orderable: false, searchable: false },
+                { data: 'email', orderable: false, searchable: false },
                 { data: 'productos', orderable: false, searchable: false },            
             ],
             "fnDrawCallback": function (oSettings) {
