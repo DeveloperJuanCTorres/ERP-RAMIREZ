@@ -143,11 +143,11 @@
         <tr>
             <th width="8%">CANT.</th>
             <th width="8%">UM</th>
-            <th width="10%">CÓD.</th>
-            <th width="34%">DESCRIPCIÓN</th>
+            <th width="8%">CÓD.</th>
+            <th width="38%">DESCRIPCIÓN</th>
             <th width="12%">V/U</th>
             <th width="12%">P/U</th>
-            <th width="16%">IMPORTE</th>
+            <th width="14%">IMPORTE</th>
         </tr>
     </thead>
     <tbody>
