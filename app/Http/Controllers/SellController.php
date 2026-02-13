@@ -3353,13 +3353,17 @@ class SellController extends Controller
             $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'DÓLARES', 'CENTAVOS');
         }
 
-        $pdf = Pdf::loadView('sell.partials.vista', compact(
+        $pdf = Pdf::loadView('sell.partials.comprobante_correo', compact(
             'comprobante',
             'productos',
             'contact',
             'totalEnLetras',
             'business_id'
-        ));
+        ))->setPaper('a4', 'portrait')
+        ->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ]);
 
         $pdfData = $pdf->output();
 
