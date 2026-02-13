@@ -409,6 +409,41 @@
 </div>
 <!-- Fin Modal Nota de Crédito -->
 
+<!-- Modal para envbiar correo -->
+ <div class="modal fade" id="modalEnviarCorreo" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title">Enviar Comprobante por Correo</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="comprobante_id">
+
+                <div class="form-group">
+                    <label>Correo destino</label>
+                    <input type="email" id="correo_destino" class="form-control" placeholder="cliente@email.com" required>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-success" id="btnEnviarCorreo">
+                    Enviar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @include('sell.partials.modal_comprobante')
 
 <!-- This will be printed -->
@@ -1667,26 +1702,42 @@
 <!-- Enviar comporbantes por correo -->
 
 <script>
-    $(document).on('click', '.enviar_correo_sunat_button', function () {
-
+    $(document).on('click', '.open_email_modal', function () {
         let id = $(this).data('id');
+        let email = $(this).data('email');
 
-        if(!confirm('¿Enviar comprobante por correo?')) return;
+        $('#comprobante_id').val(id);
+        $('#correo_destino').val(email);
+
+        $('#modalEnviarCorreo').modal('show');
+    });
+
+    $('#btnEnviarCorreo').on('click', function () {
+        let id = $('#comprobante_id').val();
+        let correo = $('#correo_destino').val();
+
+        if(!correo){
+            alert('Ingrese un correo válido');
+            return;
+        }
 
         $.ajax({
             url: '/sunat/enviar-email/' + id,
             type: 'POST',
             data: {
-                _token: $('meta[name="csrf-token"]').attr('content')
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                correo: correo
             },
             success: function(response){
                 if(response.success){
                     alert('Correo enviado correctamente');
+                    $('#modalEnviarCorreo').modal('hide');
                 } else {
                     alert(response.message);
                 }
             }
         });
     });
+
 </script>
 @endsection

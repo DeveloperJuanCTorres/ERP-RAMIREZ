@@ -3166,7 +3166,9 @@ class SellController extends Controller
 
                 ->addColumn('email', function($row) {
                     return (!is_null($row->response_sunat) && $row->status_sunat == 1)
-                        ? '<button class="btn btn-xs btn-success enviar_correo_sunat_button" data-id="'.$row->id.'">
+                        ? '<button class="btn btn-xs btn-success open_email_modal"
+                                data-id="'.$row->id.'"
+                                data-email="'.($row->email ?? '').'">
                                 <i class="fa fa-envelope"></i> Email
                         </button>'
                         : '';
@@ -3263,31 +3265,56 @@ class SellController extends Controller
         return response()->download($path); 
     }
 
-    public function enviarCorreoSunat($id)
+    // public function enviarCorreoSunat($id)
+    // {
+    //     $comprobante = ComprobanteSunat::findOrFail($id);
+    //     $json = json_decode($comprobante->response_sunat);
+
+    //     $pdfUrl = $json->enlace_del_pdf;
+    //     $xmlUrl = $json->enlace_del_xml;
+
+    //     $pdfName = $json->serie.'-'.$json->numero.'.pdf';
+    //     $xmlName = $json->serie.'-'.$json->numero.'.xml';
+
+    //     Storage::disk('local')->put($pdfName, file_get_contents($pdfUrl));
+    //     Storage::disk('local')->put($xmlName, file_get_contents($xmlUrl));
+
+    //     $pdfPath = Storage::path($pdfName);
+    //     $xmlPath = Storage::path($xmlName);
+
+    //     $clienteEmail = $comprobante->contact->email ?? null;
+
+    //     if (!$clienteEmail) {
+    //         return response()->json(['success' => false, 'message' => 'Cliente sin correo registrado']);
+    //     }
+
+    //     Mail::to($clienteEmail)->send(
+    //         new ComprobanteSunatMail($comprobante, $pdfPath, $xmlPath)
+    //     );
+
+    //     return response()->json(['success' => true]);
+    // }
+
+    public function enviarCorreoSunat(Request $request, $id)
     {
+        $request->validate([
+            'correo' => 'required|email'
+        ]);
+
+        $correoDestino = $request->correo;
+
         $comprobante = ComprobanteSunat::findOrFail($id);
         $json = json_decode($comprobante->response_sunat);
 
         $pdfUrl = $json->enlace_del_pdf;
         $xmlUrl = $json->enlace_del_xml;
 
-        $pdfName = $json->serie.'-'.$json->numero.'.pdf';
-        $xmlName = $json->serie.'-'.$json->numero.'.xml';
-
-        Storage::disk('local')->put($pdfName, file_get_contents($pdfUrl));
-        Storage::disk('local')->put($xmlName, file_get_contents($xmlUrl));
-
-        $pdfPath = Storage::path($pdfName);
-        $xmlPath = Storage::path($xmlName);
-
-        $clienteEmail = $comprobante->contact->email ?? null;
-
-        if (!$clienteEmail) {
-            return response()->json(['success' => false, 'message' => 'Cliente sin correo registrado']);
-        }
-
-        Mail::to($clienteEmail)->send(
-            new ComprobanteSunatMail($comprobante, $pdfPath, $xmlPath)
+        Mail::to($correoDestino)->send(
+            new ComprobanteSunatMail(
+                $comprobante,
+                file_get_contents($pdfUrl),
+                file_get_contents($xmlUrl)
+            )
         );
 
         return response()->json(['success' => true]);
