@@ -71,7 +71,8 @@
                         <th>XML</th>
                         <th>CDR</th>
                         <th>Sunat</th>
-                        <th>Productos</th>                     
+                        <th>Productos</th>      
+                        <th>Correo</th>               
                     </tr>
                 </thead>
                 <tbody></tbody>
