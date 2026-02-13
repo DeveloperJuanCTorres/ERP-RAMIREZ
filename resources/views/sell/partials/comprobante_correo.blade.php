@@ -70,15 +70,21 @@
         <td width="65%" valign="top">
             <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="200">
             <h3 style="margin:5px 0;">{{ $empresa }}</h3>
-            <p style="margin:2px 0;">RUC: {{ $ruc }}</p>
+            <p>7 de Enero 1850 - Chiclayo</p>
+            <p>Jr. Industrial 109  Mcdo. Nuevo Oriente - Cutervo</p>
+            <p>Jr. Coronel Secada 104 - Moyobamba</p>
+            <p>Carretera Pomalca KM 2.5</p>
+            <p>Calle Próceres 117 - Chiclayo</p>
+            <p>E-mail: informes@importacionesramirez.pe</p>
         </td>
 
         <td width="35%" valign="top">
             <table class="bordered">
                 <tr>
                     <td class="text-center">
+                        <strong>RUC {{ $ruc }}</strong><br>
                         <strong>{{ $comprobante->type }}</strong><br>
-                        {{ $comprobante->invoice_no }}
+                        <strong>{{ $comprobante->invoice_no }}</strong>
                     </td>
                 </tr>
             </table>
@@ -89,7 +95,7 @@
 {{-- ================= CLIENTE ================= --}}
 <table style="margin-bottom:15px;">
     <tr>
-        <td width="70%" valign="top">
+        <td width="60%" valign="top">
             <table class="bordered">
                 <tr><td><strong>CLIENTE:</strong> {{ $comprobante->name }}</td></tr>
                 <tr><td><strong>{{ $tipo_doc }}:</strong> {{ $comprobante->numero_doc }}</td></tr>
@@ -97,7 +103,7 @@
             </table>
         </td>
 
-        <td width="30%" valign="top">
+        <td width="40%" valign="top">
             <table class="bordered">
                 <tr>
                     <td><strong>FECHA EMISIÓN:</strong><br>
