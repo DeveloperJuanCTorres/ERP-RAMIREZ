@@ -95,7 +95,7 @@
 {{-- ================= CLIENTE ================= --}}
 <table style="margin-bottom:15px;">
     <tr>
-        <td width="60%" valign="top">
+        <td width="64%" valign="top">
             <table class="bordered">
                 <tr><td><strong>CLIENTE:</strong> {{ $comprobante->name }}</td></tr>
                 <tr><td><strong>{{ $tipo_doc }}:</strong> {{ $comprobante->numero_doc }}</td></tr>
@@ -103,7 +103,7 @@
             </table>
         </td>
 
-        <td width="40%" valign="top">
+        <td width="36%" valign="top">
             <table class="bordered">
                 <tr>
                     <td><strong>FECHA EMISIÓN:</strong>
@@ -141,13 +141,13 @@
 <table class="tabla-detalle" style="margin-bottom:10px;">
     <thead>
         <tr>
-            <th width="8%">CANT.</th>
-            <th width="8%">UM</th>
-            <th width="8%">CÓD.</th>
-            <th width="38%">DESCRIPCIÓN</th>
+            <th width="5%">CANT.</th>
+            <th width="5%">UM</th>
+            <th width="5%">CÓD.</th>
+            <th width="49%">DESCRIPCIÓN</th>
             <th width="12%">V/U</th>
             <th width="12%">P/U</th>
-            <th width="14%">IMPORTE</th>
+            <th width="12%">IMPORTE</th>
         </tr>
     </thead>
     <tbody>
@@ -174,8 +174,8 @@
 
 <table width="100%">
     <tr>
-        <td width="62%"></td>
-        <td width="38%">
+        <td width="64%"></td>
+        <td width="36%">
             <table class="totales">
                 <tr>
                     <td><strong>GRAVADA:</strong></td>
