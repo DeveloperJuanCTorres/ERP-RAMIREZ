@@ -3301,23 +3301,44 @@ class SellController extends Controller
             'correo' => 'required|email'
         ]);
 
-        $correoDestino = $request->correo;
-
         $comprobante = ComprobanteSunat::findOrFail($id);
+
+        if (!$comprobante->response_sunat) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Comprobante sin respuesta SUNAT'
+            ]);
+        }
+
         $json = json_decode($comprobante->response_sunat);
 
-        $pdfUrl = $json->enlace_del_pdf;
-        $xmlUrl = $json->enlace_del_xml;
+        if (!$json || !isset($json->enlace_del_pdf) || !isset($json->enlace_del_xml)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Datos SUNAT inválidos'
+            ]);
+        }
 
-        Mail::to($correoDestino)->send(
-            new ComprobanteSunatMail(
-                $comprobante,
-                file_get_contents($pdfUrl),
-                file_get_contents($xmlUrl)
-            )
+        // 🔹 Descargar archivos desde SUNAT
+        $pdfData = @file_get_contents($json->enlace_del_pdf);
+        $xmlData = @file_get_contents($json->enlace_del_xml);
+
+        if (!$pdfData || !$xmlData) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudieron obtener los archivos desde SUNAT'
+            ]);
+        }
+
+        // 🔹 Enviar correo
+        Mail::to($request->correo)->send(
+            new ComprobanteSunatMail($comprobante, $pdfData, $xmlData)
         );
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Correo enviado correctamente'
+        ]);
     }
 
     public function enviarsunat(Request $request)
