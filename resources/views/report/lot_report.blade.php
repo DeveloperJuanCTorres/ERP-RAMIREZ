@@ -44,6 +44,29 @@
                         {!! Form::select('unit', $units, null, ['placeholder' => __('messages.all'), 'class' => 'form-control select2', 'style' => 'width:100%']); !!}
                     </div>
                 </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('created_by', 'Usuario:') !!}
+                        {!! Form::select('created_by', $users, null, [
+                            'placeholder' => __('messages.all'),
+                            'class' => 'form-control select2',
+                            'style' => 'width:100%',
+                            'id' => 'created_by'
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('filter_date', 'Fecha:') !!}
+                        {!! Form::date('filter_date', null, [
+                            'class' => 'form-control',
+                            'id' => 'filter_date'
+                        ]) !!}
+                    </div>
+                </div>
+
                 @if(Module::has('Manufacturing'))
                     <div class="col-md-3">
                         <div class="form-group">

@@ -2081,7 +2081,11 @@ class ReportController extends Controller
                         '=',
                         'tspl.purchase_line_id'
                     )
-                    ->join('transactions as t', 'pl.transaction_id', '=', 't.id');
+                    ->join('transactions as t', 'pl.transaction_id', '=', 't.id')
+                    ->leftJoin('account_transactions as at', function($join) {
+                        $join->on('at.transaction_id', '=', 't.id')
+                            ->where('at.type', 'debit');
+                    });
 
             $permitted_locations = auth()->user()->permitted_locations();
             $location_filter = 'WHERE ';
@@ -2121,6 +2125,14 @@ class ReportController extends Controller
             $only_mfg_products = request()->get('only_mfg_products', 0);
             if (! empty($only_mfg_products)) {
                 $query->where('t.type', 'production_purchase');
+            }
+
+            if (!empty($request->input('created_by'))) {
+                $query->where('t.created_by', $request->input('created_by'));
+            }
+
+            if (!empty($request->input('filter_date'))) {
+                $query->whereDate('at.operation_date', $request->input('filter_date'));
             }
 
             $products = $query->select(
@@ -2204,9 +2216,10 @@ class ReportController extends Controller
         $units = Unit::where('business_id', $business_id)
                             ->pluck('short_name', 'id');
         $business_locations = BusinessLocation::forDropdown($business_id, true);
+        $users = User::forDropdown($business_id);
 
         return view('report.lot_report')
-            ->with(compact('categories', 'brands', 'units', 'business_locations'));
+            ->with(compact('categories', 'brands', 'units', 'business_locations', 'users'));
     }
 
     /**
@@ -4019,7 +4032,7 @@ class ReportController extends Controller
             $account_transaction->reff_no = $request->nota;
             $account_transaction->operation_date = $request->fecha_pago;
             $account_transaction->created_by = $user_id;
-            $account_transaction->transaction_id = $expense->id;
+            $account_transaction->transaction_id = $transaction->id;
             $account_transaction->note = 'Pago servicio ID: '.$transaction->id;
             $account_transaction->save();
 
