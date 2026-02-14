@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\AccountTransaction;
 use App\Brands;
 use App\BusinessLocation;
 use App\CashRegister;
@@ -3947,31 +3948,103 @@ class ReportController extends Controller
         return view('report.gst_purchase_report')->with(compact('suppliers', 'taxes'));
     }
 
+    // public function payService(Request $request)
+    // {
+    //     $business_id = request()->session()->get('user.business_id');
+    //     $user_id = $request->session()->get('user.id');
+    //     $transaction = Transaction::findOrFail($request->id);
+
+    //     // Validar si ya fue pagado
+    //     if ($transaction->pay_service == 1) {
+    //         return response()->json(['status' => false, 'msg' => 'Este servicio ya fue pagado']);
+    //     }
+
+    //     $transaction->pay_service = 1;
+    //     $transaction->save();
+
+    //     //crear el gasto del pago en la cuenta correspondiente
+    //     $transaction_data['business_id'] = $business_id;
+    //     $transaction_data['created_by'] = $user_id;
+    //     $transaction_data['type'] = 'expense';
+    //     $transaction_data['status'] = 'final';
+    //     $transaction_data['payment_status'] = 'due';
+    //     $transaction_data['final_total'] = $transaction_data['amount'];
+    //     $transaction_data['transaction_date'] = \Carbon::now();
+
+    //     return response()->json(['status' => true, 'msg' => 'Servicio marcado como pagado']);
+    // }
+
     public function payService(Request $request)
     {
+        $request->validate([
+            'cuenta_id' => 'required|integer',
+            'monto' => 'required|numeric|min:0.01',
+            'fecha_pago' => 'required|date'
+        ]);
+
         $business_id = request()->session()->get('user.business_id');
         $user_id = $request->session()->get('user.id');
-        $transaction = Transaction::findOrFail($request->id);
 
-        // Validar si ya fue pagado
-        if ($transaction->pay_service == 1) {
-            return response()->json(['status' => false, 'msg' => 'Este servicio ya fue pagado']);
+        \DB::beginTransaction();
+
+        try {
+
+            $transaction = Transaction::findOrFail($request->id);
+
+            if ($transaction->pay_service == 1) {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Este servicio ya fue pagado'
+                ]);
+            }
+
+            // 🔹 Crear gasto (expense)
+            $expense = new Transaction();
+            $expense->business_id = $business_id;
+            $expense->created_by = $user_id;
+            $expense->type = 'expense';
+            $expense->status = 'final';
+            $expense->payment_status = 'paid';
+            $expense->final_total = $request->monto;
+            $expense->transaction_date = $request->fecha_pago;
+            $expense->additional_notes = 'Pago servicio ID: '.$transaction->id.' - Recibo: '.$request->nota;
+            $expense->save();
+
+            // 🔹 Registrar movimiento en cuenta (DEBIT)
+            $account_transaction = new AccountTransaction();
+            $account_transaction->account_id = $request->cuenta_id;
+            $account_transaction->type = 'debit'; // RESTA dinero
+            $account_transaction->sub_type = null;
+            $account_transaction->amount = $request->monto;
+            $account_transaction->reff_no = $request->nota;
+            $account_transaction->operation_date = $request->fecha_pago;
+            $account_transaction->created_by = $user_id;
+            $account_transaction->transaction_id = $expense->id;
+            $account_transaction->note = 'Pago servicio ID: '.$transaction->id;
+            $account_transaction->save();
+
+            // 🔹 Marcar servicio original como pagado
+            $transaction->pay_service = 1;
+            $transaction->save();
+
+            \DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'msg' => 'Servicio pagado correctamente'
+            ]);
+
+        } catch (\Exception $e) {
+
+            \DB::rollBack();
+
+            return response()->json([
+                'status' => false,
+                'msg' => 'Error al procesar el pago'
+            ]);
         }
-
-        $transaction->pay_service = 1;
-        $transaction->save();
-
-        //crear el gasto del pago en la cuenta correspondiente
-        $transaction_data['business_id'] = $business_id;
-        $transaction_data['created_by'] = $user_id;
-        $transaction_data['type'] = 'expense';
-        $transaction_data['status'] = 'final';
-        $transaction_data['payment_status'] = 'due';
-        $transaction_data['final_total'] = $transaction_data['amount'];
-        $transaction_data['transaction_date'] = \Carbon::now();
-
-        return response()->json(['status' => true, 'msg' => 'Servicio marcado como pagado']);
     }
+
 
     public function obtenerCuentas()
     {

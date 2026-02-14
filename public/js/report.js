@@ -1169,8 +1169,11 @@ $(document).ready(function() {
                         ${comboOptions}
                     </select>
                     <br>
+                    <label for="fecha_pago">Fecha de pago:</label>
+                    <input type="date" id="fecha_pago" class="swal2-input"><br>
+
                     <label for="nota_pago">Nº Recibo:</label>
-                    <input type="text" id="nota_pago" class="swal2-input" placeholder="Ingrese Nº de recibo">
+                    <input type="text" style="width:150px;" id="nota_pago" class="swal2-input">
                     <br>
                     <label for="monto">Monto:</label>
                     <input type="number" id="monto" class="swal2-input" placeholder="Ingrese monto">
@@ -1182,6 +1185,7 @@ $(document).ready(function() {
                     const cuenta_id = document.getElementById('cuenta_select').value;
                     const nota = document.getElementById('nota_pago').value;
                     const monto = document.getElementById('monto').value;
+                    const fecha_pago = document.getElementById('fecha_pago').value;
 
                     if (!cuenta_id) {
                         Swal.showValidationMessage('Debe seleccionar una cuenta de pago');
@@ -1189,11 +1193,15 @@ $(document).ready(function() {
 
                     // return { cuenta_id, nota, monto };
 
-                    if (monto == "") {
+                    if (!monto) {
                         Swal.showValidationMessage('Debe ingresar el monto a pagar');
                     }
 
-                    return { cuenta_id, nota, monto };
+                    if (!fecha_pago) {
+                        Swal.showValidationMessage('Debe ingresar la fecha de pago');
+                    }
+
+                    return { cuenta_id, nota, monto, fecha_pago };
                 }
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
@@ -1206,7 +1214,8 @@ $(document).ready(function() {
                             id: id,
                             cuenta_id: result.value.cuenta_id,
                             nota: result.value.nota,
-                            monto: result.value.monto
+                            monto: result.value.monto,
+                            fecha_pago: result.value.fecha_pago
                         },
                         success: function (response) {   
                             if (response.status) {
