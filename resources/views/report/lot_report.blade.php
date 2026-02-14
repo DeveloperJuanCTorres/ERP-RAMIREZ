@@ -84,14 +84,15 @@
             @endcomponent
         </div>
     </div>
+    <div class="mb-3 text-right">
+        <button class="btn btn-success" id="print_report">
+            <i class="fa fa-print"></i> Imprimir constancia de pagos
+        </button>
+    </div>
     <div class="row">
         <div class="col-md-12">
             @component('components.widget', ['class' => 'box-primary'])
-            <div class="mb-3">
-                <button class="btn btn-success" id="print_report">
-                    <i class="fa fa-print"></i> Imprimir
-                </button>
-            </div>
+            
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="lot_report">
                     <thead>
