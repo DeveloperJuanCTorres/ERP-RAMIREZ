@@ -59,7 +59,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('filter_date', 'Fecha:') !!}
+                        {!! Form::label('filter_date', 'Fecha de pago:') !!}
                         {!! Form::date('filter_date', null, [
                             'class' => 'form-control',
                             'id' => 'filter_date'
@@ -87,6 +87,11 @@
     <div class="row">
         <div class="col-md-12">
             @component('components.widget', ['class' => 'box-primary'])
+            <div class="mb-3">
+                <button class="btn btn-success" id="print_report">
+                    <i class="fa fa-print"></i> Imprimir
+                </button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="lot_report">
                     <thead>
@@ -123,4 +128,22 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{ asset('js/report.js?v=' . $asset_v) }}"></script>
+
+    <script>
+        $('#print_report').click(function () {
+
+            let params = $.param({
+                location_id: $('#location_id').val(),
+                category_id: $('#category_id').val(),
+                sub_category_id: $('#sub_category_id').val(),
+                brand_id: $('#brand').val(),
+                unit_id: $('#unit').val(),
+                created_by: $('#created_by').val(),
+                filter_date: $('#filter_date').val(),
+                only_mfg_products: $('#only_mfg_products').is(':checked') ? 1 : 0
+            });
+
+            window.open('/reports/lot-report-print?' + params, '_blank');
+        });
+    </script>
 @endsection

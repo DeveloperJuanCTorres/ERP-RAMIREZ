@@ -383,6 +383,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::post('/reports/pay-service', [ReportController::class, 'payService']);
     Route::get('/cuentas-pago', [ReportController::class, 'obtenerCuentas']);
+    Route::get('/reports/lot-report-print', [ReportController::class, 'printLotReport']);
 
 
     // ------REPORTES NUEVOS

@@ -4067,6 +4067,42 @@ class ReportController extends Controller
         return response()->json($accounts);
     }
 
+    public function printLotReport(Request $request)
+    {
+        $business_id = $request->session()->get('user.business_id');
+
+        $query = Product::where('products.business_id', $business_id)
+            ->join('variations as v', 'products.id', '=', 'v.product_id')
+            ->join('purchase_lines as pl', 'v.id', '=', 'pl.variation_id')
+            ->join('transactions as t', 'pl.transaction_id', '=', 't.id')
+            ->leftJoin('account_transactions as at', function($join){
+                $join->on('at.transaction_id','=','t.id')
+                    ->where('at.type','debit');
+            });
+
+        if (!empty($request->created_by)) {
+            $query->where('t.created_by', $request->created_by);
+            $user = User::find($request->created_by);
+        } else {
+            $user = null;
+        }
+
+        if (!empty($request->filter_date)) {
+            $query->whereDate('at.operation_date', $request->filter_date);
+        }
+
+        $data = $query->select(
+            'products.name as product',
+            'pl.lot_number',
+            'at.amount as monto'
+        )->get();
+
+        $total = $data->sum('monto');
+
+        return view('report.print_lot_report', compact('data','total','user'));
+    }
+
+
     public function reportPorLote()
     {
         return view('report.reportPorLote');
