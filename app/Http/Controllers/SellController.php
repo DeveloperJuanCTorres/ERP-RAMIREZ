@@ -3885,7 +3885,7 @@ class SellController extends Controller
                     TRIM(
                         SUBSTRING_INDEX(
                             SUBSTRING_INDEX(
-                                JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')),
+                                jt.descripcion,
                                 'Motor:', -1
                             ),
                             'Color:',
@@ -3894,10 +3894,14 @@ class SellController extends Controller
                     ) AS motor_completo
                 ")
             )
-            ->whereRaw(
-                "JSON_UNQUOTE(JSON_EXTRACT(productos, '$[0].descripcion')) LIKE ?",
-                ['%Motor:%' . $motor . '%']
-            )
+            ->join(DB::raw("
+                JSON_TABLE(productos, '$[*]'
+                    COLUMNS (
+                        descripcion TEXT PATH '$.descripcion'
+                    )
+                ) AS jt
+            "), DB::raw('1'), '=', DB::raw('1'))
+            ->where('jt.descripcion', 'like', '%'.$motor.'%')
             ->get();
 
         return response()->json($resultados);
