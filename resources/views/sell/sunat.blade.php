@@ -1015,7 +1015,7 @@
                         $('#contact_id_servicio').val(response.contact.id);
                         $('#ref_no_servicio').val(response.ref_no);
                         if (response.contact.name) {
-                            $('#tipodoc_servicio').text('DNI:');
+                            $('#tipodoc_servicio').text('DNI/CARNET EXTRANJERIA:');
                             $('#numerodoc_servicio').val(response.contact.contact_id);
                             $('#cliente_servicio').val(response.contact.name);
                             $('#address_servicio').val(response.contact.address_line_1);
@@ -1438,7 +1438,7 @@
             $('#tipodoc').text('RUC:');
             fechaMin.setDate(fechaActual.getDate() - 3);
         } else if (comprobante.includes('boleta')) {
-            $('#tipodoc').text('DNI:');
+            $('#tipodoc').text('DNI/CARNET EXTRANJERIA:');
             fechaMin.setDate(fechaActual.getDate() - 7);
         } else {
             fechaMin = null;
@@ -1460,7 +1460,7 @@
             $('#tipodoc_servicio').text('RUC:');
             fechaMin.setDate(fechaActual.getDate() - 3);
         } else if (comprobante.includes('boleta')) {
-            $('#tipodoc_servicio').text('DNI:');
+            $('#tipodoc_servicio').text('DNI/CARNET EXTRANJERIA:');
             fechaMin.setDate(fechaActual.getDate() - 7);
         } else {
             fechaMin = null;
