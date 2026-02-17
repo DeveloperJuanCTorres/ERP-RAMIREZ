@@ -939,7 +939,7 @@
                         $('#contact_id').val(response.contact.id);
                         $('#ref_no').val(response.ref_no);
                         if (response.contact.name) {
-                            $('#tipodoc').text('DNI:');
+                            $('#tipodoc').text('DNI/CARNET EXTRANJERIA:');
                             $('#numerodoc').val(response.contact.contact_id);
                             $('#cliente').val(response.contact.name);
                             $('#address').val(response.contact.address_line_1);
