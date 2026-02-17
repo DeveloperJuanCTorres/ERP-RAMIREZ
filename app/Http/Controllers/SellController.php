@@ -1886,11 +1886,11 @@ class SellController extends Controller
                 {
                     $cliente_tipo_doc = "-"; // Cliente varios
                 } 
-                elseif (preg_match('/^\d{9}$/', $contact->contact_id)) 
+                elseif (preg_match('/^\d{9}$/', $request->numero_doc)) 
                 {
                     $cliente_tipo_doc = 4; // Carnet de extranjería (9 dígitos)
                 } 
-                elseif (preg_match('/^\d{8}$/', $contact->contact_id)) 
+                elseif (preg_match('/^\d{8}$/', $request->numero_doc)) 
                 {
                     $cliente_tipo_doc = 1; // DNI (8 dígitos)
                 } 
