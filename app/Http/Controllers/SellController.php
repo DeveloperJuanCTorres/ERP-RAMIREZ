@@ -1882,14 +1882,30 @@ class SellController extends Controller
             {
                 $type = 'Boleta Electrónica';     
                 $tipo_comprobante = 2;   
-                if ($contact->contact_id == "-")      
+                if ($contact->contact_id == "-") 
                 {
-                    $cliente_tipo_doc = "-"; 
+                    $cliente_tipo_doc = "-"; // Cliente varios
+                } 
+                elseif (preg_match('/^\d{9}$/', $contact->contact_id)) 
+                {
+                    $cliente_tipo_doc = 4; // Carnet de extranjería (9 dígitos)
+                } 
+                elseif (preg_match('/^\d{8}$/', $contact->contact_id)) 
+                {
+                    $cliente_tipo_doc = 1; // DNI (8 dígitos)
+                } 
+                else 
+                {
+                    $cliente_tipo_doc = null; // Otro caso o error
                 }
-                else
-                {
-                    $cliente_tipo_doc = 1; 
-                }                                       
+                // if ($contact->contact_id == "-")      
+                // {
+                //     $cliente_tipo_doc = "-"; 
+                // }
+                // else
+                // {
+                //     $cliente_tipo_doc = 1; 
+                // }                                       
             }
 
             foreach ($request->productos as $key => $value) {
@@ -2108,14 +2124,30 @@ class SellController extends Controller
             {
                 $type = 'Boleta Electrónica';     
                 $tipo_comprobante = 2;   
-                if ($contact->contact_id == "-")      
+                if ($contact->contact_id == "-") 
                 {
-                    $cliente_tipo_doc = "-"; 
+                    $cliente_tipo_doc = "-"; // Cliente varios
+                } 
+                elseif (preg_match('/^\d{9}$/', $contact->contact_id)) 
+                {
+                    $cliente_tipo_doc = 4; // Carnet de extranjería (9 dígitos)
+                } 
+                elseif (preg_match('/^\d{8}$/', $contact->contact_id)) 
+                {
+                    $cliente_tipo_doc = 1; // DNI (8 dígitos)
+                } 
+                else 
+                {
+                    $cliente_tipo_doc = null; // Otro caso o error
                 }
-                else
-                {
-                    $cliente_tipo_doc = 1; 
-                }                                       
+                // if ($contact->contact_id == "-")      
+                // {
+                //     $cliente_tipo_doc = "-"; 
+                // }
+                // else
+                // {
+                //     $cliente_tipo_doc = 1; 
+                // }                                       
             }
 
             foreach ($request->productos as $key => $value) {
