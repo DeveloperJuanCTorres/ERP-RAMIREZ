@@ -2132,7 +2132,8 @@ class ReportController extends Controller
             }
 
             if (!empty($request->input('filter_date'))) {
-                $query->whereDate('at.operation_date', $request->input('filter_date'));
+                $query->where('t.pay_service', 1)
+                    ->whereDate('at.operation_date', $request->input('filter_date'));
             }
 
             $products = $query->select(
@@ -4057,6 +4058,169 @@ class ReportController extends Controller
             ]);
         }
     }
+
+    public function payServiceBulk(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'cuenta_id' => 'required|integer',
+            'fecha_pago' => 'required|date',
+            'monto' => 'required|numeric|min:0.01'
+        ]);
+
+        $business_id = $request->session()->get('user.business_id');
+        $user_id = $request->session()->get('user.id');
+
+        \DB::beginTransaction();
+
+        try {
+
+            $transactions = Transaction::whereIn('id', $request->ids)
+                ->where('pay_service', 0)
+                ->get();
+
+            if ($transactions->isEmpty()) {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'No hay servicios válidos para pagar'
+                ]);
+            }
+
+            // 🔹 CÁLCULO TOTAL (monto unitario × cantidad)
+            $cantidad = $transactions->count();
+            $monto_unitario = $request->monto;
+            $total = $monto_unitario * $cantidad;
+
+            // 🔹 1️⃣ CREAR UN SOLO EXPENSE
+            $expense = new Transaction();
+            $expense->business_id = $business_id;
+            $expense->created_by = $user_id;
+            $expense->type = 'expense';
+            $expense->status = 'final';
+            $expense->payment_status = 'paid';
+            $expense->final_total = $total;
+            $expense->transaction_date = $request->fecha_pago;
+            $expense->additional_notes = 'Pago múltiple (' . $cantidad . ' servicios) - Monto unitario: '
+                                        . $monto_unitario . ' - Recibo: ' . $request->nota;
+            $expense->save();
+
+            // 🔹 2️⃣ CREAR MOVIMIENTO EN CUENTA POR CADA SERVICIO
+            foreach ($transactions as $transaction) {
+
+                $account_transaction = new AccountTransaction();
+                $account_transaction->account_id = $request->cuenta_id;
+                $account_transaction->type = 'debit';
+                $account_transaction->amount = $monto_unitario; // 🔥 monto individual
+                $account_transaction->reff_no = $request->nota;
+                $account_transaction->operation_date = $request->fecha_pago;
+                $account_transaction->created_by = $user_id;
+                $account_transaction->transaction_id = $transaction->id; // 🔥 importante
+                $account_transaction->note = 'Pago múltiple - Expense ID: ' . $expense->id;
+                $account_transaction->save();
+            }
+
+            // 🔹 3️⃣ MARCAR SERVICIOS COMO PAGADOS
+            Transaction::whereIn('id', $transactions->pluck('id'))
+                ->update(['pay_service' => 1]);
+
+            \DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'msg' => 'Servicios pagados correctamente. Total registrado: ' . number_format($total, 2)
+            ]);
+
+        } catch (\Exception $e) {
+
+            \DB::rollBack();
+
+            return response()->json([
+                'status' => false,
+                'msg' => 'Error al procesar los pagos'
+            ]);
+        }
+    }
+
+    // public function payServiceBulk(Request $request)
+    // {
+    //     $request->validate([
+    //         'ids' => 'required|array',
+    //         'cuenta_id' => 'required|integer',
+    //         'fecha_pago' => 'required|date',
+    //         'monto' => 'required|numeric|min:0.01'
+    //     ]);
+
+    //     $business_id = $request->session()->get('user.business_id');
+    //     $user_id = $request->session()->get('user.id');
+
+    //     \DB::beginTransaction();
+
+    //     try {
+
+    //         $transactions = Transaction::whereIn('id', $request->ids)
+    //             ->where('pay_service', 0)
+    //             ->get();
+
+    //         if ($transactions->isEmpty()) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'msg' => 'No hay servicios válidos para pagar'
+    //             ]);
+    //         }
+
+    //         // 🔹 SUMAR TOTAL
+    //         $cantidad = $transactions->count();
+    //         $monto_unitario = $request->monto;
+    //         $total = $monto_unitario * $cantidad;
+
+    //         // 🔹 CREAR UN SOLO EXPENSE
+    //         $expense = new Transaction();
+    //         $expense->business_id = $business_id;
+    //         $expense->created_by = $user_id;
+    //         $expense->type = 'expense';
+    //         $expense->status = 'final';
+    //         $expense->payment_status = 'paid';
+    //         $expense->final_total = $total;
+    //         $expense->transaction_date = $request->fecha_pago;
+    //         $expense->additional_notes = 'Pago múltiple (' . $cantidad . ' servicios) - Monto unitario: '
+    //                                     . $monto_unitario . ' - Recibo: ' . $request->nota;
+    //                                     $expense->save();
+
+    //         // 🔹 UN SOLO MOVIMIENTO EN CUENTA
+    //         $account_transaction = new AccountTransaction();
+    //         $account_transaction->account_id = $request->cuenta_id;
+    //         $account_transaction->type = 'debit';
+    //         $account_transaction->amount = $total;
+    //         $account_transaction->reff_no = $request->nota;
+    //         $account_transaction->operation_date = $request->fecha_pago;
+    //         $account_transaction->created_by = $user_id;
+    //         $account_transaction->transaction_id = $expense->id; // importante
+    //         $account_transaction->note = 'Pago múltiple servicios';
+    //         $account_transaction->save();
+
+    //         // 🔹 MARCAR TODOS COMO PAGADOS
+    //         Transaction::whereIn('id', $transactions->pluck('id'))
+    //             ->update(['pay_service' => 1]);
+
+    //         \DB::commit();
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'msg' => 'Servicios pagados correctamente. Total registrado: ' . $total
+    //         ]);
+
+    //     } catch (\Exception $e) {
+
+    //         \DB::rollBack();
+
+    //         return response()->json([
+    //             'status' => false,
+    //             'msg' => 'Error al procesar los pagos'
+    //         ]);
+    //     }
+    // }
+
+    
 
 
     public function obtenerCuentas()

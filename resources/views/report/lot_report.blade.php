@@ -88,6 +88,10 @@
         <button class="btn btn-success" id="print_report">
             <i class="fa fa-print"></i> Imprimir constancia de pagos
         </button>
+
+        <button class="btn btn-danger" id="pagar_seleccionados">
+            <i class="fa fa-credit-card"></i> Pagar seleccionados
+        </button>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -97,6 +101,7 @@
                 <table class="table table-bordered table-striped" id="lot_report">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>SKU</th>
                             <th>@lang('business.product')</th>
                             <th>@lang('lang_v1.lot_number')</th>
@@ -109,7 +114,7 @@
                     </thead>
                     <tfoot>
                         <tr class="bg-gray font-17 text-center footer-total">
-                            <td colspan="4"><strong>@lang('sale.total'):</strong></td>
+                            <td colspan="5"><strong>@lang('sale.total'):</strong></td>
                             <td id="footer_total_stock"></td>
                             <td id="footer_total_sold"></td>
                             <td id="footer_total_adjusted"></td>

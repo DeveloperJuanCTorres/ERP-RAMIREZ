@@ -382,6 +382,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/reports/get-stock-value', [ReportController::class, 'getStockValue']);
 
     Route::post('/reports/pay-service', [ReportController::class, 'payService']);
+    Route::post('/reports/pay-service-bulk', [ReportController::class, 'payServiceBulk']);
     Route::get('/cuentas-pago', [ReportController::class, 'obtenerCuentas']);
     Route::get('/reports/lot-report-print', [ReportController::class, 'printLotReport']);
 

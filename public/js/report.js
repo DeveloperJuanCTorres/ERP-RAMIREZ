@@ -1109,6 +1109,17 @@ $(document).ready(function() {
             },
         },
         columns: [
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    if (row.transaction_type === 'production_purchase' && row.pay == 0) {
+                        return `<input type="checkbox" class="pagar-check" value="${row.transaction_id}">`;
+                    }
+                    return '';
+                }
+            },
             { data: 'sub_sku', name: 'v.sub_sku' },
             { data: 'product', name: 'products.name' },
             { data: 'lot_number', name: 'pl.lot_number' },
@@ -1250,6 +1261,90 @@ $(document).ready(function() {
                 }
             });
         });
+    });
+
+    $(document).on('click', '#pagar_seleccionados', function () {
+        let seleccionados = [];
+
+        $('.pagar-check:checked').each(function () {
+            seleccionados.push($(this).val());
+        });
+
+        if (seleccionados.length === 0) {
+            Swal.fire('Debe seleccionar al menos un servicio');
+            return;
+        }
+
+        let token = $('meta[name="csrf-token"]').attr('content');
+
+        $.get('/cuentas-pago', function(cuentas) {
+
+            let comboOptions = Object.entries(cuentas).map(([id, nombre]) =>
+                `<option value="${id}">${nombre}</option>`
+            ).join('');
+
+            Swal.fire({
+                title: 'Pago múltiple',
+                html: `
+                    <p>Servicios seleccionados: <strong>${seleccionados.length}</strong></p>
+                    <label>Cuenta:</label>
+                    <select id="cuenta_select" class="swal2-input">${comboOptions}</select>
+
+                    <label>Fecha de pago:</label>
+                    <input type="date" id="fecha_pago" class="swal2-input"> <br>
+
+                    <label>Nº Recibo:</label>
+                    <input style="width:150px;" type="text" id="nota_pago" class="swal2-input"><br>
+
+                    <label>Monto por servicio:</label>
+                    <input style="width:100px;" type="number" id="monto" class="swal2-input" placeholder="Monto">
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Pagar todo',
+                preConfirm: () => {
+                    const cuenta_id = document.getElementById('cuenta_select').value;
+                    const fecha_pago = document.getElementById('fecha_pago').value;
+                    const nota = document.getElementById('nota_pago').value;
+                    const monto = document.getElementById('monto').value;
+
+                    if (!cuenta_id || !fecha_pago) {
+                        Swal.showValidationMessage('Complete los campos requeridos');
+                    }
+
+                    return { cuenta_id, fecha_pago, nota, monto };
+                }
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: "/reports/pay-service-bulk",
+                        method: "post",
+                        dataType: 'json',
+                        data: {
+                            _token: token,
+                            ids: seleccionados,
+                            cuenta_id: result.value.cuenta_id,
+                            fecha_pago: result.value.fecha_pago,
+                            nota: result.value.nota,
+                            monto: result.value.monto
+                        },
+                        success: function (response) {
+                            if (response.status) {
+                                Swal.fire('Correcto', response.msg, 'success')
+                                    .then(() => lot_report.ajax.reload());
+                            } else {
+                                Swal.fire('Error', response.msg, 'warning');
+                            }
+                        }
+                    });
+
+                }
+
+            });
+
+        });
+
     });
 
     // $(document).on('click', '.pagar-btn', function() {
