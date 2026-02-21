@@ -145,7 +145,7 @@
         <div class="factura-empresa">
             @php
                 if($comprobante->business_id == 1 || $comprobante->business_id == 7){
-                    $imgPath = public_path('img/facturacion-bg.jpeg');
+                    $imgPath = public_path('img/facturacion1-bg.png');
                     $alt = "imp-ramirez";
                 }else
                 {
@@ -157,7 +157,7 @@
                 $imgType = pathinfo($imgPath, PATHINFO_EXTENSION);
             @endphp
             @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
-                <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="250" alt="{{$alt}}">
+                <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" alt="{{$alt}}">
             @else
                 <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="{{$alt}}">
             @endif
