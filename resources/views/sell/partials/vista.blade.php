@@ -59,7 +59,7 @@
 
     .factura-datos .ruc {
         font-weight: bold;
-        padding: 9px;
+        padding: 7px;
         text-align: center;
     }
 
