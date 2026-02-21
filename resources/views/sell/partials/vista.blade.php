@@ -94,11 +94,33 @@
         padding: 10px;
         margin-bottom: 15px;
     }
-    .tabla-detalle th, .tabla-detalle td {
+    /* .tabla-detalle th, .tabla-detalle td {
         border: 1px solid #000;
         padding: 4px;
         text-align: center;
         font-size: 12px;
+    } */
+
+        /* SOLO CABECERA CON BORDES */
+    .tabla-detalle thead th {
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: center;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    /* CUERPO SIN BORDES */
+    .tabla-detalle tbody td {
+        border: none;
+        padding: 6px;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    /* Mantener descripción alineada a la izquierda */
+    .tabla-detalle tbody td:nth-child(3) {
+        text-align: left;
     }
     .tabla-detalle {
         width: 100%;
