@@ -59,7 +59,7 @@
 
     .factura-datos .ruc {
         font-weight: bold;
-        padding: 7px;
+        padding: 9px;
         text-align: center;
     }
 
@@ -199,7 +199,7 @@
             <h3>{{ $comprobante->invoice_no}}</h3>
         </div> -->
 
-        <div class="factura-datos" style="padding-left: 2px;">
+        <div class="factura-datos">
             {{-- RUC --}}
             @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
                 <div class="ruc">
