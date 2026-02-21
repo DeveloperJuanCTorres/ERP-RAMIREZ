@@ -162,13 +162,13 @@
                 <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" width="150" alt="{{$alt}}">
             @endif
             @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
-                <h3 style="padding-top: 20px;">IMPORTACIONES RAMIREZ E.I.R.L.</h3>
+                <!-- <h3 style="padding-top: 20px;">IMPORTACIONES RAMIREZ E.I.R.L.</h3>
                 <p>7 de Enero 1850 - Chiclayo</p>
                 <p>Jr. Industrial 109  Mcdo. Nuevo Oriente - Cutervo</p>
                 <p>Jr. Coronel Secada 104 - Moyobamba</p>
                 <p>Carretera Pomalca KM 2.5</p>
                 <p>Calle Próceres 117 - Chiclayo</p>
-                <p>E-mail: informes@importacionesramirez.pe</p>
+                <p>E-mail: informes@importacionesramirez.pe</p> -->
             @else
                 <h3 style="padding-top: 20px;">A1 RAMIREZ SAC</h3>
                 <p>AV. SALOMON VILCHEZ M. NRO. 740 - CUTERVO - CUTERVO - CAJAMARCA</p>
@@ -198,7 +198,7 @@
             @endif
             <h3>{{ $comprobante->invoice_no}}</h3>
         </div> -->
-        
+
         <div class="factura-datos">
             {{-- RUC --}}
             @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
