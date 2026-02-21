@@ -64,7 +64,7 @@
     }
 
     .factura-datos .separador {
-        border-top: 1px solid #000;
+        border-top: 2px solid #000;
     }
 
     .factura-datos .tipo-comprobante {
