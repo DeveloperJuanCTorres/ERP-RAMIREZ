@@ -355,6 +355,7 @@
                     <td>{{ number_format($item->precio_unitario, 3) }}</td> -->
                     <td>{{ number_format($item->total, 2) }}</td>
                 </tr>
+            @endif
             @endforeach
         </tbody>
     </table>
