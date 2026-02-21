@@ -41,6 +41,7 @@
 
     .factura-empresa {
         width: 70%;
+        padding-right: 2px !important;
     }
 
     .factura-empresa img {
@@ -55,6 +56,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+        padding-left: 2px !important;
     }
 
     .factura-datos .ruc {
