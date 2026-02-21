@@ -199,7 +199,7 @@
             <h3>{{ $comprobante->invoice_no}}</h3>
         </div> -->
 
-        <div class="factura-datos">
+        <div class="factura-datos" style="padding-left: 2px;">
             {{-- RUC --}}
             @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
                 <div class="ruc">
