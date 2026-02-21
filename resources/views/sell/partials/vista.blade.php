@@ -138,6 +138,20 @@
         margin: 2px 0;
         font-size: 13px;
     }
+
+
+    .tabla-detalle th {
+        font-size: 10px;
+    }
+
+    .tabla-detalle td {
+        font-size: 10px;
+    }
+
+    .tabla-detalle th:nth-child(3),
+    .tabla-detalle td:nth-child(3) {
+        width: 20%;
+    }
 </style>
 
 <div class="factura-container">
@@ -280,8 +294,13 @@
             <tr>
                 <th>CANT.</th>
                 <th>UM</th>
-                <th>CÓD.</th>
+                <!-- <th>CÓD.</th> -->
                 <th>DESCRIPCIÓN</th>
+                <th>MOTOR</th>
+                <th>COLOR</th>
+                <th>CHASIS</th>
+                <th>PÓLIZA</th>
+                <th>AÑO</th>
                 <!-- <th>V/U</th>
                 <th>P/U</th> -->
                 <th>IMPORTE</th>
@@ -289,11 +308,49 @@
         </thead>
         <tbody>
             @foreach ($productos as $item)
+            @php
+                $descripcion = $item->descripcion;
+
+                $motor = $color = $chasis = $poliza = $anio = '';
+
+                if(str_contains($descripcion, 'Motor:')) {
+
+                    preg_match('/Motor:\s*([^\s]+)/', $descripcion, $m);
+                    preg_match('/Color:\s*([^\s]+)/', $descripcion, $c);
+                    preg_match('/Chasis:\s*([^\s]+)/', $descripcion, $ch);
+                    preg_match('/Poliza:\s*([^\s]+)/', $descripcion, $p);
+                    preg_match('/Año:\s*([^\s]+)/', $descripcion, $a);
+
+                    $motor = $m[1] ?? '';
+                    $color = $c[1] ?? '';
+                    $chasis = $ch[1] ?? '';
+                    $poliza = $p[1] ?? '';
+                    $anio = $a[1] ?? '';
+
+                    // Limpiar descripción base (nombre del producto)
+                    $descripcion_base = preg_split('/Motor:/', $descripcion)[0];
+                }
+            @endphp
+
+            @if(str_contains($descripcion, 'Motor:'))
+            <tr>
+                <td>{{ $item->cantidad }}</td>
+                <td>{{ $item->unidad_de_medida }}</td>
+                <td style="text-align:left;">{{ trim($descripcion_base) }}</td>
+                <td>{{ $motor }}</td>
+                <td>{{ $color }}</td>
+                <td>{{ $chasis }}</td>
+                <td>{{ $poliza }}</td>
+                <td>{{ $anio }}</td>
+                <td>{{ number_format($item->total, 2) }}</td>
+            </tr>
+
+            @else
                 <tr>
                     <td>{{ $item->cantidad }}</td>
                     <td>{{ $item->unidad_de_medida}}</td>
-                    <td>{{ $item->codigo}}</td>
-                    <td style="text-align:left;">{{ $item->descripcion }}</td>
+                    <!-- <td>{{ $item->codigo}}</td> -->
+                    <td colspan="6" style="text-align:left;">{{ $item->descripcion }}</td>
                     <!-- <td>{{ number_format($item->valor_unitario, 3) }}</td>
                     <td>{{ number_format($item->precio_unitario, 3) }}</td> -->
                     <td>{{ number_format($item->total, 2) }}</td>
