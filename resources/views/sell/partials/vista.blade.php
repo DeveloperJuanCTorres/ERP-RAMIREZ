@@ -6,7 +6,7 @@
         padding: 10px;
         background: #fff;
     }
-    .factura-header {
+    /* .factura-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -31,6 +31,55 @@
     .factura-datos h4 {
         font-weight: bold;
         margin-bottom: 5px;
+    } */
+    .factura-header {
+        display: flex;
+        width: 100%;
+        border-bottom: 2px solid #000;
+        margin-bottom: 15px;
+    }
+
+    .factura-empresa {
+        width: 70%;
+    }
+
+    .factura-empresa img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .factura-datos {
+        width: 30%;
+        border: 2px solid #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .factura-datos .ruc {
+        font-weight: bold;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .factura-datos .separador {
+        border-top: 1px solid #000;
+    }
+
+    .factura-datos .tipo-comprobante {
+        background-color: #f2f2f2;
+        padding: 8px;
+        text-align: center;
+        font-size: 16px; /* equivalente a h5 */
+        font-weight: 600;
+    }
+
+    .factura-datos .numero-comprobante {
+        text-align: center;
+        padding: 10px;
+        font-size: 22px; /* equivalente a h2 */
+        font-weight: bold;
     }
     .factura-info {
         margin-bottom: 15px;
@@ -96,7 +145,7 @@
         <div class="factura-empresa">
             @php
                 if($comprobante->business_id == 1 || $comprobante->business_id == 7){
-                    $imgPath = public_path('img/importaciones.jpeg');
+                    $imgPath = public_path('img/facturacion-bg.jpeg');
                     $alt = "imp-ramirez";
                 }else
                 {
@@ -127,7 +176,7 @@
             @endif
         </div>
 
-        <div class="factura-datos">
+        <!-- <div class="factura-datos">
             @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
                 <h3>RUC 20495764398</h3>
             @else
@@ -148,6 +197,46 @@
                 <h3>COMPROBANTE ELECTRÓNICO</h3>
             @endif
             <h3>{{ $comprobante->invoice_no}}</h3>
+        </div> -->
+        
+        <div class="factura-datos">
+            {{-- RUC --}}
+            @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
+                <div class="ruc">
+                    <h3>RUC 20495764398</h3>
+                </div>
+            @else
+                <div class="ruc">
+                    <h3>RUC 20603437331</h3>
+                </div>
+            @endif
+
+            <div class="separador"></div>
+
+            {{-- Tipo comprobante --}}
+            @if(Str::startsWith($comprobante->invoice_no, 'F'))
+                @php $tipo_doc = 'RUC'; @endphp
+                <div class="tipo-comprobante">
+                    {{$comprobante->type}}
+                </div>
+            @elseif(Str::startsWith($comprobante->invoice_no, 'B'))
+                @php $tipo_doc = 'DNI'; @endphp
+                <div class="tipo-comprobante">
+                    {{$comprobante->type}}
+                </div>
+            @else
+                <div class="tipo-comprobante">
+                    COMPROBANTE ELECTRÓNICO
+                </div>
+            @endif
+
+            <div class="separador"></div>
+
+            {{-- Número --}}
+            <div class="numero-comprobante">
+                {{ $comprobante->invoice_no}}
+            </div>
+
         </div>
     </div>
 
