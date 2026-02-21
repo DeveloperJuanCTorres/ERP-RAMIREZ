@@ -35,7 +35,7 @@
     .factura-header {
         display: flex;
         width: 100%;
-        border-bottom: 2px solid #000;
+        /* border-bottom: 2px solid #000; */
         margin-bottom: 15px;
     }
 
