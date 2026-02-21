@@ -282,8 +282,8 @@
                 <th>UM</th>
                 <th>CÓD.</th>
                 <th>DESCRIPCIÓN</th>
-                <th>V/U</th>
-                <th>P/U</th>
+                <!-- <th>V/U</th>
+                <th>P/U</th> -->
                 <th>IMPORTE</th>
             </tr>
         </thead>
@@ -294,8 +294,8 @@
                     <td>{{ $item->unidad_de_medida}}</td>
                     <td>{{ $item->codigo}}</td>
                     <td style="text-align:left;">{{ $item->descripcion }}</td>
-                    <td>{{ number_format($item->valor_unitario, 3) }}</td>
-                    <td>{{ number_format($item->precio_unitario, 3) }}</td>
+                    <!-- <td>{{ number_format($item->valor_unitario, 3) }}</td>
+                    <td>{{ number_format($item->precio_unitario, 3) }}</td> -->
                     <td>{{ number_format($item->total, 2) }}</td>
                 </tr>
             @endforeach
