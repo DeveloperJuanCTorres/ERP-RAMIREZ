@@ -2163,7 +2163,8 @@ class ReportController extends Controller
             )
             ->whereNotNull('pl.lot_number')
             ->groupBy('v.id')
-            ->groupBy('pl.lot_number');
+            ->groupBy('pl.lot_number')
+            ->orderBy('t.pay_service', 'asc');
 
             return Datatables::of($products)
                 ->editColumn('stock', function ($row) {
