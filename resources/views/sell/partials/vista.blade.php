@@ -114,7 +114,7 @@
     .tabla-detalle tbody td {
         border: none;
         padding: 6px;
-        font-size: 10px;
+        font-size: 9px;
         text-align: center;
     }
 
