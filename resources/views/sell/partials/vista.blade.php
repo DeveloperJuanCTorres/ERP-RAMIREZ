@@ -208,9 +208,9 @@
                 <p>Calle Próceres 117 - Chiclayo</p>
                 <p>E-mail: informes@importacionesramirez.pe</p> -->
             @else
-                <h3 style="padding-top: 20px;">A1 RAMIREZ SAC</h3>
+                <!-- <h3 style="padding-top: 20px;">A1 RAMIREZ SAC</h3>
                 <p>AV. SALOMON VILCHEZ M. NRO. 740 - CUTERVO - CUTERVO - CAJAMARCA</p>
-                <p>E-mail: {{ $comprobante->empresa_email ?? 'cutervo@importacionesramirez.com' }}</p>
+                <p>E-mail: {{ $comprobante->empresa_email ?? 'cutervo@importacionesramirez.com' }}</p> -->
             @endif
         </div>
 
