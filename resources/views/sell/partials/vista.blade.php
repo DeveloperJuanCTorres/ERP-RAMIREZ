@@ -187,7 +187,7 @@
                     $alt = "imp-ramirez";
                 }else
                 {
-                    $imgPath = public_path('img/a1ramirez.jpeg');
+                    $imgPath = public_path('img/a1ramirez-facturacion.png');
                     $alt = "a1-ramirez";
                 }
 
