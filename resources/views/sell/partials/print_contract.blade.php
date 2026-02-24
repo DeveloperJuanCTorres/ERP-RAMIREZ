@@ -139,7 +139,7 @@
     <thead>
         <tr>
             <th>Modelo</th>
-            <th>Marca</th>
+            <!-- <th>Marca</th> -->
             <th>Motor</th>            
             <th>Color</th>
             <th>Chasis</th>
@@ -165,7 +165,7 @@
             @endphp
             <tr>
                 <td>{{ $line->product->name }}</td>
-                <td>{{ $line->product->brand->name ?? '--' }}</td>
+                <!-- <td>{{ $line->product->brand->name ?? '--' }}</td> -->
                 <td>{{ $purchase->motor ?? '--' }}</td>
                 <td>{{ $purchase->color ?? '--' }}</td>
                 <td>{{ $purchase->chasis ?? '--' }}</td>
