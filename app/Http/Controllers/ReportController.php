@@ -2217,7 +2217,7 @@ class ReportController extends Controller
                 ->removeColumn('unit')
                 // ->removeColumn('id')
                 ->removeColumn('variation_name')
-                ->rawColumns(['exp_date', 'stock', 'total_sold', 'total_adjusted'])
+                ->rawColumns(['exp_date', 'stock', 'total_sold', 'total_adjusted', 'payment_date'])
                 ->make(true);
         }
 
