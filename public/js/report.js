@@ -1127,7 +1127,7 @@ $(document).ready(function() {
             { data: 'stock', name: 'stock', searchable: false },
             { data: 'total_sold', name: 'total_sold', searchable: false },
             { data: 'total_adjusted', name: 'total_adjusted', searchable: false },
-            { data: 'payment_date', orderable: false, searchable: false },
+            { data: 'payment_date', name: 'at.operation_date', orderable: false, searchable: false },
             {
                 data: null,
                 name: 'action',
@@ -1155,7 +1155,7 @@ $(document).ready(function() {
             $('#footer_total_adjusted').html(__sum_stock($('#lot_report'), 'total_adjusted'));
 
             __currency_convert_recursively($('#lot_report'));
-            __show_date_diff_for_human($('#lot_report'));
+            // __show_date_diff_for_human($('#lot_report'));
         },
     });
 
