@@ -120,6 +120,8 @@
                             <td id="footer_total_stock"></td>
                             <td id="footer_total_sold"></td>
                             <td id="footer_total_adjusted"></td>
+                            <td></td> <!-- Acciones -->
+                            <td></td> <!-- Fecha de pago -->
                         </tr>
                     </tfoot>
                 </table>
