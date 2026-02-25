@@ -3158,7 +3158,7 @@ class SellController extends Controller
             // 👇 CLONA EL QUERY PARA SUMAR
             $total_general = (clone $comprobantes)->sum('total');
 
-            $datatable = Datatables::of($comprobantes)
+            return Datatables::of($comprobantes)
 
                 ->addColumn('sunat', function($row) {
                     if (is_null($row->response_sunat)) {
@@ -3249,11 +3249,10 @@ class SellController extends Controller
                 })
 
                 ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','productos','email'])
+                ->with('total_general', number_format($total_general, 2))
                 ->make(true);
 
-            $datatable->original['total_general'] = number_format($total_general, 2);
-
-            return $datatable;
+            // return $datatable;
         }
 
         $business_locations = BusinessLocation::forDropdown($business_id, false);
