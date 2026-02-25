@@ -534,17 +534,19 @@
             ],
             // "fnDrawCallback": function (oSettings) {
             //     __currency_convert_recursively($('#sell_table'));
-            // },        
+            // },       
+            drawCallback: function(settings) {
+                var json = settings.json;
+                if (json && json.total_general !== undefined) {
+                    $('#footer_total_general').html(json.total_general);
+                }
+            }, 
             createdRow: function( row, data, dataIndex ) {
                 $( row ).find('td:eq(6)').attr('class', 'clickable_td');
             },
         });
 
-        $('#sell_table').on('xhr.dt', function (e, settings, json, xhr) {
-            if (json && json.total_general) {
-                $('#footer_total_general').html(json.total_general);
-            }
-        });
+        
 
         $(document).on('change', '#sell_list_filter_location_id, #sell_list_filter_customer_id, #sell_list_filter_payment_status, #created_by, #sales_cmsn_agnt, #service_staffs, #shipping_status, #sell_list_filter_source',  function() {
             sell_table.ajax.reload();
