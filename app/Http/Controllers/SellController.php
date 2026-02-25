@@ -3142,8 +3142,10 @@ class SellController extends Controller
             }
 
             if (! empty(request()->start_date) && ! empty(request()->end_date)) {
-                $comprobantes->whereDate('fecha_emision', '>=', request()->start_date)
-                    ->whereDate('fecha_emision', '<=', request()->end_date);
+                $start = request()->start_date . ' 00:00:00';
+                $end = request()->end_date . ' 23:59:59';
+
+                $comprobantes->whereBetween('fecha_emision', [$start, $end]);
             }
 
             if (! empty(request()->input('tipo'))) {

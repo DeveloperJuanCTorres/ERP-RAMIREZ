@@ -493,7 +493,7 @@
                     d.is_direct_sale = 1;
 
                     d.location_id = $('#sell_list_filter_location_id').val();
-                    d.customer_id = $('#sell_list_filter_customer_id').val();
+                    d.contact_id = $('#sell_list_filter_customer_id').val();
                     d.payment_status = $('#sell_list_filter_payment_status').val();
                     d.created_by = $('#created_by').val();
                     d.sales_cmsn_agnt = $('#sales_cmsn_agnt').val();
