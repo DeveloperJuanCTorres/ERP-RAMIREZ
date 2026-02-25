@@ -3158,24 +3158,10 @@ class SellController extends Controller
             
             
             // 👇 CLONA EL QUERY PARA SUMAR
-            // $total_general = (clone $comprobantes)->sum('total');
+            $total_general = (clone $comprobantes)->sum('total');
            
 
-            $datatable = Datatables::of($comprobantes)
-
-            ->filter(function ($query) {
-                // aplicar búsqueda global manualmente
-                if (request()->has('search') && request()->get('search')['value'] != '') {
-
-                    $search = request()->get('search')['value'];
-
-                    $query->where(function($q) use ($search) {
-                        $q->where('total', 'like', "%{$search}%")
-                        ->orWhere('fecha_emision', 'like', "%{$search}%")
-                        ->orWhere('type', 'like', "%{$search}%");
-                    });
-                }
-            })
+            return Datatables::of($comprobantes)
 
                 ->addColumn('sunat', function($row) {
                     if (is_null($row->response_sunat)) {
@@ -3265,32 +3251,11 @@ class SellController extends Controller
                     return \Carbon\Carbon::parse($row->fecha_emision)->format('Y-m-d');
                 })
 
-                ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','productos','email']);
-                // ->with('total_general', number_format($total_general, 2))
-                // ->make(true);
-            
-            // return $datatable;
-            
-            // 👇 AHORA sí ya tiene todos los filtros aplicados
-            $filteredQuery = clone $comprobantes;
-
-            // aplicar search manual también al total
-            if (request()->has('search') && request()->get('search')['value'] != '') {
-
-                $search = request()->get('search')['value'];
-
-                $filteredQuery->where(function($q) use ($search) {
-                    $q->where('total', 'like', "%{$search}%")
-                    ->orWhere('fecha_emision', 'like', "%{$search}%")
-                    ->orWhere('type', 'like', "%{$search}%");
-                });
-            }
-
-            $total_general = $filteredQuery->sum('total');
-
-            return $datatable
+                ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','productos','email'])
                 ->with('total_general', number_format($total_general, 2))
                 ->make(true);
+            
+            // return $datatable;
         }
 
         $business_locations = BusinessLocation::forDropdown($business_id, false);
