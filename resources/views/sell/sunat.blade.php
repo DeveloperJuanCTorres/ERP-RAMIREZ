@@ -539,13 +539,11 @@
                 $( row ).find('td:eq(6)').attr('class', 'clickable_td');
             },
             drawCallback: function(settings) {
-                var json = settings.json;
-
-                if (json && json.total_general) {
-                    $('#footer_total_general').html(json.total_general);
-                }
-
-                __currency_convert_recursively($('#sell_table'));
+                $('#sell_table').on('xhr.dt', function (e, settings, json, xhr) {
+                    if (json && json.total_general) {
+                        $('#footer_total_general').html(json.total_general);
+                    }
+                });
             },
         });
 
