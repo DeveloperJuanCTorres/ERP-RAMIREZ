@@ -2165,6 +2165,9 @@ class ReportController extends Controller
             ->whereNotNull('pl.lot_number')
             ->groupBy('v.id')
             ->groupBy('pl.lot_number')
+            ->groupBy('t.type')
+            ->groupBy('t.pay_service')
+            ->groupBy('t.id')
             ->orderBy('t.pay_service', 'asc');
 
             return Datatables::of($products)
