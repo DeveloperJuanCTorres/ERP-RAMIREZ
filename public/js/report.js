@@ -1127,7 +1127,7 @@ $(document).ready(function() {
             { data: 'stock', name: 'stock', searchable: false },
             { data: 'total_sold', name: 'total_sold', searchable: false },
             { data: 'total_adjusted', name: 'total_adjusted', searchable: false },
-            { data: 'payment_date', name: 'at.operation_date', orderable: false, searchable: false },
+            { data: 'payment_date', name: 'payment_date', orderable: false, searchable: false },
             {
                 data: null,
                 name: 'action',
