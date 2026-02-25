@@ -3158,7 +3158,9 @@ class SellController extends Controller
             
             
             // 👇 CLONA EL QUERY PARA SUMAR
-            $total_general = (clone $comprobantes)->sum('total');
+            $total_general = (clone $comprobantes)
+                    ->where('status_sunat', 1)
+                    ->sum('total');
            
 
             return Datatables::of($comprobantes)
