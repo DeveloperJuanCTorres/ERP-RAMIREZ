@@ -3153,19 +3153,8 @@ class SellController extends Controller
             if (! empty(request()->input('status_sunat'))) {
                 $comprobantes->where('status_sunat', request()->input('status_sunat'));
             }
-
-            $comprobantes = ComprobanteSunat::where('business_id', $business_id);
-
-            // aplica los mismos filtros aquí también
-            if (! empty(request()->input('location_id'))) {
-                $comprobantes->where('location_id', request()->input('location_id'));
-            }
-
-            if (! empty(request()->start_date) && ! empty(request()->end_date)) {
-                $comprobantes->whereDate('fecha_emision', '>=', request()->start_date)
-                    ->whereDate('fecha_emision', '<=', request()->end_date);
-            }
-
+            
+            
             // 👇 CLONA EL QUERY PARA SUMAR
             $total_general = (clone $comprobantes)->sum('total');
 
@@ -3261,7 +3250,7 @@ class SellController extends Controller
 
                 ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','productos','email'])
                 ->make(true);
-                
+
             $datatable->original['total_general'] = number_format($total_general, 2);
 
             return $datatable;

@@ -86,6 +86,7 @@
             </table>
         @endif
     @endcomponent
+
     <div class="modal fade" id="modalConsultarSerie" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -531,9 +532,9 @@
                 { data: 'email', orderable: false, searchable: false },
                 { data: 'productos', orderable: false, searchable: false },            
             ],
-            "fnDrawCallback": function (oSettings) {
-                __currency_convert_recursively($('#sell_table'));
-            },        
+            // "fnDrawCallback": function (oSettings) {
+            //     __currency_convert_recursively($('#sell_table'));
+            // },        
             createdRow: function( row, data, dataIndex ) {
                 $( row ).find('td:eq(6)').attr('class', 'clickable_td');
             },
