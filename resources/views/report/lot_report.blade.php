@@ -109,9 +109,8 @@
                             <th>@lang('report.current_stock')</th>
                             <th>@lang('report.total_unit_sold')</th>
                             <th>@lang('lang_v1.total_unit_adjusted')</th>
-                            
-                            <th>Acciones</th>
                             <th>Fecha de pago</th>
+                            <th>Acciones</th>                            
                         </tr>
                     </thead>
                     <tfoot>
