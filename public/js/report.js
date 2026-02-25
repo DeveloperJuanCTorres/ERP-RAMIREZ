@@ -1147,7 +1147,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            { data: 'payment_date', orderable: false, searchable: false },
+            { data: 'payment_date', name: 'at.operation_date', orderable: false, searchable: false },
         ],
 
         fnDrawCallback: function(oSettings) {
