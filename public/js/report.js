@@ -1155,7 +1155,7 @@ $(document).ready(function() {
             $('#footer_total_adjusted').html(__sum_stock($('#lot_report'), 'total_adjusted'));
 
             __currency_convert_recursively($('#lot_report'));
-            // __show_date_diff_for_human($('#lot_report'));
+            __show_date_diff_for_human($('#lot_report'));
         },
     });
 

@@ -2210,12 +2210,10 @@ class ReportController extends Controller
                         return '--';
                     }
                 })
-                ->editColumn('payment_date', function ($row) {
-                    if (!empty($row->payment_date)) {
-                        return \Carbon\Carbon::parse($row->payment_date)->format('d/m/Y');
-                    } else {
-                        return '-';
-                    }
+                ->editColumn('payment_date', function($row) {
+                    return $row->payment_date
+                        ? \Carbon\Carbon::parse($row->payment_date)->format('Y-m-d')
+                        : '-';
                 })
                 ->removeColumn('unit')
                 // ->removeColumn('id')
