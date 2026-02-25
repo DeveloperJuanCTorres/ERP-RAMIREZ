@@ -1113,7 +1113,6 @@ $(document).ready(function() {
                 data: null,
                 orderable: false,
                 searchable: false,
-                serverSide: false,
                 render: function (data, type, row) {
                     if (row.transaction_type === 'production_purchase' && row.pay == 0) {
                         return `<input type="checkbox" class="pagar-check" value="${row.transaction_id}">`;
@@ -1128,7 +1127,7 @@ $(document).ready(function() {
             { data: 'stock', name: 'stock', searchable: false },
             { data: 'total_sold', name: 'total_sold', searchable: false },
             { data: 'total_adjusted', name: 'total_adjusted', searchable: false },
-            { data: 'payment_date', name: 'at.payment_date', orderable: false, searchable: false },
+            { data: 'payment_date', name: 'at.operation_date', orderable: false, searchable: false },
             {
                 data: null,
                 name: 'action',
