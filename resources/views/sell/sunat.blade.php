@@ -538,13 +538,12 @@
             createdRow: function( row, data, dataIndex ) {
                 $( row ).find('td:eq(6)').attr('class', 'clickable_td');
             },
-            drawCallback: function(settings) {
-                $('#sell_table').on('xhr.dt', function (e, settings, json, xhr) {
-                    if (json && json.total_general) {
-                        $('#footer_total_general').html(json.total_general);
-                    }
-                });
-            },
+        });
+
+        $('#sell_table').on('xhr.dt', function (e, settings, json, xhr) {
+            if (json && json.total_general) {
+                $('#footer_total_general').html(json.total_general);
+            }
         });
 
         $(document).on('change', '#sell_list_filter_location_id, #sell_list_filter_customer_id, #sell_list_filter_payment_status, #created_by, #sales_cmsn_agnt, #service_staffs, #shipping_status, #sell_list_filter_source',  function() {
