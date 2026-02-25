@@ -52,7 +52,7 @@
 
 {{-- CABECERA --}}
 <div class="row">
-    <img src="img/contratobg.jpeg" width="100%">
+    <img src="img/facturacion-bg.jpeg" width="100%">
 </div>
 
 <hr>
@@ -133,7 +133,7 @@
 <hr>
 @endif
 
-<p class="bold">DETALLE DE LOS PRODUCTOS</p>
+<!-- <p class="bold">DETALLE DE LOS PRODUCTOS</p> -->
 
 <table>
     <thead>
