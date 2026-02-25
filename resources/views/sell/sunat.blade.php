@@ -537,10 +537,17 @@
             // },       
             drawCallback: function(settings) {
                 var json = settings.json;
+
                 if (json && json.total_general !== undefined) {
+
+                    // Actualiza footer original
                     $('#footer_total_general').html(json.total_general);
+
+                    // Actualiza footer clonado (cuando hay scroll)
+                    $('.dataTables_scrollFoot #footer_total_general')
+                        .html(json.total_general);
                 }
-            }, 
+            },
             createdRow: function( row, data, dataIndex ) {
                 $( row ).find('td:eq(6)').attr('class', 'clickable_td');
             },
