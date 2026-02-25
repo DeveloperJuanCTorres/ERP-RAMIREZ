@@ -2143,6 +2143,7 @@ class ReportController extends Controller
                 'sub_sku',
                 'pl.lot_number',
                 'pl.exp_date as exp_date',
+                DB::raw('MAX(at.operation_date) as payment_date'),
                 DB::raw("( COALESCE((SELECT SUM(quantity - quantity_returned) from purchase_lines as pls $location_filter variation_id = v.id AND lot_number = pl.lot_number), 0) - 
                     SUM(COALESCE((tspl.quantity - tspl.qty_returned), 0))) as stock"),
                 // DB::raw("(SELECT SUM(IF(transactions.type='sell', TSL.quantity, -1* TPL.quantity) ) FROM transactions
@@ -2204,6 +2205,13 @@ class ReportController extends Controller
                         }
                     } else {
                         return '--';
+                    }
+                })
+                ->editColumn('payment_date', function ($row) {
+                    if (!empty($row->payment_date)) {
+                        return \Carbon\Carbon::parse($row->payment_date)->format('d/m/Y');
+                    } else {
+                        return '-';
                     }
                 })
                 ->removeColumn('unit')
