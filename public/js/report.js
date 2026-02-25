@@ -1113,6 +1113,7 @@ $(document).ready(function() {
                 data: null,
                 orderable: false,
                 searchable: false,
+                serverSide: false,
                 render: function (data, type, row) {
                     if (row.transaction_type === 'production_purchase' && row.pay == 0) {
                         return `<input type="checkbox" class="pagar-check" value="${row.transaction_id}">`;
