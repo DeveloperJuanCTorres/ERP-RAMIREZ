@@ -314,18 +314,22 @@
     <table class="tabla-detalle">
         <thead>
             <tr>
+                @if($comprobante->detraccion == 1)
                 <th>CANT.</th>
                 <th>UM</th>
-                <!-- <th>CÓD.</th> -->
+                <th>DESCRIPCIÓN</th>
+                <th>IMPORTE</th>
+                @else
+                <th>CANT.</th>
+                <th>UM</th>
                 <th>DESCRIPCIÓN</th>
                 <th>MOTOR</th>
                 <th>COLOR</th>
                 <th>CHASIS</th>
                 <th>PÓLIZA</th>
                 <th>AÑO</th>
-                <!-- <th>V/U</th>
-                <th>P/U</th> -->
                 <th>IMPORTE</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -371,10 +375,7 @@
                 <tr>
                     <td>{{ $item->cantidad }}</td>
                     <td>{{ $item->unidad_de_medida}}</td>
-                    <!-- <td>{{ $item->codigo}}</td> -->
-                    <td colspan="6" style="text-align:left;">{{ $item->descripcion }}</td>
-                    <!-- <td>{{ number_format($item->valor_unitario, 3) }}</td>
-                    <td>{{ number_format($item->precio_unitario, 3) }}</td> -->
+                    <td style="text-align:left;">{{ $item->descripcion }}</td>
                     <td>{{ number_format($item->total, 2) }}</td>
                 </tr>
             @endif
