@@ -315,10 +315,10 @@
         <thead>
             <tr>
                 @if($comprobante->detraccion == 1)
-                <th>CANT.</th>
-                <th>UM</th>
-                <th>DESCRIPCIÓN</th>
-                <th>IMPORTE</th>
+                <th style="width: 10%;">CANT.</th>
+                <th style="width: 10%;">UM</th>
+                <th style="width: 50%;">DESCRIPCIÓN</th>
+                <th style="width: 20%;">IMPORTE</th>
                 @else
                 <th>CANT.</th>
                 <th>UM</th>
