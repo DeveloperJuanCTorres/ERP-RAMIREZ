@@ -102,7 +102,7 @@
 <!-- TABLA -->
 <table>
     <thead>
-        <tr>
+        <tr style="font-size: 10px;">
             <th>NOMBRE DEL CLIENTE</th>
             <th>IMP. V. (S/.)</th>
             <th>A CTA. (S/.)</th>
