@@ -231,7 +231,7 @@
                                 <select name="cliente_id" class="form-control select2" style="width: 100%;">
                                     <option value="">Todos</option>
                                     @foreach(\App\Contact::whereIn('type',['customer', 'both'])->get() as $cliente)
-                                        <option value="{{ $cliente->id }}">{{ $cliente->name . $cliente->supplier_business_name }}</option>
+                                        <option value="{{ $cliente->id }}">{{ $cliente->name . $cliente->supplier_business_name . $cliente->business_id}}</option>
                                     @endforeach
                                 </select>
                             </div>
