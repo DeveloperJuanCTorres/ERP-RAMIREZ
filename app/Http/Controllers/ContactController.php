@@ -2441,9 +2441,9 @@ class ContactController extends Controller
         }
 
         // Si no hay filtros → solo mostrar con deuda
-        if (!$clienteId && !$fechaInicio && !$fechaFin) {
-            $query->havingRaw('saldo > 0');
-        }
+        $query->havingRaw('
+            (IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0)) > 0
+        ');
 
         $data = $query->get();
 
