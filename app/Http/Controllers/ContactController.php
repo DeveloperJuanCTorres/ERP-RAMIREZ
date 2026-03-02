@@ -2441,9 +2441,10 @@ class ContactController extends Controller
         }
 
         // Si no hay filtros → solo mostrar con deuda
-        $query->whereRaw('
-            (IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0)) > 0
-        ');
+        // $query->whereRaw('
+        //     (IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0)) > 0
+        // ');
+        dd($query->get());
 
         $data = $query->get();
 
