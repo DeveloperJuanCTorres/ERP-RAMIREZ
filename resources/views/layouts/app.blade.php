@@ -270,6 +270,12 @@
         </div>
 
         <script>
+
+        $('#modalCuentasPorCobrar .select2').select2({
+            dropdownParent: $('#reporteModal')
+        });
+
+
         $('#btn_reporte_compras').on('click', function (e) {
             e.preventDefault();
 
