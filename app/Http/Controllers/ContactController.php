@@ -2378,6 +2378,73 @@ class ContactController extends Controller
     }
 
 
+    public function cuentasPorCobrar(Request $request)
+    {
+        $clienteId = $request->cliente_id;
+        $fechaInicio = $request->fecha_inicio;
+        $fechaFin = $request->fecha_fin;
+
+        $ventas = DB::table('transactions')
+            ->select('contact_id', DB::raw('SUM(final_total) as total_compras'))
+            ->where('type', 'sell')
+            ->where('status', 'final')
+            ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
+                $q->whereBetween('transaction_date', [$fechaInicio, $fechaFin]);
+            })
+            ->groupBy('contact_id');
+
+        $pagos = DB::table('transaction_payments as tp')
+            ->join('transactions as t', 't.id', '=', 'tp.transaction_id')
+            ->select(
+                't.contact_id',
+                DB::raw('SUM(tp.amount) as total_pagos'),
+                DB::raw('MAX(tp.paid_on) as ultimo_pago')
+            )
+            ->where('t.type', 'sell')
+            ->where('t.status', 'final')
+            ->where('tp.is_return', 0)
+            ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
+                $q->whereBetween('tp.paid_on', [$fechaInicio, $fechaFin]);
+            })
+            ->groupBy('t.contact_id');
+
+        $query = DB::table('contacts as c')
+            ->leftJoinSub($ventas, 'v', function ($join) {
+                $join->on('v.contact_id', '=', 'c.id');
+            })
+            ->leftJoinSub($pagos, 'p', function ($join) {
+                $join->on('p.contact_id', '=', 'c.id');
+            })
+            ->select(
+                'c.id',
+                'c.name as cliente',
+                DB::raw('IFNULL(v.total_compras,0) as total_compras'),
+                DB::raw('IFNULL(p.total_pagos,0) as total_pagos'),
+                DB::raw('IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0) as saldo'),
+                'p.ultimo_pago'
+            )
+            ->where('c.type', 'customer');
+
+        if ($clienteId) {
+            $query->where('c.id', $clienteId);
+        }
+
+        // Si no hay filtros → solo mostrar con deuda
+        if (!$clienteId && !$fechaInicio && !$fechaFin) {
+            $query->havingRaw('saldo > 0');
+        }
+
+        $data = $query->get();
+
+        return view('report.cuentas_por_cobrar', compact(
+            'data',
+            'clienteId',
+            'fechaInicio',
+            'fechaFin'
+        ));
+    }
+
+
 
     // public function estadoCuenta($cliente_id)
     // {

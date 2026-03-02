@@ -212,6 +212,63 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modalCuentasPorCobrar" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <form method="GET" action="{{ route('clientes.cuentas_por_cobrar') }}">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Filtros - Cuentas por Cobrar</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <!-- Cliente -->
+                            <div class="form-group">
+                                <label>Cliente</label>
+                                <select name="cliente_id" class="form-control select2">
+                                    <option value="">Todos</option>
+                                    @foreach(\App\Contact::where('type','customer')->get() as $cliente)
+                                        <option value="{{ $cliente->id }}">{{ $cliente->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Fecha Inicio -->
+                            <div class="form-group">
+                                <label>Fecha Inicio</label>
+                                <input type="date" name="fecha_inicio" class="form-control">
+                            </div>
+
+                            <!-- Fecha Fin -->
+                            <div class="form-group">
+                                <label>Fecha Fin</label>
+                                <input type="date" name="fecha_fin" class="form-control">
+                            </div>
+
+                            <small class="text-muted">
+                                Si no selecciona filtros, se mostrarán solo clientes con deuda.
+                            </small>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">
+                                Generar Reporte
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Cancelar
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
         <script>
         $('#btn_reporte_compras').on('click', function (e) {
             e.preventDefault();

@@ -156,6 +156,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/contacts/customers', [ContactController::class, 'getCustomers']);
     Route::resource('contacts', ContactController::class);
 
+    Route::get('/clientes/cuentas-por-cobrar',
+        [ContactController::class, 'cuentasPorCobrar']
+    )->name('clientes.cuentas_por_cobrar');
+
     // REPORTE ESTADO DE CUENTA
 
    Route::get('/clientes/{id}/estado-cuenta',

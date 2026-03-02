@@ -118,6 +118,18 @@ class AdminSidebarMenu
                             );
                         }
 
+                        if (auth()->user()->can('supplier.create') || auth()->user()->can('customer.create')) {
+                            $sub->url(
+                                '#',
+                                'Ctas por Cobrar',
+                                [
+                                    'icon' => 'fa fas fa-download',
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalCuentasPorCobrar'
+                                ]
+                            );
+                        }
+
                         if (! empty(env('GOOGLE_MAP_API_KEY'))) {
                             $sub->url(
                                 action([\App\Http\Controllers\ContactController::class, 'contactMap']),
