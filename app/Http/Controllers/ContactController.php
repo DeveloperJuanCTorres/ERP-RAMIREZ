@@ -2380,12 +2380,15 @@ class ContactController extends Controller
 
     public function cuentasPorCobrar(Request $request)
     {
+        $business_id = $request->session()->get('user.business_id');
+
         $clienteId = $request->cliente_id;
         $fechaInicio = $request->fecha_inicio;
         $fechaFin = $request->fecha_fin;
 
         $ventas = DB::table('transactions')
             ->select('contact_id', DB::raw('SUM(final_total) as total_compras'))
+            ->where('business_id', $business_id)
             ->where('type', 'sell')
             ->where('status', 'final')
             ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
@@ -2400,6 +2403,7 @@ class ContactController extends Controller
                 DB::raw('SUM(tp.amount) as total_pagos'),
                 DB::raw('MAX(tp.paid_on) as ultimo_pago')
             )
+            ->where('t.business_id', $business_id)
             ->where('t.type', 'sell')
             ->where('t.status', 'final')
             ->where('tp.is_return', 0)
@@ -2409,6 +2413,8 @@ class ContactController extends Controller
             ->groupBy('t.contact_id');
 
         $query = DB::table('contacts as c')
+            ->where('c.business_id', $business_id)
+            ->where('c.type', 'customer')
             ->leftJoinSub($ventas, 'v', function ($join) {
                 $join->on('v.contact_id', '=', 'c.id');
             })
@@ -2417,13 +2423,18 @@ class ContactController extends Controller
             })
             ->select(
                 'c.id',
-                'c.name as cliente',
+                DB::raw("
+                    COALESCE(
+                        NULLIF(c.supplier_business_name, ''),
+                        c.name
+                    ) as cliente
+                "),
                 DB::raw('IFNULL(v.total_compras,0) as total_compras'),
                 DB::raw('IFNULL(p.total_pagos,0) as total_pagos'),
                 DB::raw('IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0) as saldo'),
                 'p.ultimo_pago'
-            )
-            ->where('c.type', 'customer');
+            );
+            
 
         if ($clienteId) {
             $query->where('c.id', $clienteId);
