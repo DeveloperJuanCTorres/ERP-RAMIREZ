@@ -271,8 +271,10 @@
 
         <script>
 
-        $('#modalCuentasPorCobrar .select2').select2({
-            dropdownParent: $('#reporteModal')
+        $('#modalCuentasPorCobrar').on('shown.bs.modal', function () {
+            $(this).find('.select2').select2({
+                dropdownParent: $('#modalCuentasPorCobrar')
+            });
         });
 
 
