@@ -103,11 +103,11 @@
 <table>
     <thead>
         <tr>
-            <th>Cliente</th>
-            <th>Total Compras</th>
-            <th>Total Pagos</th>
-            <th>Saldo</th>
-            <th>Último Pago</th>
+            <th>NOMBRE DEL CLIENTE</th>
+            <th>IMP. V. (S/.)</th>
+            <th>A CTA. (S/.)</th>
+            <th>Saldo (S/.)</th>
+            <th>U. FECHA P.</th>
         </tr>
     </thead>
     <tbody>
