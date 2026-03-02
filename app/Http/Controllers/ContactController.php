@@ -2414,7 +2414,7 @@ class ContactController extends Controller
 
         $query = DB::table('contacts as c')
             ->where('c.business_id', $business_id)
-            ->where('c.type', 'both')
+            ->where('c.type', ['both', 'customer'])
             ->leftJoinSub($ventas, 'v', function ($join) {
                 $join->on('v.contact_id', '=', 'c.id');
             })
