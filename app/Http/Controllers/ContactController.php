@@ -2414,7 +2414,7 @@ class ContactController extends Controller
 
         $query = DB::table('contacts as c')
             ->where('c.business_id', $business_id)
-            ->where('c.type', ['customer', 'both'])
+            ->where('c.type', 'both')
             ->leftJoinSub($ventas, 'v', function ($join) {
                 $join->on('v.contact_id', '=', 'c.id');
             })
@@ -2441,10 +2441,9 @@ class ContactController extends Controller
         }
 
         // Si no hay filtros → solo mostrar con deuda
-        // $query->whereRaw('
-        //     (IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0)) > 0
-        // ');
-        // dd($query->get());
+        $query->whereRaw('
+            (IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0)) > 0
+        ');
 
         $data = $query->get();
 
