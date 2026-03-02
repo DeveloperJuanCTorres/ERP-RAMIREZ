@@ -216,7 +216,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
 
-                    <form method="GET" action="{{ route('clientes.cuentas_por_cobrar') }}">
+                    <form method="GET" action="{{ route('clientes.cuentas_por_cobrar') }}" target="_blank">
 
                         <div class="modal-header">
                             <h4 class="modal-title">Filtros - Cuentas por Cobrar</h4>
