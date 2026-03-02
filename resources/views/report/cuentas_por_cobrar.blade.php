@@ -36,12 +36,13 @@
             border-collapse: collapse;
         }
 
-        table th, table td {
-            border: 1px solid #000;
+        table td {
             padding: 6px;
         }
 
         table th {
+            border: 1px solid #000;
+            padding: 6px;
             background: #f2f2f2;
         }
 
@@ -51,6 +52,11 @@
 
         .footer-total {
             font-weight: bold;
+        }
+
+        .header h2 {
+            text-align: center;
+            margin-top: 10px;
         }
 
         @media print {
