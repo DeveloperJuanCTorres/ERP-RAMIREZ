@@ -2444,7 +2444,7 @@ class ContactController extends Controller
         // $query->whereRaw('
         //     (IFNULL(v.total_compras,0) - IFNULL(p.total_pagos,0)) > 0
         // ');
-        dd($query->get());
+        // dd($query->get());
 
         $data = $query->get();
 
