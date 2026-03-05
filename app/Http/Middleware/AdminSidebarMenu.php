@@ -739,8 +739,10 @@ class AdminSidebarMenu
             }
 
             //Modules menu
-            if (auth()->user()->can('manage_modules')) {
-                $menu->url(action([\App\Http\Controllers\Install\ModulesController::class, 'index']), __('lang_v1.modules'), ['icon' => 'fa fas fa-plug', 'active' => request()->segment(1) == 'manage-modules'])->order(60);
+            if (auth()->user()->can('user.view') || auth()->user()->can('user.create') || auth()->user()->can('roles.view')) {
+                if (auth()->user()->can('manage_modules')) {
+                    $menu->url(action([\App\Http\Controllers\Install\ModulesController::class, 'index']), __('lang_v1.modules'), ['icon' => 'fa fas fa-plug', 'active' => request()->segment(1) == 'manage-modules'])->order(60);
+                }
             }
 
             //Booking menu
