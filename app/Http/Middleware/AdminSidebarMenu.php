@@ -261,14 +261,14 @@ class AdminSidebarMenu
                         if (auth()->user()->can('purchase.view') || auth()->user()->can('view_own_purchase')) {
                             $sub->url(
                                 action([\App\Http\Controllers\PurchaseController::class, 'index']),
-                                __('purchase.list_purchase'),
+                                'Lista de Compras',
                                 ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'purchases' && request()->segment(2) == null]
                             );
                         }
                         if (auth()->user()->can('purchase.create')) {
                             $sub->url(
                                 action([\App\Http\Controllers\PurchaseController::class, 'create']),
-                                __('purchase.add_purchase'),
+                                'Agregar compra',
                                 ['icon' => 'fa fas fa-plus-circle', 'active' => request()->segment(1) == 'purchases' && request()->segment(2) == 'create']
                             );
                         }
