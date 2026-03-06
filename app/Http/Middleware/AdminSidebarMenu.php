@@ -261,7 +261,7 @@ class AdminSidebarMenu
                         if (auth()->user()->can('purchase.view') || auth()->user()->can('view_own_purchase')) {
                             $sub->url(
                                 action([\App\Http\Controllers\PurchaseController::class, 'index']),
-                                'Lista de Compras',
+                                'Ver Compras',
                                 ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'purchases' && request()->segment(2) == null]
                             );
                         }
@@ -275,7 +275,7 @@ class AdminSidebarMenu
                         if (auth()->user()->can('purchase.create')) {
                             $sub->url(
                                 action([\App\Http\Controllers\ImportOpeningStockController::class, 'index']),
-                                'Importar Motores',
+                                'Importar Series',
                                 ['icon' => 'fa fas fa-download', 'active' => request()->segment(1) == 'import-opening-stock']
                             );
                         }
