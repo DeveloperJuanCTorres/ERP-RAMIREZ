@@ -32,6 +32,7 @@
 <table>
     <thead>
         <tr>
+            <th>#</th>
             <th>Producto</th>
             <th>N° Motor</th>
             <th>Guía</th>
@@ -41,6 +42,7 @@
     <tbody>
         @foreach($data as $item)
         <tr>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $item->product }}</td>
             <td>{{ $item->lot_number }}</td>
             <td>{{ $item->guia }}</td>
