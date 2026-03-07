@@ -82,7 +82,7 @@
 				          <th>#</th>
 				          <th>@lang('sale.product')</th>
 				          <th>@lang('sale.qty')</th>
-				          <th>@lang('sale.subtotal')</th>
+				          <!-- <th>@lang('sale.subtotal')</th> -->
 				        </tr>
 				        @php 
 				          $total = 0.00;
@@ -109,9 +109,9 @@
 				               @endif
 				            </td>
 				            <td>{{ @format_quantity($sell_lines->quantity) }} @if(!empty($sell_lines->sub_unit)) {{$sell_lines->sub_unit->short_name}} @else {{$sell_lines->product->unit->short_name}} @endif</td>
-				            <td>
+				            <!-- <td>
 				              <span class="display_currency" data-currency_symbol="true">{{ $sell_lines->unit_price_inc_tax * $sell_lines->quantity }}</span>
-				            </td>
+				            </td> -->
 				          </tr>
 				          @php 
 				            $total += ($sell_lines->unit_price_inc_tax * $sell_lines->quantity);
@@ -122,7 +122,7 @@
 				  </div>
 				</div>
 				<br>
-				<div class="row">
+				<!-- <div class="row">
 				  
 				  <div class="col-xs-12 col-md-6 col-md-offset-6">
 				    <div class="table-responsive">
@@ -147,7 +147,7 @@
 				      </table>
 				    </div>
 				  </div>
-				</div>
+				</div> -->
 				<div class="row">
 				  <div class="col-sm-6">
 				    <strong>@lang('purchase.additional_notes'):</strong><br>
