@@ -35,8 +35,8 @@
                     <thead>
                         <tr>
                             <th>Producto</th>
-                            <th>Proveedor</th>
-                            <th>Factura Compra</th>
+                            <th>Ubicación</th>
+                            <th>Tipo movimiento</th>
                             <th>Fecha Compra</th>
                             <th>Cant. Comprada</th>
                             <th>Cant. Vendida</th>
@@ -50,8 +50,20 @@
                         @forelse ($data as $row)
                         <tr>
                             <td>{{ $row->product_name }}</td>
-                            <td>{{ $row->supplier_name }}</td>
-                            <td>{{ $row->purchase_invoice_no }}</td>
+                            <td>{{ $row->location_name }}</td>
+                            <td>
+                                @if($row->transaction_type == 'production_purchase')
+                                    Transformación
+                                @elseif($row->transaction_type == 'purchase')
+                                    Compra
+                                @elseif($row->transaction_type == 'stock_transfer')
+                                    Transferencia
+                                @elseif($row->transaction_type == 'sell')
+                                    Venta
+                                @else
+                                    {{ $row->transaction_type }}
+                                @endif
+                            </td>
                             <td>{{ $row->purchase_date }}</td>
                             <td>{{ $row->quantity_purchased }}</td>
                             <td>{{ $row->sell_quantity }}</td>
