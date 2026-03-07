@@ -50,7 +50,7 @@
         </tr>
         @endforeach
         <tr class="total">
-            <td colspan="3">TOTAL PAGADO</td>
+            <td colspan="4">TOTAL PAGADO</td>
             <td>S/ {{ number_format($total,2) }}</td>
         </tr>
     </tbody>
