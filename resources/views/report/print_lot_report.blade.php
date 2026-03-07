@@ -7,7 +7,7 @@
         .header { text-align:center; }
         .logo { height:80px; }
         table { width:100%; border-collapse: collapse; margin-top:20px; }
-        table, th { border:1px solid #000; }
+        th { border:1px solid #000; }
         th, td { padding:4px; text-align:center; font-size: 10px;}
         .total { font-weight:bold; }
         .signatures { margin-top:60px; display:flex; justify-content:space-between; }
