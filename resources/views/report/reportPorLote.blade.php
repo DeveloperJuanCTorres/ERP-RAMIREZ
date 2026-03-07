@@ -49,7 +49,11 @@
                     <tbody>
                         @forelse ($data as $row)
                         <tr>
-                            <td>{{ $row->product_name }} {{ $row->product_color }}</td>
+                            @if($row->product_color)
+                            <td>{{ $row->product_name }} - Color: {{ $row->product_color }}</td>
+                            @else
+                            <td>{{ $row->product_name }}</td>
+                            @endif
                             <td>{{ $row->location_name }}</td>
                             <td>
                                 @if($row->transaction_type == 'production_purchase')
