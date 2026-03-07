@@ -7,8 +7,8 @@
         .header { text-align:center; }
         .logo { height:80px; }
         table { width:100%; border-collapse: collapse; margin-top:20px; }
-        th { border:1px solid #000; }
-        th, td { padding:4px; text-align:center; font-size: 10px;}
+        th, td { border:1px solid #000; }
+        th, td { padding:4px; text-align:center; font-size: 12px;}
         .total { font-weight:bold; }
         .signatures { margin-top:60px; display:flex; justify-content:space-between; }
         .sign { text-align:center; width:40%; }
