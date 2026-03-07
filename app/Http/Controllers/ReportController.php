@@ -4272,7 +4272,7 @@ class ReportController extends Controller
                 FROM purchase_lines pl2
                 JOIN transactions tr ON pl2.transaction_id = tr.id
                 WHERE pl2.lot_number = pl.lot_number
-                AND tr.type = 'stock_transfer'
+                AND tr.type = 'production_purchase'
                 LIMIT 1) as referencia_transferencia"),
             'at.amount as monto'
         )->get();
