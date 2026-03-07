@@ -60,6 +60,8 @@
                                     Transferencia
                                 @elseif($row->transaction_type == 'sell')
                                     Venta
+                                @elseif($row->transaction_type == 'purchase_transfer')
+                                    Transferencia
                                 @else
                                     {{ $row->transaction_type }}
                                 @endif
