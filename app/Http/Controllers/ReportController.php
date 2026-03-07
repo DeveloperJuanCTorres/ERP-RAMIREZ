@@ -4354,10 +4354,10 @@ class ReportController extends Controller
                 ON customer.id = ts.contact_id
                 AND customer.type = 'customer'
 
-            WHERE pl.lot_number = ?
+            WHERE pl.lot_number LIKE ?
 
             ORDER BY t.transaction_date ASC
-        ", [$lot]);
+        ", ['%' . $lot]);
 
         return view('report.reportPorLote', compact('data', 'lot'));
     }
