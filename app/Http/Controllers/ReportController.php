@@ -4300,7 +4300,7 @@ class ReportController extends Controller
             SELECT 
                 pl.id AS purchase_line_id,
                 p.name AS product_name,
-                p.color AS product_color,
+                pl.color AS product_color,
                 pl.lot_number,
                 pl.quantity AS quantity_purchased,
 
