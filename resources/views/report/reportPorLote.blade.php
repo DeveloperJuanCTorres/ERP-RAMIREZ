@@ -56,6 +56,8 @@
                                     Transformación
                                 @elseif($row->transaction_type == 'purchase')
                                     Compra
+                                @elseif($row->transaction_type == 'opening_stock')
+                                    Compra
                                 @elseif($row->transaction_type == 'stock_transfer')
                                     Transferencia
                                 @elseif($row->transaction_type == 'sell')
