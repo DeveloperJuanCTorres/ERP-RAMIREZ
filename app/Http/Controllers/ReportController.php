@@ -4268,11 +4268,12 @@ class ReportController extends Controller
         $data = $query->select(
             'products.name as product',
             'pl.lot_number',
-             DB::raw('(SELECT guia 
-                  FROM purchase_lines 
-                  WHERE lot_number = pl.lot_number 
-                  ORDER BY id ASC 
-                  LIMIT 1) as guia'),
+             DB::raw("(SELECT tr.ref_no
+                FROM purchase_lines pl2
+                JOIN transactions tr ON pl2.transaction_id = tr.id
+                WHERE pl2.lot_number = pl.lot_number
+                AND tr.type = 'stock_transfer'
+                LIMIT 1) as referencia_transferencia"),
             'at.amount as monto'
         )->get();
 
