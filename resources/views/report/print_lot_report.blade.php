@@ -7,8 +7,8 @@
         .header { text-align:center; }
         .logo { height:80px; }
         table { width:100%; border-collapse: collapse; margin-top:20px; }
-        table, th, td { border:1px solid #000; }
-        th, td { padding:8px; text-align:center; }
+        table, th { border:1px solid #000; }
+        th, td { padding:4px; text-align:center; font-size: 10px;}
         .total { font-weight:bold; }
         .signatures { margin-top:60px; display:flex; justify-content:space-between; }
         .sign { text-align:center; width:40%; }
@@ -34,6 +34,7 @@
         <tr>
             <th>Producto</th>
             <th>N° Motor</th>
+            <th>Guía</th>
             <th>Monto Pagado</th>
         </tr>
     </thead>
@@ -42,11 +43,12 @@
         <tr>
             <td>{{ $item->product }}</td>
             <td>{{ $item->lot_number }}</td>
+            <td>{{ $item->guia }}</td>
             <td>S/ {{ number_format($item->monto,2) }}</td>
         </tr>
         @endforeach
         <tr class="total">
-            <td colspan="2">TOTAL PAGADO</td>
+            <td colspan="3">TOTAL PAGADO</td>
             <td>S/ {{ number_format($total,2) }}</td>
         </tr>
     </tbody>

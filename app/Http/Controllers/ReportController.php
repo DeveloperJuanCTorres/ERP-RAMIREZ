@@ -4268,6 +4268,7 @@ class ReportController extends Controller
         $data = $query->select(
             'products.name as product',
             'pl.lot_number',
+            'pl.guia',
             'at.amount as monto'
         )->get();
 
