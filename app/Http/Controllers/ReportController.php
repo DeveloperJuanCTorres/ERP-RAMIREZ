@@ -2063,9 +2063,9 @@ class ReportController extends Controller
      */
     public function getLotReport(Request $request)
     {
-        // if (! auth()->user()->can('stock_report.view')) {
-        //     abort(403, 'Unauthorized action.');
-        // }
+        if (! auth()->user()->can('stock_report.view')) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $business_id = $request->session()->get('user.business_id');
 
