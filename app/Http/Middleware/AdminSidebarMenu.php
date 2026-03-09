@@ -843,8 +843,9 @@ class AdminSidebarMenu
                 )->order(85);
             }
 
-            $menu->url(action([\App\Http\Controllers\DiaryPartController::class, 'index']), 'Partes Diarios', ['icon' => 'fa fas fa-file', 'active' => request()->segment(1) == 'partes'])->order(87);
-
+            if (auth()->user()->can('account.access') && in_array('account', $enabled_modules)) {
+                $menu->url(action([\App\Http\Controllers\DiaryPartController::class, 'index']), 'Partes Diarios', ['icon' => 'fa fas fa-file', 'active' => request()->segment(1) == 'partes'])->order(87);
+            }
             
         });
 
