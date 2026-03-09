@@ -1,4 +1,4 @@
-@if($__is_essentials_enabled_test)
+@if($__is_essentials_enabled)
 <li class="bg-info treeview {{ in_array($request->segment(1), ['hrm']) ? 'active active-sub' : '' }}">
     <a href="#">
         <i class="fa fa-users"></i>
