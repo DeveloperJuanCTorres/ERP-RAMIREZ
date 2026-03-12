@@ -312,11 +312,11 @@
 
     {{-- DETALLE PRODUCTOS --}}
     @php
-        $mostrarDatosVehiculo = false;
+        $mostrarDatosVehiculo = true;
 
         foreach ($productos as $item) {
-            if(str_contains($item->descripcion, 'Motor:')) {
-                $mostrarDatosVehiculo = true;
+            if(str_contains($item->descripcion, 'Motor: null')) {
+                $mostrarDatosVehiculo = false;
                 break;
             }
         }
