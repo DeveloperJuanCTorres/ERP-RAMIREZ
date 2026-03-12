@@ -311,6 +311,16 @@
     </div>
 
     {{-- DETALLE PRODUCTOS --}}
+    @php
+        $mostrarDatosVehiculo = false;
+
+        foreach ($productos as $item) {
+            if(str_contains($item->descripcion, 'Motor:')) {
+                $mostrarDatosVehiculo = true;
+                break;
+            }
+        }
+    @endphp
     <table class="tabla-detalle">
         <thead>
             <tr>
@@ -323,12 +333,14 @@
                 <th>CANT.</th>
                 <th>UM</th>
                 <th>DESCRIPCIÓN</th>
-                <th>MOTOR</th>
-                <th>COLOR</th>
-                <th>CHASIS</th>
-                <th>PÓLIZA</th>
-                <th>AÑO</th>
-                <th>IMPORTE</th>
+                    @if($mostrarDatosVehiculo)
+                        <th>MOTOR</th>
+                        <th>COLOR</th>
+                        <th>CHASIS</th>
+                        <th>PÓLIZA</th>
+                        <th>AÑO</th>
+                    @endif
+                    <th>IMPORTE</th>
                 @endif
             </tr>
         </thead>
@@ -363,11 +375,13 @@
                 <td>{{ $item->cantidad }}</td>
                 <td>{{ $item->unidad_de_medida }}</td>
                 <td style="text-align:left;">{{ trim($descripcion_base) }}</td>
+                @if($mostrarDatosVehiculo)
                 <td>{{ $motor }}</td>
                 <td>{{ $color }}</td>
                 <td>{{ $chasis }}</td>
                 <td>{{ $poliza }}</td>
                 <td>{{ $anio }}</td>
+                @endif
                 <td>{{ number_format($item->total, 2) }}</td>
             </tr>
 
