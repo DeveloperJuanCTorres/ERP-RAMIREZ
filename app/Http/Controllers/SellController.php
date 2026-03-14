@@ -1831,6 +1831,7 @@ class SellController extends Controller
 
     public function generarComprobanteSunat(Request $request)
     {
+        DB::beginTransaction();
         try {        
             $business_id = request()->session()->get('user.business_id');
             $documento = $request->ref_no;
@@ -1884,28 +1885,20 @@ class SellController extends Controller
                 $tipo_comprobante = 2;   
                 if ($contact->contact_id == "-") 
                 {
-                    $cliente_tipo_doc = "-"; // Cliente varios
+                    $cliente_tipo_doc = "-"; 
                 } 
                 elseif (preg_match('/^\d{9}$/', $request->numero_doc)) 
                 {
-                    $cliente_tipo_doc = 4; // Carnet de extranjería (9 dígitos)
+                    $cliente_tipo_doc = 4; 
                 } 
                 elseif (preg_match('/^\d{8}$/', $request->numero_doc)) 
                 {
-                    $cliente_tipo_doc = 1; // DNI (8 dígitos)
+                    $cliente_tipo_doc = 1; 
                 } 
                 else 
                 {
-                    $cliente_tipo_doc = null; // Otro caso o error
-                }
-                // if ($contact->contact_id == "-")      
-                // {
-                //     $cliente_tipo_doc = "-"; 
-                // }
-                // else
-                // {
-                //     $cliente_tipo_doc = 1; 
-                // }                                       
+                    $cliente_tipo_doc = null; 
+                }                                      
             }
 
             foreach ($request->productos as $key => $value) {
@@ -1938,7 +1931,7 @@ class SellController extends Controller
                 $total_igv += $igv;
             }
 
-            // $date_now = Carbon::now()->format('d-m-Y');
+            
             $fecha_emision = Carbon::parse($request->fecha_emision);
             $fecha_vencimiento = Carbon::parse($request->fecha_pago);
 
@@ -2041,6 +2034,7 @@ class SellController extends Controller
                 $comprobante_sunat->status_sunat = 1;
                 $resp = json_decode($respuesta);
                 $comprobante_sunat->save();
+                DB::commit();
 
                 return response()->json([
                     'status' => 'success',
@@ -2050,20 +2044,16 @@ class SellController extends Controller
             }
             else
             {
+                DB::rollBack();
                 $resp = json_decode($respuesta);
                 $test = json_encode($store);
                 return response()->json(['status' => false, 'msg' => $respuesta->body() . $test]);
             }
 
-        
-        // return response()->json([
-        //     'status' => 'success',
-        //     'numero_comprobante' => $invoice,
-        //     'id_comprobante' => $comprobante_sunat->id,
-        // ]);
-
-
+      
         } catch (\Throwable $th) {
+            DB::rollBack();
+            
             return response()->json([
             'status' => 'error',
             'message' => $th->getMessage(),
