@@ -4301,6 +4301,7 @@ class ReportController extends Controller
                 pl.id AS purchase_line_id,
                 p.name AS product_name,
                 pl.color AS product_color,
+                pl.nuevo_color AS nuevo_color,
                 pl.lot_number,
                 pl.quantity AS quantity_purchased,
 
@@ -4361,6 +4362,24 @@ class ReportController extends Controller
         ", ['%' . $lot]);
 
         return view('report.reportPorLote', compact('data', 'lot'));
+    }
+
+    public function cambiarColor(Request $request)
+    {
+        $request->validate([
+            'lot_number' => 'required',
+            'nuevo_color' => 'required|string|max:100'
+        ]);
+
+        DB::table('purchase_lines')
+            ->where('lot_number', 'like', '%' . $request->lot_number)
+            ->update([
+                'nuevo_color' => $request->nuevo_color
+            ]);
+
+        return redirect()
+            ->route('reporte.lote.buscar', ['lot_number' => $request->lot_number])
+            ->with('success', 'Color actualizado correctamente.');
     }
 
     // public function buscarLote(Request $request)

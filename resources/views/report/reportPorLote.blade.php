@@ -28,7 +28,17 @@
     @endcomponent
 
     @isset($data)
-        <h5 class="mb-3">Resultados para lote: <strong>{{ $lot }}</strong></h5>
+        <div class="d-flex align-items-center mb-3">
+            <h5 class="mr-3">
+                Resultados para lote: <strong>{{ $lot }}</strong>
+            </h5>
+
+            <button class="btn btn-warning btn-sm"
+                    data-toggle="modal"
+                    data-target="#modalColor">
+                <i class="fas fa-palette"></i> Cambiar color
+            </button>
+        </div>
         @component('components.widget', ['class' => 'box-primary'])
             <div class="table-responsive">
                 <table class="table table-bordered table-striped ajax_view">
@@ -49,7 +59,9 @@
                     <tbody>
                         @forelse ($data as $row)
                         <tr>
-                            @if($row->product_color)
+                            @if($row->nuevo_color)
+                            <td>{{ $row->product_name }} - Color: {{ $row->nuevo_color }}</td>
+                            @elseif($row->product_color)
                             <td>{{ $row->product_name }} - Color: {{ $row->product_color }}</td>
                             @else
                             <td>{{ $row->product_name }}</td>
@@ -87,6 +99,52 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <div class="modal fade" id="modalColor">
+                <div class="modal-dialog">
+                    <form method="POST" action="{{ route('reporte.lote.cambiarColor') }}">
+                        @csrf
+
+                        <input type="hidden" name="lot_number" value="{{ $lot }}">
+
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h4 class="modal-title">Cambiar Color del Lote</h4>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    &times;
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label>Nuevo Color</label>
+                                    <input type="text"
+                                        name="nuevo_color"
+                                        class="form-control"
+                                        placeholder="Ej: Rojo, Azul, Negro"
+                                        required>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    Guardar
+                                </button>
+
+                                <button type="button"
+                                        class="btn btn-default"
+                                        data-dismiss="modal">
+                                    Cancelar
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
             </div>
         @endcomponent
     @endisset

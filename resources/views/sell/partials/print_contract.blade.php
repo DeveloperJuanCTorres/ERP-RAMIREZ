@@ -167,7 +167,11 @@
                 <td>{{ $line->product->name }}</td>
                 <!-- <td>{{ $line->product->brand->name ?? '--' }}</td> -->
                 <td>{{ $purchase->motor ?? '--' }}</td>
+                @if($purchase->nuevo_color)
+                <td>{{ $purchase->nuevo_color ?? '--' }}</td>
+                @else
                 <td>{{ $purchase->color ?? '--' }}</td>
+                @endif
                 <td>{{ $purchase->chasis ?? '--' }}</td>
                 <td>{{ $purchase->anio ?? '--' }}</td>
                 <td>{{ $purchase->poliza ?? '--' }}</td>

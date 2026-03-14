@@ -394,6 +394,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     // ------REPORTES NUEVOS
     Route::get('/reporte/lote', [ReportController::class, 'reportPorLote'])->name('reporte.lote');
     Route::get('/reporte/lote/buscar', [ReportController::class, 'buscarLote'])->name('reporte.lote.buscar');
+    Route::post('/reporte/lote/cambiar-color', [ReportController::class, 'cambiarColor'])
+    ->name('reporte.lote.cambiarColor');
 
 
     
