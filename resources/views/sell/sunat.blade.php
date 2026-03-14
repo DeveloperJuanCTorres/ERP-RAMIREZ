@@ -984,14 +984,16 @@
                     }
 
                     response.products.forEach(item => {
+                        let color = item.nuevo_color ? item.nuevo_color : item.color;
                         tbody.append(`
                             <tr data-id="${item.id}">
                                 <td>
                                     <input type="text" class="form-control form-control-sm producto" value="${item.producto}">
                                 </td>
                                 <td>${item.motor}</td>
+                                
                                 <td>
-                                    <input type="text" class="form-control form-control-sm color" value="${item.color}">
+                                    <input type="text" class="form-control form-control-sm color" value="${color}">
                                 </td>
                                 <td>${item.chasis}</td>
                                 <td>${item.poliza}</td>

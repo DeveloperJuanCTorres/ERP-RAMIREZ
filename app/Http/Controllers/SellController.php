@@ -1803,6 +1803,7 @@ class SellController extends Controller
                     'cantidad' => $line->quantity,
                     'motor' => $purchase_line_product ? $purchase_line_product->lot_number : null,
                     'color' => $purchase_line_product ? $purchase_line_product->color : null,
+                    'nuevo_color' => $purchase_line_product ? $purchase_line_product->nuevo_color : null,
                     'chasis' => $purchase_line_product ? $purchase_line_product->chasis : null,
                     'anio' => $purchase_line_product ? $purchase_line_product->anio : null,
                     'poliza' => $purchase_line_product ? $purchase_line_product->poliza : null,
@@ -2053,7 +2054,7 @@ class SellController extends Controller
       
         } catch (\Throwable $th) {
             DB::rollBack();
-            
+
             return response()->json([
             'status' => 'error',
             'message' => $th->getMessage(),
