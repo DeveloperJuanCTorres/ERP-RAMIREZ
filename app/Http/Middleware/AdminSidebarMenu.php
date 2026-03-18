@@ -86,6 +86,11 @@ class AdminSidebarMenu
                 )->order(10);
             }
 
+            //TRAMITES
+            if (auth()->user()->can('user.view') || auth()->user()->can('user.create') || auth()->user()->can('roles.view')) {
+                $menu->url(action([\App\Http\Controllers\TramitesController::class, 'index']), 'Trámites', ['icon' => 'fa fas fa-tasks', 'active' => request()->segment(1) == 'tramites'])->order(11);
+            }
+
             //Contacts dropdown
             if (auth()->user()->can('supplier.view') || auth()->user()->can('customer.view') || auth()->user()->can('supplier.view_own') || auth()->user()->can('customer.view_own')) {
                 $menu->dropdown(

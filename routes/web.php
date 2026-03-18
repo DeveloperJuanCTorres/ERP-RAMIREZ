@@ -58,6 +58,7 @@ use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\TaxRateController;
+use App\Http\Controllers\TramitesController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\TypesOfServiceController;
 use App\Http\Controllers\UnitController;
@@ -327,6 +328,18 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/loanpayments/{loan_id}', [LoanPaymentsController::class, 'index']);
     Route::get('/loanpayments/{id}/edit', [LoanPaymentsController::class, 'edit']);
     Route::post('/loanpayments/{id}', [LoanPaymentsController::class, 'update']);
+
+    //TRAMITES
+    Route::get('/tramites', [TramitesController::class, 'index']);
+    Route::post('/tramites', [TramitesController::class, 'store']);
+
+    Route::get('/tramites/detalle/{lote}', [TramitesController::class, 'detalle']);
+    Route::post('/tramites/detalle/guardar', [TramitesController::class, 'guardarDetalle']);
+    Route::post('/tramites/detalle/estado', [TramitesController::class, 'cambiarEstado']);
+    Route::post('/tramites/detalle/placa', [TramitesController::class, 'guardarPlaca']);
+    Route::post('/tramites/detalle/estado-placa', [TramitesController::class, 'guardarEstadoPlaca']);
+
+
 
     //PARTES DIARIOS
     Route::resource('parts', DiaryPartController::class);
