@@ -1,3 +1,5 @@
+var stock_transfer_table;
+
 $(document).ready(function() {
     //Add products
     if ($('#search_product_for_srock_adjustment').length > 0) {
@@ -141,6 +143,8 @@ $(document).ready(function() {
             url: '/stock-transfers',
             data: function (d) {
 
+                console.log('AJAX ejecutando', d); // 🔥 DEBUG
+
                 // 🔥 FILTROS (con tu naming convention)
                 d.start_date = $('#filter_start_date').val();
                 d.end_date = $('#filter_end_date').val();
@@ -173,13 +177,17 @@ $(document).ready(function() {
         },
     });
 
-    // 🔥 TU ESTILO DE FILTROS GLOBAL
-    $(document).on('change keyup', 
-        '#filter_start_date, #filter_end_date, #filter_location_from, #filter_location_to, #filter_ref_no, #filter_lote',
-        function () {
-            stock_transfer_table.ajax.reload();
+    // 🔥 EVENTOS DE FILTROS (AQUÍ VA)
+    $(document).on('change', '#filter_start_date, #filter_end_date, #filter_location_from, #filter_location_to', function () {
+        console.log('filtro change'); // DEBUG
+        stock_transfer_table.ajax.reload();
     });
-    
+
+    $(document).on('keyup', '#filter_ref_no, #filter_lote', function () {
+        console.log('filtro keyup'); // DEBUG
+        stock_transfer_table.ajax.reload();
+    });
+
     var detailRows = [];
 
     $('#stock_transfer_table tbody').on('click', '.view_stock_transfer', function() {
