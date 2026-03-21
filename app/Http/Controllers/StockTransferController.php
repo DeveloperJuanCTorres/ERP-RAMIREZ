@@ -93,15 +93,13 @@ class StockTransferController extends Controller
                         'transactions.status',
 
                         // 🔥 IMPORTANTE
-                        'pl.lot_number'
+                        \DB::raw('GROUP_CONCAT(DISTINCT pl.lot_number) as lot_number')
                     )->groupBy('transactions.id'); // evita duplicados
             
             // 📅 Rango fechas
             if (!empty(request()->start_date) && !empty(request()->end_date)) {
-                $stock_transfers->whereBetween('transactions.transaction_date', [
-                    request()->start_date,
-                    request()->end_date
-                ]);
+                $stock_transfers->whereDate('transactions.transaction_date', '>=', request()->start_date)
+                                ->whereDate('transactions.transaction_date', '<=', request()->end_date);
             }
 
             if (!empty(request()->location_from)) {
@@ -117,7 +115,7 @@ class StockTransferController extends Controller
             }
 
             if (!empty(request()->lot_number)) {
-                $stock_transfers->where('pl.lot_number', 'like', '%' . request()->lot_number . '%');
+                $stock_transfers->havingRaw("GROUP_CONCAT(DISTINCT pl.lot_number) LIKE ?", ['%' . request()->lot_number . '%']);
             }
 
             return Datatables::of($stock_transfers)
@@ -167,7 +165,11 @@ class StockTransferController extends Controller
                 ->make(true);
         }
 
-        return view('stock_transfer.index')->with(compact('statuses'));
+        $business_id = request()->session()->get('user.business_id');
+
+        $business_locations = BusinessLocation::where('business_id', $business_id)->get();
+
+        return view('stock_transfer.index')->with(compact('statuses', 'business_locations'));
     }
 
     /**
