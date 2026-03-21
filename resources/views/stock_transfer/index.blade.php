@@ -62,7 +62,7 @@
 
         <div class="col-md-3">
             <div class="form-group">
-                <label>N° Lote:</label>
+                <label>N° Motor:</label>
                 <input type="text" id="filter_lote" class="form-control">
             </div>
         </div>
