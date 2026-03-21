@@ -137,7 +137,19 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         aaSorting: [[0, 'desc']],
-        ajax: '/stock-transfers',
+        ajax: {
+            url: '/stock-transfers',
+            data: function (d) {
+
+                // 🔥 FILTROS (con tu naming convention)
+                d.start_date = $('#filter_start_date').val();
+                d.end_date = $('#filter_end_date').val();
+                d.location_from = $('#filter_location_from').val();
+                d.location_to = $('#filter_location_to').val();
+                d.ref_no = $('#filter_ref_no').val();
+                d.lot_number = $('#filter_lote').val();
+            }
+        },
         columnDefs: [
             {
                 targets: 8,
@@ -160,6 +172,14 @@ $(document).ready(function() {
             __currency_convert_recursively($('#stock_transfer_table'));
         },
     });
+
+    // 🔥 TU ESTILO DE FILTROS GLOBAL
+    $(document).on('change keyup', 
+        '#filter_start_date, #filter_end_date, #filter_location_from, #filter_location_to, #filter_ref_no, #filter_lote',
+        function () {
+            stock_transfer_table.ajax.reload();
+    });
+    
     var detailRows = [];
 
     $('#stock_transfer_table tbody').on('click', '.view_stock_transfer', function() {

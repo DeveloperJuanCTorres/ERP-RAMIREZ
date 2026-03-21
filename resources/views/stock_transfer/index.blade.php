@@ -11,6 +11,73 @@
 
 <!-- Main content -->
 <section class="content no-print">
+
+    {{-- FILTROS --}}
+    @component('components.filters', ['title' => __('report.filters')])
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Desde fecha:</label>
+                <input type="date" id="filter_start_date" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Hasta fecha:</label>
+                <input type="date" id="filter_end_date" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Desde ubicación:</label>
+                <select id="filter_location_from" class="form-control">
+                    <option value="">Todos</option>
+                    @foreach($business_locations as $loc)
+                        <option value="{{$loc->id}}">{{$loc->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Hasta ubicación:</label>
+                <select id="filter_location_to" class="form-control">
+                    <option value="">Todos</option>
+                    @foreach($business_locations as $loc)
+                        <option value="{{$loc->id}}">{{$loc->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Referencia:</label>
+                <input type="text" id="filter_ref_no" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>N° Lote:</label>
+                <input type="text" id="filter_lote" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>&nbsp;</label><br>
+                <button class="btn btn-danger" id="btn_clear_filters">
+                    Limpiar filtros
+                </button>
+            </div>
+        </div>
+
+    @endcomponent
+
     @component('components.widget', ['class' => 'box-primary', 'title' => __('lang_v1.all_stock_transfers')])
         @slot('tool')
             <div class="box-tools">
@@ -46,4 +113,10 @@
 @stop
 @section('javascript')
 	<script src="{{ asset('js/stock_transfer.js?v=' . $asset_v) }}"></script>
+    <script>
+        $('#btn_clear_filters').click(function () {
+            $('#filter_start_date, #filter_end_date, #filter_location_from, #filter_location_to, #filter_ref_no, #filter_lote').val('');
+            stock_transfer_table.ajax.reload();
+        });
+    </script>
 @endsection

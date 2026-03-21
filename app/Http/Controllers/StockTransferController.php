@@ -74,6 +74,10 @@ class StockTransferController extends Controller
                         '=',
                         'l2.id'
                     )
+                    // 🔥 NUEVOS JOINS
+                    ->leftJoin('transaction_sell_lines as tsl', 'tsl.transaction_id', '=', 'transactions.id')
+                    ->leftJoin('purchase_lines as pl', 'pl.id', '=', 'tsl.lot_no_line_id')
+
                     ->where('transactions.business_id', $business_id)
                     ->where('transactions.type', 'sell_transfer')
                     ->select(
@@ -86,8 +90,35 @@ class StockTransferController extends Controller
                         'transactions.shipping_charges',
                         'transactions.additional_notes',
                         'transactions.id as DT_RowId',
-                        'transactions.status'
-                    );
+                        'transactions.status',
+
+                        // 🔥 IMPORTANTE
+                        'pl.lot_number'
+                    )->groupBy('transactions.id'); // evita duplicados
+            
+            // 📅 Rango fechas
+            if (!empty(request()->start_date) && !empty(request()->end_date)) {
+                $stock_transfers->whereBetween('transactions.transaction_date', [
+                    request()->start_date,
+                    request()->end_date
+                ]);
+            }
+
+            if (!empty(request()->location_from)) {
+                $stock_transfers->where('transactions.location_id', request()->location_from);
+            }
+
+            if (!empty(request()->location_to)) {
+                $stock_transfers->where('t2.location_id', request()->location_to);
+            }
+
+            if (!empty(request()->ref_no)) {
+                $stock_transfers->where('transactions.ref_no', 'like', '%' . request()->ref_no . '%');
+            }
+
+            if (!empty(request()->lot_number)) {
+                $stock_transfers->where('pl.lot_number', 'like', '%' . request()->lot_number . '%');
+            }
 
             return Datatables::of($stock_transfers)
                 ->addColumn('action', function ($row) use ($edit_days) {
