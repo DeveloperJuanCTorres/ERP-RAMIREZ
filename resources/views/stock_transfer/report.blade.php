@@ -67,7 +67,9 @@
 
         <strong>Desde:</strong> {{ $first->location_from }} <br>
 
-        <strong>Hacia:</strong> {{ $first->location_to }}
+        <strong>Hacia:</strong> {{ $first->location_to }} <br>
+
+        <strong>Transportista:</strong> {{ $first->contact->supplier_business_name }}
     </p>
 
     <table>
@@ -77,6 +79,7 @@
                 <th>Cantidad</th>
                 <th>Unidad</th>
                 <th>Lote</th>
+                <th>Color</th>
             </tr>
         </thead>
         <tbody>
@@ -87,6 +90,7 @@
                 <td>{{ $row->quantity }}</td>
                 <td>{{ $row->unit }}</td>
                 <td>{{ $row->lot_number ?? '-' }}</td>
+                <td>{{ $row->color ?? '-' }}</td>
             </tr>
         @endforeach
 

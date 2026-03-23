@@ -1014,7 +1014,8 @@ class StockTransferController extends Controller
                 'v.name as variation',
                 'tsl.quantity',
                 'u.short_name as unit',
-                'pl.lot_number'
+                'pl.lot_number',
+                'pl.color'
             );
 
         // 🔥 FILTROS
