@@ -74,7 +74,6 @@
         <thead>
             <tr>
                 <th>Producto</th>
-                <th>Variación</th>
                 <th>Cantidad</th>
                 <th>Unidad</th>
                 <th>Lote</th>
@@ -85,7 +84,6 @@
         @foreach($items as $row)
             <tr>
                 <td>{{ $row->product }}</td>
-                <td>{{ $row->variation ?? '-' }}</td>
                 <td>{{ $row->quantity }}</td>
                 <td>{{ $row->unit }}</td>
                 <td>{{ $row->lot_number ?? '-' }}</td>
