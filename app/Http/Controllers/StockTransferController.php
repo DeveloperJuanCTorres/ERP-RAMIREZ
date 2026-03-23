@@ -998,6 +998,7 @@ class StockTransferController extends Controller
             ->leftJoin('variations as v', 'v.id', '=', 'tsl.variation_id')
             ->leftJoin('units as u', 'u.id', '=', 'p.unit_id')
             ->leftJoin('purchase_lines as pl', 'pl.id', '=', 'tsl.lot_no_line_id')
+            ->leftJoin('contacts as c', 'transactions.contact_id', '=', 'c.id')
 
             ->where('transactions.business_id', $business_id)
             ->where('transactions.type', 'sell_transfer')
@@ -1015,7 +1016,19 @@ class StockTransferController extends Controller
                 'tsl.quantity',
                 'u.short_name as unit',
                 'pl.lot_number',
-                'pl.color'
+                'c.supplier_business_name as transportista',
+                \DB::raw("
+                    COALESCE(
+                        pl.color,
+                        (
+                            SELECT pl2.color 
+                            FROM purchase_lines pl2
+                            WHERE pl2.product_id = p.id
+                            AND pl2.color IS NOT NULL
+                            LIMIT 1
+                        )
+                    ) as color
+                ")
             );
 
         // 🔥 FILTROS

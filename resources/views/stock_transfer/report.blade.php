@@ -69,7 +69,7 @@
 
         <strong>Hacia:</strong> {{ $first->location_to }} <br>
 
-        <strong>Transportista:</strong> {{ $first->contact->supplier_business_name }}
+        <strong>Transportista:</strong> {{ $first->transportista ?? '-' }} <br>
     </p>
 
     <table>
