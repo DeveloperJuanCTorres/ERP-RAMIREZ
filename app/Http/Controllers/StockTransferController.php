@@ -1021,10 +1021,11 @@ class StockTransferController extends Controller
                     COALESCE(
                         pl.color,
                         (
-                            SELECT pl2.color 
+                            SELECT pl2.color
                             FROM purchase_lines pl2
-                            WHERE pl2.product_id = p.id
+                            WHERE pl2.lot_number = pl.lot_number
                             AND pl2.color IS NOT NULL
+                            ORDER BY pl2.id ASC
                             LIMIT 1
                         )
                     ) as color
