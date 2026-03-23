@@ -339,6 +339,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/tramites/detalle/placa', [TramitesController::class, 'guardarPlaca']);
     Route::post('/tramites/detalle/estado-placa', [TramitesController::class, 'guardarEstadoPlaca']);
 
+    Route::get('/stock-transfers/report', [StockTransferController::class, 'report']);
+
 
 
     //PARTES DIARIOS

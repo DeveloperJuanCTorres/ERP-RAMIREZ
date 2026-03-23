@@ -973,4 +973,79 @@ class StockTransferController extends Controller
 
         return $output;
     }
+
+    public function report(Request $request)
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        $query = Transaction::join(
+                'business_locations AS l1',
+                'transactions.location_id',
+                '=',
+                'l1.id'
+            )
+            ->join('transactions as t2', 't2.transfer_parent_id', '=', 'transactions.id')
+            ->join(
+                'business_locations AS l2',
+                't2.location_id',
+                '=',
+                'l2.id'
+            )
+
+            // 🔥 DETALLE
+            ->join('transaction_sell_lines as tsl', 'tsl.transaction_id', '=', 'transactions.id')
+            ->join('products as p', 'p.id', '=', 'tsl.product_id')
+            ->leftJoin('variations as v', 'v.id', '=', 'tsl.variation_id')
+            ->leftJoin('units as u', 'u.id', '=', 'p.unit_id')
+            ->leftJoin('purchase_lines as pl', 'pl.id', '=', 'tsl.lot_no_line_id')
+
+            ->where('transactions.business_id', $business_id)
+            ->where('transactions.type', 'sell_transfer')
+
+            ->select(
+                'transactions.id',
+                'transactions.transaction_date',
+                'transactions.ref_no',
+
+                'l1.name as location_from',
+                'l2.name as location_to',
+
+                'p.name as product',
+                'v.name as variation',
+                'tsl.quantity',
+                'u.short_name as unit',
+                'pl.lot_number'
+            );
+
+        // 🔥 FILTROS
+        if ($request->start_date && $request->end_date) {
+            $query->whereBetween('transactions.transaction_date', [
+                $request->start_date,
+                $request->end_date
+            ]);
+        }
+
+        if ($request->location_from) {
+            $query->where('transactions.location_id', $request->location_from);
+        }
+
+        if ($request->location_to) {
+            $query->where('t2.location_id', $request->location_to);
+        }
+
+        if ($request->ref_no) {
+            $query->where('transactions.ref_no', 'like', '%' . $request->ref_no . '%');
+        }
+
+        if ($request->lot_number) {
+            $query->where('pl.lot_number', 'like', '%' . $request->lot_number . '%');
+        }
+
+        $data = $query->orderBy('transactions.id')->get();
+
+        // 🔥 AGRUPAR POR TRANSFERENCIA (CLAVE)
+        $transfers = $data->groupBy('id');
+
+        return view('stock_transfer.report', compact('transfers'));
+    }
 }

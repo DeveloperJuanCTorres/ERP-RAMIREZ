@@ -79,10 +79,16 @@
     @endcomponent
 
     @component('components.widget', ['class' => 'box-primary', 'title' => __('lang_v1.all_stock_transfers')])
-        @slot('tool')
-            <div class="box-tools">
-                <a class="btn btn-block btn-primary" href="{{action([\App\Http\Controllers\StockTransferController::class, 'create'])}}">
+        @slot('tool')        
+            <div class="box-tools" style="margin-left: 10px;">               
+
+                <a class="btn btn-block btn-primary px-2" href="{{action([\App\Http\Controllers\StockTransferController::class, 'create'])}}">
                 <i class="fa fa-plus"></i> @lang('messages.add')</a>
+            </div>
+            <div class="box-tools">   
+                <a class="btn btn-success px-2" id="btn_print_report">
+                    <i class="fa fa-print"></i> Imprimir reporte
+                </a>
             </div>
         @endslot
         <div class="table-responsive">
@@ -118,5 +124,21 @@
             $('#filter_start_date, #filter_end_date, #filter_location_from, #filter_location_to, #filter_ref_no, #filter_lote').val('');
             stock_transfer_table.ajax.reload();
         });
+
+
+        $('#btn_print_report').click(function () {
+        let params = {
+            start_date: $('#filter_start_date').val(),
+            end_date: $('#filter_end_date').val(),
+            location_from: $('#filter_location_from').val(),
+            location_to: $('#filter_location_to').val(),
+            ref_no: $('#filter_ref_no').val(),
+            lot_number: $('#filter_lote').val()
+        };
+
+        let query = $.param(params);
+
+        window.open('/stock-transfers/report?' + query, '_blank');
+    });
     </script>
 @endsection
