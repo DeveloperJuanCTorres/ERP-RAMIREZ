@@ -3283,7 +3283,7 @@ class SellController extends Controller
 
             $comprobantes = ComprobanteSunat::where('business_id', $business_id)
                             ->where(function($query) {
-                                $query->where('invoice_no', 'like', '%');
+                                $query->where('invoice_no', 'like', 'T%')->get();
                             });
 
             if (! empty(request()->input('location_id'))) {

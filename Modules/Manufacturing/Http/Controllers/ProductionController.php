@@ -164,17 +164,7 @@ class ProductionController extends Controller
         $business_locations = BusinessLocation::forDropdown($business_id);
 
         $recipe_dropdown = MfgRecipe::forDropdown($business_id);
-
-        // $lot_numbers = DB::table('purchase_lines')
-        // ->leftJoin('transaction_sell_lines', 'purchase_lines.id', '=', 'transaction_sell_lines.lot_no_line_id')
-        // ->select(
-        //     'purchase_lines.lot_number as lote',
-        //     'purchase_lines.id as purchase_line_id'
-        // )
-        // ->whereIn('purchase_lines.product_id', [1, 6, 56])
-        // ->distinct()
-        // ->get();
-
+        
         // Configuración dinámica según business
         if ($business_id == 1) {
             $product_ids = [1, 6, 56];
@@ -186,22 +176,7 @@ class ProductionController extends Controller
             // Por seguridad puedes dejar vacío o manejar excepción
             $product_ids = [];
             $location_id = null;
-        }
-
-        // $lot_numbers = DB::table('purchase_lines')
-        // ->join('transactions', 'purchase_lines.transaction_id', '=', 'transactions.id')
-        // ->leftJoin('transaction_sell_lines', 'purchase_lines.id', '=', 'transaction_sell_lines.lot_no_line_id')
-        // ->select(
-        //     'purchase_lines.lot_number as lote',
-        //     'purchase_lines.id as purchase_line_id'
-        // )
-        // ->where('transactions.type', 'purchase_transfer')
-        // ->whereIn('purchase_lines.product_id', $product_ids)
-        // ->when($location_id, function ($query) use ($location_id) {
-        //     $query->where('transactions.location_id', $location_id);
-        // })
-        // ->groupBy('purchase_lines.id', 'purchase_lines.lot_number')
-        // ->get();
+        }        
 
         $lot_numbers = DB::table('purchase_lines')
         ->join('transactions', 'purchase_lines.transaction_id', '=', 'transactions.id')
