@@ -4295,6 +4295,7 @@ class ReportController extends Controller
         ]);
 
         $lot = $request->lot_number;
+        $business_id = $request->session()->get('user.business_id');
 
         $data = DB::select("
             SELECT 
@@ -4357,9 +4358,10 @@ class ReportController extends Controller
                 AND customer.type = 'customer'
 
             WHERE pl.lot_number LIKE ?
+            AND t.business_id = ?
 
             ORDER BY t.transaction_date ASC
-        ", ['%' . $lot]);
+        ", ['%' . $lot . '%', $business_id]);
 
         return view('report.reportPorLote', compact('data', 'lot'));
     }

@@ -415,6 +415,14 @@ class AdminSidebarMenu
                                 ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'sells' && request()->segment(2) == null]
                             );
                         }
+
+                        if (session('business.enable_facturacion') == 1) {
+                            $sub->url(
+                                action([\App\Http\Controllers\SellController::class, 'guiaSunat']),
+                                'Guía electrónica',
+                                ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'sells' && request()->segment(2) == null]
+                            );
+                        }
                     },
                     ['icon' => 'fa fas fa-arrow-circle-up', 'id' => 'tour_step7']
                 )->order(30);

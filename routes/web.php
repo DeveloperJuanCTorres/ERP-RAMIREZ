@@ -292,6 +292,14 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/notasunatpdf/{id}',[App\Http\Controllers\SellController::class,'notasunatpdf'])->name('notasunatpdf');
     Route::get('/notasunatxml/{id}',[App\Http\Controllers\SellController::class,'notasunatxml'])->name('notasunatxml');
 
+    //GUIA SUNAT
+    Route::get('/guiaSunat',[App\Http\Controllers\SellController::class,'guiaSunat'])->name('guiaSunat');
+    Route::post('/generar-guia', [App\Http\Controllers\SellController::class, 'generarGuiaSunat']);
+    Route::get('/location-serie/{id}', [App\Http\Controllers\SellController::class, 'getSerieByLocation']);
+    Route::get('/comprobante/productos', [App\Http\Controllers\SellController::class, 'getProductosComprobante']);
+    Route::get('/ubigeos', [App\Http\Controllers\SellController::class, 'ubigeos']);
+
+
     Route::get('/pedidos/buscar',[App\Http\Controllers\SellController::class,'buscarDoc'])->name('buscarDoc');
     Route::post('/generar-comprobante', [App\Http\Controllers\SellController::class, 'generarComprobanteSunat']);
     Route::post('/generar-comprobante-servicio', [App\Http\Controllers\SellController::class, 'generarComprobanteServicioSunat']);

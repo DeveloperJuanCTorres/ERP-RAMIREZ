@@ -36,7 +36,7 @@ use App\ComprobanteSunat;
 use App\Mail\ComprobanteSunatMail;
 use Illuminate\Support\Facades\Mail;
 use Luecano\NumeroALetras\NumeroALetras;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class SellController extends Controller
 {
@@ -3122,7 +3122,11 @@ class SellController extends Controller
 
         if (request()->ajax()) {
 
-            $comprobantes = ComprobanteSunat::where('business_id', $business_id);
+            $comprobantes = ComprobanteSunat::where('business_id', $business_id)
+                            ->where(function($query) {
+                                $query->where('invoice_no', 'like', 'B%')
+                                    ->orWhere('invoice_no', 'like', 'F%');
+                            });
 
             if (! empty(request()->input('location_id'))) {
                 $comprobantes->where('location_id', request()->input('location_id'));
@@ -3255,6 +3259,261 @@ class SellController extends Controller
         $customers = Contact::customersDropdown($business_id, false);
 
         return view('sell.sunat')->with(compact('business_locations', 'customers','invoice_schemes', 'default_invoice_schemes'));
+    }
+
+    public function guiaSunat()
+    {
+        $is_admin = $this->businessUtil->is_admin(auth()->user());
+        if (! $is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
+        $business_id = request()->session()->get('user.business_id');
+
+        $invoice_schemes = InvoiceScheme::forDropdown($business_id);
+        $default_invoice_schemes = InvoiceScheme::getDefault($business_id);
+
+        if (! empty($default_location) && !empty($default_location->sale_invoice_scheme_id)) {
+            $default_invoice_schemes = InvoiceScheme::where('business_id', $business_id)
+                                        ->findorfail($default_location->sale_invoice_scheme_id);
+        }
+
+        $business_id = request()->session()->get('user.business_id');
+
+        if (request()->ajax()) {
+
+            $comprobantes = ComprobanteSunat::where('business_id', $business_id)
+                            ->where(function($query) {
+                                $query->where('invoice_no', 'like', '%');
+                            });
+
+            if (! empty(request()->input('location_id'))) {
+                $comprobantes->where('location_id', request()->input('location_id'));
+            }
+
+            if (! empty(request()->input('contact_id'))) {
+                $comprobantes->where('contact_id', request()->input('contact_id'));
+            }
+
+            if (! empty(request()->start_date) && ! empty(request()->end_date)) {
+                $start = request()->start_date . ' 00:00:00';
+                $end = request()->end_date . ' 23:59:59';
+
+                $comprobantes->whereBetween('fecha_emision', [$start, $end]);
+            }
+
+            if (! empty(request()->input('tipo'))) {
+                $comprobantes->where('type', request()->input('tipo'));
+            }
+
+            if (! empty(request()->input('status_sunat'))) {
+                $comprobantes->where('status_sunat', request()->input('status_sunat'));
+            }
+            
+            
+            // 👇 CLONA EL QUERY PARA SUMAR
+            $total_general = (clone $comprobantes)
+                    ->where('status_sunat', 1)
+                    ->sum('total');
+           
+
+            return Datatables::of($comprobantes)
+
+                ->addColumn('sunat', function($row) {
+                    if (is_null($row->response_sunat)) {
+                        return '<button class="btn btn-xs btn-primary envio_sunat_button" data-id="'.$row->id.'">Enviar</button>';
+                    }
+
+                    if ($row->status_sunat == 1) {
+
+                        // Validar si está dentro del rango de 7 días
+                        $fechaEmision = \Carbon\Carbon::parse($row->fecha_emision);
+                        $limite = now()->subDays(7);
+
+                        if ($fechaEmision->greaterThanOrEqualTo($limite)) {
+                            return '<button class="btn btn-xs btn-danger anulacion_sunat_button" data-id="'.$row->id.'">Anular</button>';
+                        }
+                        else {
+                            return '<button class="btn btn-xs btn-danger nota_credito_sunat_button" data-id="'.$row->id.'">Nota Crédito</button>';
+                        }
+                    }
+
+                    return '';
+                })
+
+                ->addColumn('pdf', function($row) {
+                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
+                        ? '<a href="/sunatpdf/'.$row->id.'" class="btn btn-xs btn-primary" target="_blank">PDF</a>'
+                        : '';
+                })
+
+                ->addColumn('xml', function($row) {
+                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
+                        ? '<a href="/sunatxml/'.$row->id.'" class="btn btn-xs btn-info" target="_blank">XML</a>'
+                        : '';
+                })
+
+                ->addColumn('cdr', function($row) {
+                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
+                        ? '<a href="/sunatcdr/'.$row->id.'" class="btn btn-xs btn-warning" target="_blank">CDR</a>'
+                        : '';
+                })
+
+                ->addColumn('email', function($row) {
+                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
+                        ? '<button class="btn btn-xs btn-success open_email_modal"
+                                data-id="'.$row->id.'"
+                                data-email="'.($row->email ?? '').'">
+                                <i class="fa fa-envelope"></i> Email
+                        </button>'
+                        : '';
+                })
+
+                ->addColumn('estado_sunat', function($row) {
+                    if (is_null($row->response_sunat)) {
+                        return '';
+                    }
+
+                    if ($row->status_sunat == 1) {
+                        return '<span class="label bg-light-green">Aceptada</span>';
+                    }
+
+                    return ($row->status_sunat == 1)
+                        ? '<span class="label bg-light-green">Aceptada</span>'
+                        : '<span class="label bg-red">Anulada</span>';
+                })
+
+                ->addColumn('observacion', function($row) {
+                    if (is_null($row->response_sunat)) return '';
+                    $json = json_decode($row->response_sunat);
+                    return $json->sunat_description ?? '';
+                })
+                ->addColumn('contact_name', function($row) {
+                    return $row->name ?? '';
+                })
+
+                ->editColumn('total', function ($row) {
+                    return number_format($row->total, 2);
+                })
+                ->editColumn('fecha_emision', function ($row) {
+                    return \Carbon\Carbon::parse($row->fecha_emision)->format('Y-m-d');
+                })
+
+                ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','email'])
+                ->with('total_general', number_format($total_general, 2))
+                ->make(true);
+            
+            // return $datatable;
+        }
+
+        $business_locations = BusinessLocation::forDropdown($business_id, false);
+        // $customers = Contact::customersDropdown($business_id, false);
+        $customers = Contact::where('business_id', $business_id)->get();
+
+        return view('sell.guia')->with(compact('business_locations', 'customers','invoice_schemes', 'default_invoice_schemes'));
+    }
+
+    public function getSerieByLocation($location_id)
+    {
+
+        // 👇 aquí sacas el esquema relacionado
+        $invoice_scheme = InvoiceScheme::where('locacion_id', $location_id)
+                            ->where('prefix', 'like', 'T%')
+                            ->first();
+
+        return response()->json([
+            'serie' => $invoice_scheme->prefix ?? ''
+        ]);
+    }
+
+    public function getProductosComprobante(Request $request)
+    {
+        $serie = $request->serie;
+        $numero = (int) $request->numero; // 🔥 importante: convertir a entero
+
+        // 🔍 Buscar comprobante ignorando ceros a la izquierda
+        $comprobante = DB::table('comprobante_sunat')
+            ->whereRaw("SUBSTRING_INDEX(invoice_no, '-', 1) = ?", [$serie])
+            ->whereRaw("CAST(SUBSTRING_INDEX(invoice_no, '-', -1) AS UNSIGNED) = ?", [$numero])
+            ->first();
+
+        // ❌ No encontrado
+        if (!$comprobante) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró el comprobante'
+            ]);
+        }
+
+        // 🔥 Decodificar productos (JSON)
+        $productos = json_decode($comprobante->productos, true);
+
+        // ✅ Mapear solo lo que necesitas
+        $items = [];
+
+        if (!empty($productos)) {
+            foreach ($productos as $p) {
+                $items[] = [
+                    'unidad_de_medida' => $p['unidad_de_medida'] ?? 'NIU',
+                    'descripcion' => $p['descripcion'] ?? '',
+                    'cantidad' => $p['cantidad'] ?? 1,
+                    'codigo' => $p['codigo'] ?? ''
+                ];
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $items
+        ]);
+    }
+
+    public function ubigeos(Request $request)
+    {
+        $search = $request->q;
+
+        $file = storage_path('app/public/ubigeo.xlsx');
+
+        try {
+            if (!file_exists($file)) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Archivo no encontrado: ' . $file
+                ], 500);
+            }
+            
+            $data = Excel::toArray([], $file)[0];
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+
+        $result = [];
+
+        foreach ($data as $row) {
+
+            // 🔥 Validar que existan columnas
+            if (!isset($row[0], $row[1], $row[2], $row[3])) continue;
+
+            $ubigeo = $row[0];
+            $distrito = $row[1];
+            $provincia = $row[2];
+            $departamento = $row[3];
+
+            $text = "{$distrito} - {$provincia} - {$departamento}";
+
+            if (!$search || stripos($text, $search) !== false) {
+                $result[] = [
+                    'id' => $ubigeo,
+                    'text' => $text
+                ];
+            }
+        }
+
+        return response()->json([
+            'results' => array_slice($result, 0, 20)
+        ]);
     }
 
     public function sunatpdf($id)

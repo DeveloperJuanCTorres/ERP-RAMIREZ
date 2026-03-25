@@ -77,8 +77,7 @@
             <tr>
                 <th>Producto</th>
                 <th>Cantidad</th>
-                <th>Unidad</th>
-                <th>Lote</th>
+                <th># Motor</th>
                 <th>Color</th>
             </tr>
         </thead>
@@ -88,7 +87,6 @@
             <tr>
                 <td>{{ $row->product }}</td>
                 <td>{{ $row->quantity }}</td>
-                <td>{{ $row->unit }}</td>
                 <td>{{ $row->lot_number ?? '-' }}</td>
                 <td>{{ $row->color ?? '-' }}</td>
             </tr>
