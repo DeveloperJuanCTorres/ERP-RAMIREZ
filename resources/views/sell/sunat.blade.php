@@ -29,14 +29,14 @@
         @can('direct_sell.access')
             @slot('tool')               
 
-                <div class="box-tools">
+                <!-- <div class="box-tools">
                     <a class="btn btn-block btn-primary" href="#" data-toggle="modal" data-target="#modalBuscarPedido">
                     <i class="fa fa-plus"></i> @lang('messages.add')</a>
                 </div>
                 <div class="box-tools" style="padding-right: 20px;">
                     <a class="btn btn-block btn-success" href="#" data-toggle="modal" data-target="#modalServicio">
                     <i class="fa fa-plus"></i> Facturar Servicios</a>
-                </div>
+                </div> -->
                 <div class="box-tools" style="padding-right: 20px;">
                     <a class="btn btn-block btn-info" href="#" data-toggle="modal" data-target="#modalConsultarSerie">
                     <i class="fa fa-plus"></i> Consultar Serie</a>
