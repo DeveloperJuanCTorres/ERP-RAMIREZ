@@ -55,6 +55,7 @@ use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\SellPosController;
 use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\StockAdjustmentController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\TaxRateController;
@@ -298,6 +299,13 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/location-serie/{id}', [App\Http\Controllers\SellController::class, 'getSerieByLocation']);
     Route::get('/comprobante/productos', [App\Http\Controllers\SellController::class, 'getProductosComprobante']);
     Route::get('/ubigeos', [App\Http\Controllers\SellController::class, 'ubigeos']);
+
+    //STOCK
+    Route::get('/reportes/stock', [StockController::class, 'index'])->name('reportes.stock');
+
+    Route::get('/reportes/stock/export/excel', [StockController::class, 'exportExcel'])->name('reportes.stock.excel');
+
+    Route::get('/reportes/stock/export/pdf', [StockController::class, 'exportPdf'])->name('reportes.stock.pdf');
 
 
     Route::get('/pedidos/buscar',[App\Http\Controllers\SellController::class,'buscarDoc'])->name('buscarDoc');
