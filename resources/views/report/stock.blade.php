@@ -16,7 +16,12 @@
         <form id="filtrosForm">
             <div class="col-md-3">
                 <label for="product">Buscar producto</label>
-                <input id="filter_product" class="form-control" type="text" name="product" placeholder="Buscar producto">
+                <select id="filter_product" class="form-control select2" name="product_id">
+                    <option value="">Seleccionar producto</option>
+                    @foreach($products as $id => $name)
+                        <option value="{{ $id }}">{{ $name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="col-md-3">
@@ -125,7 +130,7 @@
 
         function cargarStock() {
             let data = {
-                product: $('#filter_product').val(),
+                product_id: $('#filter_product').val(),
                 category_id: $('#filter_category').val(),
                 brand_id: $('#filter_brand').val(),
                 location_id: $('#filter_location').val()
@@ -199,8 +204,7 @@
         }
 
         // 🔥 eventos dinámicos
-        $('#filter_product').on('keyup', debounce(cargarStock, 400));
-        $('#filter_category, #filter_brand, #filter_location').on('change', cargarStock);
+        $('#filter_product, #filter_category, #filter_brand, #filter_location').on('change', cargarStock);
 
         // carga inicial
         cargarStock();

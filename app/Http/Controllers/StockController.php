@@ -16,55 +16,81 @@ class StockController extends Controller
 {
     public function index(Request $request)
     {
+        $business_id = auth()->user()->business_id;
+
+        // 🔥 reporte (aunque ahora usas AJAX, puedes dejarlo o quitarlo)
         $report = $this->getReport($request);
 
-        // 🔽 para los filtros
-        $categories = Category::pluck('name', 'id');
-        $brands = Brands::pluck('name', 'id');
-        $locations = BusinessLocation::pluck('name', 'id');
+        // 🔽 filtros (multiempresa)
+        $categories = Category::where('business_id', $business_id)
+            ->pluck('name', 'id');
 
-        return view('report.stock', compact('report', 'categories', 'brands', 'locations'));
+        $brands = Brands::where('business_id', $business_id)
+            ->pluck('name', 'id');
+
+        $locations = BusinessLocation::where('business_id', $business_id)
+            ->pluck('name', 'id');
+
+        // 🔥 productos para el select
+        $products = Product::where('business_id', $business_id)
+            ->selectRaw("id, CONCAT(name, ' - ', sku) as name")
+            ->pluck('name', 'id');
+
+        return view('report.stock', compact(
+            'report',
+            'categories',
+            'brands',
+            'locations',
+            'products' // 🔥 CLAVE
+        ));
     }
 
     private function getReport(Request $request)
     {
-        // 🔥 1. QUERY BASE PRODUCTOS
-        $query = Product::with([
-            'variations.variation_location_details.location',
-            'category',
-            'sub_category',
-            'brand'
-        ])
-        ->where('type', '!=', 'modifier');
+        $business_id = auth()->user()->business_id;
 
-        // 🔍 FILTROS
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
+        /*
+        |--------------------------------------------------------------------------
+        | 1. PRODUCTOS BASE
+        |--------------------------------------------------------------------------
+        */
+        $products = Product::with([
+                'variations.variation_location_details.location',
+                'category',
+                'sub_category',
+                'brand'
+            ])
+            ->where('business_id', $business_id)
+            ->where('type', '!=', 'modifier')
 
-        if ($request->filled('sub_category_id')) {
-            $query->where('sub_category_id', $request->sub_category_id);
-        }
+            // 🔥 FILTROS
+            ->when($request->filled('product_id'), fn($q) => $q->where('id', $request->product_id))
+            ->when($request->filled('category_id'), fn($q) => $q->where('category_id', $request->category_id))
+            ->when($request->filled('sub_category_id'), fn($q) => $q->where('sub_category_id', $request->sub_category_id))
+            ->when($request->filled('brand_id'), fn($q) => $q->where('brand_id', $request->brand_id))
 
-        if ($request->filled('brand_id')) {
-            $query->where('brand_id', $request->brand_id);
-        }
+            ->when($request->filled('location_id'), function ($q) use ($request) {
+                $q->whereHas('variations.variation_location_details', function ($q2) use ($request) {
+                    $q2->where('location_id', $request->location_id);
+                });
+            })
 
-        if ($request->filled('product')) {
-            $query->where('name', 'like', "%{$request->product}%");
-        }
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. LOTES (OPTIMIZADO)
+        |--------------------------------------------------------------------------
+        */
+        $lotesQuery = PurchaseLine::join('transactions as t', 'purchase_lines.transaction_id', '=', 't.id')
+            ->where('t.business_id', $business_id)
+            ->whereNotNull('purchase_lines.lot_number');
 
         if ($request->filled('location_id')) {
-            $query->whereHas('variations.variation_location_details', function ($q) use ($request) {
-                $q->where('location_id', $request->location_id);
-            });
+            $lotesQuery->where('t.location_id', $request->location_id);
         }
 
-        $products = $query->get();
-
-        // 🔥 2. TRAER TODOS LOS LOTES EN UNA SOLA QUERY (OPTIMIZADO)
-        $lotesData = PurchaseLine::join('transactions as t', 'purchase_lines.transaction_id', '=', 't.id')
-            ->whereNotNull('purchase_lines.lot_number')
+        $lotesData = $lotesQuery
             ->select(
                 'purchase_lines.variation_id',
                 't.location_id',
@@ -75,21 +101,21 @@ class StockController extends Controller
                 'purchase_lines.exp_date',
                 'purchase_lines.created_at'
             )
-            ->orderBy('purchase_lines.created_at', 'asc') // FIFO
+            ->orderBy('purchase_lines.created_at', 'asc')
             ->get()
-            ->groupBy(function ($item) {
-                return $item->variation_id . '-' . $item->location_id;
-            });
+            ->groupBy(fn($item) => $item->variation_id . '-' . $item->location_id);
 
-        // 🔥 3. ARMAR RESPUESTA
+        /*
+        |--------------------------------------------------------------------------
+        | 3. RESPUESTA
+        |--------------------------------------------------------------------------
+        */
         return $products->flatMap(function ($product) use ($request, $lotesData) {
 
             return $product->variations->flatMap(function ($variation) use ($product, $request, $lotesData) {
 
                 $details = $variation->variation_location_details
-                    ->when(!empty($request->location_id), function ($collection) use ($request) {
-                        return $collection->where('location_id', $request->location_id);
-                    });
+                    ->when($request->filled('location_id'), fn($c) => $c->where('location_id', $request->location_id));
 
                 return $details->map(function ($detail) use ($product, $variation, $lotesData) {
 
@@ -107,24 +133,30 @@ class StockController extends Controller
                         $estado = 'NORMAL';
                     }
 
-                    // 🔥 LOTES DESDE CACHE (SIN QUERY EXTRA)
+                    // 🔥 LOTES
                     $key = $variation->id . '-' . $detail->location_id;
 
                     $lotes = [];
 
                     if (isset($lotesData[$key])) {
-                        $lotes = $lotesData[$key]->map(function ($l) {
+                        $lotes = $lotesData[$key]
+                            ->map(function ($l) {
 
-                            $qty = $l->quantity
-                                - $l->quantity_sold
-                                - ($l->quantity_returned ?? 0);
+                                $qty = $l->quantity
+                                    - $l->quantity_sold
+                                    - ($l->quantity_returned ?? 0);
 
-                            return [
-                                'lot_number' => $l->lot_number,
-                                'qty' => $qty,
-                                'exp_date' => $l->exp_date
-                            ];
-                        })->values()->toArray();
+                                if ($qty <= 0) return null;
+
+                                return [
+                                    'lot_number' => $l->lot_number,
+                                    'qty' => $qty,
+                                    'exp_date' => $l->exp_date
+                                ];
+                            })
+                            ->filter()
+                            ->values()
+                            ->toArray();
                     }
 
                     return [
@@ -138,7 +170,7 @@ class StockController extends Controller
                         'stock_minimo' => $min,
                         'valor_stock' => $stock * ($variation->default_purchase_price ?? 0),
                         'estado' => $estado,
-                        'lotes' => $lotes // 🔥 TODOS LOS LOTES
+                        'lotes' => $lotes
                     ];
                 });
 
