@@ -8,6 +8,7 @@ use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Exports\StockExport;
+use App\PurchaseLine;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -25,8 +26,9 @@ class StockController extends Controller
         return view('report.stock', compact('report', 'categories', 'brands', 'locations'));
     }
 
-    private function getReport($request)
+    private function getReport(Request $request)
     {
+        // 🔥 1. QUERY BASE PRODUCTOS
         $query = Product::with([
             'variations.variation_location_details.location',
             'category',
@@ -60,21 +62,41 @@ class StockController extends Controller
 
         $products = $query->get();
 
-        return $products->flatMap(function ($product) use ($request) {
+        // 🔥 2. TRAER TODOS LOS LOTES EN UNA SOLA QUERY (OPTIMIZADO)
+        $lotesData = PurchaseLine::join('transactions as t', 'purchase_lines.transaction_id', '=', 't.id')
+            ->whereNotNull('purchase_lines.lot_number')
+            ->select(
+                'purchase_lines.variation_id',
+                't.location_id',
+                'purchase_lines.lot_number',
+                'purchase_lines.quantity',
+                'purchase_lines.quantity_sold',
+                'purchase_lines.quantity_returned',
+                'purchase_lines.exp_date',
+                'purchase_lines.created_at'
+            )
+            ->orderBy('purchase_lines.created_at', 'asc') // FIFO
+            ->get()
+            ->groupBy(function ($item) {
+                return $item->variation_id . '-' . $item->location_id;
+            });
 
-            return $product->variations->flatMap(function ($variation) use ($product, $request) {
+        // 🔥 3. ARMAR RESPUESTA
+        return $products->flatMap(function ($product) use ($request, $lotesData) {
 
-                $details = $variation->variation_location_details()
-                    ->when(!empty($request->location_id), function ($q) use ($request) {
-                        $q->where('location_id', $request->location_id);
-                    })
-                    ->get();
+            return $product->variations->flatMap(function ($variation) use ($product, $request, $lotesData) {
 
-                return $details->map(function ($detail) use ($product, $variation) {
+                $details = $variation->variation_location_details
+                    ->when(!empty($request->location_id), function ($collection) use ($request) {
+                        return $collection->where('location_id', $request->location_id);
+                    });
 
-                    $stock = $detail->qty_available;
+                return $details->map(function ($detail) use ($product, $variation, $lotesData) {
+
+                    $stock = $detail->qty_available ?? 0;
                     $min = $product->alert_quantity ?? 0;
 
+                    // 🔥 ESTADO
                     if ($stock <= 0) {
                         $estado = 'SIN STOCK';
                     } elseif ($stock <= $min) {
@@ -85,24 +107,49 @@ class StockController extends Controller
                         $estado = 'NORMAL';
                     }
 
+                    // 🔥 LOTES DESDE CACHE (SIN QUERY EXTRA)
+                    $key = $variation->id . '-' . $detail->location_id;
+
+                    $lotes = [];
+
+                    if (isset($lotesData[$key])) {
+                        $lotes = $lotesData[$key]->map(function ($l) {
+
+                            $qty = $l->quantity
+                                - $l->quantity_sold
+                                - ($l->quantity_returned ?? 0);
+
+                            return [
+                                'lot_number' => $l->lot_number,
+                                'qty' => $qty,
+                                'exp_date' => $l->exp_date
+                            ];
+                        })->values()->toArray();
+                    }
+
                     return [
                         'producto' => $product->name,
                         'sku' => $product->sku,
                         'variacion' => $variation->name,
                         'categoria' => optional($product->category)->name,
-                        'subcategoria' => optional($product->sub_category)->name,
                         'marca' => optional($product->brand)->name,
                         'ubicacion' => optional($detail->location)->name,
                         'stock' => $stock,
                         'stock_minimo' => $min,
                         'valor_stock' => $stock * ($variation->default_purchase_price ?? 0),
                         'estado' => $estado,
+                        'lotes' => $lotes // 🔥 TODOS LOS LOTES
                     ];
                 });
 
             });
 
-        });
+        })->values();
+    }
+
+    public function stockData(Request $request)
+    {
+        return response()->json($this->getReport($request));
     }
 
     public function exportExcel(Request $request)

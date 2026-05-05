@@ -301,6 +301,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/ubigeos', [App\Http\Controllers\SellController::class, 'ubigeos']);
 
     //STOCK
+    Route::get('/reportes/stock/data', [StockController::class, 'stockData'])->name('reportes.stock.data');
     Route::get('/reportes/stock', [StockController::class, 'index'])->name('reportes.stock');
 
     Route::get('/reportes/stock/export/excel', [StockController::class, 'exportExcel'])->name('reportes.stock.excel');
