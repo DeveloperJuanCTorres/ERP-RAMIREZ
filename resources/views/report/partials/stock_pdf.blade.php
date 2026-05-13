@@ -2,38 +2,99 @@
 <html>
 <head>
     <meta charset="utf-8">
+
     <title>Reporte de Stock</title>
+
     <style>
-        body { font-family: sans-serif; font-size: 12px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #000; padding: 5px; }
-        th { background: #eee; }
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 11px;
+            color: #222;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f3f3f3;
+            font-size: 11px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        td {
+            padding: 7px;
+            border: 1px solid #ddd;
+            font-size: 10px;
+        }
+
+        .badge {
+            background: #2d89ef;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 9px;
+        }
     </style>
 </head>
+
 <body>
 
-<h2>Reporte de Stock</h2>
+    <h2>Reporte de Stock</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Stock</th>
-            <th>Ubicación</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($report as $row)
+    <table>
+        <thead>
             <tr>
-                <td>{{ $row['producto'] }}</td>
-                <td>{{ $row['stock'] }}</td>
-                <td>{{ $row['ubicacion'] }}</td>
-                <td>{{ $row['estado'] }}</td>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Marca</th>
+                <th>Ubicación</th>
+                <th>Stock</th>
+                <th>Serie</th>
+                <th>Color</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach($report as $row)
+                <tr>
+                    <td>{{ $row['producto'] }}</td>
+
+                    <td>
+                        {{ $row['categoria'] ?? '-' }}
+                    </td>
+
+                    <td>
+                        {{ $row['marca'] ?? '-' }}
+                    </td>
+
+                    <td>
+                        {{ $row['ubicacion'] ?? '-' }}
+                    </td>
+
+                    <td>
+                        {{ $row['stock'] }}
+                    </td>
+
+                    <td>
+                        {{ $row['serie'] }}
+                    </td>
+
+                    <td>
+                        {{ $row['color'] ?? '-' }}
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+
+    </table>
 
 </body>
 </html>

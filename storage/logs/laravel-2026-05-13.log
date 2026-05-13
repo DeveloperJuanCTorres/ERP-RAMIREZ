@@ -1,0 +1,1054 @@
+[2026-05-13 18:27:34] local.ERROR: Undefined array key "estado" {"view":{"view":"D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\report\\partials\\stock_pdf.blade.php","data":{"asset_v":"<pre class=sf-dump id=sf-dump-1171891995 data-indent-pad=\"  \"><span class=sf-dump-num>511</span>
+</pre><script>Sfdump(\"sf-dump-1171891995\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","errors":"<pre class=sf-dump id=sf-dump-331026732 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#3220</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
+</samp>}
+</pre><script>Sfdump(\"sf-dump-331026732\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","report":"<pre class=sf-dump id=sf-dump-844322912 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\Collection</span> {<a class=sf-dump-ref>#4034</a><samp data-depth=1 class=sf-dump-expanded>
+  #<span class=sf-dump-protected title=\"Protected property\">items</span>: <span class=sf-dump-note>array:57</span> [<samp data-depth=2 class=sf-dump-compact>
+    <span class=sf-dump-index>0</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J37860</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>1</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J37861</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>2</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38582</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>3</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38583</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>4</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38584</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>5</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38585</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>6</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38586</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>7</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38587</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>8</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38588</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>9</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38589</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>10</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38590</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>11</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38591</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>12</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38592</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>13</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38593</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>14</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38594</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>15</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38595</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>16</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38596</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>17</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38597</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>18</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38598</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>19</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ223J38599</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>20</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13508</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>21</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13574</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>22</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13629</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>23</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13641</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>24</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13398</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>25</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13754</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>26</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13756</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>27</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13778</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>28</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13780</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>29</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J13785</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">PLATA</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>30</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25786</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>31</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25787</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>32</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25788</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>33</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25789</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>34</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25790</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>35</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25791</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>36</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25792</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>37</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25793</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>38</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25794</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>39</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25795</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>40</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25778</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>41</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25796</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>42</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25779</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>43</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25780</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>44</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25781</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>45</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25782</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>46</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25783</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>47</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25784</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>48</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25785</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>49</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"15 characters\">WX2154254565665</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str>-</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>2.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>5327.78</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>50</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J25777</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"4 characters\">ROJO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>51</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"5 characters\">motor</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">color</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>52</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J18406</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>53</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"21 characters\">Importaciones Ramirez</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J18407</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str title=\"5 characters\">NEGRO</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>54</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"20 characters\">SEC. SAMAN - ALMACEN</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J18403</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str>-</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>55</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"7 characters\">WX-150A</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0001</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"7 characters\">Trimoto</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"20 characters\">SEC. SAMAN - ALMACEN</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J18405</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str>-</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>2663.89</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+    <span class=sf-dump-index>56</span> => <span class=sf-dump-note>array:12</span> [<samp data-depth=3 class=sf-dump-compact>
+      \"<span class=sf-dump-key>producto</span>\" => \"<span class=sf-dump-str title=\"14 characters\">ENSAMBLAJE 150</span>\"
+      \"<span class=sf-dump-key>sku</span>\" => \"<span class=sf-dump-str title=\"4 characters\">0007</span>\"
+      \"<span class=sf-dump-key>variacion</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>categoria</span>\" => \"<span class=sf-dump-str title=\"4 characters\">cat3</span>\"
+      \"<span class=sf-dump-key>marca</span>\" => \"<span class=sf-dump-str title=\"7 characters\">wan xin</span>\"
+      \"<span class=sf-dump-key>ubicacion</span>\" => \"<span class=sf-dump-str title=\"20 characters\">SEC. SAMAN - ALMACEN</span>\"
+      \"<span class=sf-dump-key>serie</span>\" => \"<span class=sf-dump-str title=\"17 characters\">WX162FMJ225J18403</span>\"
+      \"<span class=sf-dump-key>color</span>\" => \"<span class=sf-dump-str>-</span>\"
+      \"<span class=sf-dump-key>modelo</span>\" => \"<span class=sf-dump-str title=\"5 characters\">DUMMY</span>\"
+      \"<span class=sf-dump-key>stock</span>\" => <span class=sf-dump-num>1.0</span>
+      \"<span class=sf-dump-key>valor_stock</span>\" => <span class=sf-dump-num>33.9</span>
+      \"<span class=sf-dump-key>exp_date</span>\" => <span class=sf-dump-const>null</span>
+    </samp>]
+  </samp>]
+  #<span class=sf-dump-protected title=\"Protected property\">escapeWhenCastingToString</span>: <span class=sf-dump-const>false</span>
+</samp>}
+</pre><script>Sfdump(\"sf-dump-844322912\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","enabled_modules":"<pre class=sf-dump id=sf-dump-1505695008 data-indent-pad=\"  \"><span class=sf-dump-note>array:7</span> [<samp data-depth=1 class=sf-dump-expanded>
+  <span class=sf-dump-index>0</span> => \"<span class=sf-dump-str title=\"9 characters\">purchases</span>\"
+  <span class=sf-dump-index>1</span> => \"<span class=sf-dump-str title=\"8 characters\">add_sale</span>\"
+  <span class=sf-dump-index>2</span> => \"<span class=sf-dump-str title=\"8 characters\">pos_sale</span>\"
+  <span class=sf-dump-index>3</span> => \"<span class=sf-dump-str title=\"15 characters\">stock_transfers</span>\"
+  <span class=sf-dump-index>4</span> => \"<span class=sf-dump-str title=\"16 characters\">stock_adjustment</span>\"
+  <span class=sf-dump-index>5</span> => \"<span class=sf-dump-str title=\"8 characters\">expenses</span>\"
+  <span class=sf-dump-index>6</span> => \"<span class=sf-dump-str title=\"7 characters\">account</span>\"
+</samp>]
+</pre><script>Sfdump(\"sf-dump-1505695008\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+","__is_pusher_enabled":"<pre class=sf-dump id=sf-dump-457098238 data-indent-pad=\"  \"><span class=sf-dump-const>false</span>
+</pre><script>Sfdump(\"sf-dump-457098238\", {\"maxDepth\":3,\"maxStringLength\":160})</script>
+"}},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Undefined array key \"estado\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\report\\partials\\stock_pdf.blade.php:32)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 32)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\resources\\views\\report\\partials\\stock_pdf.blade.php(32): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 32)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('report.partials...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\StockController.php(190): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\StockController->exportPdf(Object(Illuminate\\Http\\Request))
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('exportPdf', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\StockController), 'exportPdf')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(878): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+
+[previous exception] [object] (ErrorException(code: 0): Undefined array key \"estado\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5e2e5c2821f0d8100c43f2dd1f899becc82dd649.php:32)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 32)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\storage\\framework\\views\\5e2e5c2821f0d8100c43f2dd1f899becc82dd649.php(32): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 32)
+#2 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(109): require('D:\\\\PROYECTOS\\\\IM...')
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(110): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire('D:\\\\PROYECTOS\\\\IM...', Array)
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(70): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('D:\\\\PROYECTOS\\\\IM...', Array)
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(195): Illuminate\\View\\Engines\\CompilerEngine->get('D:\\\\PROYECTOS\\\\IM...', Array)
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(178): Illuminate\\View\\View->getContents()
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(147): Illuminate\\View\\View->renderContents()
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\PDF.php(125): Illuminate\\View\\View->render()
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php(56): Barryvdh\\DomPDF\\PDF->loadView('report.partials...', Array)
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\StockController.php(190): Barryvdh\\DomPDF\\Facade\\Pdf::__callStatic('loadView', Array)
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\StockController->exportPdf(Object(Illuminate\\Http\\Request))
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('exportPdf', Array)
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\StockController), 'exportPdf')
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(878): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#73 {main}
+"} 
+[2026-05-13 18:28:34] local.ERROR: Undefined array key "stock_minimo" {"userId":1,"exception":"[object] (ErrorException(code: 0): Undefined array key \"stock_minimo\" at D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Exports\\StockExport.php:27)
+[stacktrace]
+#0 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(266): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 27)
+#1 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Exports\\StockExport.php(27): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined array...', 'D:\\\\PROYECTOS\\\\IM...', 27)
+#2 [internal function]: App\\Exports\\StockExport->App\\Exports\\{closure}(Array, 0)
+#3 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Arr.php(560): array_map(Object(Closure), Array, Array)
+#4 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Collection.php(768): Illuminate\\Support\\Arr::map(Array, Object(Closure))
+#5 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Exports\\StockExport.php(18): Illuminate\\Support\\Collection->map(Object(Closure))
+#6 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\maatwebsite\\excel\\src\\Sheet.php(476): App\\Exports\\StockExport->collection()
+#7 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\maatwebsite\\excel\\src\\Sheet.php(219): Maatwebsite\\Excel\\Sheet->fromCollection(Object(App\\Exports\\StockExport))
+#8 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\maatwebsite\\excel\\src\\Writer.php(71): Maatwebsite\\Excel\\Sheet->export(Object(App\\Exports\\StockExport))
+#9 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\maatwebsite\\excel\\src\\Excel.php(195): Maatwebsite\\Excel\\Writer->export(Object(App\\Exports\\StockExport), 'Xlsx')
+#10 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\maatwebsite\\excel\\src\\Excel.php(84): Maatwebsite\\Excel\\Excel->export(Object(App\\Exports\\StockExport), 'reporte_stock.x...', 'Xlsx')
+#11 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(338): Maatwebsite\\Excel\\Excel->download(Object(App\\Exports\\StockExport), 'reporte_stock.x...')
+#12 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Controllers\\StockController.php(183): Illuminate\\Support\\Facades\\Facade::__callStatic('download', Array)
+#13 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\StockController->exportExcel(Object(Illuminate\\Http\\Request))
+#14 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('exportExcel', Array)
+#15 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\StockController), 'exportExcel')
+#16 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#17 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#18 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#19 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\CheckUserLogin.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\CheckUserLogin->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\AdminSidebarMenu.php(878): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\AdminSidebarMenu->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Timezone.php(30): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Timezone->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\Language.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\Language->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\SetSessionData.php(52): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\SetSessionData->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\app\\Http\\Middleware\\IsInstalled.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): App\\Http\\Middleware\\IsInstalled->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#37 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Middleware\\ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#39 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#40 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Session\\Middleware\\StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#41 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Cookie\\Middleware\\EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#46 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#47 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#48 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#49 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#50 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#51 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#52 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#53 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#54 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Barryvdh\\Debugbar\\Middleware\\InjectDebugbar->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#55 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#56 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#58 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#59 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#67 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#68 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#69 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#70 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#71 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#72 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#73 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\PROYECTOS\\\\IM...')
+#74 {main}
+"} 

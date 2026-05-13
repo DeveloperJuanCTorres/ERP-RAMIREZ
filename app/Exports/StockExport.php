@@ -17,17 +17,27 @@ class StockExport implements FromCollection
     {
         return collect($this->data)->map(function ($row) {
             return [
-                'Producto' => $row['producto'],
-                'SKU' => $row['sku'],
-                'Variación' => $row['variacion'],
-                'Categoría' => $row['categoria'],
-                'Marca' => $row['marca'],
-                'Ubicación' => $row['ubicacion'],
-                'Stock' => $row['stock'],
-                'Stock Min' => $row['stock_minimo'],
-                'Valor' => $row['valor_stock'],
-                'Estado' => $row['estado'],
+                'producto' => $row['producto'],
+                'categoria' => $row['categoria'] ?? '-',
+                'marca' => $row['marca'] ?? '-',
+                'ubicacion' => $row['ubicacion'] ?? '-',
+                'stock' => $row['stock'],
+                'serie' => $row['serie'],
+                'color' => $row['color'] ?? '-',
             ];
         });
+    }
+
+    public function headings(): array
+    {
+        return [
+            'Producto',
+            'Categoría',
+            'Marca',
+            'Ubicación',
+            'Stock',
+            'Serie',
+            'Color'
+        ];
     }
 }

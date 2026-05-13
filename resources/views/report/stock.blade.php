@@ -78,16 +78,12 @@
                 <thead >
                     <tr>
                         <th>Producto</th>
-                        <th>SKU</th>
-                        <th>Variación</th>
                         <th>Categoría</th>
                         <th>Marca</th>
                         <th>Ubicación</th>
                         <th>Stock</th>
-                        <th>Stock Min</th>
-                        <th>Valor</th>
-                        <th>Estado</th>
-                        <th>Lotes</th>
+                        <th>Serie</th>
+                        <th>Color</th>
                     </tr>
                 </thead>
                 <tbody id="tablaStock"></tbody>
@@ -155,47 +151,27 @@
                 if(row.estado === 'CRITICO') badgeClass = 'bg-error';
                 if(row.estado === 'BAJO') badgeClass = 'bg-warning';
                 if(row.estado === 'SIN STOCK') badgeClass = 'btn-danger';
-
-                // 🔥 LOTES BONITOS (PRO)
-                let lotesHtml = '-';
-
-                if (row.lotes && row.lotes.length > 0) {
-
-                    // solo mostrar el primero + contador
-                    let first = row.lotes[0];
-
-                    lotesHtml = `
-                        <div>
-                            <span class="badge bg-info">
-                                ${first.lot_number}
-                            </span>
-
-                            ${row.lotes.length > 1 
-                                ? `<span class="badge bg-secondary">+${row.lotes.length - 1}</span>` 
-                                : ''
-                            }
-
-                            <button class="btn btn-xs btn-default ver-lotes"
-                                data-lotes='${JSON.stringify(row.lotes)}'>
-                                <i class="fa fa-eye"></i>
-                            </button>
-                        </div>
-                    `;
-                }
-
+                
                 html += `
                     <tr>
                         <td>${row.producto}</td>
-                        <td>${row.sku}</td>
-                        <td>${row.variacion}</td>
                         <td>${row.categoria ?? ''}</td>
                         <td>${row.marca ?? ''}</td>
                         <td>${row.ubicacion ?? ''}</td>
-                        <td><strong>${row.stock}</strong></td>
-                        <td>${row.stock_minimo}</td>
-                        <td>S/ ${parseFloat(row.valor_stock).toFixed(2)}</td>
-                        <td><span class="badge ${badgeClass}">${row.estado}</span></td>
-                        <td>${lotesHtml}</td>
+
+                        <td>
+                            <strong>${row.stock}</strong>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary">
+                                ${row.serie}
+                            </span>
+                        </td>
+
+                        <td>${row.color ?? '-'}</td>
+
+                        
                     </tr>
                 `;
             });

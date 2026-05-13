@@ -116,64 +116,54 @@ class StockController extends Controller
             return $product->variations->flatMap(function ($variation) use ($product, $request, $lotesData) {
 
                 $details = $variation->variation_location_details
-                    ->when($request->filled('location_id'), fn($c) => $c->where('location_id', $request->location_id));
+                    ->when($request->filled('location_id'), fn($c) =>
+                        $c->where('location_id', $request->location_id)
+                    );
 
-                return $details->map(function ($detail) use ($product, $variation, $lotesData) {
+                return $details->flatMap(function ($detail) use ($product, $variation, $lotesData) {
 
-                    $stock = $detail->qty_available ?? 0;
-                    $min = $product->alert_quantity ?? 0;
-
-                    // 🔥 ESTADO
-                    if ($stock <= 0) {
-                        $estado = 'SIN STOCK';
-                    } elseif ($stock <= $min) {
-                        $estado = 'CRITICO';
-                    } elseif ($stock <= ($min * 1.5)) {
-                        $estado = 'BAJO';
-                    } else {
-                        $estado = 'NORMAL';
-                    }
-
-                    // 🔥 LOTES
                     $key = $variation->id . '-' . $detail->location_id;
 
-                    $lotes = [];
-
-                    if (isset($lotesData[$key])) {
-                        $lotes = $lotesData[$key]
-                            ->map(function ($l) {
-
-                                $qty = $l->quantity
-                                    - $l->quantity_sold
-                                    - ($l->quantity_returned ?? 0);
-
-                                if ($qty <= 0) return null;
-
-                                return [
-                                    'lot_number' => $l->lot_number,
-                                    'qty' => $qty,
-                                    'color' => $l->color,
-                                    'exp_date' => $l->exp_date
-                                ];
-                            })
-                            ->filter()
-                            ->values()
-                            ->toArray();
+                    if (!isset($lotesData[$key])) {
+                        return [];
                     }
 
-                    return [
-                        'producto' => $product->name,
-                        'sku' => $product->sku,
-                        'variacion' => $variation->name,
-                        'categoria' => optional($product->category)->name,
-                        'marca' => optional($product->brand)->name,
-                        'ubicacion' => optional($detail->location)->name,
-                        'stock' => $stock,
-                        'stock_minimo' => $min,
-                        'valor_stock' => $stock * ($variation->default_purchase_price ?? 0),
-                        'estado' => $estado,
-                        'lotes' => $lotes
-                    ];
+                    return $lotesData[$key]
+                        ->groupBy('lot_number')
+                        ->map(function ($grupo) use ($product, $variation, $detail) {
+
+                            $first = $grupo->first();
+
+                            $qty = $grupo->sum(function ($l) {
+                                return $l->quantity
+                                    - $l->quantity_sold
+                                    - ($l->quantity_returned ?? 0);
+                            });
+
+                            if ($qty <= 0) {
+                                return null;
+                            }
+
+                            return [
+                                'producto' => $product->name,
+                                'sku' => $product->sku,
+                                'variacion' => $variation->name,
+                                'categoria' => optional($product->category)->name,
+                                'marca' => optional($product->brand)->name,
+                                'ubicacion' => optional($detail->location)->name,
+
+                                // 🔥 NUEVO
+                                'serie' => $first->lot_number,
+                                'color' => $first->color ?? '-',
+                                'modelo' => $variation->name,
+
+                                'stock' => $qty,
+                                'valor_stock' => $qty * ($variation->default_purchase_price ?? 0),
+                                'exp_date' => $first->exp_date
+                            ];
+                        })
+                        ->filter()
+                        ->values();
                 });
 
             });
