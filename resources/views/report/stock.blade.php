@@ -60,11 +60,11 @@
         @can('direct_sell.access')
             @slot('tool')             
                 <div class="pull-right">
-                    <a href="{{ route('reportes.stock.excel') }}" class="btn btn-success btn-sm">
+                    <a id="btnExcel" href="{{ route('reportes.stock.excel') }}" class="btn btn-success btn-sm">
                         <i class="fa fa-file-excel-o"></i> Exportar Excel
                     </a>
 
-                    <a href="{{ route('reportes.stock.pdf') }}" class="btn btn-danger btn-sm">
+                    <a id="btnPdf" href="{{ route('reportes.stock.pdf') }}" class="btn btn-danger btn-sm">
                         <i class="fa fa-file-pdf-o"></i> Exportar PDF
                     </a>
                 </div>                
@@ -122,9 +122,15 @@
 @section('javascript')
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
+        /*
+        |--------------------------------------------------------------------------
+        | CARGAR STOCK
+        |--------------------------------------------------------------------------
+        */
         function cargarStock() {
+
             let data = {
                 product_id: $('#filter_product').val(),
                 category_id: $('#filter_category').val(),
@@ -132,67 +138,116 @@
                 location_id: $('#filter_location').val()
             };
 
+            // 🔥 actualizar links exportación
+            actualizarLinksExportacion();
+
             $.ajax({
-                url: "{{ route('reportes.stock.data') }}", // nuevo endpoint
+                url: "{{ route('reportes.stock.data') }}",
                 method: "GET",
                 data: data,
-                success: function(response) {
+
+                success: function (response) {
                     renderTabla(response);
                 }
             });
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | RENDER TABLA
+        |--------------------------------------------------------------------------
+        */
         function renderTabla(data) {
+
             let html = '';
 
-            data.forEach(row => {
+            if (data.length === 0) {
 
-                let badgeClass = 'btn-success';
-                if(row.estado === 'CRITICO') badgeClass = 'bg-error';
-                if(row.estado === 'BAJO') badgeClass = 'bg-warning';
-                if(row.estado === 'SIN STOCK') badgeClass = 'btn-danger';
-                
-                html += `
+                html = `
                     <tr>
-                        <td>${row.producto}</td>
-                        <td>${row.categoria ?? ''}</td>
-                        <td>${row.marca ?? ''}</td>
-                        <td>${row.ubicacion ?? ''}</td>
-
-                        <td>
-                            <strong>${row.stock}</strong>
+                        <td colspan="7" class="text-center">
+                            No se encontraron registros
                         </td>
-
-                        <td>
-                            <span class="badge bg-primary">
-                                ${row.serie}
-                            </span>
-                        </td>
-
-                        <td>${row.color ?? '-'}</td>
-
-                        
                     </tr>
                 `;
-            });
+
+            } else {
+
+                data.forEach(row => {
+
+                    html += `
+                        <tr>
+                            <td>${row.producto}</td>
+
+                            <td>${row.categoria ?? '-'}</td>
+
+                            <td>${row.marca ?? '-'}</td>
+
+                            <td>${row.ubicacion ?? '-'}</td>
+
+                            <td>
+                                <strong>${row.stock}</strong>
+                            </td>
+
+                            <td>
+                                <span class="badge bg-primary">
+                                    ${row.serie}
+                                </span>
+                            </td>
+
+                            <td>
+                                ${row.color ?? '-'}
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
 
             $('#tablaStock').html(html);
         }
 
-        // 🔥 eventos dinámicos
-        $('#filter_product, #filter_category, #filter_brand, #filter_location').on('change', cargarStock);
+        /*
+        |--------------------------------------------------------------------------
+        | EXPORTACIONES
+        |--------------------------------------------------------------------------
+        */
+        function actualizarLinksExportacion() {
 
-        // carga inicial
-        cargarStock();
+            let params = $.param({
+                product_id: $('#filter_product').val(),
+                category_id: $('#filter_category').val(),
+                brand_id: $('#filter_brand').val(),
+                location_id: $('#filter_location').val()
+            });
 
-        // debounce para no saturar
-        function debounce(func, wait) {
-            let timeout;
-            return function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(func, wait);
-            };
+            $('#btnExcel').attr(
+                'href',
+                "{{ route('reportes.stock.excel') }}?" + params
+            );
+
+            $('#btnPdf').attr(
+                'href',
+                "{{ route('reportes.stock.pdf') }}?" + params
+            );
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | EVENTOS
+        |--------------------------------------------------------------------------
+        */
+        $('#filter_product, #filter_category, #filter_brand, #filter_location')
+            .on('change', function () {
+
+                cargarStock();
+            });
+
+        /*
+        |--------------------------------------------------------------------------
+        | CARGA INICIAL
+        |--------------------------------------------------------------------------
+        */
+        cargarStock();
 
     });
 </script>
