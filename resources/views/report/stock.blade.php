@@ -105,7 +105,7 @@
                                     <tr>
                                         <th>Lote</th>
                                         <th>Stock</th>
-                                        <th>Vencimiento</th>
+                                        <th>Color</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tablaLotes"></tbody>
@@ -232,7 +232,7 @@
                 <tr>
                     <td>${l.lot_number}</td>
                     <td>${l.qty}</td>
-                    <td>${l.exp_date ?? '-'}</td>
+                    <td>${l.color ?? '-'}</td>
                 </tr>
             `;
         });

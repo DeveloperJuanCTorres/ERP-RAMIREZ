@@ -151,6 +151,7 @@ class StockController extends Controller
                                 return [
                                     'lot_number' => $l->lot_number,
                                     'qty' => $qty,
+                                    'color' => $l->color,
                                     'exp_date' => $l->exp_date
                                 ];
                             })
