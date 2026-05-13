@@ -99,7 +99,8 @@ class StockController extends Controller
                 'purchase_lines.quantity_sold',
                 'purchase_lines.quantity_returned',
                 'purchase_lines.exp_date',
-                'purchase_lines.created_at'
+                'purchase_lines.created_at',
+                'purchase_lines.color'
             )
             ->orderBy('purchase_lines.created_at', 'asc')
             ->get()
