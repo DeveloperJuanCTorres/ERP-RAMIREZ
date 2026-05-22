@@ -281,7 +281,7 @@
 
 <hr>
 
-@if($sell->is_placa == 1)
+@if($sell->is_garantia == 1)
 <p class="bold">GARANTÍA</p>
 
 <div style="font-size: 10px; line-height: 1.5; text-align: justify;">
