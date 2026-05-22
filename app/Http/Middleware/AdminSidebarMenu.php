@@ -171,13 +171,13 @@ class AdminSidebarMenu
                                 ['icon' => 'fa fas fa-plus-circle', 'active' => request()->segment(1) == 'products' && request()->segment(2) == 'create']
                             );
                         }
-                        if (auth()->user()->can('product.create')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellingPriceGroupController::class, 'updateProductPrice']),
-                                __('lang_v1.update_product_price'),
-                                ['icon' => 'fa fas fa-circle', 'active' => request()->segment(1) == 'update-product-price']
-                            );
-                        }
+                        // if (auth()->user()->can('product.create')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellingPriceGroupController::class, 'updateProductPrice']),
+                        //         __('lang_v1.update_product_price'),
+                        //         ['icon' => 'fa fas fa-circle', 'active' => request()->segment(1) == 'update-product-price']
+                        //     );
+                        // }
 
                         if (auth()->user()->can('product.create')) {
                             $sub->url(
@@ -187,39 +187,39 @@ class AdminSidebarMenu
                             );
                         }
 
-                        if (auth()->user()->can('product.view')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\LabelsController::class, 'show']),
-                                __('barcode.print_labels'),
-                                ['icon' => 'fa fas fa-barcode', 'active' => request()->segment(1) == 'labels' && request()->segment(2) == 'show']
-                            );
-                        }
-                        if (auth()->user()->can('product.create')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\VariationTemplateController::class, 'index']),
-                                __('product.variations'),
-                                ['icon' => 'fa fas fa-circle', 'active' => request()->segment(1) == 'variation-templates']
-                            );
-                            $sub->url(
-                                action([\App\Http\Controllers\ImportProductsController::class, 'index']),
-                                __('product.import_products'),
-                                ['icon' => 'fa fas fa-download', 'active' => request()->segment(1) == 'import-products']
-                            );
-                        }
-                        if (auth()->user()->can('product.opening_stock')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\ImportOpeningStockController::class, 'index']),
-                                __('lang_v1.import_opening_stock'),
-                                ['icon' => 'fa fas fa-download', 'active' => request()->segment(1) == 'import-opening-stock']
-                            );
-                        }
-                        if (auth()->user()->can('product.create')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellingPriceGroupController::class, 'index']),
-                                __('lang_v1.selling_price_group'),
-                                ['icon' => 'fa fas fa-circle', 'active' => request()->segment(1) == 'selling-price-group']
-                            );
-                        }
+                        // if (auth()->user()->can('product.view')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\LabelsController::class, 'show']),
+                        //         __('barcode.print_labels'),
+                        //         ['icon' => 'fa fas fa-barcode', 'active' => request()->segment(1) == 'labels' && request()->segment(2) == 'show']
+                        //     );
+                        // }
+                        // if (auth()->user()->can('product.create')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\VariationTemplateController::class, 'index']),
+                        //         __('product.variations'),
+                        //         ['icon' => 'fa fas fa-circle', 'active' => request()->segment(1) == 'variation-templates']
+                        //     );
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\ImportProductsController::class, 'index']),
+                        //         __('product.import_products'),
+                        //         ['icon' => 'fa fas fa-download', 'active' => request()->segment(1) == 'import-products']
+                        //     );
+                        // }
+                        // if (auth()->user()->can('product.opening_stock')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\ImportOpeningStockController::class, 'index']),
+                        //         __('lang_v1.import_opening_stock'),
+                        //         ['icon' => 'fa fas fa-download', 'active' => request()->segment(1) == 'import-opening-stock']
+                        //     );
+                        // }
+                        // if (auth()->user()->can('product.create')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellingPriceGroupController::class, 'index']),
+                        //         __('lang_v1.selling_price_group'),
+                        //         ['icon' => 'fa fas fa-circle', 'active' => request()->segment(1) == 'selling-price-group']
+                        //     );
+                        // }
                         if (auth()->user()->can('unit.view') || auth()->user()->can('unit.create')) {
                             $sub->url(
                                 action([\App\Http\Controllers\UnitController::class, 'index']),
@@ -331,76 +331,76 @@ class AdminSidebarMenu
                                 ['icon' => 'fa fas fa-plus-circle', 'active' => request()->segment(1) == 'sells' && request()->segment(2) == 'create' && empty(request()->get('status'))]
                             );
                         }
-                        if (auth()->user()->can('sell.create')) {
-                            if (in_array('pos_sale', $enabled_modules)) {
-                                if (auth()->user()->can('sell.view')) {
-                                    $sub->url(
-                                        action([\App\Http\Controllers\SellPosController::class, 'index']),
-                                        __('sale.list_pos'),
-                                        ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'pos' && request()->segment(2) == null]
-                                    );
-                                }
+                        // if (auth()->user()->can('sell.create')) {
+                        //     if (in_array('pos_sale', $enabled_modules)) {
+                        //         if (auth()->user()->can('sell.view')) {
+                        //             $sub->url(
+                        //                 action([\App\Http\Controllers\SellPosController::class, 'index']),
+                        //                 __('sale.list_pos'),
+                        //                 ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'pos' && request()->segment(2) == null]
+                        //             );
+                        //         }
 
-                                $sub->url(
-                                    action([\App\Http\Controllers\SellPosController::class, 'create']),
-                                    __('sale.pos_sale'),
-                                    ['icon' => 'fa fas fa-plus-circle', 'active' => request()->segment(1) == 'pos' && request()->segment(2) == 'create']
-                                );
-                            }
-                        }
+                        //         $sub->url(
+                        //             action([\App\Http\Controllers\SellPosController::class, 'create']),
+                        //             __('sale.pos_sale'),
+                        //             ['icon' => 'fa fas fa-plus-circle', 'active' => request()->segment(1) == 'pos' && request()->segment(2) == 'create']
+                        //         );
+                        //     }
+                        // }
 
-                        if (in_array('add_sale', $enabled_modules) && auth()->user()->can('direct_sell.access')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellController::class, 'create'], ['status' => 'draft']),
-                                __('lang_v1.add_draft'),
-                                ['icon' => 'fa fas fa-plus-circle', 'active' => request()->get('status') == 'draft']
-                            );
-                        }
-                        if (in_array('add_sale', $enabled_modules) && ($is_admin || auth()->user()->hasAnyPermission(['draft.view_all', 'draft.view_own']))) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellController::class, 'getDrafts']),
-                                __('lang_v1.list_drafts'),
-                                ['icon' => 'fa fas fa-pen-square', 'active' => request()->segment(1) == 'sells' && request()->segment(2) == 'drafts']
-                            );
-                        }
-                        if (in_array('add_sale', $enabled_modules) && auth()->user()->can('direct_sell.access')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellController::class, 'create'], ['status' => 'quotation']),
-                                __('lang_v1.add_quotation'),
-                                ['icon' => 'fa fas fa-plus-circle', 'active' => request()->get('status') == 'quotation']
-                            );
-                        }
-                        if (in_array('add_sale', $enabled_modules) && ($is_admin || auth()->user()->hasAnyPermission(['quotation.view_all', 'quotation.view_own']))) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellController::class, 'getQuotations']),
-                                __('lang_v1.list_quotations'),
-                                ['icon' => 'fa fas fa-pen-square', 'active' => request()->segment(1) == 'sells' && request()->segment(2) == 'quotations']
-                            );
-                        }
+                        // if (in_array('add_sale', $enabled_modules) && auth()->user()->can('direct_sell.access')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellController::class, 'create'], ['status' => 'draft']),
+                        //         __('lang_v1.add_draft'),
+                        //         ['icon' => 'fa fas fa-plus-circle', 'active' => request()->get('status') == 'draft']
+                        //     );
+                        // }
+                        // if (in_array('add_sale', $enabled_modules) && ($is_admin || auth()->user()->hasAnyPermission(['draft.view_all', 'draft.view_own']))) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellController::class, 'getDrafts']),
+                        //         __('lang_v1.list_drafts'),
+                        //         ['icon' => 'fa fas fa-pen-square', 'active' => request()->segment(1) == 'sells' && request()->segment(2) == 'drafts']
+                        //     );
+                        // }
+                        // if (in_array('add_sale', $enabled_modules) && auth()->user()->can('direct_sell.access')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellController::class, 'create'], ['status' => 'quotation']),
+                        //         __('lang_v1.add_quotation'),
+                        //         ['icon' => 'fa fas fa-plus-circle', 'active' => request()->get('status') == 'quotation']
+                        //     );
+                        // }
+                        // if (in_array('add_sale', $enabled_modules) && ($is_admin || auth()->user()->hasAnyPermission(['quotation.view_all', 'quotation.view_own']))) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellController::class, 'getQuotations']),
+                        //         __('lang_v1.list_quotations'),
+                        //         ['icon' => 'fa fas fa-pen-square', 'active' => request()->segment(1) == 'sells' && request()->segment(2) == 'quotations']
+                        //     );
+                        // }
 
-                        if (auth()->user()->can('access_sell_return') || auth()->user()->can('access_own_sell_return')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellReturnController::class, 'index']),
-                                __('lang_v1.list_sell_return'),
-                                ['icon' => 'fa fas fa-undo', 'active' => request()->segment(1) == 'sell-return' && request()->segment(2) == null]
-                            );
-                        }
+                        // if (auth()->user()->can('access_sell_return') || auth()->user()->can('access_own_sell_return')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellReturnController::class, 'index']),
+                        //         __('lang_v1.list_sell_return'),
+                        //         ['icon' => 'fa fas fa-undo', 'active' => request()->segment(1) == 'sell-return' && request()->segment(2) == null]
+                        //     );
+                        // }
 
-                        if ($is_admin || auth()->user()->hasAnyPermission(['access_shipping', 'access_own_shipping', 'access_commission_agent_shipping'])) {
-                            $sub->url(
-                                action([\App\Http\Controllers\SellController::class, 'shipments']),
-                                __('lang_v1.shipments'),
-                                ['icon' => 'fa fas fa-truck', 'active' => request()->segment(1) == 'shipments']
-                            );
-                        }
+                        // if ($is_admin || auth()->user()->hasAnyPermission(['access_shipping', 'access_own_shipping', 'access_commission_agent_shipping'])) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\SellController::class, 'shipments']),
+                        //         __('lang_v1.shipments'),
+                        //         ['icon' => 'fa fas fa-truck', 'active' => request()->segment(1) == 'shipments']
+                        //     );
+                        // }
 
-                        if (auth()->user()->can('discount.access')) {
-                            $sub->url(
-                                action([\App\Http\Controllers\DiscountController::class, 'index']),
-                                __('lang_v1.discounts'),
-                                ['icon' => 'fa fas fa-percent', 'active' => request()->segment(1) == 'discount']
-                            );
-                        }
+                        // if (auth()->user()->can('discount.access')) {
+                        //     $sub->url(
+                        //         action([\App\Http\Controllers\DiscountController::class, 'index']),
+                        //         __('lang_v1.discounts'),
+                        //         ['icon' => 'fa fas fa-percent', 'active' => request()->segment(1) == 'discount']
+                        //     );
+                        // }
                         if (in_array('subscription', $enabled_modules) && auth()->user()->can('direct_sell.access')) {
                             $sub->url(
                                 action([\App\Http\Controllers\SellPosController::class, 'listSubscriptions']),

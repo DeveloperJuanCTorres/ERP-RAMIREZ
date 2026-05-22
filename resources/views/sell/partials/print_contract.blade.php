@@ -139,7 +139,6 @@
     <thead>
         <tr>
             <th>Modelo</th>
-            <!-- <th>Marca</th> -->
             <th>Motor</th>            
             <th>Color</th>
             <th>Chasis</th>
@@ -182,6 +181,22 @@
 </table>
 
 <hr>
+
+<hr>
+
+<table width="100%" style="margin-bottom: 10px;">
+    <tr>
+        <td width="50%">
+            <strong>Incluye Placa:</strong>
+            {{ $sell->placa == 1 ? 'SI' : 'NO' }}
+        </td>
+
+        <td width="50%">
+            <strong>Incluye Tarjeta:</strong>
+            {{ $sell->tarjeta == 1 ? 'SI' : 'NO' }}
+        </td>
+    </tr>
+</table>
 
 <p class="bold">RESUMEN DE PAGOS</p>
 
@@ -264,7 +279,17 @@
 </table>
 
 
+<hr>
 
+<p class="bold">GARANTÍA</p>
+
+<div style="font-size: 10px; line-height: 1.5; text-align: justify;">
+    
+    La empresa se responsabiliza solo por falla del motor (3000 km de recorrido) y de la carroceria por 1 año y se comrpomete
+    a extraer la pieza dañada y colocar una original de la misma marca, mas no del daño producido por mal manejo, falta de mantenimiento
+    y desgaste por uso. No se acepta cambio ni devoluciones.
+
+</div>
 
 
 {{-- 🔥 RELLENO PARA EMPUJAR AL FINAL --}}

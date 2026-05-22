@@ -271,6 +271,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/sells/pos/get-featured-products/{location_id}', [SellPosController::class, 'getFeaturedProducts']);
     Route::get('/reset-mapping', [SellController::class, 'resetMapping']);
 
+
+    Route::post('/sells/update-opciones/{id}', [SellController::class, 'updateOpciones']);
+    
+
     Route::resource('pos', SellPosController::class);
 
     Route::resource('roles', RoleController::class);

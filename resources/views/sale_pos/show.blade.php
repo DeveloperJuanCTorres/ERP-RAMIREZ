@@ -207,6 +207,60 @@
       @php
         $total_paid = 0;
       @endphp
+
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default" style="margin-bottom: 15px;">
+                <div class="panel-heading">
+                    <strong>Opciones adicionales</strong>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row d-flex align-items-center">
+
+                        <div class="col-md-2">
+                            <label style="display:flex; align-items:center; gap:12px;">
+                                <input type="checkbox"
+                                      id="check_placa"
+                                      {{ $sell->is_placa == 1 ? 'checked' : '' }}>
+                                <span>Placa</span>
+                            </label>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label style="display:flex; align-items:center; gap:12px;">
+                                <input type="checkbox"
+                                      id="check_tarjeta"
+                                      {{ $sell->is_tarjeta == 1 ? 'checked' : '' }}>
+                                <span>Tarjeta</span>
+                            </label>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label style="display:flex; align-items:center; gap:12px;">
+                                <input type="checkbox"
+                                      id="check_garantia"
+                                      {{ $sell->is_garantia == 1 ? 'checked' : '' }}>
+                                <span>Garantía</span>
+                            </label>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    id="btn_actualizar_opciones"
+                                    data-id="{{ $sell->id }}">
+                                <i class="fa fa-save"></i> Actualizar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+
       @if($sell->type != 'sales_order')
       <div class="col-sm-12 col-xs-12">
         <h4>{{ __('sale.payment_info') }}:</h4>
@@ -425,4 +479,51 @@
     var element = $('div.modal-xl');
     __currency_convert_recursively(element);
   });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var element = $('div.modal-xl');
+        __currency_convert_recursively(element);
+
+        $('#btn_actualizar_opciones').on('click', function(){
+
+            let transaction_id = $(this).data('id');
+
+            let placa = $('#check_placa').is(':checked') ? 1 : 0;
+            let tarjeta = $('#check_tarjeta').is(':checked') ? 1 : 0;
+            let garantia = $('#check_garantia').is(':checked') ? 1 : 0;
+
+            $.ajax({
+                url: '/sells/update-opciones/' + transaction_id,
+                type: 'POST',
+                data: {
+                    placa: placa,
+                    tarjeta: tarjeta,
+                    garantia: garantia,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response){
+
+                    if(response.success){
+
+                        toastr.success('Las opciones fueron actualizadas correctamente');
+
+                    } else {
+
+                        toastr.error('No se pudo actualizar');
+
+                    }
+                },
+                error: function(){
+
+                  toastr.error('Ocurrió un problema al actualizar');
+
+                }
+            });
+
+        });
+
+    });
 </script>

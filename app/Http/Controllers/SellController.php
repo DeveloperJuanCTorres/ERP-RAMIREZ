@@ -874,6 +874,33 @@ class SellController extends Controller
             ));
     }
 
+    public function updateOpciones(Request $request, $id)
+    {
+        try {
+
+            $transaction = Transaction::findOrFail($id);
+
+            $transaction->is_placa = $request->placa ?? 0;
+            $transaction->is_tarjeta = $request->tarjeta ?? 0;
+            $transaction->is_garantia = $request->garantia ?? 0;
+
+            $transaction->save();
+
+            return response()->json([
+                'success' => true
+            ]);
+
+        } catch (\Exception $e) {
+
+            \Log::error($e);
+
+            return response()->json([
+                'success' => false
+            ]);
+
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
