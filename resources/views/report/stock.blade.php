@@ -77,7 +77,8 @@
             <table class="table table-bordered table-striped">
                 <thead >
                     <tr>
-                        <th>Producto</th>
+                        <th>#</th>
+                        <th>Modelo</th>
                         <th>Categoría</th>
                         <th>Marca</th>
                         <th>Ubicación</th>
@@ -177,6 +178,8 @@
 
                     html += `
                         <tr>
+                            <td>${row.nro}</td>
+                            
                             <td>${row.producto}</td>
 
                             <td>${row.categoria ?? '-'}</td>

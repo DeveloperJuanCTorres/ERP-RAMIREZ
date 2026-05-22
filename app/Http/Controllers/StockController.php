@@ -380,7 +380,24 @@ class StockController extends Controller
 
             });
 
-        })->values();
+        })->values()
+
+        // 🔥 numeración por ubicación
+        ->groupBy('ubicacion')
+
+        ->flatMap(function ($itemsPorUbicacion) {
+
+            return collect($itemsPorUbicacion)
+                ->values()
+                ->map(function ($item, $index) {
+
+                    $item['nro'] = $index + 1;
+
+                    return $item;
+                });
+        })
+
+        ->values();
     }
 
     public function stockData(Request $request)

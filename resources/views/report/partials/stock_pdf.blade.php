@@ -52,7 +52,8 @@
     <table>
         <thead>
             <tr>
-                <th>Producto</th>
+                <th>#</th>
+                <th>Modelo</th>
                 <th>Categoría</th>
                 <th>Marca</th>
                 <th>Ubicación</th>
@@ -65,6 +66,8 @@
         <tbody>
             @foreach($report as $row)
                 <tr>
+                    <td>{{ $row['nro'] }}</td>
+                    
                     <td>{{ $row['producto'] }}</td>
 
                     <td>
