@@ -188,12 +188,12 @@
     <tr>
         <td width="50%">
             <strong>Incluye Placa:</strong>
-            {{ $sell->placa == 1 ? 'SI' : 'NO' }}
+            {{ $sell->is_placa == 1 ? 'SI' : 'NO' }}
         </td>
 
         <td width="50%">
             <strong>Incluye Tarjeta:</strong>
-            {{ $sell->tarjeta == 1 ? 'SI' : 'NO' }}
+            {{ $sell->is_tarjeta == 1 ? 'SI' : 'NO' }}
         </td>
     </tr>
 </table>
@@ -281,6 +281,7 @@
 
 <hr>
 
+@if($sell->is_placa == 1)
 <p class="bold">GARANTÍA</p>
 
 <div style="font-size: 10px; line-height: 1.5; text-align: justify;">
@@ -290,7 +291,7 @@
     y desgaste por uso. No se acepta cambio ni devoluciones.
 
 </div>
-
+@endif
 
 {{-- 🔥 RELLENO PARA EMPUJAR AL FINAL --}}
 <div class="relleno-pagina"></div>
