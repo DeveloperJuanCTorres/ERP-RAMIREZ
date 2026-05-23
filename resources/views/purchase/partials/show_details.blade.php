@@ -1,52 +1,52 @@
 <style>
-@media print {
+  @media print {
 
-  /* Fuente general */
-  body {
-    font-size: 14px !important;
-    line-height: 1.1 !important;
+    /* Fuente general */
+    body {
+      font-size: 14px !important;
+      line-height: 1.1 !important;
+    }
+
+    /* Tablas */
+    table {
+      font-size: 13px !important;
+    }
+
+    th, td {
+      padding: 2px 3px !important;
+    }
+
+    /* Títulos */
+    h2 { font-size: 14px !important; margin: 2px 0 !important; }
+    h3 { font-size: 13px !important; margin: 2px 0 !important; }
+    h4 { font-size: 12px !important; margin: 2px 0 !important; }
+
+    /* Párrafos */
+    p {
+      margin: 2px 0 !important;
+    }
+
+    address {
+      line-height: 1.1 !important;
+    }
+
+    /* Quitar fondos */
+    .bg-gray,
+    .bg-green,
+    .well {
+      background: #fff !important;
+    }
+
+    /* Quitar sombras */
+    .well {
+      box-shadow: none !important;
+      padding: 4px !important;
+    }
+
+    .no-print-after {
+      display: none !important;
+    }
   }
-
-  /* Tablas */
-  table {
-    font-size: 13px !important;
-  }
-
-  th, td {
-    padding: 2px 3px !important;
-  }
-
-  /* Títulos */
-  h2 { font-size: 14px !important; margin: 2px 0 !important; }
-  h3 { font-size: 13px !important; margin: 2px 0 !important; }
-  h4 { font-size: 12px !important; margin: 2px 0 !important; }
-
-  /* Párrafos */
-  p {
-    margin: 2px 0 !important;
-  }
-
-  address {
-    line-height: 1.1 !important;
-  }
-
-  /* Quitar fondos */
-  .bg-gray,
-  .bg-green,
-  .well {
-    background: #fff !important;
-  }
-
-  /* Quitar sombras */
-  .well {
-    box-shadow: none !important;
-    padding: 4px !important;
-  }
-
-  .no-print-after {
-    display: none !important;
-  }
-}
 </style>
 
 <div class="modal-header">

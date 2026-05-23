@@ -3357,6 +3357,11 @@ class TransactionUtil extends Util
                         'created_by' => $parent_payment->created_by,
                         'payment_for' => $parent_payment->payment_for,
                         'parent_id' => $parent_payment->id,
+
+                        // AGREGAR ESTO
+                        'tipo_cambio' => $parent_payment->tipo_cambio,
+                        'amount_soles' => $parent_payment->amount_soles,
+
                         'created_at' => $now,
                         'updated_at' => $now,
                     ];
@@ -3377,37 +3382,68 @@ class TransactionUtil extends Util
                         $parent_payment->business_id
                     );
 
+                    // if ($due <= $total_amount) {
+
+                    //     $array['amount'] = $due;
+                    //     $tranaction_payments[] = $array;
+
+                    //     $transaction->payment_status = 'paid';
+                    //     $transaction->save();
+
+                    //     if ($transaction->type == 'sell') {
+                    //         $moduleUtil = new ModuleUtil();
+                    //         $moduleUtil->getModuleData(
+                    //             'after_sale_saved',
+                    //             ['transaction' => $transaction, 'input' => []]
+                    //         );
+                    //     }
+
+                    //     $total_amount -= $due;
+
+                    //     $this->activityLog($transaction, 'payment_edited', $transaction_before);
+
+                    // } else {
+
+                    //     $array['amount'] = $total_amount;
+                    //     $tranaction_payments[] = $array;
+
+                    //     $transaction->payment_status = 'partial';
+                    //     $transaction->save();
+
+                    //     $total_amount = 0;
+
+                    //     $this->activityLog($transaction, 'payment_edited', $transaction_before);
+
+                    //     break;
+                    // }
+                    
+                    $tipo_cambio = $parent_payment->tipo_cambio ?: 1;
+
                     if ($due <= $total_amount) {
 
                         $array['amount'] = $due;
+                        $array['amount_soles'] = $due * $tipo_cambio;
+                        $array['tipo_cambio'] = $tipo_cambio;
+
                         $tranaction_payments[] = $array;
 
                         $transaction->payment_status = 'paid';
                         $transaction->save();
 
-                        if ($transaction->type == 'sell') {
-                            $moduleUtil = new ModuleUtil();
-                            $moduleUtil->getModuleData(
-                                'after_sale_saved',
-                                ['transaction' => $transaction, 'input' => []]
-                            );
-                        }
-
                         $total_amount -= $due;
-
-                        $this->activityLog($transaction, 'payment_edited', $transaction_before);
 
                     } else {
 
                         $array['amount'] = $total_amount;
+                        $array['amount_soles'] = $total_amount * $tipo_cambio;
+                        $array['tipo_cambio'] = $tipo_cambio;
+
                         $tranaction_payments[] = $array;
 
                         $transaction->payment_status = 'partial';
                         $transaction->save();
 
                         $total_amount = 0;
-
-                        $this->activityLog($transaction, 'payment_edited', $transaction_before);
 
                         break;
                     }
@@ -6187,7 +6223,7 @@ class TransactionUtil extends Util
         $business_id = auth()->user()->business_id;
         $inputs = $request->only(['amount', 'method', 'note', 'card_number', 'card_holder_name',
             'card_transaction_number', 'card_type', 'card_month', 'card_year', 'card_security',
-            'cheque_number', 'bank_account_number', ]);
+            'cheque_number', 'bank_account_number', 'tipo_cambio','amount_soles',]);
 
         //payment type option is available on pay contact modal
         $is_reverse = $request->has('is_reverse') && $request->input('is_reverse') == 1 ? true : false;
@@ -6201,6 +6237,8 @@ class TransactionUtil extends Util
         if ($format_data) {
             $inputs['paid_on'] = $this->uf_date($inputs['paid_on'], true);
             $inputs['amount'] = $this->num_uf($inputs['amount']);
+            $inputs['tipo_cambio'] = $this->num_uf($inputs['tipo_cambio']);
+            $inputs['amount_soles'] = $this->num_uf($inputs['amount_soles']);
         }
 
         $inputs['created_by'] = auth()->user()->id;

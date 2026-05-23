@@ -149,6 +149,49 @@
             </div>
           </div>
         </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+              {!! Form::label("exchange_rate" , 'Tipo cambio:') !!}
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="fas fa-exchange-alt"></i>
+                  </span>
+
+                  {!! Form::text(
+                      "exchange_rate",
+                      '1',
+                      [
+                          'class' => 'form-control input_number',
+                          'id' => 'tipo_cambio',
+                          'name' => 'tipo_cambio',
+                          'placeholder' => 'Tipo de cambio'
+                      ]
+                  ) !!}
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-4">
+          <div class="form-group">
+              {!! Form::label("amount_pen" , 'Monto en soles:') !!}
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="fas fa-money-bill-wave"></i>
+                  </span>
+
+                  <input
+                      type="text"
+                      id="amount_soles"
+                      name="amount_soles"
+                      class="form-control"
+                      readonly
+                      placeholder="Monto en soles">
+              </div>
+          </div>
+      </div>
+
+
         @php
             $pos_settings = !empty(session()->get('business.pos_settings')) ? json_decode(session()->get('business.pos_settings'), true) : [];
 
@@ -246,3 +289,30 @@
 
   </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+
+
+<script>
+  $(document).ready(function () {
+
+      function calcularSoles() {
+
+          let usd = parseFloat($('.payment_amount').val()) || 0;
+          let tc = parseFloat($('#tipo_cambio').val()) || 0;
+
+          let pen = usd * tc;
+
+          $('#amount_soles').val(
+              pen.toLocaleString('es-PE', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+              })
+          );
+      }
+
+      $(document).on('keyup change', '.payment_amount, #tipo_cambio', function () {
+          calcularSoles();
+      });
+
+      calcularSoles();
+  });
+</script>
