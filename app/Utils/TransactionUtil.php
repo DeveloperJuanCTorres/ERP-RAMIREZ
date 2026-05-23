@@ -3324,9 +3324,9 @@ class TransactionUtil extends Util
                 }
 
                 // PURCHASE: solo ordered
-                if ($transaction->type == 'purchase' && $transaction->status != 'ordered') {
-                    continue;
-                }
+                // if ($transaction->type == 'purchase' && $transaction->status != 'ordered') {
+                //     continue;
+                // }
 
                 if ($total_amount > 0) {
 
