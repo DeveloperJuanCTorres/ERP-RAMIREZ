@@ -3330,8 +3330,15 @@ class TransactionUtil extends Util
 
                 if ($total_amount > 0) {
 
-                    $total_paid = $this->getTotalPaid($transaction->id);
-                    $due = $transaction->final_total - $total_paid;
+                    // $total_paid = $this->getTotalPaid($transaction->id);
+                    // $due = $transaction->final_total - $total_paid;
+
+                    $total_paid = round((float) $this->getTotalPaid($transaction->id), 2);
+
+                    $due = round(
+                        (float) $transaction->final_total - $total_paid,
+                        2
+                    );
 
                     if ($due <= 0) {
                         continue;
@@ -3421,7 +3428,7 @@ class TransactionUtil extends Util
 
                     if ($due <= $total_amount) {
 
-                        $array['amount'] = $due;
+                        $array['amount'] = round($due, 2);
                         $array['amount_soles'] = $due * $tipo_cambio;
                         $array['tipo_cambio'] = $tipo_cambio;
 
@@ -3430,11 +3437,11 @@ class TransactionUtil extends Util
                         $transaction->payment_status = 'paid';
                         $transaction->save();
 
-                        $total_amount -= $due;
+                        $total_amount = round($total_amount - $due, 2);
 
                     } else {
 
-                        $array['amount'] = $total_amount;
+                        $array['amount'] = round($total_amount, 2);
                         $array['amount_soles'] = $total_amount * $tipo_cambio;
                         $array['tipo_cambio'] = $tipo_cambio;
 
@@ -6303,7 +6310,8 @@ class TransactionUtil extends Util
 
         //Distribute above payment among unpaid transactions
         if (! $is_reverse) {
-            $excess_amount = $this->payAtOnce($parent_payment, $due_payment_type);
+            $excess_amount = $this->
+            ($parent_payment, $due_payment_type);
         }
         //Update excess amount
         if (! empty($excess_amount)) {
