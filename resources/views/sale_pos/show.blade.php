@@ -474,12 +474,12 @@
   </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   $(document).ready(function(){
     var element = $('div.modal-xl');
     __currency_convert_recursively(element);
   });
-</script>
+</script> -->
 
 <script type="text/javascript">
     $(document).ready(function(){
