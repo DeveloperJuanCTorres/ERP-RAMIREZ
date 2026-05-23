@@ -185,7 +185,6 @@
                       id="amount_soles"
                       name="amount_soles"
                       class="form-control"
-                      readonly
                       placeholder="Monto en soles">
               </div>
           </div>
@@ -294,25 +293,64 @@
 <script>
   $(document).ready(function () {
 
+      let actualizando = false;
+
       function calcularSoles() {
 
-          let usd = parseFloat($('.payment_amount').val()) || 0;
-          let tc = parseFloat($('#tipo_cambio').val()) || 0;
+          if (actualizando) return;
+          actualizando = true;
+
+          let usd = parseFloat($('.payment_amount').val().replace(/,/g, '')) || 0;
+          let tc = parseFloat($('#tipo_cambio').val().replace(/,/g, '')) || 0;
 
           let pen = usd * tc;
 
           $('#amount_soles').val(
-              pen.toLocaleString('es-PE', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2
-              })
+              pen.toFixed(2)
           );
+
+          actualizando = false;
       }
 
+      function calcularDolares() {
+
+          if (actualizando) return;
+          actualizando = true;
+
+          let pen = parseFloat($('#amount_soles').val().replace(/,/g, '')) || 0;
+          let tc = parseFloat($('#tipo_cambio').val().replace(/,/g, '')) || 0;
+
+          let usd = 0;
+
+          if (tc > 0) {
+              usd = pen / tc;
+          }
+
+          $('.payment_amount').val(
+              usd.toFixed(2)
+          );
+
+          actualizando = false;
+      }
+
+      // USD o TC => recalcula soles
       $(document).on('keyup change', '.payment_amount, #tipo_cambio', function () {
-          calcularSoles();
+
+          let focused = document.activeElement.id;
+
+          if (focused === 'amount_soles') {
+              calcularDolares();
+          } else {
+              calcularSoles();
+          }
+      });
+
+      // Soles => recalcula USD
+      $(document).on('keyup change', '#amount_soles', function () {
+          calcularDolares();
       });
 
       calcularSoles();
+
   });
 </script>
