@@ -6310,8 +6310,7 @@ class TransactionUtil extends Util
 
         //Distribute above payment among unpaid transactions
         if (! $is_reverse) {
-            $excess_amount = $this->
-            ($parent_payment, $due_payment_type);
+            $excess_amount = $this->payAtOnce($parent_payment, $due_payment_type);
         }
         //Update excess amount
         if (! empty($excess_amount)) {
