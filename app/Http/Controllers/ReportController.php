@@ -4304,6 +4304,8 @@ class ReportController extends Controller
                 pl.color AS product_color,
                 pl.nuevo_color AS nuevo_color,
                 pl.lot_number,
+                pl.chasis,
+                pl.poliza,
                 pl.quantity AS quantity_purchased,
 
                 t.id AS purchase_transaction_id,

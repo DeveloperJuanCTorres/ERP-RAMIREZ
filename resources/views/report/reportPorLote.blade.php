@@ -32,6 +32,16 @@
             <h5 class="mr-3">
                 Resultados para lote: <strong>{{ $lot }}</strong>
             </h5>
+            
+            <h5 class="mr-3">
+                Chasis: 
+                <strong>{{ $data->first()->chasis ?? '-' }}</strong>
+            </h5>
+
+            <h5 class="mr-3">
+                Póliza: 
+                <strong>{{ $data->first()->poliza ?? '-' }}</strong>
+            </h5>
 
             <button class="btn btn-warning btn-sm"
                     data-toggle="modal"
