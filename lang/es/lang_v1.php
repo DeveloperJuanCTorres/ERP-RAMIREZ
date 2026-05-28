@@ -1339,4 +1339,5 @@ return [
     'zatca_qr_help' => 'Para el país de Arabia Saudita',
     'customer_irrespective_of_sell' => 'Ver clientes independientemente de su venta',
     'img_url_help_text' => 'O URL de la imagen',
+    'payment_details' => 'Detalles de pago',
 ];

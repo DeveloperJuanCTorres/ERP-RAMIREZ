@@ -894,6 +894,9 @@ class AccountController extends Controller
                     'TP.method',
                     'TP.transaction_no',
                     'TP.card_transaction_number',
+
+                    'TP.note',
+
                     'TP.card_number',
                     'TP.card_type',
                     'TP.card_holder_name',
@@ -1022,6 +1025,12 @@ class AccountController extends Controller
                     }
                     if (! empty($row->bank_account_number)) {
                         $arr[] = '<b>'.__('lang_v1.card_no').'</b>: '.$row->bank_account_number;
+                    }
+
+
+
+                    if (! empty($row->note)) {
+                        $arr[] = '<b>'.__('lang_v1.payment_note').'</b>: '.$row->note;
                     }
 
                     return implode(', ', $arr);
