@@ -881,6 +881,12 @@ class AccountController extends Controller
                 )
                 ->leftJoin('users AS u', 'account_transactions.created_by', '=', 'u.id')
                 ->leftJoin('contacts AS c', 'TP.payment_for', '=', 'c.id')
+
+                ->leftJoin('transactions as t_main', 'account_transactions.transaction_id', '=', 't_main.id')
+                ->leftJoin('purchase_lines as pl', 't_main.id', '=', 'pl.transaction_id')
+                ->leftJoin('products as prod', 'pl.product_id', '=', 'prod.id')
+                ->leftJoin('users as mu', 't_main.created_by', '=', 'mu.id')
+
                 ->where('A.business_id', $business_id)
                 ->with(['transaction', 'transaction.contact', 'transfer_transaction', 'transaction.transaction_for'])
                 ->select(['account_transactions.type', 'account_transactions.amount', 'operation_date',
@@ -912,6 +918,17 @@ class AccountController extends Controller
                     'c.supplier_business_name as payment_for_business_name',
                     DB::raw('SUM(child_payments.amount) total_recovered'),
                     DB::raw("GROUP_CONCAT(child_sells.invoice_no SEPARATOR ', ') as child_sells"),
+
+                    'pl.lot_number',
+                    'prod.name as manufactured_product',
+                    DB::raw("
+                    CONCAT(
+                        COALESCE(mu.surname,''),' ',
+                        COALESCE(mu.first_name,''),' ',
+                        COALESCE(mu.last_name,'')
+                    ) as manufactured_by
+                    "),
+
                 ])
                  ->groupBy('account_transactions.id')
                  ->orderBy('account_transactions.operation_date', 'asc');
@@ -1031,6 +1048,13 @@ class AccountController extends Controller
 
                     if (! empty($row->note)) {
                         $arr[] = '<b>'.__('lang_v1.payment_note').'</b>: '.$row->note;
+                    }
+
+                    if (!empty($row->lot_number)) {
+                        $arr[] = '<hr>';
+                        $arr[] = '<b>Lote:</b> ' . $row->lot_number;
+                        $arr[] = '<b>Producto Fabricado:</b> ' . $row->manufactured_product;
+                        $arr[] = '<b>Fabricado por:</b> ' . $row->manufactured_by;
                     }
 
                     return implode(', ', $arr);
