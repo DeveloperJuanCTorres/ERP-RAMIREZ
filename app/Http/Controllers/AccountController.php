@@ -1051,7 +1051,6 @@ class AccountController extends Controller
                     }
 
                     if (!empty($row->lot_number)) {
-                        $arr[] = '<hr>';
                         $arr[] = '<b>Lote:</b> ' . $row->lot_number;
                         $arr[] = '<b>Producto Fabricado:</b> ' . $row->manufactured_product;
                         $arr[] = '<b>Fabricado por:</b> ' . $row->manufactured_by;
