@@ -71,6 +71,25 @@
             <div class="modal-body">
 
                 <div class="form-group">
+                    <label>Tipo Unidad</label>
+
+                    <select id="tipo_unidad" class="form-control">
+                        <option value="trimoto">Trimoto</option>
+                        <option value="lineal">Lineal</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="div_lote" style="display:none;">
+                    <label>Serie / Motor</label>
+
+                    <select id="lot_number" class="form-control select2" style="width:100%">
+                        @foreach($seriesDisponibles as $s)
+                            <option value="{{ $s }}">{{ $s }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group" id="div_guia">
                     <label>Guía</label>
                     <select id="guia" class="form-control select2" style="width:100%">
                         <option value="">Seleccione</option>
@@ -79,6 +98,7 @@
                         @endforeach
                     </select>
                 </div>
+
 
                 <div class="form-group">
                     <label>Ciudad</label>
@@ -115,51 +135,93 @@
 @section('javascript')
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function(){
 
-    let table = $('#tramites_table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '/tramites',
-            data: function(d){
-                d.guia = $('#filter_guia').val();
-                d.lote = $('#filter_lote').val();
-            }
-        },
-        columns: [
-            {data: 'guia'},
-            {data: 'numero_lote'},
-            {data: 'ciudad'},
-            {data: 'titulo'},
-            {data: 'fecha'},
-            {data: 'anio'},
-            {data: 'cliente'},
-            {data: 'comprobante'},
-            {data: 'estado'},
-            {data: 'accion'}
-        ]
+        let table = $('#tramites_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/tramites',
+                data: function(d){
+                    d.guia = $('#filter_guia').val();
+                    d.lote = $('#filter_lote').val();
+                }
+            },
+            columns: [
+                {data: 'guia'},
+                {data: 'numero_lote'},
+                {data: 'ciudad'},
+                {data: 'titulo'},
+                {data: 'fecha'},
+                {data: 'anio'},
+                {data: 'cliente'},
+                {data: 'comprobante'},
+                {data: 'estado'},
+                {data: 'accion'}
+            ]
+        });
+
+        $('#filter_guia, #filter_lote').keyup(function(){
+            table.ajax.reload();
+        });
+
     });
 
-    $('#filter_guia, #filter_lote').keyup(function(){
-        table.ajax.reload();
+    function guardarTramite(){
+        $.post('/tramites', {
+            tipo_unidad: $('#tipo_unidad').val(),
+            lot_number: $('#lot_number').val(),
+            guia: $('#guia').val(),
+            ciudad: $('#ciudad').val(),
+            titulo: $('#titulo').val(),
+            fecha: $('#fecha').val(),
+            anio: $('#anio').val(),
+            _token: $('meta[name="csrf-token"]').attr('content')
+        }, function(){
+            $('#modalTramite').modal('hide');
+            $('#tramites_table').DataTable().ajax.reload();
+        });
+    }
+
+    function toggleTipoUnidad(){
+
+        let tipo = $('#tipo_unidad').val();
+
+        if(tipo == 'lineal'){
+
+            $('#div_guia').hide();
+
+            $('#div_lote').show();
+
+            $('#guia').prop('disabled', true);
+
+            $('#lot_number').prop('disabled', false);
+
+        }else{
+
+            $('#div_guia').show();
+
+            $('#div_lote').hide();
+
+            $('#guia').prop('disabled', false);
+
+            $('#lot_number').prop('disabled', true);
+
+        }
+
+    }
+
+    $('#tipo_unidad').on('change', function(){
+
+        toggleTipoUnidad();
+
     });
 
-});
+    $(document).ready(function(){
 
-function guardarTramite(){
-    $.post('/tramites', {
-        guia: $('#guia').val(),
-        ciudad: $('#ciudad').val(),
-        titulo: $('#titulo').val(),
-        fecha: $('#fecha').val(),
-        anio: $('#anio').val(),
-        _token: $('meta[name="csrf-token"]').attr('content')
-    }, function(){
-        $('#modalTramite').modal('hide');
-        $('#tramites_table').DataTable().ajax.reload();
+        toggleTipoUnidad();
+
     });
-}
 </script>
 
 @endsection

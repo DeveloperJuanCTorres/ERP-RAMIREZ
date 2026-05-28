@@ -8,18 +8,99 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TramitesController extends Controller
 {
+    // public function index(Request $request)
+    // {
+    //     if ($request->ajax()) {
+
+    //         $query = DB::table('tramites as t')
+    //             ->join('purchase_lines as pl', 'pl.guia', '=', 't.guia')
+    //             ->leftJoin('comprobante_sunat as cs', function($join){
+    //                 $join->whereRaw("cs.productos LIKE CONCAT('%Motor: ', pl.lot_number, '%')");
+    //             })
+    //             ->leftJoin('contacts as c', 'c.id', '=', 'cs.contact_id')
+    //             ->select(
+    //                 't.guia',
+    //                 'pl.lot_number as numero_lote',
+    //                 't.ciudad',
+    //                 't.titulo',
+    //                 't.fecha',
+    //                 't.anio',
+    //                 'c.name as cliente',
+    //                 'cs.invoice_no as comprobante'
+    //             );
+
+    //         // FILTROS
+    //         if ($request->guia) {
+    //             $query->where('t.guia', 'like', '%' . $request->guia . '%');
+    //         }
+
+    //         if ($request->lote) {
+    //             $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
+    //         }
+
+    //         return DataTables::of($query)
+
+    //             ->addColumn('estado', function($row){
+    //                 return $row->comprobante 
+    //                     ? '<span class="label label-primary">FACTURADO</span>'
+    //                     : '<span class="label label-warning">PENDIENTE</span>';
+    //             })
+
+    //             ->addColumn('accion', function($row){
+    //                 if ($row->comprobante) {
+    //                     return '<a href="/tramites/detalle/'.$row->numero_lote.'" class="btn btn-xs btn-primary">Ver</a>';
+    //                 }
+    //                 return '-';
+    //             })
+
+    //             ->rawColumns(['estado','accion'])
+    //             ->make(true);
+    //     }
+
+    //     $guiasDisponibles = DB::table('purchase_lines')
+    //         ->whereNotIn('guia', function($q){
+    //             $q->select('guia')->from('tramites');
+    //         })
+    //         ->distinct()
+    //         ->pluck('guia');
+
+    //     return view('tramites.index', compact('guiasDisponibles'));
+    // }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
 
             $query = DB::table('tramites as t')
-                ->join('purchase_lines as pl', 'pl.guia', '=', 't.guia')
-                ->leftJoin('comprobante_sunat as cs', function($join){
-                    $join->whereRaw("cs.productos LIKE CONCAT('%Motor: ', pl.lot_number, '%')");
+
+                ->join('purchase_lines as pl', function($join){
+
+                    // TRIMOTOS
+                    $join->on(function($q){
+                        $q->on('pl.guia', '=', 't.guia')
+                        ->where('t.tipo_unidad', '=', 'trimoto');
+                    });
+
+                    // LINEALES
+                    $join->orOn(function($q){
+                        $q->on('pl.lot_number', '=', 't.lot_number')
+                        ->where('t.tipo_unidad', '=', 'lineal');
+                    });
+
                 })
+
+                ->leftJoin('comprobante_sunat as cs', function($join){
+                    $join->whereRaw("
+                        cs.productos LIKE CONCAT('%Motor: ', pl.lot_number, '%')
+                    ");
+                })
+
                 ->leftJoin('contacts as c', 'c.id', '=', 'cs.contact_id')
+
                 ->select(
                     't.guia',
+                    't.tipo_unidad',
+                    't.lot_number as tramite_lote',
                     'pl.lot_number as numero_lote',
                     't.ciudad',
                     't.titulo',
@@ -29,11 +110,12 @@ class TramitesController extends Controller
                     'cs.invoice_no as comprobante'
                 );
 
-            // FILTROS
+            // FILTRO GUÍA
             if ($request->guia) {
                 $query->where('t.guia', 'like', '%' . $request->guia . '%');
             }
 
+            // FILTRO LOTE
             if ($request->lote) {
                 $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
             }
@@ -41,18 +123,16 @@ class TramitesController extends Controller
             return DataTables::of($query)
 
                 ->addColumn('estado', function($row){
-                    return $row->comprobante 
+                    return $row->comprobante
                         ? '<span class="label label-primary">FACTURADO</span>'
                         : '<span class="label label-warning">PENDIENTE</span>';
                 })
-
                 ->addColumn('accion', function($row){
                     if ($row->comprobante) {
                         return '<a href="/tramites/detalle/'.$row->numero_lote.'" class="btn btn-xs btn-primary">Ver</a>';
                     }
                     return '-';
                 })
-
                 ->rawColumns(['estado','accion'])
                 ->make(true);
         }
@@ -63,8 +143,13 @@ class TramitesController extends Controller
             })
             ->distinct()
             ->pluck('guia');
+        
+        $seriesDisponibles = DB::table('purchase_lines')
+            ->whereNotNull('lot_number')
+            ->distinct()
+            ->pluck('lot_number');
 
-        return view('tramites.index', compact('guiasDisponibles'));
+        return view('tramites.index', compact('guiasDisponibles', 'seriesDisponibles'));
     }
 
     public function store(Request $request)
@@ -75,6 +160,8 @@ class TramitesController extends Controller
 
             DB::table('tramites')->insert([
                 'business_id' => session()->get('user.business_id'),
+                'tipo_unidad' => $request->tipo_unidad,
+                'lot_number' => $request->lot_number,
                 'guia' => $request->guia,
                 'ciudad' => $request->ciudad,
                 'titulo' => $request->titulo,
