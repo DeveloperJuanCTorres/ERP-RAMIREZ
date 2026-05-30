@@ -222,13 +222,7 @@
         toggleTipoUnidad();
 
     });
-
-
-
-    $('#modalTramite').on('shown.bs.modal', function () {
-        $('#guia').trigger('change.select2');
-        $('#lot_number').trigger('change.select2');
-    });
+    
 </script>
 
 @endsection

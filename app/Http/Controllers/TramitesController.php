@@ -137,12 +137,19 @@ class TramitesController extends Controller
                 ->make(true);
         }
 
-        $guiasDisponibles = DB::table('purchase_lines')
-            ->whereNotIn('guia', function($q){
-                $q->select('guia')->from('tramites');
-            })
+        // $guiasDisponibles = DB::table('purchase_lines')
+        //     ->whereNotIn('guia', function($q){
+        //         $q->select('guia')->from('tramites');
+        //     })
+        //     ->distinct()
+        //     ->pluck('guia');
+
+        $guiasDisponibles = DB::table('purchase_lines as pl')
+            ->leftJoin('tramites as t', 't.guia', '=', 'pl.guia')
+            ->whereNull('t.guia')
+            ->whereNotNull('pl.guia')
             ->distinct()
-            ->pluck('guia');
+            ->pluck('pl.guia');
         
         $seriesDisponibles = DB::table('purchase_lines')
             ->whereNotNull('lot_number')
