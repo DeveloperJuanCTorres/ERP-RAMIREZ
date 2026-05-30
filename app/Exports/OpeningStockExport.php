@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class OpeningStockExport implements FromCollection
+class OpeningStockExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
@@ -17,6 +18,11 @@ class OpeningStockExport implements FromCollection
             ->where('t.type', 'opening_stock')
             ->where('t.status', 'received')
             ->where('t.business_id', $business_id)
+
+            // 🔥 SOLO CON LOTE
+            ->whereNotNull('pl.lot_number')
+            ->where('pl.lot_number', '!=', '')
+
             ->select(
                 't.id as transaction_id',
                 'p.name as producto',
