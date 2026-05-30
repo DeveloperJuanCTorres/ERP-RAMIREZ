@@ -561,7 +561,7 @@ class AdminSidebarMenu
                         if (auth()->user()->can('profit_loss_report.view')) {
                              $sub->url(
                                 action([\App\Http\Controllers\ReportController::class, 'exportOpeningStock']),
-                                'Reporte Stock Inicial',
+                                'Reporte de Pedidos',
                                 ['icon' => 'fas fa-boxes', 'active' => request()->segment(2) == 'exportOpeningStock']
                             );
 
