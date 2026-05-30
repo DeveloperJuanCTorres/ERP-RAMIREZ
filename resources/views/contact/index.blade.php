@@ -395,9 +395,21 @@
         $('#modalEstadoCuenta').modal('show');
     });
 
+    // $('#formEstadoCuenta').submit(function () {
+    //     let id = $('#cliente_id').val();
+    //     this.action = '/clientes/' + id + '/estado-cuenta';
+    // });
+
     $('#formEstadoCuenta').submit(function () {
+
         let id = $('#cliente_id').val();
-        this.action = '/clientes/' + id + '/estado-cuenta';
+        let tipo = $('#contact_type').val();
+
+        if(tipo == 'supplier'){
+            this.action = '/proveedores/' + id + '/estado-cuenta';
+        }else{
+            this.action = '/clientes/' + id + '/estado-cuenta';
+        }
     });
 
     ////////////
@@ -416,16 +428,30 @@
         $('#modalEstadoCuentaFinal').modal('show');
     });
 
-    $('#formEstadoCuentaFinal').submit(function () {
-        let id = $('#cliente_id_f').val();
+    // $('#formEstadoCuentaFinal').submit(function () {
+    //     let id = $('#cliente_id_f').val();
 
-        if (!id) {
-            alert('No se ha seleccionado un cliente.');
-            return false;
+    //     if (!id) {
+    //         alert('No se ha seleccionado un cliente.');
+    //         return false;
+    //     }
+
+    //     this.action = '/clientes/' + id + '/estado-cuenta-final';
+    //     return true; // ✅ IMPORTANTE: permite el submit
+    // });
+
+    $('#formEstadoCuentaFinal').submit(function () {
+
+        let id = $('#cliente_id_f').val();
+        let tipo = $('#contact_type').val();
+
+        if(tipo == 'supplier'){
+            this.action = '/proveedores/' + id + '/estado-cuenta-final';
+        }else{
+            this.action = '/clientes/' + id + '/estado-cuenta-final';
         }
 
-        this.action = '/clientes/' + id + '/estado-cuenta-final';
-        return true; // ✅ IMPORTANTE: permite el submit
+        return true;
     });
 
 
@@ -445,9 +471,21 @@
         $('#modalReporteCompras').modal('show');
     });
 
+    // $('#formReporteCompras').submit(function () {
+    //     let id = $('#cliente_id_compras').val();
+    //     this.action = '/clientes/' + id + '/reporte-compras';
+    // });
+
     $('#formReporteCompras').submit(function () {
+
         let id = $('#cliente_id_compras').val();
-        this.action = '/clientes/' + id + '/reporte-compras';
+        let tipo = $('#contact_type').val();
+
+        if(tipo == 'supplier'){
+            this.action = '/proveedores/' + id + '/reporte-compras';
+        }else{
+            this.action = '/clientes/' + id + '/reporte-compras';
+        }
     });
 
     $(document).on('click', '.btn-reporte-pagos', function () {
@@ -472,12 +510,24 @@
             return;
         }
 
-        let url = `/cliente/${cliente_id}/reporte-pagos?inicio=${inicio}&fin=${fin}`;
+        // let url = `/cliente/${cliente_id}/reporte-pagos?inicio=${inicio}&fin=${fin}`;
+
+        let tipo = $('#contact_type').val();
+        let url = '';
+
+        if(tipo == 'supplier'){
+            url = `/proveedores/${cliente_id}/reporte-pagos?inicio=${inicio}&fin=${fin}`;
+        }else{
+            url = `/clientes/${cliente_id}/reporte-pagos?inicio=${inicio}&fin=${fin}`;
+        }
+
         window.open(url, '_blank');
 
         $('#modalReportePagos').modal('hide');
     });
 </script>
+
+
 @if(!empty($api_key))
 
 <script>

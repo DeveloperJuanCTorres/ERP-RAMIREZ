@@ -559,6 +559,12 @@ class AdminSidebarMenu
                     __('report.reports'),
                     function ($sub) use ($enabled_modules, $is_admin) {
                         if (auth()->user()->can('profit_loss_report.view')) {
+                             $sub->url(
+                                action([\App\Http\Controllers\ReportController::class, 'exportOpeningStock']),
+                                'Reporte Stock Inicial',
+                                ['icon' => 'fas fa-boxes', 'active' => request()->segment(2) == 'exportOpeningStock']
+                            );
+
                             $sub->url(
                                 action([\App\Http\Controllers\ReportController::class, 'reportPorLote']),
                                 'Consultar Lote',

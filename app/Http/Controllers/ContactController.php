@@ -188,6 +188,44 @@ class ContactController extends Controller
 
                     $html .= '<li class="divider"></li>';
                     if (auth()->user()->can('supplier.view')) {
+                         $html .= '<li>
+                            <a href="#"
+                            class="btn-estado-cuenta"
+                            data-cliente="'.$row->id.'"
+                            data-nombre="'.$row->name.'">
+                                <i class="fas fa-file-pdf text-danger"></i>
+                                Estado de Cuenta
+                            </a>
+                        </li>';
+
+                        $html .= '<li>
+                            <a href="#"
+                            class="btn-reporte-pagos"
+                            data-cliente="'.$row->id.'"
+                            data-nombre="'.$row->name.'">
+                                <i class="fas fa-file-pdf text-warning"></i>
+                                Reporte de Pagos
+                            </a>
+                        </li>';
+
+                        $html .= '<li>
+                            <a href="#"
+                            class="btn-reporte-compras"
+                            data-cliente="'.$row->id.'"
+                            data-nombre="'.$row->name.'">
+                                <i class="fas fa-file-pdf text-info"></i>
+                                Reporte de Compras
+                            </a>
+                        </li>';
+
+                        $html .= '<li>
+                            <a href="'.route('reportes.cuentas_por_pagar').'?proveedor_id='.$row->id.'">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                Cuentas por Pagar
+                            </a>
+                        </li>';
+
+
                         $html .= '
                                 <li>
                                     <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=ledger">
@@ -1776,6 +1814,10 @@ class ContactController extends Controller
         }        
     }
 
+
+
+
+
     public function estadoCuenta($cliente_id)
     {
         $inicio = request('inicio');
@@ -2453,6 +2495,384 @@ class ContactController extends Controller
             'fechaInicio',
             'fechaFin'
         ));
+    }
+
+    // PROVEEDORES
+    public function estadoCuentaProveedor($proveedor_id)
+    {
+        $inicio = request('inicio');
+        $fin = request('fin');
+
+        $proveedor = Contact::findOrFail($proveedor_id);
+
+        $compras = DB::select("
+            SELECT
+                DATE(t.transaction_date) AS fecha,
+                t.ref_no,
+                pl.lot_number,
+                p.name AS producto,
+
+                (
+                    COALESCE(pl.quantity,1)
+                    *
+                    COALESCE(pl.purchase_price_inc_tax,0)
+                ) AS importe_compra,
+
+                t.id AS transaction_id
+
+            FROM transactions t
+
+            JOIN purchase_lines pl
+                ON pl.transaction_id = t.id
+
+            LEFT JOIN products p
+                ON p.id = pl.product_id
+
+            WHERE t.contact_id = ?
+            AND t.type = 'purchase'
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+            ORDER BY t.transaction_date ASC
+        ", [
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+        $pagos = DB::select("
+            SELECT
+                tp.id,
+                DATE(tp.paid_on) AS fecha_pago,
+                tp.amount AS importe_cancelado,
+                tp.note
+
+            FROM transaction_payments tp
+
+            JOIN transactions t
+                ON t.id = tp.transaction_id
+
+            WHERE t.contact_id = ?
+            AND t.type = 'purchase'
+            AND DATE(tp.paid_on) BETWEEN ? AND ?
+
+            ORDER BY tp.paid_on ASC
+        ", [
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+        $totales = DB::selectOne("
+            SELECT
+
+            (
+                SELECT IFNULL(SUM(final_total),0)
+                FROM transactions
+                WHERE contact_id = ?
+                AND type = 'purchase'
+                AND DATE(transaction_date) BETWEEN ? AND ?
+            ) AS total_compras,
+
+            (
+                SELECT IFNULL(SUM(tp.amount),0)
+                FROM transaction_payments tp
+                JOIN transactions t
+                    ON t.id = tp.transaction_id
+                WHERE t.contact_id = ?
+                AND t.type = 'purchase'
+                AND DATE(tp.paid_on) BETWEEN ? AND ?
+            ) AS total_pagos
+        ", [
+            $proveedor_id,
+            $inicio,
+            $fin,
+
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+        $totales->saldo_final =
+            $totales->total_compras -
+            $totales->total_pagos;
+
+        $pdf = Pdf::loadView(
+            'contact.proveedor.estado_cuenta_pdf',
+            compact(
+                'proveedor',
+                'compras',
+                'pagos',
+                'totales',
+                'inicio',
+                'fin'
+            )
+        )->setPaper('a4', 'landscape');
+
+        return $pdf->stream('estado_cuenta_proveedor.pdf');
+    }
+
+    public function reporteComprasProveedor($proveedor_id)
+    {
+        $inicio = request('inicio');
+        $fin = request('fin');
+
+        $proveedor = Contact::findOrFail($proveedor_id);
+
+        // =========================
+        // COMPRAS DETALLADAS
+        // =========================
+        $compras = DB::select("
+            SELECT
+                DATE(t.transaction_date) AS fecha,
+                t.ref_no AS factura,
+
+                pl.id AS item_id,
+                p.name AS producto,
+                pl.quantity AS cantidad,
+                pl.purchase_price_inc_tax AS precio_unitario,
+                (COALESCE(pl.quantity,1) * COALESCE(pl.purchase_price_inc_tax,0)) AS total_item,
+
+                t.id AS transaction_id
+
+            FROM transactions t
+            JOIN purchase_lines pl 
+                ON pl.transaction_id = t.id
+            LEFT JOIN products p 
+                ON p.id = pl.product_id
+
+            WHERE t.type = 'purchase'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+            ORDER BY t.transaction_date ASC, t.ref_no ASC
+        ", [$proveedor_id, $inicio, $fin]);
+
+        // =========================
+        // SUBTOTALES POR COMPRA
+        // =========================
+        $subtotales = DB::select("
+            SELECT
+                t.id AS transaction_id,
+                SUM(COALESCE(pl.quantity,1) * COALESCE(pl.purchase_price_inc_tax,0)) AS subtotal
+            FROM transactions t
+            JOIN purchase_lines pl 
+                ON pl.transaction_id = t.id
+            WHERE t.type = 'purchase'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+            GROUP BY t.id
+        ", [$proveedor_id, $inicio, $fin]);
+
+        // map subtotales
+        $mapSubtotales = [];
+        foreach ($subtotales as $s) {
+            $mapSubtotales[$s->transaction_id] = $s->subtotal;
+        }
+
+        // =========================
+        // MOVIMIENTOS (ESTILO CLIENTE)
+        // =========================
+        $movimientos = [];
+
+        foreach ($compras as $c) {
+            $movimientos[] = [
+                'fecha'           => $c->fecha,
+                'factura'         => $c->factura,
+                'producto'        => $c->producto,
+                'motor'           => null,
+                'guia'            => null,
+                'contenedor'      => null,
+                'cantidad'        => $c->cantidad,
+                'precio_unitario' => $c->precio_unitario,
+                'total_item'      => $c->total_item,
+                'transaction_id'  => $c->transaction_id,
+                'subtotal'        => $mapSubtotales[$c->transaction_id] ?? 0
+            ];
+        }
+
+        // =========================
+        // MARCAR PRIMERO / ÚLTIMO
+        // =========================
+        $indices = [];
+
+        foreach ($movimientos as $i => $m) {
+            $indices[$m['transaction_id']][] = $i;
+        }
+
+        foreach ($indices as $idxs) {
+            foreach ($idxs as $pos => $idx) {
+                if ($pos == 0) {
+                    $movimientos[$idx]['es_primero'] = true;
+                }
+                if ($pos == count($idxs) - 1) {
+                    $movimientos[$idx]['es_ultimo'] = true;
+                }
+            }
+        }
+
+        foreach ($movimientos as &$m) {
+            $m['es_primero'] = $m['es_primero'] ?? false;
+            $m['es_ultimo']  = $m['es_ultimo'] ?? false;
+        }
+
+        // =========================
+        // TOTAL GENERAL
+        // =========================
+        $totalGeneral = array_sum($mapSubtotales);
+
+        // =========================
+        // PDF
+        // =========================
+        $pdf = Pdf::loadView(
+            'contact.proveedor.reporte_compras_pdf',
+            compact(
+                'proveedor',
+                'movimientos',
+                'inicio',
+                'fin',
+                'totalGeneral'
+            )
+        )->setPaper('a4', 'portrait');
+
+        return $pdf->stream('compras_proveedor.pdf');
+    }
+
+    public function reportePagosProveedor($proveedor_id)
+    {
+        $inicio = request('inicio');
+        $fin = request('fin');
+
+        $proveedor = Contact::findOrFail($proveedor_id);
+
+        $pagos = DB::select("
+            SELECT
+
+                DATE(tp.paid_on) AS fecha_pago,
+
+                tp.amount AS importe,
+
+                TRIM(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(tp.note, '\r',' '),
+                        '\n',' '),
+                    '\t',' ')
+                ) AS observacion
+
+            FROM transaction_payments tp
+
+            JOIN transactions t
+                ON t.id = tp.transaction_id
+
+            WHERE t.contact_id = ?
+            AND t.type = 'purchase'
+            AND DATE(tp.paid_on) BETWEEN ? AND ?
+
+            ORDER BY tp.paid_on ASC
+        ", [
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+        foreach ($pagos as $p) {
+            $p->observacion = trim(
+                preg_replace('/[\r\n\t]+/', ' ', $p->observacion)
+            );
+        }
+
+        $total = collect($pagos)->sum('importe');
+
+        $pdf = Pdf::loadView(
+            'contact.proveedor.reporte_pagos_pdf',
+            compact(
+                'proveedor',
+                'pagos',
+                'total',
+                'inicio',
+                'fin'
+            )
+        )->setPaper('a4', 'portrait');
+
+        return $pdf->stream('pagos_proveedor.pdf');
+    }
+
+    public function cuentasPorPagar(Request $request)
+    {
+        $business_id = $request->session()->get('user.business_id');
+
+        $proveedorId = $request->proveedor_id;
+        $fechaInicio = $request->fecha_inicio;
+        $fechaFin = $request->fecha_fin;
+
+        $compras = DB::table('transactions')
+            ->select(
+                'contact_id',
+                DB::raw('SUM(final_total) as total_compras')
+            )
+            ->where('business_id', $business_id)
+            ->where('type', 'purchase')
+            ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
+                $q->whereBetween('transaction_date', [$fechaInicio, $fechaFin]);
+            })
+            ->groupBy('contact_id');
+
+        $pagos = DB::table('transaction_payments as tp')
+            ->join('transactions as t', 't.id', '=', 'tp.transaction_id')
+            ->select(
+                't.contact_id',
+                DB::raw('SUM(tp.amount) as total_pagos'),
+                DB::raw('MAX(tp.paid_on) as ultimo_pago')
+            )
+            ->where('t.business_id', $business_id)
+            ->where('t.type', 'purchase')
+            ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
+                $q->whereBetween('tp.paid_on', [$fechaInicio, $fechaFin]);
+            })
+            ->groupBy('t.contact_id');
+
+        $query = DB::table('contacts as c')
+            ->where('c.business_id', $business_id)
+            ->whereIn('c.type', ['supplier', 'both'])
+            ->leftJoinSub($compras, 'cpr', function ($join) {
+                $join->on('cpr.contact_id', '=', 'c.id');
+            })
+            ->leftJoinSub($pagos, 'pag', function ($join) {
+                $join->on('pag.contact_id', '=', 'c.id');
+            })
+            ->select(
+                'c.id',
+                DB::raw("
+                    COALESCE(
+                        NULLIF(c.supplier_business_name,''),
+                        c.name
+                    ) AS proveedor
+                "),
+                DB::raw('IFNULL(cpr.total_compras,0) as total_compras'),
+                DB::raw('IFNULL(pag.total_pagos,0) as total_pagos'),
+                DB::raw('IFNULL(cpr.total_compras,0) - IFNULL(pag.total_pagos,0) as saldo'),
+                'pag.ultimo_pago'
+            );
+
+        if ($proveedorId) {
+            $query->where('c.id', $proveedorId);
+        }
+
+        $query->whereRaw('
+            (IFNULL(cpr.total_compras,0) - IFNULL(pag.total_pagos,0)) > 0
+        ');
+
+        $data = $query->get();
+
+        return view(
+            'report.cuentas_por_pagar',
+            compact(
+                'data',
+                'proveedorId',
+                'fechaInicio',
+                'fechaFin'
+            )
+        );
     }
 
 

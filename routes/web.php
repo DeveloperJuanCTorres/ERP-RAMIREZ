@@ -189,6 +189,29 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
 
 
+    //PROVEEDORES
+    Route::get(
+        '/proveedores/{proveedor}/estado-cuenta',
+        [ContactController::class, 'estadoCuentaProveedor']
+    );
+
+    Route::get(
+        '/proveedores/{proveedor}/reporte-compras',
+        [ContactController::class, 'reporteComprasProveedor']
+    );
+
+    Route::get(
+        '/proveedores/{proveedor}/reporte-pagos',
+        [ContactController::class, 'reportePagosProveedor']
+    );
+
+    Route::get(
+        '/reportes/cuentas-por-pagar',
+        [ContactController::class, 'cuentasPorPagar']
+    )->name('reportes.cuentas_por_pagar');
+
+
+
 
     Route::get('taxonomies-ajax-index-page', [TaxonomyController::class, 'getTaxonomyIndexPage']);
     Route::resource('taxonomies', TaxonomyController::class);
@@ -432,6 +455,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/reporte/lote/buscar', [ReportController::class, 'buscarLote'])->name('reporte.lote.buscar');
     Route::post('/reporte/lote/cambiar-color', [ReportController::class, 'cambiarColor'])
     ->name('reporte.lote.cambiarColor');
+
+    Route::get('/reportes/opening-stock', [App\Http\Controllers\ReportController::class, 'exportOpeningStock'])
+    ->name('reports.opening_stock.export');
 
 
     

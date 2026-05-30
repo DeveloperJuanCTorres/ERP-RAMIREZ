@@ -33,6 +33,9 @@ use DB;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
+use App\Exports\OpeningStockExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class ReportController extends Controller
 {
     /**
@@ -4384,6 +4387,14 @@ class ReportController extends Controller
         return redirect()
             ->route('reporte.lote.buscar', ['lot_number' => $request->lot_number])
             ->with('success', 'Color actualizado correctamente.');
+    }
+
+    public function exportOpeningStock()
+    {
+        return Excel::download(
+            new OpeningStockExport,
+            'reporte_stock_inicial.xlsx'
+        );
     }
 
     // public function buscarLote(Request $request)
