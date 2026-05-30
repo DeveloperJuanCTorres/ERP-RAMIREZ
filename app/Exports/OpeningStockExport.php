@@ -18,6 +18,7 @@ class OpeningStockExport implements FromCollection
             ->where('t.status', 'received')
             ->where('t.business_id', $business_id)
             ->select(
+                't.id as transaction_id',
                 'p.name as producto',
                 'pl.purchase_price_inc_tax as precio_compra',
                 'pl.lot_number as lote',
@@ -29,6 +30,7 @@ class OpeningStockExport implements FromCollection
     public function headings(): array
     {
         return [
+            'ID Transacción',
             'Producto',
             'Precio compra inc. IGV',
             'Lote',
