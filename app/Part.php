@@ -17,6 +17,9 @@ class Part extends Model
         'proveedor_id',
         'cliente_id',
         'product_id',
+        'horas_minimas',
+        'dias_minimas',
+        'importe',
         'observations',
         'created_at'
         

@@ -14,6 +14,18 @@
                      
 
         <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+                {!! Form::label('fecha', 'Fecha:*') !!}
+                <input type="date" class="form-control" id="fecha" name="fecha">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                {!! Form::label('parte', '# Parte:*') !!}
+                <input type="text" class="form-control" id="parte" name="parte" placeholder="Número de parte físico">
+            </div>
+          </div>
           <div class="col-md-8">
             <div class="form-group">
                 {!! Form::label('conductor', 'Conductor:*') !!}
@@ -54,6 +66,13 @@
             <div class="form-group">
               {!! Form::label('h_final', 'Horometro final:*') !!}
               {!! Form::number('h_final', null, ['class' => 'form-control','placeholder' => 'horometro final', 'step' => '0.01']); !!}
+            </div>
+          </div>
+
+          <div class="col-md-6 ms-auto">
+            <div class="form-group">
+              {!! Form::label('importe', 'Importe por Hora:*') !!}
+              {!! Form::number('importe', null, ['class' => 'form-control','placeholder' => 'horometro final', 'step' => '0.01']); !!}
             </div>
           </div>
         </div>  

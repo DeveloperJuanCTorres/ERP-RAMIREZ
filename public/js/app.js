@@ -265,6 +265,9 @@ $(document).ready(function() {
             { data: 'created_at', name: 'created_at' },
             { data: 'proveedor_id', name: 'proveedor_id' },
             { data: 'product_id', name: 'product_id' },
+            { data: 'horas_minimas', name: 'horas_minimas' },
+            { data: 'dias_minimas', name: 'dias_minimas' },
+            { data: 'importe', name: 'importe' },
             { data: 'observations', name: 'observations' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
             ]

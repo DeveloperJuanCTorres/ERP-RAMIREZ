@@ -50,6 +50,9 @@
                             <th>Fecha</th>
                             <th>Proveedor</th>
                             <th>Maquinaria</th>
+                            <th>H. Mínimas</th>
+                            <th>D. Mínimas</th>
+                            <th>Importe x Hora</th>
                             <th>Observacion</th>
                             <th>@lang( 'messages.action' )</th>
                         </tr>

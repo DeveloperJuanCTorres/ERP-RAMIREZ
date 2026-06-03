@@ -5,7 +5,7 @@
 
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h4 class="modal-title">Agregar parte</h4>
+      <h4 class="modal-title">Registro de contrato</h4>
     </div>
 
     <div class="modal-body">
@@ -27,7 +27,7 @@
 				@endif
         <div class="form-group">
           {!! Form::label('location_id', __('purchase.business_location').':*') !!}
-          {!! Form::select('location_id', $business_locations, $default_location, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required'], $bl_attributes); !!}
+          {!! Form::select('location_id', $business_locations, $default_location, ['class' => 'form-control select2', 'name' => 'business_locations', 'id' => 'business_locations', 'placeholder' => __('messages.please_select'), 'required'], $bl_attributes); !!}
         </div>
 
         <div class="form-group">
@@ -58,6 +58,29 @@
                 <option value="{{$product->id}}">{{$product->name}}</option>
                 @endforeach
             </select>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              {!! Form::label('name', 'Horas mínimas:*') !!}
+              <input class="form-control" name="horas_minimas" id="horas_minimas"></input>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              {!! Form::label('name', 'Dias M. Por semana:*') !!}
+              <input class="form-control" name="dias_minimas" id="dias_minimas"></input>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              {!! Form::label('name', 'Importe por hora:*') !!}
+              <input class="form-control" name="importe" id="importe" rows="3"></input>
+            </div>
+          </div>
         </div>
                
         <div class="form-group">

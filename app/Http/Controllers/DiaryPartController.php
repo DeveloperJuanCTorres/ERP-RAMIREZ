@@ -54,7 +54,7 @@ class DiaryPartController extends Controller
         if (request()->ajax()) {
             
             $parts = Part::where('business_id', $business_id)
-                        ->select(['id','created_at', 'proveedor_id', 'product_id', 'observations']);
+                    ->select(['id','created_at', 'proveedor_id', 'product_id', 'horas_minimas', 'dias_minimas', 'importe', 'observations']);
             
             if (!empty(request()->location_id)) {
                 $parts->where('business_id', request()->location_id);
@@ -206,9 +206,10 @@ class DiaryPartController extends Controller
         }
 
         try {
-            $input = $request->only(['proveedor_id', 'cliente_id', 'product_id', 'observations']);
+            $input = $request->only(['proveedor_id', 'cliente_id', 'product_id', 'horas_minimas', 'dias_minimas', 'importe', 'observations']);
             $business_id = $request->session()->get('user.business_id');
-            $input['business_id'] = $business_id;    
+            // $input['business_id'] = $business_id; 
+            $input['business_id'] = $request->business_locations;
 
             $parts = Part::create($input);
           
@@ -271,7 +272,7 @@ class DiaryPartController extends Controller
         }
 
         try {    
-            $input = $request->only(['dni','conductor', 'h_inicio', 'h_final','zona_trabajo','combustible']);           
+            $input = $request->only(['fecha', 'parte', 'dni','conductor', 'h_inicio', 'h_final','zona_trabajo','combustible']);           
             $business_id = $request->session()->get('user.business_id');
             $parts = DailyPart::create([
                 'business_id' => $business_id,

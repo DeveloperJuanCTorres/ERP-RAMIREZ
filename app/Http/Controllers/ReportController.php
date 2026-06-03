@@ -4316,7 +4316,7 @@ class ReportController extends Controller
                 t.type AS transaction_type,
                 t.invoice_no AS purchase_invoice_no,
 
-                supplier.name AS supplier_name,
+                supplier.supplier_business_name AS supplier_name,
 
                 bl.name AS location_name,
 
