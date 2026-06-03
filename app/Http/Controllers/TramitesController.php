@@ -70,15 +70,6 @@ class TramitesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // FILTRO GUÍA
-            if ($request->guia) {
-                $query->where('t.guia', 'like', '%' . $request->guia . '%');
-            }
-
-            // FILTRO LOTE
-            if ($request->lote) {
-                $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
-            }
 
             $query = DB::table('tramites as t')
                 ->join('purchase_lines as pl', function($join){
@@ -112,11 +103,19 @@ class TramitesController extends Controller
                     't.titulo',
                     't.fecha',
                     't.anio',
-                    'COALESCE(c.supplier_business_name, c.name) as cliente',
+                    'c.name as cliente',
                     'cs.invoice_no as comprobante'
                 );
 
-            
+            // FILTRO GUÍA
+            if ($request->guia) {
+                $query->where('t.guia', 'like', '%' . $request->guia . '%');
+            }
+
+            // FILTRO LOTE
+            if ($request->lote) {
+                $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
+            }
 
             return DataTables::of($query)
 
