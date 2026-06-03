@@ -97,7 +97,7 @@
                             <td>{{ $row->purchase_date }}</td>
                             <td>{{ $row->quantity_purchased }}</td>
                             <td>{{ $row->sell_quantity }}</td>
-                            <td>{{ $row->customer_name }} {{ $row->supplier_name }}juan</td>
+                            <td>{{ $row->customer_name }} {{ $row->supplier_name }}</td>
                             <td>{{ $row->sell_invoice_no }}</td>
                             <td>{{ $row->sell_date }}</td>
                             <td>{{ $row->stock_remaining }}</td>
