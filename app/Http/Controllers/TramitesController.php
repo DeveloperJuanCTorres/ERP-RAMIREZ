@@ -106,7 +106,7 @@ class TramitesController extends Controller
                     't.titulo',
                     't.fecha',
                     't.anio',
-                    'c.name as cliente',
+                    'COALESCE(c.supplier_business_name, c.name) as cliente',
                     'cs.invoice_no as comprobante'
                 );
 
@@ -197,7 +197,7 @@ class TramitesController extends Controller
                 'pl.guia',
                 'pl.lot_number',
                 'pl.motor',
-                'c.name as cliente',
+                'COALESCE(c.supplier_business_name, c.name) as cliente',
                 'cs.invoice_no as comprobante'
             )
             ->where('pl.lot_number', $lote)
