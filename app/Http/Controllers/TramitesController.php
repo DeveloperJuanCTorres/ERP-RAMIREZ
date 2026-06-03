@@ -70,9 +70,17 @@ class TramitesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            // FILTRO GUÍA
+            if ($request->guia) {
+                $query->where('t.guia', 'like', '%' . $request->guia . '%');
+            }
+
+            // FILTRO LOTE
+            if ($request->lote) {
+                $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
+            }
 
             $query = DB::table('tramites as t')
-
                 ->join('purchase_lines as pl', function($join){
 
                     // TRIMOTOS
@@ -88,13 +96,11 @@ class TramitesController extends Controller
                     });
 
                 })
-
                 ->leftJoin('comprobante_sunat as cs', function($join){
                     $join->whereRaw("
                         cs.productos LIKE CONCAT('%Motor: ', pl.lot_number, '%')
                     ");
                 })
-
                 ->leftJoin('contacts as c', 'c.id', '=', 'cs.contact_id')
 
                 ->select(
@@ -110,15 +116,7 @@ class TramitesController extends Controller
                     'cs.invoice_no as comprobante'
                 );
 
-            // FILTRO GUÍA
-            if ($request->guia) {
-                $query->where('t.guia', 'like', '%' . $request->guia . '%');
-            }
-
-            // FILTRO LOTE
-            if ($request->lote) {
-                $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
-            }
+            
 
             return DataTables::of($query)
 
@@ -137,12 +135,6 @@ class TramitesController extends Controller
                 ->make(true);
         }
 
-        // $guiasDisponibles = DB::table('purchase_lines')
-        //     ->whereNotIn('guia', function($q){
-        //         $q->select('guia')->from('tramites');
-        //     })
-        //     ->distinct()
-        //     ->pluck('guia');
 
         $guiasDisponibles = DB::table('purchase_lines as pl')
             ->leftJoin('tramites as t', 't.guia', '=', 'pl.guia')
