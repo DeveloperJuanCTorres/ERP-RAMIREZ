@@ -173,7 +173,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     )->name('cliente.estado.cuenta.final');
 
     //REPORTE DE PAGOS
-    Route::get('/cliente/{id}/reporte-pagos', 
+    Route::get('/clientes/{id}/reporte-pagos', 
         [\App\Http\Controllers\ContactController::class, 'reportePagosCliente'])
         ->name('cliente.reporte_pagos');
 
