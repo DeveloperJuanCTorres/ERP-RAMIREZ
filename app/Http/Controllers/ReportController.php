@@ -4316,14 +4316,14 @@ class ReportController extends Controller
                 t.type AS transaction_type,
                 t.invoice_no AS purchase_invoice_no,
 
-                supplier.supplier_business_name AS supplier_name,
+                COALESCE(supplier.supplier_business_name, supplier.name) AS supplier_name,
 
                 bl.name AS location_name,
 
                 tsl.quantity AS sell_quantity,
                 ts.invoice_no AS sell_invoice_no,
                 ts.transaction_date AS sell_date,
-                customer.name AS customer_name,
+                COALESCE(customer.supplier_business_name, customer.name) AS customer_name,
 
                 (
                     pl.quantity 
