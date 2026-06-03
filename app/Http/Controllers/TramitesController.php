@@ -188,7 +188,7 @@ class TramitesController extends Controller
                 'pl.guia',
                 'pl.lot_number',
                 'pl.motor',
-                'COALESCE(c.supplier_business_name, c.name) as cliente',
+                'c.name as cliente',
                 'cs.invoice_no as comprobante'
             )
             ->where('pl.lot_number', $lote)
