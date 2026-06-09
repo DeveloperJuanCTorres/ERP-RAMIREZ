@@ -199,6 +199,15 @@ class ContactController extends Controller
                         </li>';
 
                         $html .= '<li>
+                            <a href="#" 
+                            class="btn-estado-cuenta-final"
+                            data-cliente="'.$row->id.'"
+                            data-nombre="'.$row->name.'">
+                                <i class="fas fa-file-pdf text-danger"></i> Estado de Cuenta Final
+                            </a>
+                        </li>';
+
+                        $html .= '<li>
                             <a href="#"
                             class="btn-reporte-pagos"
                             data-cliente="'.$row->id.'"
@@ -2610,6 +2619,428 @@ class ContactController extends Controller
 
         return $pdf->stream('estado_cuenta_proveedor.pdf');
     }
+
+    
+    public function estadoCuentaFinalProveedor($proveedor_id)
+    {
+        $inicio = request('inicio_f');
+        $fin    = request('fin_f');
+
+        $proveedor = Contact::findOrFail($proveedor_id);
+
+        // ===============================
+        // COMPRAS DEL PROVEEDOR
+        // ===============================
+
+        $compras = DB::select("
+            SELECT
+
+                DATE(t.transaction_date) AS fecha,
+
+                t.ref_no AS invoice_no,
+
+                pl.guia,
+
+                pl.lot_number AS nro_motor,
+
+                p.name AS modelo,
+
+                (COALESCE(pl.quantity,1) * COALESCE(pl.purchase_price_inc_tax,0))
+                AS importe,
+
+                (
+                    SELECT SUM(
+                        COALESCE(pl2.quantity,1)
+                        *
+                        COALESCE(pl2.purchase_price_inc_tax,0)
+                    )
+                    FROM purchase_lines pl2
+                    WHERE pl2.transaction_id=t.id
+                ) subtotal,
+
+                t.id transaction_id
+
+            FROM transactions t
+
+            INNER JOIN purchase_lines pl
+                ON pl.transaction_id=t.id
+
+            LEFT JOIN products p
+                ON p.id=pl.product_id
+
+            WHERE
+                t.type='purchase'
+                AND t.contact_id=?
+                AND DATE(t.transaction_date)
+                BETWEEN ? AND ?
+
+            ORDER BY
+                t.transaction_date,
+                t.ref_no
+
+        ",[
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+        // ===============================
+        // PAGOS GLOBALES
+        // ===============================
+
+        $pagos = DB::select("
+
+            SELECT
+
+                tp.id,
+
+                tp.amount,
+
+                DATE(tp.paid_on) fecha_pago,
+
+                tp.note,
+
+                tp.method,
+
+                (
+
+                    SELECT acc.name
+
+                    FROM account_transactions at
+
+                    INNER JOIN accounts acc
+                        ON acc.id=at.account_id
+
+                    WHERE at.transaction_payment_id=tp.id
+
+                    LIMIT 1
+
+                ) cuenta
+
+            FROM transaction_payments tp
+
+            WHERE
+
+                tp.id IN (
+
+                    SELECT DISTINCT parent_id
+
+                    FROM transaction_payments tph
+
+                    INNER JOIN transactions t
+
+                        ON t.id=tph.transaction_id
+
+                    WHERE
+
+                        tph.parent_id IS NOT NULL
+
+                        AND t.type='purchase'
+
+                        AND t.contact_id=?
+
+                )
+
+                AND DATE(tp.paid_on)
+                BETWEEN ? AND ?
+
+            ORDER BY tp.paid_on
+
+        ",[
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+        foreach($pagos as $p){
+
+            $p->note=trim(
+                preg_replace(
+                    '/[\r\n\t]+/',
+                    ' ',
+                    $p->note
+                )
+            );
+
+        }
+
+        // ===============================
+        // TOTALES
+        // ===============================
+
+        $totales=DB::selectOne("
+
+            SELECT
+
+            (
+
+                SELECT
+                IFNULL(
+                    SUM(
+                        quantity
+                        *
+                        purchase_price_inc_tax
+                    ),
+                0)
+
+                FROM purchase_lines pl
+
+                INNER JOIN transactions t
+
+                    ON t.id=pl.transaction_id
+
+                WHERE
+
+                    t.type='purchase'
+
+                    AND t.contact_id=?
+
+                    AND DATE(t.transaction_date)
+                    BETWEEN ? AND ?
+
+            ) total_compras,
+
+            (
+
+                SELECT
+                IFNULL(
+                    SUM(tp.amount),
+                0)
+
+                FROM transaction_payments tp
+
+                WHERE
+
+                    tp.id IN(
+
+                        SELECT DISTINCT parent_id
+
+                        FROM transaction_payments tph
+
+                        INNER JOIN transactions t
+
+                            ON t.id=tph.transaction_id
+
+                        WHERE
+
+                            tph.parent_id IS NOT NULL
+
+                            AND t.type='purchase'
+
+                            AND t.contact_id=?
+
+                    )
+
+                    AND DATE(tp.paid_on)
+                    BETWEEN ? AND ?
+
+            ) total_pagos
+
+        ",[
+            $proveedor_id,
+            $inicio,
+            $fin,
+
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+        $totales->saldo_final=
+            $totales->total_compras
+            -
+            $totales->total_pagos;
+
+        // ===============================
+        // UNIFICAR MOVIMIENTOS
+        // ===============================
+
+        $movimientos=[];
+
+        foreach($compras as $c){
+
+            $movimientos[]=[
+
+                'fecha'=>$c->fecha,
+
+                'tipo'=>'COMPRA',
+
+                'invoice_no'=>$c->invoice_no,
+
+                'clave_compra'=>$c->invoice_no,
+
+                'motor'=>$c->nro_motor,
+
+                'modelo'=>$c->modelo,
+
+                'importe'=>$c->importe,
+
+                'subtotal'=>$c->subtotal,
+
+                'cuenta'=>null,
+
+                'nota_pago'=>null,
+
+                'importe_pago'=>0
+
+            ];
+
+        }
+
+        foreach($pagos as $p){
+
+            $movimientos[]=[
+
+                'fecha'=>$p->fecha_pago,
+
+                'tipo'=>'PAGO',
+
+                'invoice_no'=>null,
+
+                'clave_compra'=>null,
+
+                'motor'=>null,
+
+                'modelo'=>null,
+
+                'importe'=>0,
+
+                'subtotal'=>0,
+
+                'cuenta'=>$p->cuenta,
+
+                'nota_pago'=>$p->note,
+
+                'importe_pago'=>$p->amount
+
+            ];
+
+        }
+
+        usort($movimientos,function($a,$b){
+
+            return strtotime($a['fecha'])
+                <=>
+            strtotime($b['fecha']);
+
+        });
+
+        // ===============================
+        // SALDO
+        // ===============================
+
+        $saldo=0;
+
+        foreach($movimientos as &$m){
+
+            if($m['tipo']=="COMPRA"){
+
+                $saldo+=$m['importe'];
+
+            }else{
+
+                $saldo-=$m['importe_pago'];
+
+            }
+
+            $m['saldo']=$saldo;
+
+        }
+
+        // ===============================
+        // MOSTRAR SALDO ANTES DEL PAGO
+        // ===============================
+
+        for($i=0;$i<count($movimientos);$i++){
+
+            if(
+                $movimientos[$i]['tipo']=="PAGO"
+                &&
+                $i>0
+            ){
+
+                $movimientos[$i-1]['mostrar_saldo']=true;
+
+                $movimientos[$i-1]['saldo_visible']=
+                $movimientos[$i-1]['saldo'];
+
+            }
+
+        }
+
+        foreach($movimientos as &$m){
+
+            $m['mostrar_saldo']=$m['mostrar_saldo']??false;
+
+            $m['saldo_visible']=$m['saldo_visible']??null;
+
+        }
+
+        // ===============================
+        // AGRUPAR PEDIDOS
+        // ===============================
+
+        $indices=[];
+
+        foreach($movimientos as $i=>$m){
+
+            if($m['tipo']=="COMPRA"){
+
+                $indices[$m['clave_compra']][]=$i;
+
+            }
+
+        }
+
+        foreach($indices as $grupo){
+
+            foreach($grupo as $k=>$idx){
+
+                if($k==0){
+
+                    $movimientos[$idx]['es_primero']=true;
+
+                }
+
+                if($k==count($grupo)-1){
+
+                    $movimientos[$idx]['es_ultimo']=true;
+
+                }
+
+            }
+
+        }
+
+        foreach($movimientos as &$m){
+
+            $m['es_primero']=$m['es_primero']??false;
+
+            $m['es_ultimo']=$m['es_ultimo']??false;
+
+        }
+
+
+
+        $pdf=Pdf::loadView(
+
+            'contact.estado_cuenta_final_proveedor_pdf',
+
+            compact(
+                'proveedor',
+                'movimientos',
+                'totales',
+                'inicio',
+                'fin'
+            )
+
+        )->setPaper('a4','landscape');
+
+
+        return $pdf->stream('estado_cuenta_proveedor.pdf');
+    }
+
+
 
     public function reporteComprasProveedor($proveedor_id)
     {

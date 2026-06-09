@@ -195,6 +195,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         [ContactController::class, 'estadoCuentaProveedor']
     );
 
+    Route::get('/proveedores/{id}/estado-cuenta-final',
+        [ContactController::class,'estadoCuentaFinalProveedor']
+    );
+
     Route::get(
         '/proveedores/{proveedor}/reporte-compras',
         [ContactController::class, 'reporteComprasProveedor']
