@@ -1612,4 +1612,60 @@ class PurchaseController extends Controller
         ]);
     }
 
+    public function ReporteGeneralCompras()
+    {
+        $proveedores = Contact::where('type', 'supplier')
+                            ->orderBy('supplier_business_name')
+                            ->get();
+
+        return view(
+            'purchase.partials.reporte_general_compras',
+            compact('proveedores')
+        );
+    }
+
+    public function generar(Request $request)
+    {
+        $proveedor_id = $request->proveedor_id;
+        $fecha_inicio = $request->fecha_inicio;
+        $fecha_fin = $request->fecha_fin;
+
+        $proveedor = Contact::findOrFail($proveedor_id);
+
+        $compras = Transaction::where('type', 'purchase')
+            ->where('contact_id', $proveedor_id)
+            ->whereDate('transaction_date', '>=', $fecha_inicio)
+            ->whereDate('transaction_date', '<=', $fecha_fin)
+            ->orderBy('transaction_date')
+            ->get();
+
+        foreach ($compras as $compra) {
+
+            $compra->detalle = PurchaseLine::join(
+                    'products',
+                    'purchase_lines.product_id',
+                    '=',
+                    'products.id'
+                )
+                ->where('purchase_lines.transaction_id', $compra->id)
+                ->select(
+                    'products.name as producto',
+                    'purchase_lines.quantity',
+                    'purchase_lines.purchase_price_inc_tax',
+                    DB::raw('purchase_lines.quantity * purchase_lines.purchase_price_inc_tax as subtotal')
+                )
+                ->get();
+        }
+
+        return view(
+            'purchase.partials.resultado_compras_proveedor',
+            compact(
+                'proveedor',
+                'fecha_inicio',
+                'fecha_fin',
+                'compras'
+            )
+        );
+    }
+
 }

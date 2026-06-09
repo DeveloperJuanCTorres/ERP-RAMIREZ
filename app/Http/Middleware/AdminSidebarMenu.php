@@ -300,6 +300,17 @@ class AdminSidebarMenu
                                 ['icon' => 'fa fas fa-undo', 'active' => request()->segment(1) == 'purchase-return']
                             );
                         }
+
+                        if (auth()->user()->can('purchase.view')) {
+                            $sub->url(
+                                action([\App\Http\Controllers\PurchaseController::class, 'ReporteGeneralCompras']),
+                                'Reporte Compras por Proveedor',
+                                [
+                                    'icon' => 'fa fas fa-file-alt',
+                                    'active' => request()->segment(1) == 'reporte-compras-proveedor'
+                                ]
+                            );
+                        }
                     },
                     ['icon' => 'fa fas fa-arrow-circle-down', 'id' => 'tour_step6']
                 )->order(25);

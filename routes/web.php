@@ -274,6 +274,19 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/purchases/check_ref_number', [PurchaseController::class, 'checkRefNumber']);
     Route::resource('purchases', PurchaseController::class)->except(['show']);
 
+
+
+    Route::get(
+        '/reporte-compras-proveedor',
+        [App\Http\Controllers\PurchaseController::class, 'ReporteGeneralCompras']
+    );
+
+    Route::post(
+        '/reporte-compras-proveedor/generar',
+        [App\Http\Controllers\PurchaseController::class, 'generar']
+    );
+
+
     Route::get('/toggle-subscription/{id}', [SellPosController::class, 'toggleRecurringInvoices']);
     Route::post('/sells/pos/get-types-of-service-details', [SellPosController::class, 'getTypesOfServiceDetails']);
     Route::get('/sells/subscriptions', [SellPosController::class, 'listSubscriptions']);
