@@ -2434,6 +2434,10 @@ class ContactController extends Controller
         // =========================
         $totalGeneral = array_sum(array_column($mapSubtotales, null));
 
+        $totalPagadoGeneral = array_sum($mapPagos);
+
+        $totalSaldoGeneral = $totalGeneral - $totalPagadoGeneral;
+
         // =========================
         // PDF
         // =========================
@@ -2444,7 +2448,9 @@ class ContactController extends Controller
                 'movimientos',
                 'inicio',
                 'fin',
-                'totalGeneral'
+                'totalGeneral',
+                'totalPagadoGeneral',
+                'totalSaldoGeneral'
             )
         )->setPaper('a4', 'portrait')->setOptions([
             'isHtml5ParserEnabled' => true,

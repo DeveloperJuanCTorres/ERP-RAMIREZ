@@ -146,12 +146,43 @@
         </tbody>
 
         {{-- TOTAL GENERAL --}}
-        <tfoot>
+        <!-- <tfoot>
             <tr class="total-general">
                 <td colspan="7" class="text-right">TOTAL GENERAL</td>
                 <td class="text-right">
                     {{ number_format($totalGeneral, 2) }}
                 </td>
+            </tr>
+        </tfoot> -->
+        <tfoot>
+            <tr class="total-general">
+                <td colspan="6" class="text-right">
+                    <strong>TOTAL GENERAL</strong>
+                </td>
+                <td colspan="2" class="text-right">
+                    {{ number_format($totalGeneral, 2) }}
+                </td>
+
+            </tr>
+
+            <tr class="total-general">
+                <td colspan="6" class="text-right">
+                    <strong>TOTAL PAGADO</strong>
+                </td>
+                <td colspan="2" class="text-right">
+                    {{ number_format($totalPagadoGeneral, 2) }}
+                </td>
+            
+            </tr>
+
+            <tr class="total-general">
+                <td colspan="6" class="text-right">
+                    <strong>SALDO GENERAL</strong>
+                </td>
+                <td colspan="2" class="text-right">
+                    {{ number_format($totalSaldoGeneral, 2) }}
+                </td>
+               
             </tr>
         </tfoot>
     </table>
