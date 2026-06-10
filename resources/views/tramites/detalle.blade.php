@@ -154,52 +154,110 @@ $estado = $detalle->estado ?? 'tramite';
 {{-- ================= ENTREGA ================= --}}
 @if($detalle && $detalle->estado == 'recibido')
 
-<div class="box box-success">
+    <div class="box box-success">
 
-<div class="box-header with-border">
-    <h4 class="box-title">Entrega</h4>
-</div>
-
-<div class="box-body">
-
-<div class="row">
-
-    <div class="col-md-4">
-        <label>Placa</label>
-        <input type="text" id="placa" class="form-control"
-            value="{{ $detalle->placa ?? '' }}"
-            {{ !empty($detalle->placa) ? 'disabled' : '' }}>
+    <div class="box-header with-border">
+        <h4 class="box-title">Entrega</h4>
     </div>
 
-    <div class="col-md-3">
-        <label>&nbsp;</label><br>
+    <div class="box-body">
 
-        @if(!$detalle->placa)
-        <button class="btn btn-primary" onclick="guardarPlaca()">
-            Guardar Placa
-        </button>
-        @endif
-    </div>
+    <div class="row">
 
-    <div class="col-md-3">
-        <label>Estado</label><br>
+        <div class="col-md-4">
+            <label>Placa</label>
+            <input type="text" id="placa" class="form-control"
+                value="{{ $detalle->placa ?? '' }}"
+                {{ !empty($detalle->placa) ? 'disabled' : '' }}>
+        </div>
 
-        @if(($detalle->estado_entrega ?? 'almacen') == 'almacen')
-            <button class="btn btn-warning" onclick="confirmarEntrega()">
-                EN ALMACÉN
+        <div class="col-md-3">
+            <label>&nbsp;</label><br>
+
+            @if(!$detalle->placa)
+            <button class="btn btn-primary" onclick="guardarPlaca()">
+                Guardar Placa
             </button>
-        @else
-            <button class="btn btn-success" disabled>
-                ENTREGADO
-            </button>
-        @endif
+            @endif
+        </div>
+
+        <div class="col-md-3">
+            <label>Estado</label><br>
+
+            @if(($detalle->estado_entrega ?? 'almacen') == 'entregado')
+
+                <button class="btn btn-success" disabled>
+                    ENTREGADO
+                </button>
+
+            @elseif($detalle->placa_pagada)
+
+                <button class="btn btn-warning" onclick="confirmarEntrega()">
+                    EN ALMACÉN
+                </button>
+
+            @else
+
+                <button class="btn btn-default" disabled>
+                    ESPERANDO PAGO DE PLACA
+                </button>
+
+            @endif
+
+        </div>
 
     </div>
 
-</div>
+    </div>
+    </div>
 
-</div>
-</div>
+@endif
+
+@if($detalle && $detalle->estado == 'recibido' && !empty($detalle->placa))
+
+    <div class="box box-info">
+
+    <div class="box-header with-border">
+        <h4 class="box-title">Pago de Placa Física</h4>
+    </div>
+
+    <div class="box-body">
+
+    @if(!$detalle->placa_pagada)
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <label>Fecha Pago</label>
+            <input type="date" id="fecha_pago" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <label>Monto</label>
+            <input type="number" id="monto_pago" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <label>&nbsp;</label><br>
+
+            <button class="btn btn-primary" onclick="guardarPagoPlaca()">
+                Registrar Pago
+            </button>
+
+        </div>
+
+    </div>
+
+    @else
+
+    <div class="alert alert-success">
+        ✔ Pago registrado correctamente.
+    </div>
+
+    @endif
+
+    </div>
+    </div>
 
 @endif
 
@@ -212,93 +270,125 @@ $estado = $detalle->estado ?? 'tramite';
 
 <script>
 
-// VALIDACIÓN
-function validarCampos(){
-    let fecha = $('#fecha_ingreso').val();
-    let importe = $('#importe').val();
-    let titulo = $('#titulo').val();
-    let codigo = $('#codigo').val();
+    // VALIDACIÓN
+    function validarCampos(){
+        let fecha = $('#fecha_ingreso').val();
+        let importe = $('#importe').val();
+        let titulo = $('#titulo').val();
+        let codigo = $('#codigo').val();
 
-    if(fecha && importe && titulo && codigo){
-        $('#btnGuardar').hide();
-        $('.campo').prop('disabled', true);
-    }
-}
-
-$('.campo').on('keyup change', validarCampos);
-
-$(document).ready(validarCampos);
-
-// GUARDAR
-function guardarPaso1(){
-    $.post('/tramites/detalle/guardar', {
-        lote: '{{ $data->lot_number }}',
-        fecha_ingreso: $('#fecha_ingreso').val(),
-        importe: $('#importe').val(),
-        titulo: $('#titulo').val(),
-        codigo: $('#codigo').val(),
-        _token: $('meta[name="csrf-token"]').attr('content')
-    }, () => location.reload());
-}
-
-// ESTADO
-function confirmarCambioEstado(){
-    Swal.fire({
-        title: '¿Cambiar estado?',
-        text: '¿Desea cambiar a RECIBIDO?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí'
-    }).then((result) => {
-        if (result.isConfirmed) cambiarEstado();
-    });
-}
-
-function cambiarEstado(){
-    $.post('/tramites/detalle/estado', {
-        lote: '{{ $data->lot_number }}',
-        estado: 'recibido',
-        _token: $('meta[name="csrf-token"]').attr('content')
-    }, () => location.reload());
-}
-
-// ENTREGA
-function confirmarEntrega(){
-    Swal.fire({
-        title: '¿Entregar unidad?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí'
-    }).then((result) => {
-        if (result.isConfirmed) guardarEntrega();
-    });
-}
-
-function guardarEntrega(){
-    $.post('/tramites/detalle/estado-placa', {
-        lote: '{{ $data->lot_number }}',
-        estado_entrega: 'entregado',
-        _token: $('meta[name="csrf-token"]').attr('content')
-    }, () => location.reload());
-}
-
-function guardarPlaca(){
-    let placa = $('#placa').val();
-
-    if(!placa){
-        Swal.fire('Error', 'Ingrese la placa', 'error');
-        return;
+        if(fecha && importe && titulo && codigo){
+            $('#btnGuardar').hide();
+            $('.campo').prop('disabled', true);
+        }
     }
 
-    $.post('/tramites/detalle/placa', {
-        lote: '{{ $data->lot_number }}',
-        placa: placa,
-        _token: $('meta[name="csrf-token"]').attr('content')
-    }, () => {
-        Swal.fire('Guardado', 'Placa registrada', 'success')
-        .then(() => location.reload());
-    });
-}
+    $('.campo').on('keyup change', validarCampos);
+
+    $(document).ready(validarCampos);
+
+    // GUARDAR
+    function guardarPaso1(){
+        $.post('/tramites/detalle/guardar', {
+            lote: '{{ $data->lot_number }}',
+            fecha_ingreso: $('#fecha_ingreso').val(),
+            importe: $('#importe').val(),
+            titulo: $('#titulo').val(),
+            codigo: $('#codigo').val(),
+            _token: $('meta[name="csrf-token"]').attr('content')
+        }, () => location.reload());
+    }
+
+    // ESTADO
+    function confirmarCambioEstado(){
+        Swal.fire({
+            title: '¿Cambiar estado?',
+            text: '¿Desea cambiar a RECIBIDO?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí'
+        }).then((result) => {
+            if (result.isConfirmed) cambiarEstado();
+        });
+    }
+
+    function cambiarEstado(){
+        $.post('/tramites/detalle/estado', {
+            lote: '{{ $data->lot_number }}',
+            estado: 'recibido',
+            _token: $('meta[name="csrf-token"]').attr('content')
+        }, () => location.reload());
+    }
+
+    // ENTREGA
+    function confirmarEntrega(){
+        Swal.fire({
+            title: '¿Entregar unidad?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí'
+        }).then((result) => {
+            if (result.isConfirmed) guardarEntrega();
+        });
+    }
+
+    function guardarEntrega(){
+        $.post('/tramites/detalle/estado-placa', {
+            lote: '{{ $data->lot_number }}',
+            estado_entrega: 'entregado',
+            _token: $('meta[name="csrf-token"]').attr('content')
+        }, () => location.reload());
+    }
+
+    function guardarPlaca(){
+        let placa = $('#placa').val();
+
+        if(!placa){
+            Swal.fire('Error', 'Ingrese la placa', 'error');
+            return;
+        }
+
+        $.post('/tramites/detalle/placa', {
+            lote: '{{ $data->lot_number }}',
+            placa: placa,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        }, () => {
+            Swal.fire('Guardado', 'Placa registrada', 'success')
+            .then(() => location.reload());
+        });
+    }
+
+    function guardarPagoPlaca(){
+
+        let fecha = $('#fecha_pago').val();
+        let monto = $('#monto_pago').val();
+
+        if(!fecha || !monto){
+            Swal.fire('Error','Complete todos los datos','error');
+            return;
+        }
+
+        $.post('/tramites/detalle/pago-placa',{
+
+            lote:'{{ $data->lot_number }}',
+            fecha_pago:fecha,
+            monto_pago:monto,
+
+            _token:$('meta[name="csrf-token"]').attr('content')
+
+        },function(){
+
+            Swal.fire(
+                'Correcto',
+                'Pago registrado',
+                'success'
+            ).then(()=>{
+                location.reload();
+            });
+
+        });
+
+    }
 
 </script>
 

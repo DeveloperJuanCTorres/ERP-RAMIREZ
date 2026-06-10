@@ -248,4 +248,21 @@ class TramitesController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function guardarPagoPlaca(Request $request)
+    {
+        DB::table('tramite_detalles')
+            ->where('lot_number',$request->lote)
+            ->update([
+
+                'placa_pagada'=>1,
+                'fecha_pago_placa'=>$request->fecha_pago,
+                'monto_pago_placa'=>$request->monto_pago
+
+            ]);
+
+        return response()->json([
+            'success'=>true
+        ]);
+    }
 }
