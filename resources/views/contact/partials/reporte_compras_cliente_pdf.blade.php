@@ -76,23 +76,31 @@
     <table>
         <thead>
             <tr>
-                <!-- <th>Fecha</th> -->
+                <th>#</th>
                 <th>Factura</th>
                 <th>Producto</th>
                 <th>Motor</th>
                 <th>Guía</th>
-                <th>Contenedor</th>
-                <th>Cant.</th>
+                <th>Cont.</th>
+                <!-- <th>Cant.</th> -->
                 <th>P. Unit.</th>
                 <th>Total</th>
             </tr>
         </thead>
 
         <tbody>
+        @php
+            $item = 1;
+        @endphp
         @foreach($movimientos as $m)
 
             {{-- CABECERA DE FACTURA --}}
             @if($m['es_primero'])
+
+                @php
+                    $item = 1;
+                @endphp
+
                 <tr>
                     <td colspan="8" class="sin-borde">
                         <strong>Factura:</strong> {{ $m['factura'] }} &nbsp;&nbsp;
@@ -103,25 +111,35 @@
 
             {{-- ITEM --}}
             <tr>
-                <!-- <td class="text-center">{{ $m['fecha'] }}</td> -->
+                <td class="text-center">{{ $item++ }}</td>
                 <td class="text-center">{{ $m['factura'] }}</td>
                 <td>{{ $m['producto'] }}</td>
                 <td class="text-center">{{ $m['motor'] }}</td>
                 <td class="text-center">{{ $m['guia'] }}</td>
                 <td class="text-center">{{ $m['contenedor'] }}</td>
-                <td class="text-center">{{ number_format($m['cantidad'], 0) }}</td>
+                <!-- <td class="text-center">{{ number_format($m['cantidad'], 0) }}</td> -->
                 <td class="text-right">{{ number_format($m['precio_unitario'], 2) }}</td>
                 <td class="text-right">{{ number_format($m['total_item'], 2) }}</td>
             </tr>
 
             {{-- SUBTOTAL --}}
             @if($m['es_ultimo'])
-                <tr class="subtotal">
-                    <td colspan="7" class="text-right">SUBTOTAL FACTURA</td>
-                    <td class="text-right">
-                        {{ number_format($m['subtotal'], 2) }}
-                    </td>
-                </tr>
+            <tr class="subtotal">
+                <td colspan="3" class="text-right">
+                    <strong>SUBTOTAL:</strong>
+                    {{ number_format($m['subtotal'], 2) }}
+                </td>
+
+                <td colspan="3" class="text-right">
+                    <strong>PAGADO:</strong>
+                    {{ number_format($m['pagado'], 2) }}
+                </td>
+
+                <td colspan="2" class="text-right">
+                    <strong>SALDO:</strong>
+                    {{ number_format($m['saldo'], 2) }}
+                </td>
+            </tr>
             @endif
 
         @endforeach

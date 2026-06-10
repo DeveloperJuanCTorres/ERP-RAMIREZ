@@ -104,7 +104,7 @@
                         </th>
 
                         <th>
-                            S/
+                            $
                             {{ number_format($total_compra,2) }}
                         </th>
                     </tr>
@@ -124,7 +124,7 @@
 
             <h3>
                 Total General:
-                S/ {{ number_format($total_general,2) }}
+                $ {{ number_format($total_general,2) }}
             </h3>
 
         </div>

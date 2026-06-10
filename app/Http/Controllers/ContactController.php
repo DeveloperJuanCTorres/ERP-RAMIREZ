@@ -2360,12 +2360,36 @@ class ContactController extends Controller
             $mapSubtotales[$s->transaction_id] = $s->subtotal_factura;
         }
 
+        //PAGOS
+        $pagos = DB::select("
+            SELECT
+                tp.transaction_id,
+                SUM(tp.amount) AS pagado
+            FROM transaction_payments tp
+            INNER JOIN transactions t
+                ON t.id = tp.transaction_id
+            WHERE t.type = 'sell'
+            AND t.status = 'final'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+            GROUP BY tp.transaction_id
+        ", [$cliente_id, $inicio, $fin]);
+
+        $mapPagos = [];
+
+        foreach ($pagos as $p) {
+            $mapPagos[$p->transaction_id] = $p->pagado;
+        }
+
         // =========================
         // UNIFICAR Y MARCAR PRIMERO / ÚLTIMO
         // =========================
         $movimientos = [];
 
         foreach ($compras as $c) {
+            $subtotal = $mapSubtotales[$c->transaction_id] ?? 0;
+            $pagado = $mapPagos[$c->transaction_id] ?? 0;
+
             $movimientos[] = [
                 'fecha'          => $c->fecha,
                 'factura'        => $c->factura,
@@ -2377,7 +2401,9 @@ class ContactController extends Controller
                 'precio_unitario'=> $c->precio_unitario,
                 'total_item'     => $c->total_item,
                 'transaction_id' => $c->transaction_id,
-                'subtotal'       => $mapSubtotales[$c->transaction_id] ?? 0
+                'subtotal' => $subtotal,
+                'pagado' => $pagado,
+                'saldo' => $subtotal - $pagado,
             ];
         }
 
