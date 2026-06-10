@@ -1,11 +1,35 @@
 @extends('layouts.app')
+<style>
+@media print {
+    .no-print {
+        display: none !important;
+    }
 
+    body {
+        -webkit-print-color-adjust: exact;
+    }
+}
+</style>
 @section('title', 'Reporte Compras por Proveedor')
 
 @section('content')
 
 <section class="content-header">
-    <h1>Reporte Compras por Proveedor</h1>
+    
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        
+        <h1 style="margin:0;">
+            Reporte Compras por Proveedor
+        </h1>
+
+        <div class="no-print">
+            <button onclick="window.print()" class="btn btn-success">
+                Imprimir
+            </button>
+        </div>
+
+    </div>
+
 </section>
 
 <section class="content">

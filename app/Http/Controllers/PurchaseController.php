@@ -1614,7 +1614,9 @@ class PurchaseController extends Controller
 
     public function ReporteGeneralCompras()
     {
+        $business_id = request()->session()->get('user.business_id');
         $proveedores = Contact::where('type', 'supplier')
+                            ->where('business_id', $business_id)
                             ->orderBy('supplier_business_name')
                             ->get();
 
