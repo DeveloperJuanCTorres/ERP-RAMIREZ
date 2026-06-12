@@ -134,7 +134,7 @@
                                             data-doc="{{ $contact->contact_id }}"
                                             data-address="{{ $contact->address_line_1 }}"
                                         >
-                                            {{ $contact->name }}
+                                            {{ $contact->name }} {{ $contact->supplier_business_name }}
                                         </option>
                                     @endforeach
                                 </select>
