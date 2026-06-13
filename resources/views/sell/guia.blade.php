@@ -440,7 +440,7 @@
 </script>
 
 
-<script src="{{ asset('js/guia_remision.js?v=' . $asset_v) }}"></script>
+<script src="{{ asset('js/guia_remision.js?v=1993.0.1 }}"></script>
 
 
 <script>
