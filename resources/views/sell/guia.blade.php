@@ -443,7 +443,7 @@
     $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     
 
     $(document).ready( function(){
@@ -528,7 +528,7 @@
         
     });   
 
-</script>
+</script> -->
 
 <script src="{{ asset('js/guia_remision.js?v=' . $asset_v) }}"></script>
 
@@ -624,6 +624,28 @@
 
             fnDrawCallback: function(){
 
+            }
+
+        });
+
+    });
+
+    $('#location_id').change(function () {
+        let location_id = $(this).val();
+
+        if (!location_id) return;
+
+        $.get('/location-serie/' + location_id, function (data) {
+            console.log("SERIE OBTENIDA:", data.serie);
+
+            $('#serie').val(data.serie);
+
+            if (!data.serie) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sin serie',
+                    text: 'La ubicación no tiene serie configurada'
+                });
             }
 
         });
