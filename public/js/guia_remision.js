@@ -46,23 +46,27 @@ $(document).ready(function () {
     //-----------------------------------
 
     $('#location_id').change(function () {
+        let location_id = $(this).val();
 
-        let id=$(this).val();
+        if (!location_id) return;
 
-        if(!id)return;
+        $.get('/location-serie/' + location_id, function (data) {
+            console.log("SERIE OBTENIDA:", data.serie);
 
-        $.get('/location-serie/'+id,function(res){
+            $('#serie').val(data.serie);
 
-            $('#serie').val(res.serie);
-
-            if(res.numero){
-                $('#numero').val(res.numero);
+            if (!data.serie) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sin serie',
+                    text: 'La ubicación no tiene serie configurada'
+                });
             }
 
         });
 
     });
-
+    
 
 
     //-----------------------------------
@@ -323,6 +327,126 @@ $(document).ready(function () {
                 `);
 
             });
+
+        });
+
+    });
+
+
+    $(document).ready(function(){
+        $('#sell_list_filter_date_range').daterangepicker(
+            dateRangeSettings,
+            function(start, end) {
+
+                $('#sell_list_filter_date_range').val(
+                    start.format(moment_date_format) +
+                    ' ~ ' +
+                    end.format(moment_date_format)
+                );
+
+                $('#guia_table').DataTable().ajax.reload();
+            }
+        );
+
+        $('#sell_list_filter_date_range').on(
+            'cancel.daterangepicker',
+            function() {
+
+                $(this).val('');
+                $('#guia_table').DataTable().ajax.reload();
+
+            }
+        );
+
+        $('#guia_table').DataTable({
+
+            processing: true,
+
+            serverSide: true,
+
+            aaSorting: [[0, 'desc']],
+
+            ajax: {
+                url: '/guiaSunat',
+                data: function(d){
+
+                    d.location_id = $('#sell_list_filter_location_id').val();
+
+                    d.contact_id = $('#sell_list_filter_customer_id').val();
+
+                    d.start_date = $('#sell_list_filter_date_range')
+                        .data('daterangepicker')
+                        .startDate
+                        .format('YYYY-MM-DD');
+
+                    d.end_date = $('#sell_list_filter_date_range')
+                        .data('daterangepicker')
+                        .endDate
+                        .format('YYYY-MM-DD');
+
+                }
+            },
+
+            columns: [
+
+                {
+                    data: 'fecha',
+                    name: 'fecha'
+                },
+
+                {
+                    data: 'serie',
+                    name: 'serie'
+                },
+
+                {
+                    data: 'numero',
+                    name: 'numero'
+                },
+
+                {
+                    data: 'contact_name',
+                    name: 'contact_name'
+                },
+
+                {
+                    data: 'estado_sunat',
+                    name: 'estado_sunat',
+                    orderable:false,
+                    searchable:false
+                },
+
+                {
+                    data: 'observacion',
+                    name: 'observacion'
+                },
+
+                {
+                    data: 'pdf',
+                    name: 'pdf',
+                    orderable:false,
+                    searchable:false
+                },
+
+                {
+                    data: 'xml',
+                    name: 'xml',
+                    orderable:false,
+                    searchable:false
+                },
+
+                {
+                    data: 'cdr',
+                    name: 'cdr',
+                    orderable:false,
+                    searchable:false
+                }
+
+            ],
+
+            fnDrawCallback: function(){
+
+            }
 
         });
 
