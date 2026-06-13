@@ -3468,6 +3468,21 @@ class SellController extends Controller
 
             $business_location = BusinessLocation::findOrFail($request->location_id);
 
+            $invoice_scheme_id = $request->invoice_scheme_id;
+             $status = 'final'; 
+            $sale_type = 'GUIA';
+
+             $invoice_no = $this->transactionUtil->getInvoiceNumber(
+                $business_id,
+                $status,
+                $business_location->id,
+                $invoice_scheme_id,
+                $sale_type
+            );
+
+            $serie = substr($invoice_no, 0, 4);
+            $correlativo = intval(substr(strrchr($invoice_no, "-"), 1));
+
             /*
             |--------------------------------------------------------------------------
             | JSON A ENVIAR A NUBEFACT
@@ -3480,9 +3495,9 @@ class SellController extends Controller
 
                 "tipo_de_comprobante" => 7,
 
-                "serie" => $request->serie,
+                "serie" => $serie,
 
-                "numero" => $request->numero,
+                "numero" => $correlativo,
 
                 "cliente_tipo_de_documento" => $request->cliente_tipo_de_documento,
 
@@ -3596,11 +3611,9 @@ class SellController extends Controller
 
                     'contact_id' => $request->contact_id,
 
-                    // 'serie' => $resp['serie'],
-                    'serie' => 'TTT8',
-
-                    // 'numero' => $resp['numero'],
-                    'numero' => 123,
+                    'serie' => $serie,
+                
+                    'numero' => $correlativo,
 
                     'cliente' => $request->cliente_denominacion,
 
@@ -3694,7 +3707,8 @@ class SellController extends Controller
                             ->first();
 
         return response()->json([
-            'serie' => $invoice_scheme->prefix ?? ''
+            'serie' => $invoice_scheme->prefix ?? '',
+            'id' => $invoice_scheme->id
         ]);
     }
 

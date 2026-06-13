@@ -776,6 +776,8 @@ $('#btnGenerarGuia').click(function(){
 
         location_id:$('#location_id').val(),
 
+        invoice_scheme_id: $('#invoice_scheme_id_guia').val(),
+
         cliente_direccion:
         $('#direccion').val(),
 
@@ -901,15 +903,9 @@ $('#btnGenerarGuia').click(function(){
         data: JSON.stringify(data),
         processData: false,
 
-
-
         success:function(res){
 
-
-
             Swal.close();
-
-
 
             if(res.success){
 
@@ -921,17 +917,13 @@ $('#btnGenerarGuia').click(function(){
 
                 });
 
-
+                $('#guia_table').DataTable().ajax.reload(null, false);
+               
 
                 window.open(
-
                     '/guia/imprimir/'+res.id,
-
                     '_blank'
-
                 );
-
-
 
                 $('#modalGuia').modal('hide');
 
@@ -972,4 +964,18 @@ $('#btnGenerarGuia').click(function(){
     });
 
 });
+
+
+
+function limpiarModal() {
+    const modal = document.getElementById('modalGuia');
+
+    modal.querySelectorAll('input, select, textarea').forEach(el => {
+        el.value = '';
+    });
+
+    modal.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => {
+        el.checked = false;
+    });
+}
 

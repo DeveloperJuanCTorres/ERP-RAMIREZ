@@ -100,6 +100,7 @@
 
                             <div class="col-md-2">
                                 <label>Serie</label>
+                                <input type="hidden" id="invoice_scheme_id_guia" name="invoice_scheme_id_guia">
                                 <input type="text" id="serie" name="serie" class="form-control" readonly>
                             </div>
 
@@ -450,9 +451,10 @@
         if (!location_id) return;
 
         $.get('/location-serie/' + location_id, function (data) {
-            console.log("SERIE OBTENIDA:", data.serie);
+            console.log("SERIE OBTENIDA:", data.serie + data.id);
 
             $('#serie').val(data.serie);
+            $('#invoice_scheme_id_guia').val(data.id);
 
             if (!data.serie) {
                 Swal.fire({
