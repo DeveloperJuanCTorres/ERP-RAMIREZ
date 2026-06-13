@@ -7,7 +7,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header no-print">
     <!-- <h1>lang( 'sale.sells') -->
-    <h1>Facturación Electrónica
+    <h1>Guías Electrónicas
     </h1>
 </section>
 
@@ -32,7 +32,7 @@
 
                 <div class="box-tools">
                     <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#modalGuia">
-                    <i class="fa fa-truck"></i> Generar Guía</a>
+                    <i class="fa fa-truck"></i> Listado de Guías</a>
                 </div>
             @endslot
         @endcan
@@ -40,22 +40,18 @@
         @php
             $custom_labels = json_decode(session('business.custom_labels'), true);
          @endphp
-            <table class="table table-bordered table-striped ajax_view" id="sell_table">
+            <table class="table table-bordered table-striped ajax_view" id="guia_table">
                 <thead>
                     <tr>
-                        <!-- <th>lang('messages.action')</th> -->
-                        <th>Tipo</th>
                         <th>Fecha</th>
+                        <th>Serie</th>
                         <th>Número</th>
                         <th>Cliente</th>
-                        <th>Total</th>
-                        <th>Estado Sunat</th>
+                        <th>Estado SUNAT</th>
                         <th>Observación</th>
                         <th>PDF</th>
                         <th>XML</th>
-                        <th>CDR</th>
-                        <th>Sunat</th>
-                        <th>Correo</th>                                           
+                        <th>CDR</th>                                         
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -104,19 +100,30 @@
 
                             <div class="col-md-2">
                                 <label>Serie</label>
-                                <input type="text" id="serie" class="form-control" readonly>
+                                <input type="text" id="serie" name="serie" class="form-control" readonly>
                             </div>
 
                             <div class="col-md-3">
                                 <label>Fecha Emisión</label>
-                                <input type="date" id="fecha_emision" class="form-control">
+                                <input type="date" id="fecha_emision" name="fecha_emision" class="form-control">
                             </div>
 
                             <div class="col-md-3">
-                                <label>Motivo</label>
+                                <label>Motivo de traslado</label>
                                 <select id="motivo_traslado" class="form-control">
-                                    <option value="01">Venta</option>
-                                    <option value="04">Traslado misma empresa</option>
+                                    <option value="01">01 - VENTA</option>
+                                    <option value="14">14 - VENTA SUJETA A CONFIRMACION DEL COMPRADOR</option>
+                                    <option value="02">02 - COMPRA</option>
+                                    <option value="04">04 - TRASLADO ENTRE ESTABLECIMIENTOS DE LA MISMA EMPRESA</option>
+                                    <option value="18">18 - TRASLADO EMISOR ITINERANTE CP</option>
+                                    <option value="08">08 - IMPORTACION</option>
+                                    <option value="09">09 - EXPORTACION</option>
+                                    <option value="13">13 - OTROS</option>
+                                    <option value="05">05 - CONSIGNACION</option>
+                                    <option value="17">17 - TRASLADO DE BIENES PARA TRANSFORMACION</option>
+                                    <option value="03">03 - VENTA CON ENTREGA A TERCEROS</option>
+                                    <option value="06">06 - DEVOLUCION</option>
+                                    <option value="07">07 - RECOJO DE BIENES TRANSFORMADOS</option>
                                 </select>
                             </div>
 
@@ -127,7 +134,7 @@
 
                             <div class="col-md-4">
                                 <label>Cliente</label>
-                                <select id="contact_id" class="form-control select2" style="width: 100% !important;">
+                                <select id="contact_id" name="contact_id" class="form-control select2" style="width: 100% !important;">
                                     @foreach($customers as $contact)
                                         <option 
                                             value="{{ $contact->id }}"
@@ -142,17 +149,17 @@
 
                             <div class="col-md-2">
                                 <label>Tipo Doc</label>
-                                <input type="text" id="cliente_tipo_doc" class="form-control" readonly>
+                                <input type="text" id="cliente_tipo_doc" name="cliente_tipo_doc" class="form-control" readonly>
                             </div>
 
                             <div class="col-md-3">
                                 <label>N° Documento</label>
-                                <input type="text" id="numero_doc" class="form-control" readonly>
+                                <input type="text" id="numero_doc" name="numero_doc" class="form-control" readonly>
                             </div>
 
                             <div class="col-md-3">
                                 <label>Dirección</label>
-                                <input type="text" id="direccion" class="form-control">
+                                <input type="text" id="direccion" name="direccion" class="form-control">
                             </div>
 
                         </div>
@@ -161,7 +168,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Tipo DE Transporte</label>
-                                <select id="tipo_transporte" class="form-control">
+                                <select id="tipo_transporte" name="tipo_transporte" class="form-control">
                                     <option value="02">02 - TRANSAPORTE PRIVADO</option>
                                     <option value="01">01 - TRANSPORTE PÚBLICO</option>
                                 </select>
@@ -233,11 +240,11 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <label>Fecha Inicio</label>
-                                        <input type="date" id="fecha_traslado" class="form-control">
+                                        <input type="date" id="fecha_traslado" name="fecha_traslado" class="form-control">
                                     </div>
                                     <div class="col-md-3">
                                         <label>Peso</label>
-                                        <input type="number" id="peso" class="form-control">
+                                        <input type="number" id="peso" name="peso" class="form-control">
                                     </div>
                                     <div class="col-md-3">
                                         <label>Unidad</label>
@@ -245,7 +252,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label>Bultos</label>
-                                        <input type="number" id="bultos" class="form-control">
+                                        <input type="number" id="bultos" name="bultos" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -302,8 +309,16 @@
                         <div id="conductor" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <label>DNI</label>
+                                    <div class="col-md-2">
+                                        <label>Tipo Documento</label>
+                                        <select id="conductor_tipo_doc" class="form-control">
+                                            <option value="1">DNI</option>
+                                            <option value="4">CARNET DE EXTRANJERÍA</option>
+                                            <option value="7">PASAPORTE</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Número Documento</label>
                                         <input type="text" id="conductor_numero" class="form-control">
                                     </div>
                                     <div class="col-md-3">
@@ -314,7 +329,7 @@
                                         <label>Apellidos</label>
                                         <input type="text" id="conductor_apellidos" class="form-control">
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label>Licencia</label>
                                         <input type="text" id="licencia" class="form-control">
                                     </div>
@@ -395,7 +410,7 @@
                 <hr>
 
                 <label>Observaciones</label>
-                <textarea id="observaciones" class="form-control"></textarea>
+                <textarea id="observaciones" name="observaciones" class="form-control"></textarea>
 
             </div>
 
@@ -515,10 +530,109 @@
 
 </script>
 
-<script src="{{ asset('js/payment.js?v=' . $asset_v) }}"></script>
+<script src="{{ asset('js/guia_remision.js?v=' . $asset_v) }}"></script>
 
 
 <script>
+    $(document).ready(function(){
+
+        $('#guia_table').DataTable({
+
+            processing: true,
+
+            serverSide: true,
+
+            aaSorting: [[0, 'desc']],
+
+            ajax: {
+                url: '/guiaSunat',
+                data: function(d){
+
+                    d.location_id = $('#sell_list_filter_location_id').val();
+
+                    d.contact_id = $('#sell_list_filter_customer_id').val();
+
+                    d.start_date = $('#sell_list_filter_date_range')
+                        .data('daterangepicker')
+                        .startDate
+                        .format('YYYY-MM-DD');
+
+                    d.end_date = $('#sell_list_filter_date_range')
+                        .data('daterangepicker')
+                        .endDate
+                        .format('YYYY-MM-DD');
+
+                }
+            },
+
+            columns: [
+
+                {
+                    data: 'fecha',
+                    name: 'fecha'
+                },
+
+                {
+                    data: 'serie',
+                    name: 'serie'
+                },
+
+                {
+                    data: 'numero',
+                    name: 'numero'
+                },
+
+                {
+                    data: 'contact_name',
+                    name: 'contact_name'
+                },
+
+                {
+                    data: 'estado_sunat',
+                    name: 'estado_sunat',
+                    orderable:false,
+                    searchable:false
+                },
+
+                {
+                    data: 'observacion',
+                    name: 'observacion'
+                },
+
+                {
+                    data: 'pdf',
+                    name: 'pdf',
+                    orderable:false,
+                    searchable:false
+                },
+
+                {
+                    data: 'xml',
+                    name: 'xml',
+                    orderable:false,
+                    searchable:false
+                },
+
+                {
+                    data: 'cdr',
+                    name: 'cdr',
+                    orderable:false,
+                    searchable:false
+                }
+
+            ],
+
+            fnDrawCallback: function(){
+
+            }
+
+        });
+
+    });
+</script>
+
+
+<!-- <script>
     $(document).ready(function () {
 
         // Cuando el usuario hace clic en "Generar Comprobante"
@@ -602,9 +716,9 @@
         });
 
     });
-</script>
+</script> -->
 
-<script>
+<!-- <script>
     $('#btnImprimirFactura').click(function() {
         // Obtener el contenido del div de la factura
         var factura = document.getElementById('contenidoComprobante').innerHTML;
@@ -651,395 +765,382 @@
             document.body.removeChild(iframe);
         }, 1000);
     });
-</script>
+</script> -->
 
 
 
 <!-- Enviar comporbantes por correo -->
-<script>
-    $(document).on('click', '.open_email_modal', function () {
-        let id = $(this).data('id');
-        let email = $(this).data('email');
 
-        $('#comprobante_id').val(id);
-        $('#correo_destino').val(email);
-
-        $('#modalEnviarCorreo').modal('show');
-    });
-
-    $('#btnEnviarCorreo').on('click', function () {
-        let id = $('#comprobante_id').val();
-        let correo = $('#correo_destino').val();
-
-        if(!correo){
-            alert('Ingrese un correo válido');
-            return;
-        }
-
-        $.ajax({
-            url: '/sunat/enviar-email/' + id,
-            type: 'POST',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                correo: correo
-            },
-            success: function(response){
-                if(response.success){
-                    alert('Correo enviado correctamente');
-                    $('#modalEnviarCorreo').modal('hide');
-                } else {
-                    alert(response.message);
-                }
-            }
-        });
-    });
-
-</script>
 
 
 <script>
 
-    $('#modalGuia').on('shown.bs.modal', function () {
-        $('#location_id').trigger('change');
-    });
+    // $('#modalGuia').on('shown.bs.modal', function () {
+    //     $('#location_id').trigger('change');
+    // });
 
     
 
-    $('#btnGenerarGuia').click(function () {
-        let productos = [];
+    // $('#btnGenerarGuia').click(function () {
+    //     let productos = [];
 
-        $('#tablaItems tbody tr').each(function () {
-            let fila = $(this);
+    //     $('#tablaItems tbody tr').each(function () {
+    //         let fila = $(this);
 
-            productos.push({
-                producto: fila.find('.producto').val(),
-                motor: fila.find('td:eq(1)').text(),
-                color: fila.find('.color').val(),
-                chasis: fila.find('td:eq(3)').text(),
-                cantidad: fila.find('td:eq(6)').text()
-            });
-        });
+    //         productos.push({
+    //             producto: fila.find('.producto').val(),
+    //             motor: fila.find('td:eq(1)').text(),
+    //             color: fila.find('.color').val(),
+    //             chasis: fila.find('td:eq(3)').text(),
+    //             cantidad: fila.find('td:eq(6)').text()
+    //         });
+    //     });
 
-        if (productos.length === 0) {
-            Swal.fire('Error', 'No hay productos', 'error');
-            return;
-        }
+    //     if (productos.length === 0) {
+    //         Swal.fire('Error', 'No hay productos', 'error');
+    //         return;
+    //     }
 
-        // VALIDACIÓN BÁSICA
-        if (!$('#fecha_traslado').val()) {
-            Swal.fire('Error', 'Ingrese fecha de traslado', 'error');
-            return;
-        }
+    //     // VALIDACIÓN BÁSICA
+    //     if (!$('#fecha_traslado').val()) {
+    //         Swal.fire('Error', 'Ingrese fecha de traslado', 'error');
+    //         return;
+    //     }
 
-        Swal.fire({
-            title: '¿Generar guía?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, generar'
-        }).then((result) => {
+    //     Swal.fire({
+    //         title: '¿Generar guía?',
+    //         icon: 'question',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Sí, generar'
+    //     }).then((result) => {
 
-            if (!result.isConfirmed) return;
+    //         if (!result.isConfirmed) return;
 
-            // 🔥 AQUÍ SOLO PREPARAMOS DATA (luego conectamos backend)
-            let data = {
-                motivo_traslado: $('#motivo_traslado').val(),
-                fecha_traslado: $('#fecha_traslado').val(),
-                tipo_transporte: $('#tipo_transporte').val(),
+    //         // 🔥 AQUÍ SOLO PREPARAMOS DATA (luego conectamos backend)
+    //         let data = {
+    //             motivo_traslado: $('#motivo_traslado').val(),
+    //             fecha_traslado: $('#fecha_traslado').val(),
+    //             tipo_transporte: $('#tipo_transporte').val(),
 
-                transportista_numero: $('#transportista_numero').val(),
-                transportista_nombre: $('#transportista_nombre').val(),
-                placa: $('#placa').val(),
+    //             transportista_numero: $('#transportista_numero').val(),
+    //             transportista_nombre: $('#transportista_nombre').val(),
+    //             placa: $('#placa').val(),
 
-                conductor_numero: $('#conductor_numero').val(),
-                conductor_nombre: $('#conductor_nombre').val(),
-                conductor_apellidos: $('#conductor_apellidos').val(),
-                licencia: $('#licencia').val(),
+    //             conductor_numero: $('#conductor_numero').val(),
+    //             conductor_nombre: $('#conductor_nombre').val(),
+    //             conductor_apellidos: $('#conductor_apellidos').val(),
+    //             licencia: $('#licencia').val(),
 
-                direccion_partida: $('#direccion_partida').val(),
-                ubigeo_partida: $('#ubigeo_partida').val(),
+    //             direccion_partida: $('#direccion_partida').val(),
+    //             ubigeo_partida: $('#ubigeo_partida').val(),
 
-                direccion_llegada: $('#direccion_llegada').val(),
-                ubigeo_llegada: $('#ubigeo_llegada').val(),
+    //             direccion_llegada: $('#direccion_llegada').val(),
+    //             ubigeo_llegada: $('#ubigeo_llegada').val(),
 
-                observaciones: $('#observaciones').val(),
+    //             observaciones: $('#observaciones').val(),
 
-                productos: productos
-            };
+    //             productos: productos
+    //         };
 
-            console.log("DATA GUIA:", data);
+    //         console.log("DATA GUIA:", data);
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Datos listos',
-                text: 'Ahora conectamos el backend'
-            });
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: 'Datos listos',
+    //             text: 'Ahora conectamos el backend'
+    //         });
 
-        });
+    //     });
 
-    });
+    // });
 
-    $('#location_id').change(function () {
-        let location_id = $(this).val();
+    // $('#location_id').change(function () {
+    //     let location_id = $(this).val();
 
-        if (!location_id) return;
+    //     if (!location_id) return;
 
-        $.get('/location-serie/' + location_id, function (data) {
-            console.log("SERIE OBTENIDA:", data.serie);
+    //     $.get('/location-serie/' + location_id, function (data) {
+    //         console.log("SERIE OBTENIDA:", data.serie);
 
-            $('#serie').val(data.serie);
+    //         $('#serie').val(data.serie);
 
-            if (!data.serie) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Sin serie',
-                    text: 'La ubicación no tiene serie configurada'
-                });
-            }
+    //         if (!data.serie) {
+    //             Swal.fire({
+    //                 icon: 'warning',
+    //                 title: 'Sin serie',
+    //                 text: 'La ubicación no tiene serie configurada'
+    //             });
+    //         }
 
-        });
+    //     });
 
-    });
+    // });
 
-    $('#contact_id').change(function () {
-        let selected = $(this).find(':selected');
+    // $('#contact_id').change(function () {
+    //     let selected = $(this).find(':selected');
 
-        let doc = selected.data('doc');
-        doc = String(doc).trim();
-        let address = selected.data('address');
+    //     let doc = selected.data('doc');
+    //     doc = String(doc).trim();
+    //     let address = selected.data('address');
 
-        $('#numero_doc').val(doc);
-        $('#direccion').val(address);
+    //     $('#numero_doc').val(doc);
+    //     $('#direccion').val(address);
 
-        if (doc.length == 11) {
-            $('#cliente_tipo_doc').val('RUC'); // RUC
-        } else if (doc.length == 8) {
-            $('#cliente_tipo_doc').val('DNI'); // DNI
-        } else {
-            $('#cliente_tipo_doc').val('AA');
-        }
+    //     if (doc.length == 11) {
+    //         $('#cliente_tipo_doc').val(6); // RUC
+    //     } else if (doc.length == 8) {
+    //         $('#cliente_tipo_doc').val(1); // DNI
+    //     } else {
+    //         $('#cliente_tipo_doc').val('AA');
+    //     }
 
-    });
+    // });
 
-    $('#btnAgregarItem').click(function () {
-        $('#tablaItems tbody').append(`
-            <tr>
-                <td><input type="text" class="form-control producto"></td>
-                <td><input type="text" class="form-control descripcion"></td>
-                <td><input type="number" class="form-control cantidad"></td>
-                <td><button class="btn btn-danger btn-sm eliminar">X</button></td>
-            </tr>
-        `);
+    // $('#btnAgregarItem').click(function () {
+    //     $('#tablaItems tbody').append(`
+    //         <tr>
+    //             <td><input type="text" class="form-control producto"></td>
+    //             <td><input type="text" class="form-control descripcion"></td>
+    //             <td><input type="number" class="form-control cantidad"></td>
+    //             <td><button class="btn btn-danger btn-sm eliminar">X</button></td>
+    //         </tr>
+    //     `);
 
-    });
+    // });
 
-    $(document).on('click', '.eliminar', function () {
-        $(this).closest('tr').remove();
-    });
+    // $(document).on('click', '.eliminar', function () {
+    //     $(this).closest('tr').remove();
+    // });
 
-    $('#btnVehiculo').click(function () {
-        if ($('.vehiculo_item').length >= 2) {
-            Swal.fire('Máximo 2 vehículos');
-            return;
-        }
+    // $('#btnVehiculo').click(function () {
+    //     if ($('.vehiculo_item').length >= 2) {
+    //         Swal.fire('Máximo 2 vehículos');
+    //         return;
+    //     }
 
-        $('#vehiculos_secundarios').append(`
-            <div class="vehiculo_item mt-2 d-flex">
-                <input type="text" class="form-control" placeholder="Placa secundaria">
-                <button class="btn btn-danger btn-sm eliminarVehiculo ml-2">X</button>
-            </div>
-        `);
+    //     $('#vehiculos_secundarios').append(`
+    //         <div class="vehiculo_item mt-2 d-flex">
+    //             <input type="text" class="form-control" placeholder="Placa secundaria">
+    //             <button class="btn btn-danger btn-sm eliminarVehiculo ml-2">X</button>
+    //         </div>
+    //     `);
 
-    });
+    // });
 
-    $(document).on('click', '.eliminarVehiculo', function () {
-        $(this).closest('.vehiculo_item').remove();
-    });
+    // $(document).on('click', '.eliminarVehiculo', function () {
+    //     $(this).closest('.vehiculo_item').remove();
+    // });
 
-    $('#btnConductor').click(function () {
-        if ($('.conductor_item').length >= 2) {
-            Swal.fire('Máximo 2 conductores');
-            return;
-        }
+    // $('#btnConductor').click(function () {
+    //     if ($('.conductor_item').length >= 2) {
+    //         Swal.fire('Máximo 2 conductores');
+    //         return;
+    //     }
 
-        $('#conductores_secundarios').append(`
-            <div class="conductor_item mt-2 border p-2">              
+    //     $('#conductores_secundarios').append(`
+    //         <div class="conductor_item mt-2 border p-2">              
 
-                <div class="row">
-                    <div class="col-md-3">
-                        <label>DNI</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label>Nombre</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label>Apellidos</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label>Licencia</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
+    //             <div class="row">
+    //                 <div class="col-md-2">
+    //                     <label>Tipo Documento</label>
+    //                     <select class="form-control">
+    //                         <option value="1">DNI</option>
+    //                         <option value="4">CARNET DE EXTRANJERÍA</option>
+    //                         <option value="7">PASAPORTE</option>
+    //                     </select>
+    //                 </div>
+    //                 <div class="col-md-2">
+    //                     <label>Número Documento</label>
+    //                     <input type="text" class="form-control">
+    //                 </div>
+    //                 <div class="col-md-3">
+    //                     <label>Nombre</label>
+    //                     <input type="text" class="form-control">
+    //                 </div>
+    //                 <div class="col-md-3">
+    //                     <label>Apellidos</label>
+    //                     <input type="text" class="form-control">
+    //                 </div>
+    //                 <div class="col-md-2">
+    //                     <label>Licencia</label>
+    //                     <input type="text" class="form-control">
+    //                 </div>
+    //             </div>
 
-                <button class="btn btn-danger btn-sm mt-1 eliminarConductor">Eliminar</button>
-            </div>
-        `);
+    //             <button class="btn btn-danger btn-sm mt-1 eliminarConductor">Eliminar</button>
+    //         </div>
+    //     `);
 
-    });
+    // });
 
-    $(document).on('click', '.eliminarConductor', function () {
-        $(this).closest('.conductor_item').remove();
-    });
+    // $(document).on('click', '.eliminarConductor', function () {
+    //     $(this).closest('.conductor_item').remove();
+    // });
 
-    $('#btnAgregarDoc').click(function () {
-        $('#tablaItems tbody').html('');
-        $('#documentos_relacionados').append(`
-            <div class="row doc_rel mt-2 align-items-end">
+    // $('#btnAgregarDoc').click(function () {
+    //     $('#tablaItems tbody').html('');
+    //     $('#documentos_relacionados').append(`
+    //         <div class="row doc_rel mt-2 align-items-end">
 
-                <div class="col-md-2">
-                    <label>Tipo</label>
-                    <input type="text" class="form-control tipo_doc_rel" placeholder="01">
-                </div>
+    //             <div class="col-md-3">
+    //                 <label>Tipo</label>
+    //                 <select id="tipo_doc_rel" class="form-control">
+    //                     <option value="02">BOLETA ELECTRÓNICA</option>
+    //                     <option value="01">FACTURA ELECTRÓNICA</option>
+    //                 </select>
+    //             </div>
 
-                <div class="col-md-2">
-                    <label>Serie</label>
-                    <input type="text" class="form-control serie_doc_rel">
-                </div>
+    //             <div class="col-md-2">
+    //                 <label>Serie</label>
+    //                 <input type="text" class="form-control serie_doc_rel">
+    //             </div>
 
-                <div class="col-md-3">
-                    <label>Número</label>
-                    <input type="text" class="form-control numero_doc_rel">
-                </div>
+    //             <div class="col-md-3">
+    //                 <label>Número</label>
+    //                 <input type="text" class="form-control numero_doc_rel">
+    //             </div>
 
-                <div class="col-md-3" style="margin-top: 25px;">
-                    <button class="btn btn-success btn-sm btnCargarProductos">
-                        <i class="fa fa-download"></i> Cargar Productos
-                    </button>
-                </div>
+    //             <div class="col-md-3" style="margin-top: 25px;">
+    //                 <button class="btn btn-success btn-sm btnCargarProductos w-100">
+    //                     <i class="fa fa-download"></i> Cargar Productos
+    //                 </button>
+    //             </div>
 
-                <div class="col-md-2" style="margin-top: 25px;">
-                    <button class="btn btn-danger btn-sm eliminarDoc">X</button>
-                </div>
+    //             <div class="col-md-1" style="margin-top: 25px;">
+    //                 <button class="btn btn-danger btn-sm eliminarDoc">X</button>
+    //             </div>
 
-            </div>
-        `);
-    });
+    //         </div>
+    //     `);
+    // });
 
-    $(document).on('click', '.eliminarDoc', function () {
-        $(this).closest('.doc_rel').remove();
-    });
+    // $(document).on('click', '.eliminarDoc', function () {
+    //     $(this).closest('.doc_rel').remove();
+    // });
 
-    $('#btnGenerarGuia').click(function () {
-        let productos = [];
+    // $('#btnGenerarGuia').click(function () {
+    //     let productos = [];
 
-        $('#tablaItems tbody tr').each(function () {
+    //     $('#tablaItems tbody tr').each(function () {
 
-            let fila = $(this);
+    //         let fila = $(this);
 
-            productos.push({
-                producto: fila.find('.producto').val(),
-                descripcion: fila.find('.descripcion').val(),
-                cantidad: fila.find('.cantidad').val()
-            });
+    //         productos.push({
+    //             producto: fila.find('.producto').val(),
+    //             descripcion: fila.find('.descripcion').val(),
+    //             cantidad: fila.find('.cantidad').val()
+    //         });
 
-        });
+    //     });
 
-        if (productos.length === 0) {
-            Swal.fire('Error', 'Debe agregar productos', 'error');
-            return;
-        }
+    //     if (productos.length === 0) {
+    //         Swal.fire('Error', 'Debe agregar productos', 'error');
+    //         return;
+    //     }
 
-        if (!$('#fecha_traslado').val()) {
-            Swal.fire('Error', 'Ingrese fecha de traslado', 'error');
-            return;
-        }
+    //     if (!$('#fecha_traslado').val()) {
+    //         Swal.fire('Error', 'Ingrese fecha de traslado', 'error');
+    //         return;
+    //     }
 
-        let data = {
-            cliente_tipo_doc: $('#cliente_tipo_doc').val(),
-            numero_doc: $('#numero_doc').val(),
-            cliente: $('#contact_id option:selected').text(),
-            direccion: $('#direccion').val(),
+    //     let data = {
+    //         cliente_tipo_doc: $('#cliente_tipo_doc').val(),
+    //         numero_doc: $('#numero_doc').val(),
+    //         cliente: $('#contact_id option:selected').text(),
+    //         direccion: $('#direccion').val(),
 
-            motivo_traslado: $('#motivo_traslado').val(),
-            tipo_transporte: $('#tipo_transporte').val(),
+    //         motivo_traslado: $('#motivo_traslado').val(),
+    //         tipo_transporte: $('#tipo_transporte').val(),
 
-            productos: productos
-        };
+    //         productos: productos
+    //     };
 
-        console.log("DATA GUIA:", data);
+    //     console.log("DATA GUIA:", data);
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Datos listos',
-            text: 'Siguiente paso: backend'
-        });
+    //     Swal.fire({
+    //         icon: 'success',
+    //         title: 'Datos listos',
+    //         text: 'Siguiente paso: backend'
+    //     });
 
-    });
+    // });
 </script>
 
 
 <script>
-    $(document).on('click', '.btnCargarProductos', function () {
-        let fila = $(this).closest('.doc_rel');
+    // $(document).on('click', '.btnCargarProductos', function () {
+    //     let fila = $(this).closest('.doc_rel');
 
-        let tipo = fila.find('.tipo_doc_rel').val();
-        let serie = fila.find('.serie_doc_rel').val();
-        let numero = fila.find('.numero_doc_rel').val();
+    //     let tipo = fila.find('.tipo_doc_rel').val();
+    //     let serie = fila.find('.serie_doc_rel').val();
+    //     let numero = fila.find('.numero_doc_rel').val();
 
-        if (!tipo || !serie || !numero) {
-            Swal.fire('Error', 'Complete tipo, serie y número', 'error');
-            return;
-        }
+    //     if (!tipo || !serie || !numero) {
+    //         Swal.fire('Error', 'Complete tipo, serie y número', 'error');
+    //         return;
+    //     }
 
-        $.get('/comprobante/productos', {
-            serie: serie,
-            numero: numero
-        }, function (res) {
+    //     $.get('/comprobante/productos', {
+    //         serie: serie,
+    //         numero: numero
+    //     }, function (res) {
 
-            if (!res.success) {
-                Swal.fire('Error', res.message, 'error');
-                return;
-            }
+    //         if (!res.success) {
+    //             Swal.fire('Error', res.message, 'error');
+    //             return;
+    //         }
 
-            let productos = res.data;
+    //         let productos = res.data;
 
-            productos.forEach(p => {
+    //         productos.forEach(p => {
 
-                $('#tablaItems tbody').append(`
-                    <tr>
-                        <td>
-                            <input type="text" class="form-control producto" value="${p.codigo}">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control descripcion" value="${p.descripcion}">
-                        </td>
-                        <td>
-                            <input type="number" class="form-control cantidad" value="${p.cantidad}">
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-sm eliminar">X</button>
-                        </td>
-                    </tr>
-                `);
+    //             $('#tablaItems tbody').append(`
+    //                 <tr>
+    //                     <td>
+    //                         <input type="text" class="form-control producto" value="${p.codigo}">
+    //                     </td>
+    //                     <td>
+    //                         <input type="text" class="form-control descripcion" value="${p.descripcion}">
+    //                     </td>
+    //                     <td>
+    //                         <input type="number" class="form-control cantidad" value="${p.cantidad}">
+    //                     </td>
+    //                     <td>
+    //                         <button class="btn btn-danger btn-sm eliminar">X</button>
+    //                     </td>
+    //                 </tr>
+    //             `);
 
-            });
+    //         });
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Productos cargados'
-            });
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: 'Productos cargados'
+    //         });
 
-        });
+    //     });
 
-    });
+    // });
 
+  
     // $('#modalGuia').on('shown.bs.modal', function () {
-    //     $('#ubigeo_partida, #ubigeo_llegada').select2('destroy');
 
-    //     $('#ubigeo_partida, #ubigeo_llegada').select2({
+    //     // 🔥 Destruir TODOS los select2 dentro del modal
+    //     $('#modalGuia .select2').each(function () {
+    //         if ($(this).hasClass("select2-hidden-accessible")) {
+    //             $(this).select2('destroy');
+    //         }
+    //     });
+
+    //     // 🔥 Volver a inicializar correctamente
+    //     $('#modalGuia .select2').select2({
     //         dropdownParent: $('#modalGuia'),
+    //         width: '100%'
+    //     });
+
+    //     // 🔥 SOLO los ubigeos con AJAX
+    //     $('#ubigeo_partida, #ubigeo_llegada').select2({
+    //         // dropdownParent: $('#modalGuia'),
     //         placeholder: 'Buscar distrito...',
     //         minimumInputLength: 2,
     //         width: '100%',
@@ -1059,67 +1160,5 @@
 
     // });
 
-    $('#modalGuia').on('shown.bs.modal', function () {
-
-        // 🔥 Destruir TODOS los select2 dentro del modal
-        $('#modalGuia .select2').each(function () {
-            if ($(this).hasClass("select2-hidden-accessible")) {
-                $(this).select2('destroy');
-            }
-        });
-
-        // 🔥 Volver a inicializar correctamente
-        $('#modalGuia .select2').select2({
-            dropdownParent: $('#modalGuia'),
-            width: '100%'
-        });
-
-        // 🔥 SOLO los ubigeos con AJAX
-        $('#ubigeo_partida, #ubigeo_llegada').select2({
-            // dropdownParent: $('#modalGuia'),
-            placeholder: 'Buscar distrito...',
-            minimumInputLength: 2,
-            width: '100%',
-            allowClear: true,
-            ajax: {
-                url: '/ubigeos',
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return { q: params.term };
-                },
-                processResults: function (data) {
-                    return { results: data.results || [] };
-                }
-            }
-        });
-
-    });
-
-
-    // $('#modalGuia').on('hidden.bs.modal', function () {
-
-    //     // 🔹 Limpiar inputs
-    //     $('#modalGuia').find('input, textarea').val('');
-
-    //     // 🔹 Resetear selects normales
-    //     $('#modalGuia').find('select').val(null).trigger('change');
-
-    //     // 🔹 Resetear Select2 correctamente
-    //     $('#modalGuia .select2').each(function () {
-    //         $(this).val(null).trigger('change');
-    //     });
-
-    //     // 🔹 Limpiar tabla de productos
-    //     $('#tablaItems tbody').html('');
-
-    //     // 🔹 Limpiar documentos relacionados
-    //     $('#documentos_relacionados').html('');
-
-    //     // 🔹 Limpiar vehículos y conductores
-    //     $('#vehiculos_secundarios').html('');
-    //     $('#conductores_secundarios').html('');
-
-    // });
 </script>
 @endsection

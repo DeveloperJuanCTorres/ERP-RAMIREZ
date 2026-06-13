@@ -34,6 +34,7 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\ComprobanteSunat;
 use App\Mail\ComprobanteSunatMail;
+use App\SunatGuia;
 use Illuminate\Support\Facades\Mail;
 use Luecano\NumeroALetras\NumeroALetras;
 use Maatwebsite\Excel\Facades\Excel;
@@ -3308,10 +3309,7 @@ class SellController extends Controller
 
         if (request()->ajax()) {
 
-            $comprobantes = ComprobanteSunat::where('business_id', $business_id)
-                            ->where(function($query) {
-                                $query->where('invoice_no', 'like', 'T%')->get();
-                            });
+            $comprobantes = SunatGuia::where('business_id', $business_id);
 
             if (! empty(request()->input('location_id'))) {
                 $comprobantes->where('location_id', request()->input('location_id'));
@@ -3325,108 +3323,129 @@ class SellController extends Controller
                 $start = request()->start_date . ' 00:00:00';
                 $end = request()->end_date . ' 23:59:59';
 
-                $comprobantes->whereBetween('fecha_emision', [$start, $end]);
+                $comprobantes->whereBetween('fecha', [$start, $end]);
             }
 
-            if (! empty(request()->input('tipo'))) {
-                $comprobantes->where('type', request()->input('tipo'));
-            }
-
-            if (! empty(request()->input('status_sunat'))) {
-                $comprobantes->where('status_sunat', request()->input('status_sunat'));
-            }
+          
             
             
-            // 👇 CLONA EL QUERY PARA SUMAR
-            $total_general = (clone $comprobantes)
-                    ->where('status_sunat', 1)
-                    ->sum('total');
+            $total_general = $comprobantes->count();
            
 
             return Datatables::of($comprobantes)
 
-                ->addColumn('sunat', function($row) {
-                    if (is_null($row->response_sunat)) {
-                        return '<button class="btn btn-xs btn-primary envio_sunat_button" data-id="'.$row->id.'">Enviar</button>';
+                ->addColumn('sunat', function($row){
+
+                    return '<span class="label label-info">
+
+                            ENVIADA
+
+                            </span>';
+
+                })
+
+                ->addColumn('pdf', function($row){
+
+                    return '<a href="/guia/imprimir/'.$row->id.'"
+                            target="_blank"
+                            class="btn btn-xs btn-primary">
+
+                            PDF
+
+                            </a>';
+
+                })
+
+                ->addColumn('xml', function($row){
+
+                    if(empty($row->xml)){
+
+                        return '';
+
                     }
 
-                    if ($row->status_sunat == 1) {
+                    return '<a href="'.$row->xml.'"
 
-                        // Validar si está dentro del rango de 7 días
-                        $fechaEmision = \Carbon\Carbon::parse($row->fecha_emision);
-                        $limite = now()->subDays(7);
+                            target="_blank"
 
-                        if ($fechaEmision->greaterThanOrEqualTo($limite)) {
-                            return '<button class="btn btn-xs btn-danger anulacion_sunat_button" data-id="'.$row->id.'">Anular</button>';
-                        }
-                        else {
-                            return '<button class="btn btn-xs btn-danger nota_credito_sunat_button" data-id="'.$row->id.'">Nota Crédito</button>';
-                        }
+                            class="btn btn-xs btn-info">
+
+                            XML
+
+                            </a>';
+
+                })
+
+                ->addColumn('cdr', function($row){
+
+                    if(empty($row->cdr)){
+
+                        return '';
+
                     }
+
+                    return '<a href="'.$row->cdr.'"
+
+                            target="_blank"
+
+                            class="btn btn-xs btn-warning">
+
+                            CDR
+
+                            </a>';
+
+                })
+
+                ->addColumn('email', function($row){
 
                     return '';
+
                 })
 
-                ->addColumn('pdf', function($row) {
-                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
-                        ? '<a href="/sunatpdf/'.$row->id.'" class="btn btn-xs btn-primary" target="_blank">PDF</a>'
-                        : '';
-                })
+                ->addColumn('estado_sunat', function($row){
 
-                ->addColumn('xml', function($row) {
-                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
-                        ? '<a href="/sunatxml/'.$row->id.'" class="btn btn-xs btn-info" target="_blank">XML</a>'
-                        : '';
-                })
+                    if($row->aceptada){
 
-                ->addColumn('cdr', function($row) {
-                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
-                        ? '<a href="/sunatcdr/'.$row->id.'" class="btn btn-xs btn-warning" target="_blank">CDR</a>'
-                        : '';
-                })
+                        return '<span class="label label-success">
+                                ACEPTADA
+                                </span>';
 
-                ->addColumn('email', function($row) {
-                    return (!is_null($row->response_sunat) && $row->status_sunat == 1)
-                        ? '<button class="btn btn-xs btn-success open_email_modal"
-                                data-id="'.$row->id.'"
-                                data-email="'.($row->email ?? '').'">
-                                <i class="fa fa-envelope"></i> Email
-                        </button>'
-                        : '';
-                })
-
-                ->addColumn('estado_sunat', function($row) {
-                    if (is_null($row->response_sunat)) {
-                        return '';
                     }
 
-                    if ($row->status_sunat == 1) {
-                        return '<span class="label bg-light-green">Aceptada</span>';
-                    }
+                    return '<span class="label label-warning">
+                            PENDIENTE
+                            </span>';
 
-                    return ($row->status_sunat == 1)
-                        ? '<span class="label bg-light-green">Aceptada</span>'
-                        : '<span class="label bg-red">Anulada</span>';
                 })
 
-                ->addColumn('observacion', function($row) {
-                    if (is_null($row->response_sunat)) return '';
-                    $json = json_decode($row->response_sunat);
-                    return $json->sunat_description ?? '';
-                })
-                ->addColumn('contact_name', function($row) {
-                    return $row->name ?? '';
+                ->addColumn('observacion', function($row){
+
+                    return $row->sunat_description;
+
                 })
 
-                ->editColumn('total', function ($row) {
-                    return number_format($row->total, 2);
-                })
-                ->editColumn('fecha_emision', function ($row) {
-                    return \Carbon\Carbon::parse($row->fecha_emision)->format('Y-m-d');
+                ->addColumn('contact_name',function($row){
+
+                    return $row->cliente;
+
                 })
 
-                ->rawColumns(['sunat','pdf','xml','cdr','estado_sunat','observacion','email'])
-                ->with('total_general', number_format($total_general, 2))
+                ->editColumn('fecha',function($row){
+
+                    return \Carbon\Carbon::parse($row->fecha)
+                            ->format('d/m/Y');
+
+                })
+
+                ->rawColumns([
+                    'pdf',
+                    'xml',
+                    'cdr',
+                    'estado_sunat',
+                    'sunat',
+                    'email'
+                ])
+                ->with('total_general', $total_general)
                 ->make(true);
             
             // return $datatable;
@@ -3438,6 +3457,233 @@ class SellController extends Controller
 
         return view('sell.guia')->with(compact('business_locations', 'customers','invoice_schemes', 'default_invoice_schemes'));
     }
+
+    public function generarGuiaSunat(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $business_id = session('user.business_id');
+
+            $business_location = BusinessLocation::findOrFail($request->location_id);
+
+            /*
+            |--------------------------------------------------------------------------
+            | JSON A ENVIAR A NUBEFACT
+            |--------------------------------------------------------------------------
+            */
+
+            $store = [
+
+                "operacion" => "generar_guia",
+
+                "tipo_de_comprobante" => 7,
+
+                "serie" => $request->serie,
+
+                "numero" => $request->numero,
+
+                "cliente_tipo_de_documento" => $request->cliente_tipo_de_documento,
+
+                "cliente_numero_de_documento" => $request->cliente_numero_de_documento,
+
+                "cliente_denominacion" => $request->cliente_denominacion,
+
+                "cliente_direccion" => $request->cliente_direccion,
+
+                "cliente_email" => "",
+
+                "cliente_email_1" => "",
+
+                "cliente_email_2" => "",
+
+                "fecha_de_emision" => $request->fecha_de_emision,
+
+                "observaciones" => $request->observaciones,
+
+                "motivo_de_traslado" => $request->motivo_de_traslado,
+
+                "peso_bruto_total" => $request->peso_bruto_total,
+
+                "peso_bruto_unidad_de_medida" => "KGM",
+
+                "numero_de_bultos" => $request->numero_de_bultos,
+
+                "tipo_de_transporte" => $request->tipo_de_transporte,
+
+                "fecha_de_inicio_de_traslado" => $request->fecha_de_inicio_de_traslado,
+
+                "fecha_de_entrega_al_transportista" => $request->fecha_de_entrega_al_transportista,
+
+                "transportista_documento_tipo" => $request->transportista_documento_tipo,
+
+                "transportista_documento_numero" => $request->transportista_documento_numero,
+
+                "transportista_denominacion" => $request->transportista_denominacion,
+
+                "transportista_placa_numero" => $request->transportista_placa_numero,
+
+                "conductor_documento_tipo" => $request->conductor_documento_tipo,
+
+                "conductor_documento_numero" => $request->conductor_documento_numero,
+
+                "conductor_nombre" => $request->conductor_nombre,
+
+                "conductor_apellidos" => $request->conductor_apellidos,
+
+                "conductor_numero_licencia" => $request->conductor_numero_licencia,
+
+                "punto_de_partida_ubigeo" => $request->punto_de_partida_ubigeo,
+
+                "punto_de_partida_direccion" => $request->punto_de_partida_direccion,
+
+                "punto_de_partida_codigo_establecimiento_sunat" => "0000",
+
+                "punto_de_llegada_ubigeo" => $request->punto_de_llegada_ubigeo,
+
+                "punto_de_llegada_direccion" => $request->punto_de_llegada_direccion,
+
+                "punto_de_llegada_codigo_establecimiento_sunat" => "0000",
+
+                "enviar_automaticamente_al_cliente" => false,
+
+                "formato_de_pdf" => "",
+
+                "items" => $request->items,
+
+                "documento_relacionado" => $request->documento_relacionado,
+
+                "vehiculos_secundarios" => $request->vehiculos_secundarios,
+
+                "conductores_secundarios" => $request->conductores_secundarios
+
+            ];
+
+            /*
+            |--------------------------------------------------------------------------
+            | ENVIO A NUBEFACT
+            |--------------------------------------------------------------------------
+            */
+
+            // $respuesta = Http::withHeaders([
+
+            //     'Authorization' => $business_location->token_nubefact
+
+            // ])->post(
+
+            //     $business_location->ruta_nubefact,
+
+            //     $store
+
+            // );
+
+            /*
+            |--------------------------------------------------------------------------
+            | RESPUESTA OK
+            |--------------------------------------------------------------------------
+            */
+
+            // if ($respuesta->successful()) {
+
+                // $resp = $respuesta->json();
+
+                $guia = SunatGuia::create([
+
+                    'business_id' => $business_id,
+
+                    'location_id' => $business_location->id,
+
+                    'contact_id' => $request->contact_id,
+
+                    // 'serie' => $resp['serie'],
+                    'serie' => 'TTT8',
+
+                    // 'numero' => $resp['numero'],
+                    'numero' => 123,
+
+                    'cliente' => $request->cliente_denominacion,
+
+                    'fecha' => $request->fecha_de_emision,
+
+                    // 'aceptada' => $resp['aceptada_por_sunat'],
+
+                    // 'sunat_description' => $resp['sunat_description'],
+                    'sunat_description' => 'DESCRIPCION',
+
+                    'json_envio' => json_encode($store),
+
+                    // 'json_respuesta' => $respuesta->body(),
+                    'json_respuesta' => 'respuesta',
+
+                    // 'pdf' => $resp['enlace_del_pdf'],
+                    'pdf' => 'pdf',
+
+                    // 'xml' => $resp['enlace_del_xml'],
+                    'xml' => 'xml',
+
+                    // 'cdr' => $resp['enlace_del_cdr']
+                    'cdr' => 'cdr'
+
+                ]);
+
+                DB::commit();
+
+                return response()->json([
+
+                    'success' => true,
+
+                    'id' => $guia->id
+
+                ]);
+
+            // }
+
+            DB::rollBack();
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $respuesta->body()
+
+            ]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ],500);
+
+        }
+
+    }
+
+    public function imprimirGuia($id)
+    {
+        $guia=SunatGuia::findOrFail($id);
+
+        $envio=json_decode($guia->json_envio,true);
+
+        $respuesta=json_decode($guia->json_respuesta,true);
+
+        return view(
+            'sell.partials.guia_imprimir',
+            compact(
+                'guia',
+                'envio',
+                'respuesta'
+            )
+        );
+    }
+    
+
 
     public function getSerieByLocation($location_id)
     {
