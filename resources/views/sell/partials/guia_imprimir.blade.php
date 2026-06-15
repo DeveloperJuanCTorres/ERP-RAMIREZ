@@ -158,9 +158,9 @@
                 @endphp
 
                 @if($business_id == 1 || $business_id == 7)
-                    <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" alt="{{$alt}}" style="width:100%;max-height:130px;object-fit:contain;">
+                    <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" alt="{{$alt}}" style="width:100%;height:180px;object-fit:contain;">
                 @else
-                    <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" alt="{{$alt}}" style="width:100%;max-height:130px;object-fit:contain;">
+                    <img src="data:image/{{ $imgType }};base64,{{ $imgData }}" alt="{{$alt}}" style="width:100%;height:180px;object-fit:contain;">
                 @endif
 
              
@@ -229,11 +229,17 @@
 
             </td>
 
+           
             <td>
 
                 :
+                @if($envio["motivo_de_traslado"] == 01)
+                    VENTA
+                @endif
 
-                {{ $envio["motivo_de_traslado"] ?? '' }}
+                @if($envio["motivo_de_traslado"] == 04)
+                    TRASLADO ENTRE ESTABLECIMIENTOS DE LA MISMA EMPRESA
+                @endif
 
             </td>
 

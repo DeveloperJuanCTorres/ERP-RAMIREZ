@@ -14,6 +14,7 @@ class Part extends Model
     protected $fillable = [
         'id',
         'business_id',
+        'location_id',
         'proveedor_id',
         'cliente_id',
         'product_id',

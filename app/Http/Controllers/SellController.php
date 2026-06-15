@@ -3684,6 +3684,8 @@ class SellController extends Controller
 
         $envio=json_decode($guia->json_envio,true);
 
+      
+
         $respuesta=json_decode($guia->json_respuesta,true);
 
         return view(

@@ -57,7 +57,7 @@ class DiaryPartController extends Controller
                     ->select(['id','created_at', 'proveedor_id', 'product_id', 'horas_minimas', 'dias_minimas', 'importe', 'observations']);
             
             if (!empty(request()->location_id)) {
-                $parts->where('business_id', request()->location_id);
+                $parts->where('location_id', request()->location_id);
             }
 
             if (!empty(request()->supplier_id)) {
@@ -208,8 +208,8 @@ class DiaryPartController extends Controller
         try {
             $input = $request->only(['proveedor_id', 'cliente_id', 'product_id', 'horas_minimas', 'dias_minimas', 'importe', 'observations']);
             $business_id = $request->session()->get('user.business_id');
-            // $input['business_id'] = $business_id; 
-            $input['business_id'] = $request->business_locations;
+            $input['business_id'] = $business_id; 
+            $input['location_id'] = $request->business_locations;
 
             $parts = Part::create($input);
           
