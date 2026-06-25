@@ -408,12 +408,14 @@
     {{-- PIE DE PÁGINA --}}
     @if($comprobante->detraccion == 1)
     <div class="factura-box w-50 mr-2">
-        if($comprobante->business_id == 1 || $comprobante->business_id == 7){
-            $cuenta_detraccion = 00230043795;
-        }else
-        {
-            $cuenta_detraccion = 00274019956;
-        }
+        @php
+            if($comprobante->business_id == 1 || $comprobante->business_id == 7){
+                $cuenta_detraccion = 00230043795;
+            }else
+            {
+                $cuenta_detraccion = 00274019956;
+            }
+        @endphp
         <h2>Información de la detracción</h2>
         <p><strong>Leyenda:</strong> Operación sujeta al Sistema de Pago de Obligaciones Tributarias con el Gobierno Central</p>
         <p><strong>Bien o Servicio:</strong> 019 Arrendamiento de bienes muebles</p>
