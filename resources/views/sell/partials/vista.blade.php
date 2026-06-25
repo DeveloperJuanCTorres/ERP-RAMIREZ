@@ -408,19 +408,17 @@
     {{-- PIE DE PÁGINA --}}
     @if($comprobante->detraccion == 1)
     <div class="factura-box w-50 mr-2">
-        @php
-            if($comprobante->business_id == 1 || $comprobante->business_id == 7){
-                $cuenta_detraccion = 00230043795;
-            }else
-            {
-                $cuenta_detraccion = 00274019956;
-            }
-        @endphp
         <h2>Información de la detracción</h2>
         <p><strong>Leyenda:</strong> Operación sujeta al Sistema de Pago de Obligaciones Tributarias con el Gobierno Central</p>
         <p><strong>Bien o Servicio:</strong> 019 Arrendamiento de bienes muebles</p>
         <p><strong>Medio de pago:</strong> 001  Depósito en cuenta</p>
-        <p><strong>Nro. Cta. Banco de la Nación:</strong> {{$cuenta_detraccion}}</p>
+
+        @if($comprobante->business_id == 1 || $comprobante->business_id == 7)
+        <p><strong>Nro. Cta. Banco de la Nación:</strong> 00230043795</p>
+        @else
+        <p><strong>Nro. Cta. Banco de la Nación:</strong> 00274019956</p>
+        @endif
+
         <p><strong>Porcentaje de detracción:</strong> 10.00</p>
         <p><strong>Monto de detracción:</strong> {{$simbolo}} {{ number_format($comprobante->total*0.10, 2) }}</p>
     </div>
