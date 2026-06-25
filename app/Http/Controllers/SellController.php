@@ -2133,13 +2133,13 @@ class SellController extends Controller
             $total_igv = 0;
             $type = '';
 
-            $tipo_serie = substr($invoice, 0, 3);
+            $tipo_serie = substr($invoice, 0, 2);
 
-            if ($tipo_serie == 'F00') {
+            if ($tipo_serie == 'F0' || $tipo_serie == 'FF') {
                 $tipo_comprobante = 1;
                 $cliente_tipo_doc = 6;    
                 $type = 'Factura Electrónica';             
-            }elseif($tipo_serie == "B00")
+            }elseif($tipo_serie == "B0" || $tipo_serie == 'BB')
             {
                 $type = 'Boleta Electrónica';     
                 $tipo_comprobante = 2;   
