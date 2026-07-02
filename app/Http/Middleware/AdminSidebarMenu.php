@@ -311,6 +311,17 @@ class AdminSidebarMenu
                                 ]
                             );
                         }
+
+                        if (auth()->user()->can('purchase.view')) {
+                            $sub->url(
+                                action([\App\Http\Controllers\ImportacionMasivaController::class, 'index']),
+                                'Historial Importaciones',
+                                [
+                                    'icon' => 'fa fas fa-file-import',
+                                    'active' => request()->segment(1) == 'historial-importaciones'
+                                ]
+                            );
+                        }
                     },
                     ['icon' => 'fa fas fa-arrow-circle-down', 'id' => 'tour_step6']
                 )->order(25);

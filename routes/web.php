@@ -24,6 +24,7 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImportacionMasivaController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\ImportSalesController;
@@ -479,6 +480,17 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::get('/reportes/opening-stock', [App\Http\Controllers\ReportController::class, 'exportOpeningStock'])
     ->name('reports.opening_stock.export');
+
+    Route::get('/historial-importaciones', [App\Http\Controllers\ImportacionMasivaController::class, 'index'])
+    ->name('historial-importaciones');
+
+    Route::get('/historial-importaciones/excel',
+        [ImportacionMasivaController::class,'excel'])
+        ->name('historial-importaciones.excel');
+
+    Route::get('/historial-importaciones/pdf',
+        [ImportacionMasivaController::class,'pdf'])
+        ->name('historial-importaciones.pdf');
 
 
     
