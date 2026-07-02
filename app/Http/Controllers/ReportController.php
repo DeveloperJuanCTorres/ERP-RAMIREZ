@@ -4360,7 +4360,7 @@ class ReportController extends Controller
 
             LEFT JOIN contacts AS customer
                 ON customer.id = ts.contact_id
-                AND customer.type = 'customer'
+                AND customer.type IN ('customer', 'both')
 
             WHERE pl.lot_number LIKE ?
             AND t.business_id = ?
