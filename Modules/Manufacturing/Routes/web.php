@@ -15,6 +15,12 @@ Route::middleware('web', 'authh', 'SetSessionData', 'auth', 'language', 'timezon
     Route::resource('/production', 'Modules\Manufacturing\Http\Controllers\ProductionController');
     Route::resource('/settings', 'Modules\Manufacturing\Http\Controllers\SettingsController')->only('index', 'store');
 
+     Route::get(
+        '/production/get-lotes/{variation_id}',
+        [Modules\Manufacturing\Http\Controllers\ProductionController::class, 'getLotes']
+    )->name('production.get_lotes');
+
+
     Route::get('/report', [Modules\Manufacturing\Http\Controllers\ProductionController::class, 'getManufacturingReport']);
 
     Route::post('/update-product-prices', [Modules\Manufacturing\Http\Controllers\RecipeController::class, 'updateRecipeProductPrices']);

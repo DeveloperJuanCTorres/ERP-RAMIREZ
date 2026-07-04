@@ -198,4 +198,30 @@
             qty_element.trigger('change');
         }
     });
+
+
+    // CARGAR LOTES
+    $(document).on('change','#variation_id',function(){
+
+        let variation = $(this).val();
+
+        $('#lot_number').html('<option>Cargando...</option>');
+
+        $.get('/manufacturing/production/get-lotes/'+variation,function(data){
+
+            let html = '<option value="">Seleccione lote</option>';
+
+            $.each(data,function(i,item){
+
+                html += '<option value="'+item.lot_number+'">'+item.lot_number+'</option>';
+
+            });
+
+            $('#lot_number')
+                .html(html)
+                .trigger('change');
+
+        });
+
+    });
 </script>
