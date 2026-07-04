@@ -213,15 +213,13 @@
 
             type: 'GET',
 
-            success: function(response){
+            success: function(data){
 
                 let html = '<option value="">Seleccione lote</option>';
 
-                $.each(response, function(i, lote){
+                $.each(data, function(i, item){
 
-                    html += '<option value="' + lote.lot_number + '">'
-                        + lote.lot_number +
-                        '</option>';
+                    html += '<option value="'+item.lote+'">'+item.lote+'</option>';
 
                 });
 

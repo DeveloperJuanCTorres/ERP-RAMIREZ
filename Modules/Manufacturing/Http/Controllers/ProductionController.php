@@ -202,52 +202,39 @@ class ProductionController extends Controller
 
     public function getLotes($variation_id)
     {
-        $business_id = request()->session()->get('user.business_id');
-
-        $variation = Variation::with('product')->findOrFail($variation_id);
-
-        if ($business_id == 1) {
-            $product_ids = [1,6,56];
-            $location_id = 12;
-        } elseif ($business_id == 5) {
-            $product_ids = [138,141,190];
-            $location_id = 31;
-        } else {
-            $product_ids = [];
-            $location_id = null;
-        }
+        $variation = Variation::findOrFail($variation_id);
 
         $lotes = DB::table('purchase_lines')
-            ->join('transactions', 'purchase_lines.transaction_id','=','transactions.id')
+            ->join('transactions', 'purchase_lines.transaction_id', '=', 'transactions.id')
+            ->leftJoin('transaction_sell_lines', 'purchase_lines.id', '=', 'transaction_sell_lines.lot_no_line_id')
+            ->select(
+                'purchase_lines.lot_number as lote',
+                'purchase_lines.id as purchase_line_id'
+            )
+            ->where('transactions.type', 'purchase_transfer')
+            ->whereIn('purchase_lines.product_id', [138, 141, 190])
+            ->where('transactions.location_id', 31)
 
-            ->select('purchase_lines.lot_number')
-
-            ->where('transactions.type','purchase')
-
-            ->where('transactions.location_id',$location_id)
-
-            ->whereIn('purchase_lines.product_id',$product_ids)
-
-            ->whereNotExists(function($q) use ($variation){
+            ->whereNotExists(function ($q) use ($variation) {
 
                 $q->select(DB::raw(1))
                     ->from('purchase_lines as pl2')
-                    ->join('transactions as t2','pl2.transaction_id','=','t2.id')
+                    ->join('transactions as t2', 'pl2.transaction_id', '=', 't2.id')
 
-                    ->whereColumn('pl2.lot_number','purchase_lines.lot_number')
+                    ->whereColumn('pl2.lot_number', 'purchase_lines.lot_number')
 
-                    ->where('t2.type','production_purchase')
+                    ->where('t2.type', 'production_purchase')
 
-                    ->where('pl2.product_id',$variation->product_id);
+                    ->where('pl2.product_id', $variation->product_id);
 
             })
 
-            ->groupBy('purchase_lines.lot_number')
-
-            ->orderBy('purchase_lines.lot_number')
-
+            ->groupBy(
+                'purchase_lines.id',
+                'purchase_lines.lot_number'
+            )
             ->get();
-        // dd($business_id, $location_id);
+
         return response()->json($lotes);
     }
 
