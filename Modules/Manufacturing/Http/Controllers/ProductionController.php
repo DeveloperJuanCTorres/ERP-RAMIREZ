@@ -217,50 +217,37 @@ class ProductionController extends Controller
             $location_id = null;
         }
 
-        // $lotes = DB::table('purchase_lines')
-        //     ->join('transactions', 'purchase_lines.transaction_id','=','transactions.id')
-
-        //     ->select('purchase_lines.lot_number')
-
-        //     ->where('transactions.type','purchase_transfer')
-
-        //     ->where('transactions.location_id',$location_id)
-
-        //     ->whereIn('purchase_lines.product_id',$product_ids)
-
-        //     ->whereNotExists(function($q) use ($variation){
-
-        //         $q->select(DB::raw(1))
-        //             ->from('purchase_lines as pl2')
-        //             ->join('transactions as t2','pl2.transaction_id','=','t2.id')
-
-        //             ->whereColumn('pl2.lot_number','purchase_lines.lot_number')
-
-        //             ->where('t2.type','production_purchase')
-
-        //             ->where('pl2.product_id',$variation->product_id);
-
-        //     })
-
-        //     ->groupBy('purchase_lines.lot_number')
-
-        //     ->orderBy('purchase_lines.lot_number')
-
-        //     ->get();
-
         $lotes = DB::table('purchase_lines')
-            ->join('transactions', 'purchase_lines.transaction_id', '=', 'transactions.id')
-            ->select(
-                'purchase_lines.product_id',
-                'purchase_lines.lot_number',
-                'transactions.type',
-                'transactions.location_id'
-            )
-            ->limit(20)
+            ->join('transactions', 'purchase_lines.transaction_id','=','transactions.id')
+
+            ->select('purchase_lines.lot_number')
+
+            ->where('transactions.type','purchase')
+
+            ->where('transactions.location_id',$location_id)
+
+            ->whereIn('purchase_lines.product_id',$product_ids)
+
+            ->whereNotExists(function($q) use ($variation){
+
+                $q->select(DB::raw(1))
+                    ->from('purchase_lines as pl2')
+                    ->join('transactions as t2','pl2.transaction_id','=','t2.id')
+
+                    ->whereColumn('pl2.lot_number','purchase_lines.lot_number')
+
+                    ->where('t2.type','production_purchase')
+
+                    ->where('pl2.product_id',$variation->product_id);
+
+            })
+
+            ->groupBy('purchase_lines.lot_number')
+
+            ->orderBy('purchase_lines.lot_number')
+
             ->get();
-
-        dd($lotes);
-
+        dd($business_id, $location_id);
         return response()->json($lotes);
     }
 
