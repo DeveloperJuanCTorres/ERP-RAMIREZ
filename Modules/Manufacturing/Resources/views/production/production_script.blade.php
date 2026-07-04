@@ -201,25 +201,35 @@
 
 
     // CARGAR LOTES
-    $(document).on('change','#variation_id',function(){
+    $(document).on('change', '#variation_id', function () {
 
-        let variation = $(this).val();
+        let variation_id = $(this).val();
 
         $('#lot_number').html('<option>Cargando...</option>');
 
-        $.get('/manufacturing/production/get-lotes/'+variation,function(data){
+        $.ajax({
 
-            let html = '<option value="">Seleccione lote</option>';
+            url: '/manufacturing/production/get-lotes/' + variation_id,
 
-            $.each(data,function(i,item){
+            type: 'GET',
 
-                html += '<option value="'+item.lot_number+'">'+item.lot_number+'</option>';
+            success: function(response){
 
-            });
+                let html = '<option value="">Seleccione lote</option>';
 
-            $('#lot_number')
-                .html(html)
-                .trigger('change');
+                $.each(response, function(i, lote){
+
+                    html += '<option value="' + lote.lot_number + '">'
+                        + lote.lot_number +
+                        '</option>';
+
+                });
+
+                $('#lot_number')
+                    .html(html)
+                    .trigger('change');
+
+            }
 
         });
 
