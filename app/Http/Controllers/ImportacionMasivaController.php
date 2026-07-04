@@ -115,11 +115,11 @@ class ImportacionMasivaController extends Controller
         }
 
         if (!empty($guia)) {
-            $query->where('pl.guia', '=', $guia);
+            $query->where('pl.guia', 'like', "%{$guia}%");
         }
 
         if (!empty($contenedor)) {
-            $query->where('pl.contenedor', 'like', "%{$contenedor}%");
+            $query->where('pl.contenedor', '=', $contenedor);
         }
 
         return $query;
