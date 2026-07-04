@@ -247,7 +247,7 @@ class ProductionController extends Controller
             ->orderBy('purchase_lines.lot_number')
 
             ->get();
-        dd($business_id, $location_id);
+        // dd($business_id, $location_id);
         return response()->json($lotes);
     }
 
