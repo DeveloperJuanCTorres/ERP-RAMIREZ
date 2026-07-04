@@ -228,19 +228,19 @@ class ProductionController extends Controller
 
             ->whereIn('purchase_lines.product_id',$product_ids)
 
-            ->whereNotExists(function($q) use ($variation){
+            // ->whereNotExists(function($q) use ($variation){
 
-                $q->select(DB::raw(1))
-                    ->from('purchase_lines as pl2')
-                    ->join('transactions as t2','pl2.transaction_id','=','t2.id')
+            //     $q->select(DB::raw(1))
+            //         ->from('purchase_lines as pl2')
+            //         ->join('transactions as t2','pl2.transaction_id','=','t2.id')
 
-                    ->whereColumn('pl2.lot_number','purchase_lines.lot_number')
+            //         ->whereColumn('pl2.lot_number','purchase_lines.lot_number')
 
-                    ->where('t2.type','production_purchase')
+            //         ->where('t2.type','production_purchase')
 
-                    ->where('pl2.product_id',$variation->product_id);
+            //         ->where('pl2.product_id',$variation->product_id);
 
-            })
+            // })
 
             ->groupBy('purchase_lines.lot_number')
 
@@ -248,6 +248,7 @@ class ProductionController extends Controller
 
             ->get();
 
+        dd($lotes);
         return response()->json($lotes);
     }
 
