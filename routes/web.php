@@ -484,13 +484,23 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/historial-importaciones', [App\Http\Controllers\ImportacionMasivaController::class, 'index'])
     ->name('historial-importaciones');
 
-    Route::get('/historial-importaciones/excel',
-        [ImportacionMasivaController::class,'excel'])
-        ->name('historial-importaciones.excel');
+    Route::get(
+        '/historial-importaciones/{transaction}/excel',
+        [ImportacionMasivaController::class, 'excel']
+    )->name('historial-importaciones.excel');
 
-    Route::get('/historial-importaciones/pdf',
-        [ImportacionMasivaController::class,'pdf'])
-        ->name('historial-importaciones.pdf');
+    Route::get(
+        '/historial-importaciones/{transaction}/pdf',
+        [ImportacionMasivaController::class, 'pdf']
+    )->name('historial-importaciones.pdf');
+
+    // Route::get('/historial-importaciones/excel',
+    //     [ImportacionMasivaController::class,'excel'])
+    //     ->name('historial-importaciones.excel');
+
+    // Route::get('/historial-importaciones/pdf',
+    //     [ImportacionMasivaController::class,'pdf'])
+    //     ->name('historial-importaciones.pdf');
 
 
     

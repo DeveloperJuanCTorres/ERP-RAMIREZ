@@ -18,12 +18,15 @@ class ImportacionMasivaController extends Controller
 
         $registros = $query
             ->orderByDesc('t.transaction_date')
-            ->paginate(50);
+            ->get()
+            ->groupBy('transaction_id');
 
         $productos = DB::table('products')
             ->where('business_id', $business_id)
             ->orderBy('name')
             ->pluck('name', 'id');
+
+        // dd($registros);
 
         return view(
             'purchase.importaciones.index',
@@ -58,7 +61,16 @@ class ImportacionMasivaController extends Controller
 
             ->join('products as p', 'pl.product_id', '=', 'p.id')
 
+            ->join('business as b', 't.business_id', '=', 'b.id')
+
             ->select(
+
+                't.id as transaction_id',
+                't.business_id',
+                'b.name as business_name',
+                't.transaction_date',
+                't.type',
+                't.status',
 
                 'pl.id',
                 'p.name as producto',
@@ -69,7 +81,6 @@ class ImportacionMasivaController extends Controller
                 'pl.poliza',
                 'pl.guia',
                 'pl.contenedor',
-                't.transaction_date'
             )
 
             ->where('t.type', 'opening_stock')
@@ -114,62 +125,83 @@ class ImportacionMasivaController extends Controller
         return $query;
     }
 
-    public function excel(Request $request)
+    public function excel($transactionId)
     {
-        $datos = $this->obtenerConsulta($request)
-            ->orderBy('transaction_date', 'desc')
+        $datos = DB::table('purchase_lines as pl')
+            ->join('transactions as t', 'pl.transaction_id', '=', 't.id')
+            ->join('products as p', 'pl.product_id', '=', 'p.id')
+            ->join('business as b', 't.business_id', '=', 'b.id')
+            ->where('pl.transaction_id', $transactionId)
+            ->select(
+                't.id as transaction_id',
+                't.transaction_date',
+                't.type',
+                't.status',
+                'b.name as business_name',
+
+                'p.name as producto',
+                'pl.motor',
+                'pl.chasis',
+                'pl.color',
+                'pl.anio',
+                'pl.poliza',
+                'pl.guia',
+                'pl.contenedor'
+            )
+            ->orderBy('pl.id')
             ->get();
 
-        $coleccion = $datos->map(function ($item) {
-
-            return [
-
-                'Fecha' => date('d/m/Y', strtotime($item->transaction_date)),
-
-                'Producto' => $item->producto,
-
-                'Motor' => $item->motor,
-
-                'Chasis' => $item->chasis,
-
-                'Color' => $item->color,
-
-                'Año' => $item->anio,
-
-                'Póliza' => $item->poliza,
-
-                'Guía' => $item->guia,
-
-                'Contenedor' => $item->contenedor
-
-            ];
-
-        });
+        if ($datos->isEmpty()) {
+            abort(404);
+        }
 
         return Excel::download(
-
-            new HistorialImportacionesExport($coleccion),
-
-            'Historial_Importaciones.xlsx'
-
+            new HistorialImportacionesExport($datos),
+            'Importacion_'.$transactionId.'.xlsx'
         );
     }
-
-    public function pdf(Request $request)
+  
+    public function pdf($transactionId)
     {
-        $datos = $this->obtenerConsulta($request)
-            ->orderByDesc('t.transaction_date')
+        $datos = DB::table('purchase_lines as pl')
+
+            ->join('transactions as t','pl.transaction_id','=','t.id')
+
+            ->join('products as p','pl.product_id','=','p.id')
+
+            ->join('business as b','t.business_id','=','b.id')
+
+            ->select(
+                't.id as transaction_id',
+                't.transaction_date',
+                't.type',
+                't.status',
+                'b.name as business_name',
+
+                'p.name as producto',
+                'pl.motor',
+                'pl.chasis',
+                'pl.color',
+                'pl.anio',
+                'pl.poliza',
+                'pl.guia',
+                'pl.contenedor'
+            )
+
+            ->where('pl.transaction_id',$transactionId)
+
             ->get();
+
+        $cabecera = $datos->first();
 
         $pdf = Pdf::loadView(
             'purchase.importaciones.pdf',
-            compact('datos')
+            compact('cabecera','datos')
         );
 
         $pdf->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Historial_Importaciones.pdf');
-
-        // return $pdf->download('Historial_Importaciones.pdf');
+        return $pdf->stream("Importacion_$transactionId.pdf");
     }
+
 }

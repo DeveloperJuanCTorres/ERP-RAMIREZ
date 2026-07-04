@@ -82,66 +82,114 @@
 
                 </div>
 
-            </form>
-
-            <div style="padding-top: 20px;">
-                <a href="{{ route('historial-importaciones.excel', request()->all()) }}"
-                class="btn btn-success">
-
-                    <i class="fa fa-file-excel"></i>
-
-                    Exportar Excel
-
-                </a>
-
-                <a href="{{ route('historial-importaciones.pdf', request()->all()) }}"
-                class="btn btn-danger"
-                target="_blank">
-
-                    <i class="fa fa-file-pdf"></i>
-
-                    Exportar PDF
-
-                </a>
-            </div>            
+            </form>          
 
             <hr>
 
-            <table id="tabla_importaciones" class="table table-bordered table-striped">
+            @foreach($registros as $transactionId => $items)
 
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Producto</th>
-                        <th>Motor</th>
-                        <th>Chasis</th>
-                        <th>Color</th>
-                        <th>Año</th>
-                        <th>Póliza</th>
-                        <th>Guía</th>
-                        <th>Contenedor</th>
-                    </tr>
-                </thead>
+                @php
+                    $cabecera = $items->first();
+                @endphp
 
-                <tbody>
+                <div class="box box-primary">
 
-                    @foreach($registros as $r)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y') }}</td>
-                        <td>{{ $r->producto }}</td>
-                        <td>{{ $r->motor }}</td>
-                        <td>{{ $r->chasis }}</td>
-                        <td>{{ $r->color }}</td>
-                        <td>{{ $r->anio }}</td>
-                        <td>{{ $r->poliza }}</td>
-                        <td>{{ $r->guia }}</td>
-                        <td>{{ $r->contenedor }}</td>
-                    </tr>
-                    @endforeach
+                    <div class="box-header with-border">
 
-                </tbody>
-            </table>
-            {{ $registros->appends(request()->all())->links() }}
+                        <div class="pull-right">
+
+                            <button
+                                class="btn btn-primary"
+                                data-toggle="collapse"
+                                data-target="#detalle{{ $transactionId }}">
+
+                                <strong>
+                                    Ver detalle
+                                </strong>
+
+                            </button>
+
+                            <a href="{{ route('historial-importaciones.excel', ['transaction' => $cabecera->transaction_id]) }}"
+                            class="btn btn-success btn-xs">
+                                <i class="fa fa-file-excel"></i> Excel
+                            </a>
+
+                            <a href="{{ route('historial-importaciones.pdf', ['transaction' => $cabecera->transaction_id]) }}"
+                            class="btn btn-danger btn-xs"
+                            target="_blank">
+                                <i class="fa fa-file-pdf"></i> PDF
+                            </a>
+                        </div>                        
+
+                    </div>
+
+                    <div class="box-body">
+
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th>Transacción ID</th>
+                                <td>{{ $transactionId }}</td>
+                                
+                                <th>Fecha</th>
+                                <td>{{ \Carbon\Carbon::parse($cabecera->transaction_date)->format('d/m/Y') }}</td>
+
+                                <th>Ubicación</th>
+                                <td>{{ $cabecera->business_name }}</td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                    <div id="detalle{{ $transactionId }}" class="collapse">
+
+                        <table class="table table-striped table-bordered">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Motor</th>
+                                    <th>Chasis</th>
+                                    <th>Color</th>
+                                    <th>Año</th>
+                                    <th>Póliza</th>
+                                    <th>Guía</th>
+                                    <th>Contenedor</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                @foreach($items as $item)
+
+                                <tr>
+
+                                    <td>{{ $item->producto }}</td>
+                                    <td>{{ $item->motor }}</td>
+                                    <td>{{ $item->chasis }}</td>
+                                    <td>{{ $item->color }}</td>
+                                    <td>{{ $item->anio }}</td>
+                                    <td>{{ $item->poliza }}</td>
+                                    <td>{{ $item->guia }}</td>
+                                    <td>{{ $item->contenedor }}</td>
+
+                                </tr>
+
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+            <!--  $registros->appends(request()->all())->links()  -->
         </div>
 
     </div>

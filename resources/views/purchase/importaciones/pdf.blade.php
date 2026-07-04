@@ -2,81 +2,127 @@
 <html>
 
 <head>
-
     <meta charset="utf-8">
 
     <style>
-        body {
+
+        body{
             font-family: DejaVu Sans;
-            font-size: 11px;
+            font-size:11px;
+            color:#222;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        h2{
+            text-align:center;
+            margin-bottom:20px;
         }
 
-        table th {
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
 
-            background: #343a40;
+        .cabecera{
+            margin-bottom:20px;
+        }
 
-            color: white;
+        .cabecera th{
+            width:18%;
+            background:#efefef;
+            border:1px solid #999;
+            text-align:left;
+            padding:6px;
+        }
 
-            border: 1px solid #000;
+        .cabecera td{
+            border:1px solid #999;
+            padding:6px;
+        }
 
-            padding: 6px;
+        .detalle th{
+
+            background:#1F4E78;
+            color:white;
+            border:1px solid #666;
+            padding:6px;
 
         }
 
-        table td {
+        .detalle td{
 
-            border: 1px solid #000;
+            border:1px solid #999;
+            padding:5px;
 
-            padding: 5px;
+        }
+
+        .titulo{
+
+            font-size:18px;
+            font-weight:bold;
+            text-align:center;
+            margin-bottom:20px;
 
         }
 
-        h2 {
-
-            text-align: center;
-
-            margin-bottom: 20px;
-
-        }
     </style>
 
 </head>
 
 <body>
 
-    <h2>
+    <div class="titulo">
 
-        Historial de Importaciones Masivas
+        HISTORIAL DE IMPORTACIÓN
 
-    </h2>
+    </div>
 
-    <table>
+    <table class="cabecera">
+
+        <tr>
+
+            <th>Transacción</th>
+            <td>{{ $cabecera->transaction_id }}</td>
+
+            <th>Empresa</th>
+            <td>{{ $cabecera->business_name }}</td>
+
+        </tr>
+
+        <tr>
+
+            <th>Fecha</th>
+            <td>{{ \Carbon\Carbon::parse($cabecera->transaction_date)->format('d/m/Y') }}</td>
+
+            <th>Tipo</th>
+            <td>{{ strtoupper($cabecera->type) }}</td>
+
+        </tr>
+
+        <tr>
+
+            <th>Estado</th>
+            <td>{{ strtoupper($cabecera->status) }}</td>
+
+            <th>Cantidad</th>
+            <td>{{ count($datos) }} unidades</td>
+
+        </tr>
+
+    </table>
+
+    <table class="detalle">
 
         <thead>
 
             <tr>
 
-                <th>Fecha</th>
-
                 <th>Producto</th>
-
                 <th>Motor</th>
-
                 <th>Chasis</th>
-
                 <th>Color</th>
-
                 <th>Año</th>
-
                 <th>Póliza</th>
-
                 <th>Guía</th>
-
                 <th>Contenedor</th>
 
             </tr>
@@ -85,29 +131,20 @@
 
         <tbody>
 
-            @foreach($datos as $r)
+            @foreach($datos as $item)
 
-            <tr>
+                <tr>
 
-                <td>{{ \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y') }}</td>
+                    <td>{{ $item->producto }}</td>
+                    <td>{{ $item->motor }}</td>
+                    <td>{{ $item->chasis }}</td>
+                    <td>{{ $item->color }}</td>
+                    <td style="text-align:center">{{ $item->anio }}</td>
+                    <td>{{ $item->poliza }}</td>
+                    <td>{{ $item->guia }}</td>
+                    <td style="text-align:center">{{ $item->contenedor }}</td>
 
-                <td>{{ $r->producto }}</td>
-
-                <td>{{ $r->motor }}</td>
-
-                <td>{{ $r->chasis }}</td>
-
-                <td>{{ $r->color }}</td>
-
-                <td>{{ $r->anio }}</td>
-
-                <td>{{ $r->poliza }}</td>
-
-                <td>{{ $r->guia }}</td>
-
-                <td>{{ $r->contenedor }}</td>
-
-            </tr>
+                </tr>
 
             @endforeach
 
