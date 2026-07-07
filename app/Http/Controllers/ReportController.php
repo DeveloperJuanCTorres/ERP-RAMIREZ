@@ -4396,6 +4396,8 @@ class ReportController extends Controller
             ORDER BY td.fecha_ingreso
         ", [$lot]);
 
+        dd($tramites);
+
         $historial = [];
 
         foreach ($data as $row) {
