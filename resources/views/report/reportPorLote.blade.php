@@ -53,10 +53,10 @@
             <div class="table-responsive">
                 <table class="table table-bordered table-striped ajax_view">
                     <thead>
-                        <tr>
-                            <th>Producto</th>
+                        <!-- <tr>
+                            <th>Movimiento</th>                            
                             <th>Ubicación</th>
-                            <th>Tipo movimiento</th>
+                            <th>Producto</th>
                             <th>Fecha Compra</th>
                             <th>Cant. Comprada</th>
                             <th>Cant. Vendida</th>
@@ -64,48 +64,92 @@
                             <th>Factura Venta</th>
                             <th>Fecha Venta</th>
                             <th>Stock Restante</th>
+                        </tr> -->
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Movimiento</th>
+                            <th>Ubicación</th>
+                            <th>Producto</th>
+                            <th>Referencia</th>
+                            <th>Cliente / Proveedor</th>
+                            <th>Usuario</th>
+                            <th>Monto</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($data as $row)
-                        <tr>
-                            @if($row->nuevo_color)
-                            <td>{{ $row->product_name }} - Color: {{ $row->nuevo_color }}</td>
-                            @elseif($row->product_color)
-                            <td>{{ $row->product_name }} - Color: {{ $row->product_color }}</td>
-                            @else
-                            <td>{{ $row->product_name }}</td>
-                            @endif
-                            <td>{{ $row->location_name }}</td>
-                            <td>
-                                @if($row->transaction_type == 'production_purchase')
-                                    Transformación
-                                @elseif($row->transaction_type == 'purchase')
-                                    Compra
-                                @elseif($row->transaction_type == 'opening_stock')
-                                    Compra
-                                @elseif($row->transaction_type == 'stock_transfer')
-                                    Transferencia
-                                @elseif($row->transaction_type == 'sell')
-                                    Venta
-                                @elseif($row->transaction_type == 'purchase_transfer')
-                                    Transferencia
-                                @else
-                                    {{ $row->transaction_type }}
-                                @endif
-                            </td>
-                            <td>{{ $row->purchase_date }}</td>
-                            <td>{{ $row->quantity_purchased }}</td>
-                            <td>{{ $row->sell_quantity }}</td>
-                            <td>{{ $row->customer_name }} {{ $row->supplier_name }}</td>
-                            <td>{{ $row->sell_invoice_no }}</td>
-                            <td>{{ $row->sell_date }}</td>
-                            <td>{{ $row->stock_remaining }}</td>
-                        </tr>
+                       
+
+                        @forelse($data as $row)
+
+                            <tr>
+
+                                <td>{{ \Carbon\Carbon::parse($row->fecha)->format('d/m/Y H:i') }}</td>
+
+                                <td>
+
+                                    @switch($row->movimiento)
+
+                                        @case('Compra')
+                                            <span class="label label-success">
+                                                Compra
+                                            </span>
+                                        @break
+
+                                        @case('Venta')
+                                            <span class="label label-danger">
+                                                Venta
+                                            </span>
+                                        @break
+
+                                        @case('Transferencia')
+                                            <span class="label label-primary">
+                                                Transferencia
+                                            </span>
+                                        @break
+
+                                        @default
+                                            <span class="label label-default">
+                                                {{ $row->movimiento }}
+                                            </span>
+
+                                    @endswitch
+
+                                </td>
+
+                                <td>{{ $row->ubicacion }}</td>
+
+                                <td>
+
+                                    {{ $row->producto }}
+
+                                    @if(!empty($row->color))
+                                        <br>
+                                        <small>
+                                            Color:
+                                            {{ $row->color }}
+                                        </small>
+                                    @endif
+
+                                </td>
+
+                                <td>{{ $row->referencia }}</td>
+
+                                <td>{{ $row->cliente }}</td>
+
+                                <td>{{ $row->usuario }}</td>
+
+                                <td>{{ $row->monto }}</td>
+
+                            </tr>
+
                         @empty
-                        <tr>
-                            <td colspan="10" class="text-center">No se encontraron movimientos para este lote.</td>
-                        </tr>
+
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    No se encontraron movimientos.
+                                </td>
+                            </tr>
+
                         @endforelse
                     </tbody>
                 </table>

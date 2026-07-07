@@ -4309,21 +4309,28 @@ class ReportController extends Controller
                 pl.lot_number,
                 pl.chasis,
                 pl.poliza,
+                pl.guia,
                 pl.quantity AS quantity_purchased,
+                pl.purchase_price_inc_tax AS costo,
 
                 t.id AS purchase_transaction_id,
                 t.transaction_date AS purchase_date,
                 t.type AS transaction_type,
                 t.invoice_no AS purchase_invoice_no,
+                t.ref_no AS referencia,
 
                 COALESCE(supplier.supplier_business_name, supplier.name) AS supplier_name,
 
                 bl.name AS location_name,
 
                 tsl.quantity AS sell_quantity,
+                tsl.unit_price_inc_tax AS precio_venta,
                 ts.invoice_no AS sell_invoice_no,
                 ts.transaction_date AS sell_date,
+                ts.type AS sell_transaction_type,
                 COALESCE(customer.supplier_business_name, customer.name) AS customer_name,
+
+                CONCAT(u.first_name,' ',COALESCE(u.last_name,'')) AS usuario,
 
                 (
                     pl.quantity 
@@ -4362,13 +4369,135 @@ class ReportController extends Controller
                 ON customer.id = ts.contact_id
                 AND customer.type IN ('customer', 'both')
 
+            LEFT JOIN users u
+                ON u.id = t.created_by
+
             WHERE pl.lot_number LIKE ?
             AND t.business_id = ?
 
             ORDER BY t.transaction_date ASC
         ", ['%' . $lot . '%', $business_id]);
 
-        return view('report.reportPorLote', compact('data', 'lot'));
+        $tramites = DB::select("
+            SELECT
+                t.id,
+                t.guia,
+                td.fecha_ingreso,
+                td.importe,
+                td.titulo,
+                td.placa,
+                td.fecha_pago_placa,
+                td.monto_pago_placa,
+                td.estado_entrega
+            FROM tramites t
+            INNER JOIN tramite_detalles td
+                ON td.tramite_id = t.id
+            WHERE t.lot_number = ?
+            ORDER BY td.fecha_ingreso
+        ", [$lot]);
+
+        $historial = [];
+
+        foreach ($data as $row) {
+
+            switch ($row->transaction_type) {
+
+                case 'purchase':
+                case 'opening_stock':
+                    $movimiento = 'Compra';
+                    break;
+
+                case 'stock_transfer':
+                case 'purchase_transfer':
+                    $movimiento = 'Transferencia';
+                    break;
+
+                case 'production_purchase':
+                    $movimiento = 'Transformación';
+                    break;
+
+                default:
+                    $movimiento = ucfirst($row->transaction_type);
+            }
+
+            // Compra
+            $historial[] = (object)[
+                'fecha' => $row->purchase_date,
+                'movimiento' => $movimiento,
+                'ubicacion' => $row->location_name,
+                'producto' => $row->product_name,
+                'color' => $row->nuevo_color ?: $row->product_color,
+                'cantidad' => $row->quantity_purchased,
+                'cliente' => $row->supplier_name,
+                'referencia' => $row->referencia . $row->guia,
+                'usuario' => $row->usuario,
+                'monto' => $row->costo,
+                'stock' => null
+            ];
+
+            if (!empty($row->sell_date) && $row->sell_transaction_type == 'sell') {
+
+                $historial[] = (object)[
+                    'fecha' => $row->sell_date,
+                    'movimiento' => 'Venta',
+                    'ubicacion' => $row->location_name,
+                    'producto' => $row->product_name,
+                    'color' => $row->nuevo_color ?: $row->product_color,
+                    'cantidad' => $row->sell_quantity,
+                    'cliente' => $row->customer_name,
+                    'referencia' => $row->sell_invoice_no,
+                    'stock' => $row->stock_remaining,
+                    'monto' => $row->precio_venta,
+                    'usuario' => $row->usuario
+                ];
+
+            }
+
+            // Aquí después agregaremos más movimientos...
+        }
+
+        foreach ($tramites as $tramite) {
+
+            $historial[] = (object)[
+                'fecha'       => $tramite->fecha_ingreso,
+                'movimiento'  => 'Tarjeta',
+                'ubicacion'   => '',
+                'producto'    => $tramite->titulo,
+                'color'       => '',
+                'cliente'     => '',
+                'referencia'  => $tramite->guia,
+                'usuario'     => '',
+                'monto'       => $tramite->importe,
+            ];
+
+            if (!empty($tramite->fecha_pago_placa)) {
+
+                $historial[] = (object)[
+                    'fecha'       => $tramite->fecha_pago_placa,
+                    'movimiento'  => 'Placa',
+                    'ubicacion'   => '',
+                    'producto'    => $tramite->estado_entrega,
+                    'color'       => '',
+                    'cliente'     => '',
+                    'referencia'  => $tramite->placa,
+                    'usuario'     => '',
+                    'monto'       => $tramite->monto_pago_placa,
+                ];
+
+            }
+
+        }
+
+        $historial = collect($historial)
+                ->sortBy('fecha')
+                ->values();
+
+        return view('report.reportPorLote', [
+            'data' => $historial,
+            'lot' => $lot
+        ]);
+
+        // return view('report.reportPorLote', compact('data', 'lot'));
     }
 
     public function cambiarColor(Request $request)
