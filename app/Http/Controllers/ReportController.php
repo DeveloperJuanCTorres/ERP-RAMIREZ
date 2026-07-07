@@ -4378,7 +4378,7 @@ class ReportController extends Controller
             ORDER BY t.transaction_date ASC
         ", ['%' . $lot . '%', $business_id]);
 
-        $tramites = DB::select("
+       $tramites = DB::select("
             SELECT
                 t.id,
                 t.guia,
@@ -4388,15 +4388,15 @@ class ReportController extends Controller
                 td.placa,
                 td.fecha_pago_placa,
                 td.monto_pago_placa,
-                td.estado_entrega
-            FROM tramites t
-            INNER JOIN tramite_detalles td
+                td.estado_entrega,
+                td.lot_number
+            FROM tramite_detalles td
+            LEFT JOIN tramites t
                 ON td.tramite_id = t.id
-            WHERE t.lot_number = ?
+            WHERE td.lot_number = ?
             ORDER BY td.fecha_ingreso
         ", [$lot]);
 
-        dd($tramites);
 
         $historial = [];
 
