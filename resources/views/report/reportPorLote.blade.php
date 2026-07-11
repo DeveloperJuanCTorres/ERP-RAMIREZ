@@ -27,7 +27,7 @@
         </form>
     @endcomponent
 
-    @isset($data)
+    @isset($datos)
         <div class="d-flex align-items-center mb-3">
             <h5 class="mr-3">
                 Resultados para lote: <strong>{{ $lot }}</strong>
@@ -35,12 +35,12 @@
 
             <h5 class="mr-3">
                 Chasis: 
-                <strong>{{ $data[0]->chasis ?? '-' }}</strong>
+                <strong>{{ $datos[0]->chasis ?? '-' }}</strong>
             </h5>
 
             <h5 class="mr-3">
                 Póliza: 
-                <strong>{{ $data[0]->poliza ?? '-' }}</strong>
+                <strong>{{ $datos[0]->poliza ?? '-' }}</strong>
             </h5>
 
             <button class="btn btn-warning btn-sm"

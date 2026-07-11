@@ -4496,7 +4496,8 @@ class ReportController extends Controller
 
         return view('report.reportPorLote', [
             'data' => $historial,
-            'lot' => $lot
+            'lot' => $lot,
+            'datos' => $data
         ]);
 
         // return view('report.reportPorLote', compact('data', 'lot'));
