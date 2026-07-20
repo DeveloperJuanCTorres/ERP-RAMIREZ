@@ -417,6 +417,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     //REPORRTE DE COMPRAS
     Route::get('/reportes/compras-productos', [PurchaseController::class, 'reporteCompras'])
     ->name('reportes.compras.productos');
+    Route::get('/reportes/compras-productos/excel',
+    [PurchaseController::class, 'reporteComprasExcel'])
+    ->name('reportes.compras.productos.excel');
+    
     Route::get('/ajax/reporte-compras-data', [PurchaseController::class, 'getModalData'])
     ->name('ajax.reporte.compras.data');
 

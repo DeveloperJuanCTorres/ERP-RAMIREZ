@@ -3184,6 +3184,23 @@ class ContactController extends Controller
         $totalGeneral = array_sum($mapSubtotales);
 
         // =========================
+        // RESUMEN POR PRODUCTO
+        // =========================
+        $resumenProductos = collect($compras)
+            ->groupBy('producto')
+            ->map(function ($items, $producto) {
+                return [
+                    'producto' => $producto,
+                    'cantidad' => $items->sum('cantidad'),
+                    'monto'    => $items->sum('total_item'),
+                ];
+            })
+            ->values();
+
+        $totalCantidad = $resumenProductos->sum('cantidad');
+        $totalMonto = $resumenProductos->sum('monto');
+
+        // =========================
         // PDF
         // =========================
         $pdf = Pdf::loadView(
@@ -3193,7 +3210,10 @@ class ContactController extends Controller
                 'movimientos',
                 'inicio',
                 'fin',
-                'totalGeneral'
+                'totalGeneral',
+                'resumenProductos',
+                'totalCantidad',
+                'totalMonto'
             )
         )->setPaper('a4', 'portrait');
 

@@ -23,7 +23,9 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
 use App\Events\PurchaseCreatedOrModified;
+use App\Exports\ReporteComprasExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PurchaseController extends Controller
 {
@@ -1509,7 +1511,7 @@ class PurchaseController extends Controller
     //     return $pdf->stream('reporte_compras_productos.pdf');
     // }
 
-    public function reporteCompras(Request $request)
+    private function obtenerCompras(Request $request)
     {
         $business_id = auth()->user()->business_id;
 
@@ -1532,7 +1534,6 @@ class PurchaseController extends Controller
                 END AS estado
             ");
 
-        // 🔹 FILTROS
         if ($request->filled(['fecha_inicio', 'fecha_fin'])) {
             $query->whereBetween('purchase_lines.created_at', [
                 $request->fecha_inicio,
@@ -1560,11 +1561,14 @@ class PurchaseController extends Controller
             $query->where('transactions.contact_id', $request->proveedor_id);
         }
 
-        $purchaseLines = $query
-            ->orderBy('purchase_lines.created_at')
-            ->get();
+        return $query->orderBy('purchase_lines.created_at')->get();
+    }
 
-        // 🔹 FILTROS VISIBLES EN PDF
+    public function reporteCompras(Request $request)
+    {
+        $purchaseLines = $this->obtenerCompras($request);
+
+        // FILTROS VISIBLES EN EL PDF
         $filtros = [
             'fecha' => $request->filled(['fecha_inicio', 'fecha_fin'])
                 ? $request->fecha_inicio . ' - ' . $request->fecha_fin
@@ -1578,17 +1582,117 @@ class PurchaseController extends Controller
                 ? optional(Contact::find($request->proveedor_id))->supplier_business_name
                 : 'Todos',
 
-            'contenedor' => $request->contenedor ?? 'Todos',
-            'guia'       => $request->guia ?? 'Todos',
-            'estado'     => $request->estado ?: 'Todos',
+            'contenedor' => $request->filled('contenedor')
+                ? $request->contenedor
+                : 'Todos',
+
+            'guia' => $request->filled('guia')
+                ? $request->guia
+                : 'Todos',
+
+            'estado' => $request->filled('estado')
+                ? $request->estado
+                : 'Todos',
         ];
 
-        $pdf = Pdf::loadView('purchase.partials.compras_productos', compact(
-            'purchaseLines',
-            'filtros'
-        ))->setPaper('A4', 'portrait');
+        $pdf = Pdf::loadView(
+            'purchase.partials.compras_productos',
+            compact('purchaseLines', 'filtros')
+        )->setPaper('A4', 'portrait');
 
         return $pdf->stream('reporte_compras_productos.pdf');
+    }
+
+    // public function reporteCompras(Request $request)
+    // {
+    //     $business_id = auth()->user()->business_id;
+
+    //     $query = PurchaseLine::join('transactions', 'transactions.id', '=', 'purchase_lines.transaction_id')
+    //         ->leftJoin('products', 'products.id', '=', 'purchase_lines.product_id')
+    //         ->leftJoin('contacts', 'contacts.id', '=', 'transactions.contact_id')
+    //         ->where('transactions.business_id', $business_id)
+    //         ->where('transactions.type', 'opening_stock')
+    //         ->select(
+    //             'purchase_lines.*',
+    //             'products.name as producto',
+    //             'contacts.supplier_business_name as proveedor'
+    //         )
+    //         ->selectRaw("
+    //             CASE
+    //                 WHEN purchase_lines.quantity_sold > 0 THEN 'V'
+    //                 WHEN purchase_lines.mfg_quantity_used > 0 THEN 'F'
+    //                 WHEN purchase_lines.quantity_adjusted > 0 THEN 'T'
+    //                 ELSE 'S'
+    //             END AS estado
+    //         ");
+
+        
+    //     if ($request->filled(['fecha_inicio', 'fecha_fin'])) {
+    //         $query->whereBetween('purchase_lines.created_at', [
+    //             $request->fecha_inicio,
+    //             $request->fecha_fin
+    //         ]);
+    //     }
+
+    //     if ($request->filled('product_id')) {
+    //         $query->where('purchase_lines.product_id', $request->product_id);
+    //     }
+
+    //     if ($request->filled('contenedor')) {
+    //         $query->where('purchase_lines.contenedor', $request->contenedor);
+    //     }
+
+    //     if ($request->filled('guia')) {
+    //         $query->where('purchase_lines.guia', 'like', "%{$request->guia}%");
+    //     }
+
+    //     if ($request->filled('estado')) {
+    //         $query->having('estado', $request->estado);
+    //     }
+
+    //     if ($request->filled('proveedor_id')) {
+    //         $query->where('transactions.contact_id', $request->proveedor_id);
+    //     }
+
+    //     $purchaseLines = $query
+    //         ->orderBy('purchase_lines.created_at')
+    //         ->get();
+
+        
+    //     $filtros = [
+    //         'fecha' => $request->filled(['fecha_inicio', 'fecha_fin'])
+    //             ? $request->fecha_inicio . ' - ' . $request->fecha_fin
+    //             : 'Todos',
+
+    //         'modelo' => $request->filled('product_id')
+    //             ? optional(Product::find($request->product_id))->name
+    //             : 'Todos',
+
+    //         'proveedor' => $request->filled('proveedor_id')
+    //             ? optional(Contact::find($request->proveedor_id))->supplier_business_name
+    //             : 'Todos',
+
+    //         'contenedor' => $request->contenedor ?? 'Todos',
+    //         'guia'       => $request->guia ?? 'Todos',
+    //         'estado'     => $request->estado ?: 'Todos',
+    //     ];
+
+    //     $pdf = Pdf::loadView('purchase.partials.compras_productos', compact(
+    //         'purchaseLines',
+    //         'filtros'
+    //     ))->setPaper('A4', 'portrait');
+
+    //     return $pdf->stream('reporte_compras_productos.pdf');
+    // }
+
+    public function reporteComprasExcel(Request $request)
+    {
+        $purchaseLines = $this->obtenerCompras($request);
+
+        return Excel::download(
+            new ReporteComprasExport($purchaseLines),
+            'reporte_compras_productos.xlsx'
+        );
     }
 
     public function getModalData()

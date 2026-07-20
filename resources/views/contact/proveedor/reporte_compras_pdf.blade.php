@@ -136,5 +136,47 @@
         </tfoot>
     </table>
 
+    <br><br>
+
+    <h3 style="text-align:center;">RESUMEN GENERAL</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th width="120">Cantidad</th>
+                <th width="150">Monto Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($resumenProductos as $r)
+            <tr>
+                <td>{{ $r['producto'] }}</td>
+                <td class="text-center">
+                    {{ number_format($r['cantidad'],0) }}
+                </td>
+                <td class="text-right">
+                    {{ number_format($r['monto'],2) }}
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+
+        <tfoot>
+            <tr class="subtotal">
+                <td class="text-right">
+                    <strong>TOTALES</strong>
+                </td>
+                <td class="text-center">
+                    <strong>{{ number_format($totalCantidad,0) }}</strong>
+                </td>
+                <td class="text-right">
+                    <strong>{{ number_format($totalMonto,2) }}</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
 </body>
 </html>

@@ -199,13 +199,38 @@
                         </div>
 
                         <div class="modal-footer">
+
+                            <button type="submit"
+                                    class="btn btn-danger"
+                                    formaction="{{ route('reportes.compras.productos') }}"
+                                    formtarget="_blank">
+                                <i class="fa fa-file-pdf"></i>
+                                Exportar PDF
+                            </button>
+
+                            <button type="submit"
+                                    class="btn btn-success"
+                                    formaction="{{ route('reportes.compras.productos.excel') }}">
+                                <i class="fa fa-file-excel"></i>
+                                Exportar Excel
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal">
+                                Cancelar
+                            </button>
+
+                        </div>
+
+                        <!-- <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-search"></i> Generar Reporte
                             </button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Cancelar
                             </button>
-                        </div>
+                        </div> -->
 
                     </div>
                 </form>
