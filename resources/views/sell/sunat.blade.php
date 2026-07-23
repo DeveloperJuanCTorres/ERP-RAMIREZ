@@ -1634,34 +1634,34 @@
 
  </script>
  <!-- Generar nota de credito -->
-  <script>
-    $('#btnGenerarNC').on('click', function () {
-        let id = $(this).data('id');
-        let tipo = $('#tipo_nc').val();
-        let invoice_scheme_id = $('#invoice_scheme_id_nota').val();
+<script>
+$('#btnGenerarNC').on('click', function () {
+    let id = $(this).data('id');
+    let tipo = $('#tipo_nc').val();
+    let invoice_scheme_id = $('#invoice_scheme_id_nota').val();
 
-        $.ajax({
-            url: `/comprobantes/${id}/generar-nota-credito`,
-            type: 'POST',
-            data: {
-                tipo: tipo,
-                invoice_scheme_id: invoice_scheme_id,
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (res) {
-                if (res.status) {
-                    $('#modalNotaCredito').modal('hide');
-                    toastr.success(res.message);
-                    $('#sell_table').DataTable().ajax.reload(null, false);
-                }
-                else{
-                    toastr.error(res.message);
-                }
+    $.ajax({
+        url: `/comprobantes/${id}/generar-nota-credito`,
+        type: 'POST',
+        data: {
+            tipo: tipo,
+            invoice_scheme_id: invoice_scheme_id,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (res) {
+            if (res.status) {
+                $('#modalNotaCredito').modal('hide');
+                toastr.success(res.message);
+                $('#sell_table').DataTable().ajax.reload(null, false);
             }
-        });
+            else{
+                toastr.error(res.message);
+            }
+        }
     });
+});
 
-  </script>
+</script>
 
 <script>
     $('#btnBuscarMotor').click(function () {

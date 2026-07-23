@@ -1800,7 +1800,7 @@ class SellController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
         $documento = $request->get('documento');
-        $transaction = Transaction::where('invoice_no', $documento)->where('business_id', $business_id)->first();
+        $transaction = Transaction::where('invoice_no', $documento)->where('business_id', $business_id)->where('type', 'sell')->first();
 
         // Validar si existe
         if (!$transaction) {
