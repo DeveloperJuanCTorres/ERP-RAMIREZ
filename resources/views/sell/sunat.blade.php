@@ -929,7 +929,7 @@
                 success: function(response) {
                     let tbody = $('#tablaItems tbody');
                     $('#datos_cliente').show();
-                    tbody.empty();
+                    // tbody.empty();
 
 
                     let $invoiceSelect = $('#invoice_scheme_id');
