@@ -2583,14 +2583,20 @@ class ContactController extends Controller
         $pagos = DB::select("
             SELECT
                 tp.id,
+                tp.transaction_id,
                 DATE(tp.paid_on) AS fecha_pago,
                 tp.amount AS importe_cancelado,
-                tp.note
+                tp.note AS nota_pago,
+                tp.account_id,
+                a.name AS cuenta
 
             FROM transaction_payments tp
 
             JOIN transactions t
                 ON t.id = tp.transaction_id
+
+            LEFT JOIN accounts a
+                ON a.id = tp.account_id
 
             WHERE t.contact_id = ?
             AND t.type = 'purchase'
@@ -2602,6 +2608,29 @@ class ContactController extends Controller
             $inicio,
             $fin
         ]);
+
+        // $pagos = DB::select("
+        //     SELECT
+        //         tp.id,
+        //         DATE(tp.paid_on) AS fecha_pago,
+        //         tp.amount AS importe_cancelado,
+        //         tp.note
+
+        //     FROM transaction_payments tp
+
+        //     JOIN transactions t
+        //         ON t.id = tp.transaction_id
+
+        //     WHERE t.contact_id = ?
+        //     AND t.type = 'purchase'
+        //     AND DATE(tp.paid_on) BETWEEN ? AND ?
+
+        //     ORDER BY tp.paid_on ASC
+        // ", [
+        //     $proveedor_id,
+        //     $inicio,
+        //     $fin
+        // ]);
 
         $totales = DB::selectOne("
             SELECT
