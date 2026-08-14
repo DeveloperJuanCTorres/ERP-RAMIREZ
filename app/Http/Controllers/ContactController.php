@@ -3101,12 +3101,10 @@ class ContactController extends Controller
         return $pdf->stream('estado_cuenta_proveedor.pdf');
     }
 
-
-
     public function reporteComprasProveedor($proveedor_id)
     {
         $inicio = request('inicio');
-        $fin = request('fin');
+        $fin    = request('fin');
 
         $proveedor = Contact::findOrFail($proveedor_id);
 
@@ -3122,14 +3120,20 @@ class ContactController extends Controller
                 p.name AS producto,
                 pl.quantity AS cantidad,
                 pl.purchase_price_inc_tax AS precio_unitario,
-                (COALESCE(pl.quantity,1) * COALESCE(pl.purchase_price_inc_tax,0)) AS total_item,
+
+                (
+                    COALESCE(pl.quantity,1) *
+                    COALESCE(pl.purchase_price_inc_tax,0)
+                ) AS total_item,
 
                 t.id AS transaction_id
 
             FROM transactions t
-            JOIN purchase_lines pl 
+
+            JOIN purchase_lines pl
                 ON pl.transaction_id = t.id
-            LEFT JOIN products p 
+
+            LEFT JOIN products p
                 ON p.id = pl.product_id
 
             WHERE t.type = 'purchase'
@@ -3137,7 +3141,12 @@ class ContactController extends Controller
             AND DATE(t.transaction_date) BETWEEN ? AND ?
 
             ORDER BY t.transaction_date ASC, t.ref_no ASC
-        ", [$proveedor_id, $inicio, $fin]);
+        ", [
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
 
         // =========================
         // SUBTOTALES POR COMPRA
@@ -3145,42 +3154,105 @@ class ContactController extends Controller
         $subtotales = DB::select("
             SELECT
                 t.id AS transaction_id,
-                SUM(COALESCE(pl.quantity,1) * COALESCE(pl.purchase_price_inc_tax,0)) AS subtotal
+
+                SUM(
+                    COALESCE(pl.quantity,1) *
+                    COALESCE(pl.purchase_price_inc_tax,0)
+                ) AS subtotal
+
             FROM transactions t
-            JOIN purchase_lines pl 
+
+            JOIN purchase_lines pl
                 ON pl.transaction_id = t.id
+
             WHERE t.type = 'purchase'
             AND t.contact_id = ?
             AND DATE(t.transaction_date) BETWEEN ? AND ?
-            GROUP BY t.id
-        ", [$proveedor_id, $inicio, $fin]);
 
-        // map subtotales
+            GROUP BY t.id
+        ", [
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+
+        // =========================
+        // MAPA DE SUBTOTALES
+        // =========================
         $mapSubtotales = [];
+
         foreach ($subtotales as $s) {
             $mapSubtotales[$s->transaction_id] = $s->subtotal;
         }
 
+
         // =========================
-        // MOVIMIENTOS (ESTILO CLIENTE)
+        // PAGOS POR COMPRA
+        // =========================
+        $pagos = DB::select("
+            SELECT
+                tp.transaction_id,
+                SUM(tp.amount) AS pagado
+
+            FROM transaction_payments tp
+
+            INNER JOIN transactions t
+                ON t.id = tp.transaction_id
+
+            WHERE t.type = 'purchase'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+            GROUP BY tp.transaction_id
+        ", [
+            $proveedor_id,
+            $inicio,
+            $fin
+        ]);
+
+
+        // =========================
+        // MAPA DE PAGOS
+        // =========================
+        $mapPagos = [];
+
+        foreach ($pagos as $p) {
+            $mapPagos[$p->transaction_id] = $p->pagado;
+        }
+
+
+        // =========================
+        // MOVIMIENTOS
         // =========================
         $movimientos = [];
 
         foreach ($compras as $c) {
+
+            $subtotal = $mapSubtotales[$c->transaction_id] ?? 0;
+            $pagado   = $mapPagos[$c->transaction_id] ?? 0;
+
             $movimientos[] = [
                 'fecha'           => $c->fecha,
                 'factura'         => $c->factura,
                 'producto'        => $c->producto,
+
                 'motor'           => null,
                 'guia'            => null,
                 'contenedor'      => null,
+
                 'cantidad'        => $c->cantidad,
                 'precio_unitario' => $c->precio_unitario,
                 'total_item'      => $c->total_item,
+
                 'transaction_id'  => $c->transaction_id,
-                'subtotal'        => $mapSubtotales[$c->transaction_id] ?? 0
+
+                'subtotal'        => $subtotal,
+                'pagado'          => $pagado,
+                'saldo'           => $subtotal - $pagado,
             ];
         }
+
 
         // =========================
         // MARCAR PRIMERO / ÚLTIMO
@@ -3192,25 +3264,40 @@ class ContactController extends Controller
         }
 
         foreach ($indices as $idxs) {
+
             foreach ($idxs as $pos => $idx) {
+
                 if ($pos == 0) {
                     $movimientos[$idx]['es_primero'] = true;
                 }
+
                 if ($pos == count($idxs) - 1) {
                     $movimientos[$idx]['es_ultimo'] = true;
                 }
             }
         }
 
+
         foreach ($movimientos as &$m) {
+
             $m['es_primero'] = $m['es_primero'] ?? false;
             $m['es_ultimo']  = $m['es_ultimo'] ?? false;
         }
 
+        unset($m);
+
+
         // =========================
-        // TOTAL GENERAL
+        // TOTALES GENERALES
         // =========================
         $totalGeneral = array_sum($mapSubtotales);
+
+        $totalPagadoGeneral = array_sum($mapPagos);
+
+        $totalSaldoGeneral =
+            $totalGeneral -
+            $totalPagadoGeneral;
+
 
         // =========================
         // RESUMEN POR PRODUCTO
@@ -3218,16 +3305,21 @@ class ContactController extends Controller
         $resumenProductos = collect($compras)
             ->groupBy('producto')
             ->map(function ($items, $producto) {
+
                 return [
                     'producto' => $producto,
                     'cantidad' => $items->sum('cantidad'),
                     'monto'    => $items->sum('total_item'),
                 ];
+
             })
             ->values();
 
+
         $totalCantidad = $resumenProductos->sum('cantidad');
+
         $totalMonto = $resumenProductos->sum('monto');
+
 
         // =========================
         // PDF
@@ -3239,15 +3331,170 @@ class ContactController extends Controller
                 'movimientos',
                 'inicio',
                 'fin',
+
                 'totalGeneral',
+                'totalPagadoGeneral',
+                'totalSaldoGeneral',
+
                 'resumenProductos',
                 'totalCantidad',
                 'totalMonto'
             )
-        )->setPaper('a4', 'portrait');
+        )
+        ->setPaper('a4', 'portrait')
+        ->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true
+        ]);
 
         return $pdf->stream('compras_proveedor.pdf');
     }
+
+    // public function reporteComprasProveedor($proveedor_id)
+    // {
+    //     $inicio = request('inicio');
+    //     $fin = request('fin');
+
+    //     $proveedor = Contact::findOrFail($proveedor_id);
+
+    //     // =========================
+    //     // COMPRAS DETALLADAS
+    //     // =========================
+    //     $compras = DB::select("
+    //         SELECT
+    //             DATE(t.transaction_date) AS fecha,
+    //             t.ref_no AS factura,
+
+    //             pl.id AS item_id,
+    //             p.name AS producto,
+    //             pl.quantity AS cantidad,
+    //             pl.purchase_price_inc_tax AS precio_unitario,
+    //             (COALESCE(pl.quantity,1) * COALESCE(pl.purchase_price_inc_tax,0)) AS total_item,
+
+    //             t.id AS transaction_id
+
+    //         FROM transactions t
+    //         JOIN purchase_lines pl 
+    //             ON pl.transaction_id = t.id
+    //         LEFT JOIN products p 
+    //             ON p.id = pl.product_id
+
+    //         WHERE t.type = 'purchase'
+    //         AND t.contact_id = ?
+    //         AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+    //         ORDER BY t.transaction_date ASC, t.ref_no ASC
+    //     ", [$proveedor_id, $inicio, $fin]);
+
+    //     // =========================
+    //     // SUBTOTALES POR COMPRA
+    //     // =========================
+    //     $subtotales = DB::select("
+    //         SELECT
+    //             t.id AS transaction_id,
+    //             SUM(COALESCE(pl.quantity,1) * COALESCE(pl.purchase_price_inc_tax,0)) AS subtotal
+    //         FROM transactions t
+    //         JOIN purchase_lines pl 
+    //             ON pl.transaction_id = t.id
+    //         WHERE t.type = 'purchase'
+    //         AND t.contact_id = ?
+    //         AND DATE(t.transaction_date) BETWEEN ? AND ?
+    //         GROUP BY t.id
+    //     ", [$proveedor_id, $inicio, $fin]);
+
+    //     // map subtotales
+    //     $mapSubtotales = [];
+    //     foreach ($subtotales as $s) {
+    //         $mapSubtotales[$s->transaction_id] = $s->subtotal;
+    //     }
+
+    //     // =========================
+    //     // MOVIMIENTOS (ESTILO CLIENTE)
+    //     // =========================
+    //     $movimientos = [];
+
+    //     foreach ($compras as $c) {
+    //         $movimientos[] = [
+    //             'fecha'           => $c->fecha,
+    //             'factura'         => $c->factura,
+    //             'producto'        => $c->producto,
+    //             'motor'           => null,
+    //             'guia'            => null,
+    //             'contenedor'      => null,
+    //             'cantidad'        => $c->cantidad,
+    //             'precio_unitario' => $c->precio_unitario,
+    //             'total_item'      => $c->total_item,
+    //             'transaction_id'  => $c->transaction_id,
+    //             'subtotal'        => $mapSubtotales[$c->transaction_id] ?? 0
+    //         ];
+    //     }
+
+    //     // =========================
+    //     // MARCAR PRIMERO / ÚLTIMO
+    //     // =========================
+    //     $indices = [];
+
+    //     foreach ($movimientos as $i => $m) {
+    //         $indices[$m['transaction_id']][] = $i;
+    //     }
+
+    //     foreach ($indices as $idxs) {
+    //         foreach ($idxs as $pos => $idx) {
+    //             if ($pos == 0) {
+    //                 $movimientos[$idx]['es_primero'] = true;
+    //             }
+    //             if ($pos == count($idxs) - 1) {
+    //                 $movimientos[$idx]['es_ultimo'] = true;
+    //             }
+    //         }
+    //     }
+
+    //     foreach ($movimientos as &$m) {
+    //         $m['es_primero'] = $m['es_primero'] ?? false;
+    //         $m['es_ultimo']  = $m['es_ultimo'] ?? false;
+    //     }
+
+    //     // =========================
+    //     // TOTAL GENERAL
+    //     // =========================
+    //     $totalGeneral = array_sum($mapSubtotales);
+
+    //     // =========================
+    //     // RESUMEN POR PRODUCTO
+    //     // =========================
+    //     $resumenProductos = collect($compras)
+    //         ->groupBy('producto')
+    //         ->map(function ($items, $producto) {
+    //             return [
+    //                 'producto' => $producto,
+    //                 'cantidad' => $items->sum('cantidad'),
+    //                 'monto'    => $items->sum('total_item'),
+    //             ];
+    //         })
+    //         ->values();
+
+    //     $totalCantidad = $resumenProductos->sum('cantidad');
+    //     $totalMonto = $resumenProductos->sum('monto');
+
+    //     // =========================
+    //     // PDF
+    //     // =========================
+    //     $pdf = Pdf::loadView(
+    //         'contact.proveedor.reporte_compras_pdf',
+    //         compact(
+    //             'proveedor',
+    //             'movimientos',
+    //             'inicio',
+    //             'fin',
+    //             'totalGeneral',
+    //             'resumenProductos',
+    //             'totalCantidad',
+    //             'totalMonto'
+    //         )
+    //     )->setPaper('a4', 'portrait');
+
+    //     return $pdf->stream('compras_proveedor.pdf');
+    // }
 
     public function reportePagosProveedor($proveedor_id)
     {
