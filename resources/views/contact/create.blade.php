@@ -570,108 +570,147 @@
 
     $(document).on('click', '.buscar_sunat', function() {
 
-        $contacto = $('#contact_id').val();
+        const contacto = $('#contact_id').val();
 
         console.log($type);
 
+        // Validar tipo de contacto
         if ($type == '') {
 
             toastr.error('Debe seleccionar el tipo de contacto');
-
-        } else {
-
-            if ($type == 'individual') {
-
-                $.ajax({
-                    method: 'POST',
-                    url: '/consulta_dni',
-                    dataType: 'json',
-                    data: {
-                        id: $contacto
-                    },
-
-                    success: function(result) {
-
-                        if (result.status == true) {
-
-                            $('#first_name').val(result.msg.nombres);
-
-                            $('#last_name').val(
-                                result.msg.apellido_paterno + ' ' +
-                                result.msg.apellido_materno
-                            );
-
-                            toastr.success(
-                                'La persona: ' +
-                                result.msg.nombres +
-                                ' se encontró con éxito'
-                            );
-
-                        } else {
-
-                            toastr.error(result.msg);
-                        }
-                    },
-
-                    error: function(xhr) {
-
-                        let mensaje = 'No se pudo consultar el DNI.';
-
-                        if (xhr.responseJSON && xhr.responseJSON.msg) {
-                            mensaje = xhr.responseJSON.msg;
-                        }
-
-                        toastr.error(mensaje);
-                    }
-                });
-            }
-
-            if ($type == 'business') {
-
-                $.ajax({
-                    method: 'POST',
-                    url: '/consulta_ruc',
-                    dataType: 'json',
-                    data: {
-                        id: $contacto
-                    },
-
-                    success: function(result) {
-
-                        if (result.status == true) {
-
-                            $('#supplier_business_name').val(result.msg.razonSocial);
-                            $('#address_line_1').val(result.msg.direccion);
-                            $('#city').val(result.msg.departamento);
-                            $('#state').val(result.msg.provincia);
-                            $('#country').val(result.msg.distrito);
-                            $('#zip_code').val(result.msg.ubigeo);
-
-                            toastr.success(
-                                'La empresa: ' +
-                                result.msg.razonSocial +
-                                ' se encontró con éxito'
-                            );
-
-                        } else {
-
-                            toastr.error(result.msg);
-                        }
-                    },
-
-                    error: function(xhr) {
-
-                        let mensaje = 'No se pudo consultar el RUC.';
-
-                        if (xhr.responseJSON && xhr.responseJSON.msg) {
-                            mensaje = xhr.responseJSON.msg;
-                        }
-
-                        toastr.error(mensaje);
-                    }
-                });
-            }
+            return;
         }
+
+        // Validar documento
+        if (!contacto) {
+
+            toastr.error('Debe ingresar el número de documento');
+            return;
+        }
+
+        // ==========================
+        // CONSULTA DNI
+        // ==========================
+        if ($type == 'individual') {
+
+            $.ajax({
+                method: 'POST',
+                url: '/consulta_dni',
+                dataType: 'json',
+                data: {
+                    id: contacto
+                },
+
+                success: function(result) {
+
+                    if (result.status == true) {
+
+                        $('#first_name').val(
+                            result.msg.nombres
+                        );
+
+                        $('#last_name').val(
+                            result.msg.apellido_paterno + ' ' +
+                            result.msg.apellido_materno
+                        );
+
+                        toastr.success(
+                            'La persona: ' +
+                            result.msg.nombres +
+                            ' se encontró con éxito'
+                        );
+
+                    } else {
+
+                        toastr.error(result.msg);
+                    }
+                },
+
+                error: function(xhr) {
+
+                    let mensaje = 'No se pudo consultar el DNI.';
+
+                    if (xhr.responseJSON && xhr.responseJSON.msg) {
+                        mensaje = xhr.responseJSON.msg;
+                    }
+
+                    toastr.error(mensaje);
+                }
+            });
+        }
+
+        // ==========================
+        // CONSULTA RUC
+        // ==========================
+        if ($type == 'business') {
+
+            $.ajax({
+                method: 'POST',
+                url: '/consulta_ruc',
+                dataType: 'json',
+                data: {
+                    id: contacto
+                },
+
+                success: function(result) {
+
+                    if (result.status == true) {
+
+                        // Razón social
+                        $('#supplier_business_name').val(
+                            result.msg.nombre_o_razon_social
+                        );
+
+                        // Dirección
+                        $('#address_line_1').val(
+                            result.msg.direccion
+                        );
+
+                        // Departamento
+                        $('#city').val(
+                            result.msg.departamento
+                        );
+
+                        // Provincia
+                        $('#state').val(
+                            result.msg.provincia
+                        );
+
+                        // Distrito
+                        $('#country').val(
+                            result.msg.distrito
+                        );
+
+                        // Ubigeo SUNAT
+                        $('#zip_code').val(
+                            result.msg.ubigeo_sunat
+                        );
+
+                        toastr.success(
+                            'La empresa: ' +
+                            result.msg.nombre_o_razon_social +
+                            ' se encontró con éxito'
+                        );
+
+                    } else {
+
+                        toastr.error(result.msg);
+                    }
+                },
+
+                error: function(xhr) {
+
+                    let mensaje = 'No se pudo consultar el RUC.';
+
+                    if (xhr.responseJSON && xhr.responseJSON.msg) {
+                        mensaje = xhr.responseJSON.msg;
+                    }
+
+                    toastr.error(mensaje);
+                }
+            });
+        }
+
     });
         
     // $(document).on('click', '.buscar_sunat', function() {

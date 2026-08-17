@@ -1743,44 +1743,124 @@ class ContactController extends Controller
         ];
     }
 
+    // public function consultaRuc(Request $request)
+    // {
+    //     try {
+    //         $id = $request->id;
+    //         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpjdG9ycmVzZGVsY2FzdGlsbG9AZ21haWwuY29tIn0.9pqSTUQsGSXgrcCmW9LC1JM_5u7ssUFFi5shiOPboHQ';
+    //         $ruta = 'https://dniruc.apisperu.com/api/v1/ruc/'.$id.'?token='.$token;
+
+    //         $curl = curl_init();
+
+    //         curl_setopt_array($curl, array(
+    //           CURLOPT_URL => $ruta,
+    //           CURLOPT_RETURNTRANSFER => true,
+    //           CURLOPT_TIMEOUT => 30,
+    //           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //           CURLOPT_CUSTOMREQUEST => "GET",
+    //           CURLOPT_HTTPHEADER => array(
+    //             "cache-control: no-cache"
+    //           ),
+    //         )); 
+            
+    //         $response = curl_exec($curl);
+    //         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    //         if ($status==200)
+    //         {
+    //             $resp = json_decode($response);
+    //             return response()->json(['status' => true, 'msg' => $resp]);
+    //         }
+    //         else
+    //         {
+    //             $resp = json_decode($response);
+    //             return response()->json(['status' => false, 'msg' => 'Error al digitar el # documento o no existe']);
+    //         }
+
+            
+    //     } catch (\Throwable $th) {
+    //         return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+    //     }        
+    // }
+
     public function consultaRuc(Request $request)
     {
         try {
-            $id = $request->id;
-            $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpjdG9ycmVzZGVsY2FzdGlsbG9AZ21haWwuY29tIn0.9pqSTUQsGSXgrcCmW9LC1JM_5u7ssUFFi5shiOPboHQ';
-            $ruta = 'https://dniruc.apisperu.com/api/v1/ruc/'.$id.'?token='.$token;
+
+            $ruc = $request->id;
+
+            // Validar RUC
+            if (!preg_match('/^[0-9]{11}$/', $ruc)) {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'El RUC debe contener 11 dígitos.'
+                ], 422);
+            }
+
+            $token = env('JSONPE_TOKEN');
 
             $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-              CURLOPT_URL => $ruta,
-              CURLOPT_RETURNTRANSFER => true,
-              CURLOPT_TIMEOUT => 30,
-              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_CUSTOMREQUEST => "GET",
-              CURLOPT_HTTPHEADER => array(
-                "cache-control: no-cache"
-              ),
-            )); 
-            
+            curl_setopt_array($curl, [
+                CURLOPT_URL => 'https://api.json.pe/api/ruc',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => json_encode([
+                    'ruc' => $ruc
+                ]),
+                CURLOPT_HTTPHEADER => [
+                    'Authorization: Bearer 36dbd3677541d5450f7d741882c34f0aaba7deeab98ccadbdbf0993ad382',
+                    'Content-Type: application/json',
+                    'Accept: application/json'
+                ],
+            ]);
+
             $response = curl_exec($curl);
+            $error = curl_error($curl);
             $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-            if ($status==200)
-            {
-                $resp = json_decode($response);
-                return response()->json(['status' => true, 'msg' => $resp]);
-            }
-            else
-            {
-                $resp = json_decode($response);
-                return response()->json(['status' => false, 'msg' => 'Error al digitar el # documento o no existe']);
+            curl_close($curl);
+
+            // Error de conexión
+            if ($error) {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Error de conexión con el servicio de RUC: ' . $error
+                ], 500);
             }
 
-            
+            $resp = json_decode($response, true);
+
+            // Consulta exitosa
+            if (
+                $status == 200 &&
+                isset($resp['success']) &&
+                $resp['success'] === true
+            ) {
+
+                return response()->json([
+                    'status' => true,
+                    'msg' => $resp['data']
+                ]);
+            }
+
+            // Error de API
+            return response()->json([
+                'status' => false,
+                'msg' => $resp['message'] ?? 'Error al consultar el RUC o el documento no existe.'
+            ]);
+
         } catch (\Throwable $th) {
-            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
-        }        
+
+            return response()->json([
+                'status' => false,
+                'msg' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function consultaDni(Request $request)
