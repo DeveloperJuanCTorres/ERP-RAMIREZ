@@ -567,59 +567,165 @@
     $(document).on('click', '.contact_type_business', function () {
         $type = 'business';
     });
-        
+
     $(document).on('click', '.buscar_sunat', function() {
+
         $contacto = $('#contact_id').val();
-       
+
         console.log($type);
-        if($type=='')
-        {
+
+        if ($type == '') {
+
             toastr.error('Debe seleccionar el tipo de contacto');
-        }
-        else
-        {
-            if($type == 'individual')
-            {
-                //toastr.info('Estamos trabajando en ello');
+
+        } else {
+
+            if ($type == 'individual') {
+
                 $.ajax({
                     method: 'POST',
                     url: '/consulta_dni',
                     dataType: 'json',
-                    data: {id: $contacto},
+                    data: {
+                        id: $contacto
+                    },
+
                     success: function(result) {
+
                         if (result.status == true) {
+
                             $('#first_name').val(result.msg.nombres);
-                            $('#last_name').val(result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
-                            toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
+
+                            $('#last_name').val(
+                                result.msg.apellido_paterno + ' ' +
+                                result.msg.apellido_materno
+                            );
+
+                            toastr.success(
+                                'La persona: ' +
+                                result.msg.nombres +
+                                ' se encontró con éxito'
+                            );
+
                         } else {
+
                             toastr.error(result.msg);
                         }
                     },
+
+                    error: function(xhr) {
+
+                        let mensaje = 'No se pudo consultar el DNI.';
+
+                        if (xhr.responseJSON && xhr.responseJSON.msg) {
+                            mensaje = xhr.responseJSON.msg;
+                        }
+
+                        toastr.error(mensaje);
+                    }
                 });
             }
-            if($type == 'business')
-            {
+
+            if ($type == 'business') {
+
                 $.ajax({
                     method: 'POST',
                     url: '/consulta_ruc',
                     dataType: 'json',
-                    data: {id: $contacto},
+                    data: {
+                        id: $contacto
+                    },
+
                     success: function(result) {
+
                         if (result.status == true) {
+
                             $('#supplier_business_name').val(result.msg.razonSocial);
                             $('#address_line_1').val(result.msg.direccion);
                             $('#city').val(result.msg.departamento);
                             $('#state').val(result.msg.provincia);
                             $('#country').val(result.msg.distrito);
                             $('#zip_code').val(result.msg.ubigeo);
-                            toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
+
+                            toastr.success(
+                                'La empresa: ' +
+                                result.msg.razonSocial +
+                                ' se encontró con éxito'
+                            );
+
                         } else {
+
                             toastr.error(result.msg);
                         }
                     },
+
+                    error: function(xhr) {
+
+                        let mensaje = 'No se pudo consultar el RUC.';
+
+                        if (xhr.responseJSON && xhr.responseJSON.msg) {
+                            mensaje = xhr.responseJSON.msg;
+                        }
+
+                        toastr.error(mensaje);
+                    }
                 });
             }
-        }  
-        
+        }
     });
+        
+    // $(document).on('click', '.buscar_sunat', function() {
+    //     $contacto = $('#contact_id').val();
+       
+    //     console.log($type);
+    //     if($type=='')
+    //     {
+    //         toastr.error('Debe seleccionar el tipo de contacto');
+    //     }
+    //     else
+    //     {
+    //         if($type == 'individual')
+    //         {
+    //             //toastr.info('Estamos trabajando en ello');
+    //             $.ajax({
+    //                 method: 'POST',
+    //                 url: '/consulta_dni',
+    //                 dataType: 'json',
+    //                 data: {id: $contacto},
+    //                 success: function(result) {
+    //                     if (result.status == true) {
+    //                         $('#first_name').val(result.msg.nombres);
+    //                         $('#last_name').val(result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
+    //                         toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
+    //                     } else {
+    //                         toastr.error(result.msg);
+    //                     }
+    //                 },
+    //             });
+    //         }
+    //         if($type == 'business')
+    //         {
+    //             $.ajax({
+    //                 method: 'POST',
+    //                 url: '/consulta_ruc',
+    //                 dataType: 'json',
+    //                 data: {id: $contacto},
+    //                 success: function(result) {
+    //                     if (result.status == true) {
+    //                         $('#supplier_business_name').val(result.msg.razonSocial);
+    //                         $('#address_line_1').val(result.msg.direccion);
+    //                         $('#city').val(result.msg.departamento);
+    //                         $('#state').val(result.msg.provincia);
+    //                         $('#country').val(result.msg.distrito);
+    //                         $('#zip_code').val(result.msg.ubigeo);
+    //                         toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
+    //                     } else {
+    //                         toastr.error(result.msg);
+    //                     }
+    //                 },
+    //             });
+    //         }
+    //     }  
+        
+    // });
 </script>
