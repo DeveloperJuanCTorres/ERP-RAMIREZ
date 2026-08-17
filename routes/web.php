@@ -57,6 +57,7 @@ use App\Http\Controllers\SellPosController;
 use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\StockProduccionController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\TaxRateController;
@@ -375,6 +376,14 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/consulta_ruc',[App\Http\Controllers\ContactController::class,'consultaRuc'])->name('consulta_ruc');
     Route::post('/consulta_dni',[App\Http\Controllers\ContactController::class,'consultaDni'])->name('consulta_dni');
     // FIN CONSULTA RUC DNI
+
+    // STOCK PRODUCCION
+
+    Route::get('/reportes/stock-produccion', [StockProduccionController::class, 'index']
+        )->name('reportes.stock_produccion');
+
+    Route::get('/reportes/stock-produccion/pdf', [StockProduccionController::class, 'exportPdf']
+        )->name('stock.produccion.pdf');
 
     //Invoice schemes..
     Route::get('/invoice-schemes/set_default/{id}', [InvoiceSchemeController::class, 'setDefault']);

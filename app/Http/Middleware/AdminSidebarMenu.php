@@ -603,6 +603,19 @@ class AdminSidebarMenu
                                 ]
                             );
                         }
+
+                        if (auth()->user()->can('stock_report.view')) {
+                            $sub->url(
+                                action([\App\Http\Controllers\StockProduccionController::class, 'index']),
+                                'Stock de Producción',
+                                [
+                                    'icon' => 'fas fa-industry',
+                                    'active' => request()->segment(2) == 'stock-produccion'
+                                ]
+                            );
+                        }
+
+
                         if (auth()->user()->can('profit_loss_report.view')) {
                             $sub->url(
                                 action([\App\Http\Controllers\ReportController::class, 'getProfitLoss']),
