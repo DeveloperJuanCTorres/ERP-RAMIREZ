@@ -797,120 +797,427 @@
 <script>
     $(document).ready(function() {
 
-        $(document).on('click', '.buscar_sunat', function() {
-            let comprobante = $('#invoice_scheme_id option:selected').text().toLowerCase();
-            $contacto = $('#numerodoc').val();
-            $type = '';
-            if (comprobante.includes('boleta')) {
-                $type = 'boleta'
-            }
-            if (comprobante.includes('factura')) {            
-                $type = 'factura'
-            }
+        // $(document).on('click', '.buscar_sunat', function() {
+        //     let comprobante = $('#invoice_scheme_id option:selected').text().toLowerCase();
+        //     $contacto = $('#numerodoc').val();
+        //     $type = '';
+        //     if (comprobante.includes('boleta')) {
+        //         $type = 'boleta'
+        //     }
+        //     if (comprobante.includes('factura')) {            
+        //         $type = 'factura'
+        //     }
         
-            console.log($type);
-            if($type=='')
-            {
-                toastr.error('Debe seleccionar el comporbante "Boleta" o "Factura"');
-            }
-            else
-            {
-                if($type == 'boleta')
-                {
-                    //toastr.info('Estamos trabajando en ello');
-                    $.ajax({
-                        method: 'POST',
-                        url: '/consulta_dni',
-                        dataType: 'json',
-                        data: {id: $contacto},
-                        success: function(result) {
-                            if (result.status == true) {
-                                $('#cliente').val(result.msg.nombres + ' ' + result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
-                                toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
-                            } else {
-                                toastr.error(result.msg);
-                            }
-                        },
-                    });
-                }
-                if($type == 'factura')
-                {
-                    $.ajax({
-                        method: 'POST',
-                        url: '/consulta_ruc',
-                        dataType: 'json',
-                        data: {id: $contacto},
-                        success: function(result) {
-                            if (result.status == true) {
-                                $('#cliente').val(result.msg.razonSocial);
-                                $('#address').val(result.msg.direccion);
-                                toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
-                            } else {
-                                toastr.error(result.msg);
-                            }
-                        },
-                    });
-                }
-            }  
+        //     console.log($type);
+        //     if($type=='')
+        //     {
+        //         toastr.error('Debe seleccionar el comporbante "Boleta" o "Factura"');
+        //     }
+        //     else
+        //     {
+        //         if($type == 'boleta')
+        //         {
+        //             //toastr.info('Estamos trabajando en ello');
+        //             $.ajax({
+        //                 method: 'POST',
+        //                 url: '/consulta_dni',
+        //                 dataType: 'json',
+        //                 data: {id: $contacto},
+        //                 success: function(result) {
+        //                     if (result.status == true) {
+        //                         $('#cliente').val(result.msg.nombres + ' ' + result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
+        //                         toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
+        //                     } else {
+        //                         toastr.error(result.msg);
+        //                     }
+        //                 },
+        //             });
+        //         }
+        //         if($type == 'factura')
+        //         {
+        //             $.ajax({
+        //                 method: 'POST',
+        //                 url: '/consulta_ruc',
+        //                 dataType: 'json',
+        //                 data: {id: $contacto},
+        //                 success: function(result) {
+        //                     if (result.status == true) {
+        //                         $('#cliente').val(result.msg.razonSocial);
+        //                         $('#address').val(result.msg.direccion);
+        //                         toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
+        //                     } else {
+        //                         toastr.error(result.msg);
+        //                     }
+        //                 },
+        //             });
+        //         }
+        //     }  
             
+        // });
+
+        // $(document).on('click', '.buscar_sunat_servicio', function() {
+        //     let comprobante = $('#invoice_scheme_id_servicio option:selected').text().toLowerCase();
+        //     $contacto = $('#numerodoc_servicio').val();
+        //     $type = '';
+        //     if (comprobante.includes('boleta')) {
+        //         $type = 'boleta'
+        //     }
+        //     if (comprobante.includes('factura')) {            
+        //         $type = 'factura'
+        //     }
+        
+        //     console.log($type);
+        //     if($type=='')
+        //     {
+        //         toastr.error('Debe seleccionar el comporbante "Boleta" o "Factura"');
+        //     }
+        //     else
+        //     {
+        //         if($type == 'boleta')
+        //         {
+        //             //toastr.info('Estamos trabajando en ello');
+        //             $.ajax({
+        //                 method: 'POST',
+        //                 url: '/consulta_dni',
+        //                 dataType: 'json',
+        //                 data: {id: $contacto},
+        //                 success: function(result) {
+        //                     if (result.status == true) {
+        //                         $('#cliente_servicio').val(result.msg.nombres + ' ' + result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
+        //                         toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
+        //                     } else {
+        //                         toastr.error(result.msg);
+        //                     }
+        //                 },
+        //             });
+        //         }
+        //         if($type == 'factura')
+        //         {
+        //             $.ajax({
+        //                 method: 'POST',
+        //                 url: '/consulta_ruc',
+        //                 dataType: 'json',
+        //                 data: {id: $contacto},
+        //                 success: function(result) {
+        //                     if (result.status == true) {
+        //                         $('#cliente_servicio').val(result.msg.razonSocial);
+        //                         $('#address_servicio').val(result.msg.direccion);
+        //                         toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
+        //                     } else {
+        //                         toastr.error(result.msg);
+        //                     }
+        //                 },
+        //             });
+        //         }
+        //     }  
+            
+        // });
+
+        // =====================================================
+        // CONSULTA CLIENTE - PRODUCTOS
+        // =====================================================
+        $(document).on('click', '.buscar_sunat', function() {
+
+            let comprobante = $('#invoice_scheme_id option:selected')
+                .text()
+                .toLowerCase();
+
+            let contacto = $('#numerodoc').val();
+
+            let type = '';
+
+            if (comprobante.includes('boleta')) {
+                type = 'boleta';
+            }
+
+            if (comprobante.includes('factura')) {
+                type = 'factura';
+            }
+
+            console.log(type);
+
+            if (type == '') {
+
+                toastr.error(
+                    'Debe seleccionar el comprobante "Boleta" o "Factura"'
+                );
+
+                return;
+            }
+
+            if (!contacto) {
+
+                toastr.error(
+                    'Debe ingresar el número de documento'
+                );
+
+                return;
+            }
+
+
+            // ==========================
+            // BOLETA - DNI
+            // ==========================
+            if (type == 'boleta') {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/consulta_dni',
+                    dataType: 'json',
+
+                    data: {
+                        id: contacto
+                    },
+
+                    success: function(result) {
+
+                        if (result.status == true) {
+
+                            let nombreCompleto =
+                                result.msg.nombres + ' ' +
+                                result.msg.apellido_paterno + ' ' +
+                                result.msg.apellido_materno;
+
+                            $('#cliente').val(nombreCompleto);
+
+                            toastr.success(
+                                'La persona: ' +
+                                nombreCompleto +
+                                ' se encontró con éxito'
+                            );
+
+                        } else {
+
+                            toastr.error(result.msg);
+                        }
+                    },
+
+                    error: function(xhr) {
+
+                        let mensaje = 'No se pudo consultar el DNI.';
+
+                        if (
+                            xhr.responseJSON &&
+                            xhr.responseJSON.msg
+                        ) {
+                            mensaje = xhr.responseJSON.msg;
+                        }
+
+                        toastr.error(mensaje);
+                    }
+                });
+            }
+
+
+            // ==========================
+            // FACTURA - RUC
+            // ==========================
+            if (type == 'factura') {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/consulta_ruc',
+                    dataType: 'json',
+
+                    data: {
+                        id: contacto
+                    },
+
+                    success: function(result) {
+
+                        if (result.status == true) {
+
+                            $('#cliente').val(
+                                result.msg.nombre_o_razon_social
+                            );
+
+                            $('#address').val(
+                                result.msg.direccion
+                            );
+
+                            toastr.success(
+                                'La empresa: ' +
+                                result.msg.nombre_o_razon_social +
+                                ' se encontró con éxito'
+                            );
+
+                        } else {
+
+                            toastr.error(result.msg);
+                        }
+                    },
+
+                    error: function(xhr) {
+
+                        let mensaje = 'No se pudo consultar el RUC.';
+
+                        if (
+                            xhr.responseJSON &&
+                            xhr.responseJSON.msg
+                        ) {
+                            mensaje = xhr.responseJSON.msg;
+                        }
+
+                        toastr.error(mensaje);
+                    }
+                });
+            }
+
         });
 
+
+        // =====================================================
+        // CONSULTA CLIENTE - SERVICIO
+        // =====================================================
         $(document).on('click', '.buscar_sunat_servicio', function() {
-            let comprobante = $('#invoice_scheme_id_servicio option:selected').text().toLowerCase();
-            $contacto = $('#numerodoc_servicio').val();
-            $type = '';
+
+            let comprobante = $('#invoice_scheme_id_servicio option:selected')
+                .text()
+                .toLowerCase();
+
+            let contacto = $('#numerodoc_servicio').val();
+
+            let type = '';
+
             if (comprobante.includes('boleta')) {
-                $type = 'boleta'
+                type = 'boleta';
             }
-            if (comprobante.includes('factura')) {            
-                $type = 'factura'
+
+            if (comprobante.includes('factura')) {
+                type = 'factura';
             }
-        
-            console.log($type);
-            if($type=='')
-            {
-                toastr.error('Debe seleccionar el comporbante "Boleta" o "Factura"');
+
+            console.log(type);
+
+            if (type == '') {
+
+                toastr.error(
+                    'Debe seleccionar el comprobante "Boleta" o "Factura"'
+                );
+
+                return;
             }
-            else
-            {
-                if($type == 'boleta')
-                {
-                    //toastr.info('Estamos trabajando en ello');
-                    $.ajax({
-                        method: 'POST',
-                        url: '/consulta_dni',
-                        dataType: 'json',
-                        data: {id: $contacto},
-                        success: function(result) {
-                            if (result.status == true) {
-                                $('#cliente_servicio').val(result.msg.nombres + ' ' + result.msg.apellidoPaterno + ' ' + result.msg.apellidoMaterno);
-                                toastr.success('La persona: ' + result.msg.nombres + ' se encontró con éxito');
-                            } else {
-                                toastr.error(result.msg);
-                            }
-                        },
-                    });
-                }
-                if($type == 'factura')
-                {
-                    $.ajax({
-                        method: 'POST',
-                        url: '/consulta_ruc',
-                        dataType: 'json',
-                        data: {id: $contacto},
-                        success: function(result) {
-                            if (result.status == true) {
-                                $('#cliente_servicio').val(result.msg.razonSocial);
-                                $('#address_servicio').val(result.msg.direccion);
-                                toastr.success('La empresa: ' + result.msg.razonSocial + ' se encontró con éxito');
-                            } else {
-                                toastr.error(result.msg);
-                            }
-                        },
-                    });
-                }
-            }  
-            
+
+            if (!contacto) {
+
+                toastr.error(
+                    'Debe ingresar el número de documento'
+                );
+
+                return;
+            }
+
+
+            // ==========================
+            // BOLETA - DNI
+            // ==========================
+            if (type == 'boleta') {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/consulta_dni',
+                    dataType: 'json',
+
+                    data: {
+                        id: contacto
+                    },
+
+                    success: function(result) {
+
+                        if (result.status == true) {
+
+                            let nombreCompleto =
+                                result.msg.nombres + ' ' +
+                                result.msg.apellido_paterno + ' ' +
+                                result.msg.apellido_materno;
+
+                            $('#cliente_servicio').val(
+                                nombreCompleto
+                            );
+
+                            toastr.success(
+                                'La persona: ' +
+                                nombreCompleto +
+                                ' se encontró con éxito'
+                            );
+
+                        } else {
+
+                            toastr.error(result.msg);
+                        }
+                    },
+
+                    error: function(xhr) {
+
+                        let mensaje = 'No se pudo consultar el DNI.';
+
+                        if (
+                            xhr.responseJSON &&
+                            xhr.responseJSON.msg
+                        ) {
+                            mensaje = xhr.responseJSON.msg;
+                        }
+
+                        toastr.error(mensaje);
+                    }
+                });
+            }
+
+
+            // ==========================
+            // FACTURA - RUC
+            // ==========================
+            if (type == 'factura') {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/consulta_ruc',
+                    dataType: 'json',
+
+                    data: {
+                        id: contacto
+                    },
+
+                    success: function(result) {
+
+                        if (result.status == true) {
+
+                            $('#cliente_servicio').val(
+                                result.msg.nombre_o_razon_social
+                            );
+
+                            $('#address_servicio').val(
+                                result.msg.direccion
+                            );
+
+                            toastr.success(
+                                'La empresa: ' +
+                                result.msg.nombre_o_razon_social +
+                                ' se encontró con éxito'
+                            );
+
+                        } else {
+
+                            toastr.error(result.msg);
+                        }
+                    },
+
+                    error: function(xhr) {
+
+                        let mensaje = 'No se pudo consultar el RUC.';
+
+                        if (
+                            xhr.responseJSON &&
+                            xhr.responseJSON.msg
+                        ) {
+                            mensaje = xhr.responseJSON.msg;
+                        }
+
+                        toastr.error(mensaje);
+                    }
+                });
+            }
+
         });
 
         // Acción de buscar
