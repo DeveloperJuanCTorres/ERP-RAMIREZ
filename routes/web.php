@@ -47,6 +47,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReporteVentasLotesController;
 use App\Http\Controllers\Restaurant;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesCommissionAgentController;
@@ -384,6 +385,16 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::get('/reportes/stock-produccion/pdf', [StockProduccionController::class, 'exportPdf']
         )->name('stock.produccion.pdf');
+
+        Route::get(
+            '/reportes/ventas-lotes',
+            [ReporteVentasLotesController::class, 'index']
+        )->name('reportes.ventas.lotes');
+
+        Route::get(
+            '/reportes/ventas-lotes/pdf',
+            [ReporteVentasLotesController::class, 'pdf']
+        )->name('reportes.ventas.lotes.pdf');
 
     //Invoice schemes..
     Route::get('/invoice-schemes/set_default/{id}', [InvoiceSchemeController::class, 'setDefault']);

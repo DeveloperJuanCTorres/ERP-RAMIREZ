@@ -615,6 +615,17 @@ class AdminSidebarMenu
                             );
                         }
 
+                        if (auth()->user()->can('stock_report.view')) {
+                            $sub->url(
+                                action([\App\Http\Controllers\ReporteVentasLotesController::class, 'index']),
+                                'Reporte de Ventas por Lotes',
+                                [
+                                    'icon' => 'fas fa-industry',
+                                    'active' => request()->segment(2) == 'ventas-lotes'
+                                ]
+                            );
+                        }
+
 
                         if (auth()->user()->can('profit_loss_report.view')) {
                             $sub->url(
