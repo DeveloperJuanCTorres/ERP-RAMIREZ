@@ -317,7 +317,14 @@ class ReporteVentasLotesController extends Controller
 
                 'c.id as cliente_id',
 
-                'c.name as cliente',
+                DB::raw("
+                    CASE
+                        WHEN c.supplier_business_name IS NOT NULL
+                            AND c.supplier_business_name <> ''
+                        THEN c.supplier_business_name
+                        ELSE c.name
+                    END AS cliente
+                "),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -387,10 +394,23 @@ class ReporteVentasLotesController extends Controller
                 'customer'
             )
 
-            ->orderBy('name')
+            ->select(
+                'id',
+
+                DB::raw("
+                    CASE
+                        WHEN supplier_business_name IS NOT NULL
+                            AND supplier_business_name <> ''
+                        THEN supplier_business_name
+                        ELSE name
+                    END AS cliente
+                ")
+            )
+
+            ->orderBy('cliente')
 
             ->pluck(
-                'name',
+                'cliente',
                 'id'
             );
 
@@ -655,7 +675,14 @@ class ReporteVentasLotesController extends Controller
 
                 'tsl.unit_price_inc_tax',
 
-                'c.name as cliente',
+                DB::raw("
+                    CASE
+                        WHEN c.supplier_business_name IS NOT NULL
+                            AND c.supplier_business_name <> ''
+                        THEN c.supplier_business_name
+                        ELSE c.name
+                    END AS cliente
+                "),
 
                 'bl.name as ubicacion'
             )
