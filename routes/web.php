@@ -396,6 +396,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
             [ReporteVentasLotesController::class, 'pdf']
         )->name('reportes.ventas.lotes.pdf');
 
+        Route::get(
+            '/reportes/ventas-lotes/excel',
+            [ReporteVentasLotesController::class, 'excel']
+        )->name('reportes.ventas.lotes.excel');
+
     //Invoice schemes..
     Route::get('/invoice-schemes/set_default/{id}', [InvoiceSchemeController::class, 'setDefault']);
     Route::resource('invoice-schemes', InvoiceSchemeController::class);

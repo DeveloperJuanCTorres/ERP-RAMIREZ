@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReporteVentasLotesExport;
 
 class ReporteVentasLotesController extends Controller
 {
@@ -750,6 +752,88 @@ class ReporteVentasLotesController extends Controller
 
         return $pdf->stream(
             'reporte-ventas-lotes.pdf'
+        );
+    }
+
+    public function excel(Request $request)
+    {
+        $business_id = $request->session()->get('user.business_id');
+
+        $fecha_desde = $request->input(
+            'fecha_desde',
+            now()->startOfMonth()->format('Y-m-d')
+        );
+
+        $fecha_hasta = $request->input(
+            'fecha_hasta',
+            now()->format('Y-m-d')
+        );
+
+        $location_id = $request->input('location_id');
+        $contact_id = $request->input('contact_id');
+        $product_id = $request->input('product_id');
+
+        $query = DB::table('transaction_sell_lines as tsl')
+            ->join('transactions as t', 't.id', '=', 'tsl.transaction_id')
+            ->join('transaction_sell_lines_purchase_lines as tspl', 'tspl.sell_line_id', '=', 'tsl.id')
+            ->join('purchase_lines as pl', 'pl.id', '=', 'tspl.purchase_line_id')
+            ->join('products as p', 'p.id', '=', 'tsl.product_id')
+            ->leftJoin('contacts as c', 'c.id', '=', 't.contact_id')
+            ->leftJoin('business_locations as bl', 'bl.id', '=', 't.location_id')
+            ->where('t.business_id', $business_id)
+            ->where('t.type', 'sell')
+            ->where('t.status', 'final')
+            ->whereNotNull('pl.lot_number')
+            ->where('pl.lot_number', '<>', '')
+            ->whereDate('t.transaction_date', '>=', $fecha_desde)
+            ->whereDate('t.transaction_date', '<=', $fecha_hasta);
+
+        if (!empty($location_id)) {
+            $query->where('t.location_id', $location_id);
+        }
+
+        if (!empty($contact_id)) {
+            $query->where('t.contact_id', $contact_id);
+        }
+
+        if (!empty($product_id)) {
+            $query->where('tsl.product_id', $product_id);
+        }
+
+        $ventas = $query->select(
+                't.transaction_date',
+                't.invoice_no',
+                'p.name as producto',
+                'pl.lot_number',
+                'tspl.quantity as cantidad',
+                'tsl.unit_price_inc_tax',
+                DB::raw("
+                    CASE
+                        WHEN c.supplier_business_name IS NOT NULL
+                        AND c.supplier_business_name <> ''
+                        THEN c.supplier_business_name
+                        ELSE c.name
+                    END AS cliente
+                "),
+                'bl.name as ubicacion'
+            )
+            ->orderBy('t.transaction_date', 'desc')
+            ->orderBy('tsl.id', 'asc')
+            ->get();
+
+        $total_cantidad = $ventas->sum('cantidad');
+
+        $total_venta = $ventas->sum(function ($venta) {
+            return ($venta->unit_price_inc_tax ?? 0) * ($venta->cantidad ?? 0);
+        });
+
+        return Excel::download(
+            new ReporteVentasLotesExport(
+                $ventas,
+                $total_cantidad,
+                $total_venta
+            ),
+            'reporte-ventas-lotes.xlsx'
         );
     }
 }

@@ -198,11 +198,7 @@
 
                             {{-- PDF --}}
 
-                            <a
-                                href="{{ route(
-                                    'reportes.ventas.lotes.pdf',
-                                    request()->query()
-                                ) }}"
+                            <a href="{{ route('reportes.ventas.lotes.pdf', request()->query()) }}"
                                 class="btn btn-danger"
                                 target="_blank"
                             >
@@ -210,6 +206,14 @@
                                 <i class="fas fa-file-pdf"></i>
 
                                 Exportar PDF
+
+                            </a>
+
+                            <a href="{{ route('reportes.ventas.lotes.excel', request()->query()) }}"
+                                class="btn btn-success">
+
+                                <i class="fas fa-file-excel"></i>
+                                Exportar Excel
 
                             </a>
 
