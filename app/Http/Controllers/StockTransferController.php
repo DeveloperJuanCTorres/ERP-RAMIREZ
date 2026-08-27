@@ -15,6 +15,10 @@ use DB;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
+use App\Exports\StockTransferExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class StockTransferController extends Controller
 {
     /**
@@ -49,6 +53,105 @@ class StockTransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private function getTransferReportQuery()
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        $query = Transaction::join('business_locations AS l1',
+                        'transactions.location_id','=','l1.id')
+            ->join('transactions as t2',
+                        't2.transfer_parent_id','=','transactions.id')
+            ->join('business_locations AS l2',
+                        't2.location_id','=','l2.id')
+
+            ->join('transaction_sell_lines as tsl',
+                        'tsl.transaction_id','=','transactions.id')
+
+            ->leftJoin('purchase_lines as pl',
+                        'pl.id','=','tsl.lot_no_line_id')
+
+            ->join('products as p',
+                        'p.id','=','tsl.product_id')
+
+            ->leftJoin('variations as v',
+                        'v.id','=','tsl.variation_id')
+
+            ->where('transactions.business_id',$business_id)
+            ->where('transactions.type','sell_transfer')
+
+            ->select(
+                'transactions.transaction_date',
+                'transactions.ref_no',
+                'l1.name as location_from',
+                'l2.name as location_to',
+                'transactions.status',
+                'p.name as product',
+                'v.name as variation',
+                'pl.lot_number',
+                'tsl.quantity'
+            );
+
+        if(request()->filled('start_date') && request()->filled('end_date')){
+            $query->whereDate('transactions.transaction_date','>=',request()->start_date)
+                ->whereDate('transactions.transaction_date','<=',request()->end_date);
+        }
+
+        if(request()->filled('location_from')){
+            $query->where('transactions.location_id',request()->location_from);
+        }
+
+        if(request()->filled('location_to')){
+            $query->where('t2.location_id',request()->location_to);
+        }
+
+        if(request()->filled('ref_no')){
+            $query->where('transactions.ref_no','like','%'.request()->ref_no.'%');
+        }
+
+        if(request()->filled('lot_number')){
+            $query->where('pl.lot_number','like','%'.request()->lot_number.'%');
+        }
+
+        return $query->orderBy('transactions.transaction_date','desc');
+    }
+
+    public function exportExcel()
+    {
+        $rows = $this->getTransferReportQuery()->get()->map(function($r){
+
+            return [
+                \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i'),
+                $r->ref_no,
+                $r->location_from,
+                $r->location_to,
+                $r->product,
+                $r->lot_number,
+                $r->quantity,
+                ucfirst($r->status)
+            ];
+
+        });
+
+        return Excel::download(
+            new StockTransferExport($rows),
+            'Transferencias_Stock.xlsx'
+        );
+    }
+
+    public function exportPdf()
+    {
+        $transfers = $this->getTransferReportQuery()->get();
+
+        $pdf = Pdf::loadView(
+            'stock_transfer.partials.report_pdf',
+            compact('transfers')
+        )->setPaper('a4','portrait');
+
+        return $pdf->download('Transferencias_Stock.pdf');
+    }
+
+
     public function index()
     {
         if (! auth()->user()->can('purchase.view') && ! auth()->user()->can('purchase.create')) {

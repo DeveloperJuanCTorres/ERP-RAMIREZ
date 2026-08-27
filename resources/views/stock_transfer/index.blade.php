@@ -79,7 +79,8 @@
     @endcomponent
 
     @component('components.widget', ['class' => 'box-primary', 'title' => __('lang_v1.all_stock_transfers')])
-        @slot('tool')        
+        @slot('tool')   
+            
             <div class="box-tools" style="margin-left: 10px;">               
 
                 <a class="btn btn-block btn-primary px-2" href="{{action([\App\Http\Controllers\StockTransferController::class, 'create'])}}">
@@ -90,6 +91,18 @@
                     <i class="fa fa-print"></i> Imprimir reporte
                 </a>
             </div>
+
+            <div class="box-tools" style="padding-right: 20px;">
+                <a class="btn btn-success px-2" id="btn_export_excel">
+                    <i class="fa fa-file-excel"></i> Excel
+                </a>
+
+                <a class="btn btn-danger px-2" id="btn_export_pdf">
+                    <i class="fa fa-file-pdf"></i> PDF
+                </a>
+            </div>
+
+            
         @endslot
         <div class="table-responsive">
             <table class="table table-bordered table-striped ajax_view" id="stock_transfer_table">
@@ -127,18 +140,46 @@
 
 
         $('#btn_print_report').click(function () {
-        let params = {
-            start_date: $('#filter_start_date').val(),
-            end_date: $('#filter_end_date').val(),
-            location_from: $('#filter_location_from').val(),
-            location_to: $('#filter_location_to').val(),
-            ref_no: $('#filter_ref_no').val(),
-            lot_number: $('#filter_lote').val()
-        };
+            let params = {
+                start_date: $('#filter_start_date').val(),
+                end_date: $('#filter_end_date').val(),
+                location_from: $('#filter_location_from').val(),
+                location_to: $('#filter_location_to').val(),
+                ref_no: $('#filter_ref_no').val(),
+                lot_number: $('#filter_lote').val()
+            };
 
-        let query = $.param(params);
+            let query = $.param(params);
 
-        window.open('/stock-transfers/report?' + query, '_blank');
-    });
+            window.open('/stock-transfers/report?' + query, '_blank');
+        });
+
+        //NUEVA FUNCION PARA EXPORTAR A EXCEL Y PDF
+
+        $('#btn_export_excel').click(function () {
+            let query = $.param({
+                start_date: $('#filter_start_date').val(),
+                end_date: $('#filter_end_date').val(),
+                location_from: $('#filter_location_from').val(),
+                location_to: $('#filter_location_to').val(),
+                ref_no: $('#filter_ref_no').val(),
+                lot_number: $('#filter_lote').val()
+            });
+
+            window.open('/stock-transfers/export/excel?' + query, '_blank');
+        });
+
+        $('#btn_export_pdf').click(function () {
+            let query = $.param({
+                start_date: $('#filter_start_date').val(),
+                end_date: $('#filter_end_date').val(),
+                location_from: $('#filter_location_from').val(),
+                location_to: $('#filter_location_to').val(),
+                ref_no: $('#filter_ref_no').val(),
+                lot_number: $('#filter_lote').val()
+            });
+
+            window.open('/stock-transfers/export/pdf?' + query, '_blank');
+        });
     </script>
 @endsection

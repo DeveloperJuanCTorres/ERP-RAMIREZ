@@ -584,6 +584,12 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('stock-transfers/update-status/{id}', [StockTransferController::class, 'updateStatus']);
     Route::resource('stock-transfers', StockTransferController::class);
 
+    Route::get('/stock-transfers/export/excel',
+        [StockTransferController::class, 'exportExcel']);
+
+    Route::get('/stock-transfers/export/pdf',
+        [StockTransferController::class, 'exportPdf']);
+
     Route::get('/opening-stock/add/{product_id}', [OpeningStockController::class, 'add']);
     Route::post('/opening-stock/save', [OpeningStockController::class, 'save']);
 
