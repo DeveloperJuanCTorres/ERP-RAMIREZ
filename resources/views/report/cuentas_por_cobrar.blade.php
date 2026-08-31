@@ -83,7 +83,14 @@
 <!-- FILTROS -->
 <div class="filters">
     <strong>Filtros Aplicados:</strong><br>
-
+    Ubicación:
+    @if($locationId)
+        {{ \App\BusinessLocation::find($locationId)->name ?? '-' }}
+    @else
+        Todas
+    @endif
+    <br>
+    
     Cliente:
     @if($clienteId)
         {{ \App\Contact::find($clienteId)->name ?? '-' }}
@@ -97,6 +104,7 @@
 
     Fecha Fin:
     {{ $fechaFin ?? 'No especificado' }}
+        
 </div>
 
 <!-- TABLA -->

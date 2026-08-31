@@ -2614,6 +2614,7 @@ class ContactController extends Controller
     {
         $business_id = $request->session()->get('user.business_id');
 
+        $locationId = $request->location_id;
         $clienteId = $request->cliente_id;
         $fechaInicio = $request->fecha_inicio;
         $fechaFin = $request->fecha_fin;
@@ -2623,9 +2624,12 @@ class ContactController extends Controller
             ->where('business_id', $business_id)
             ->where('type', 'sell')
             ->where('status', 'final')
+            ->when($locationId, function ($q) use ($locationId) {
+                $q->where('location_id', $locationId);
+            })
             ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
                 $q->whereBetween('transaction_date', [$fechaInicio, $fechaFin]);
-            })
+            })            
             ->groupBy('contact_id');
 
         $pagos = DB::table('transaction_payments as tp')
@@ -2639,6 +2643,9 @@ class ContactController extends Controller
             ->where('t.type', 'sell')
             ->where('t.status', 'final')
             ->where('tp.is_return', 0)
+            ->when($locationId, function ($q) use ($locationId) {
+                $q->where('t.location_id', $locationId);
+            })
             ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
                 $q->whereBetween('tp.paid_on', [$fechaInicio, $fechaFin]);
             })
@@ -2683,7 +2690,8 @@ class ContactController extends Controller
             'data',
             'clienteId',
             'fechaInicio',
-            'fechaFin'
+            'fechaFin',
+            'locationId'
         ));
     }
 

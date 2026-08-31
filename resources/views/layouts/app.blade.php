@@ -250,6 +250,24 @@
 
                         <div class="modal-body">
 
+                            @php
+                                $business_id = session()->get('user.business_id');
+                                $locations = \App\BusinessLocation::where('business_id', $business_id)->get();
+                            @endphp
+
+                            <!-- Ubicación -->
+                            <div class="form-group">
+                                <label>Ubicación</label>
+                                <select name="location_id" class="form-control select2" style="width:100%;">
+                                    <option value="">Todas</option>
+                                    @foreach($locations as $location)
+                                        <option value="{{ $location->id }}">
+                                            {{ $location->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <!-- Cliente -->
                             <div class="form-group">
                                 <label>Cliente</label>
