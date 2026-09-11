@@ -482,38 +482,51 @@
     @endif
 
     @if($documentoRelacionado)
-    <div class="factura-box" style="margin-top:20px;">
-        <h3 style="margin-bottom:10px;">Documento Relacionado</h3>
+    <div class="documento-relacionado">
 
-        <table style="width:100%; border-collapse:collapse;">
-            <tr>
-                <td style="width:35%; padding:4px 0;">
-                    <strong>Tipo de comprobante:</strong>
-                </td>
-                <td>{{ $documentoRelacionado['tipo'] }}</td>
-            </tr>
+        <div class="documento-relacionado-header">
+            Documento Relacionado
+        </div>
 
-            <tr>
-                <td style="padding:4px 0;">
-                    <strong>Número:</strong>
-                </td>
-                <td>{{ $documentoRelacionado['numero'] }}</td>
-            </tr>
+        <div class="documento-relacionado-body">
 
-            <tr>
-                <td style="padding:4px 0;">
-                    <strong>Fecha de emisión:</strong>
-                </td>
-                <td>{{ \Carbon\Carbon::parse($documentoRelacionado['fecha_emision'])->format('d/m/Y') }}</td>
-            </tr>
+            <div class="documento-grid">
 
-            <tr>
-                <td style="padding:4px 0;">
-                    <strong>Motivo:</strong>
-                </td>
-                <td>01 Anulación de la Operación</td>
-            </tr>
-        </table>
+                <div class="documento-row">
+                    <div class="documento-label">
+                        Tipo de comprobante
+                    </div>
+                    <div class="documento-value">
+                        {{ $documentoRelacionado['tipo'] }}
+                    </div>
+                </div>
+
+                <div class="documento-separador"></div>
+
+                <div class="documento-row">
+                    <div class="documento-label">
+                        Número
+                    </div>
+                    <div class="documento-value">
+                        {{ $documentoRelacionado['numero'] }}
+                    </div>
+                </div>
+
+                <div class="documento-separador"></div>
+
+                <div class="documento-row">
+                    <div class="documento-label">
+                        Fecha de emisión
+                    </div>
+                    <div class="documento-value">
+                        {{ \Carbon\Carbon::parse($documentoRelacionado['fecha_emision'])->format('d/m/Y') }}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
     @endif
 
