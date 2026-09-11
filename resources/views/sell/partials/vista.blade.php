@@ -174,6 +174,63 @@
     .tabla-detalle td:nth-child(3) {
         width: 20%;
     }
+
+
+    .documento-relacionado {
+        margin-top: 25px;
+        border: 2px solid #000;
+        border-radius: 8px;
+        overflow: hidden;
+        page-break-inside: avoid;
+    }
+
+    .documento-relacionado-header {
+        background: #000;
+        color: #fff;
+        text-align: center;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 8px;
+        letter-spacing: .8px;
+        text-transform: uppercase;
+    }
+
+    .documento-relacionado-body {
+        padding: 12px 15px;
+    }
+
+    .documento-grid {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .documento-row {
+        display: table-row;
+    }
+
+    .documento-label,
+    .documento-value {
+        display: table-cell;
+        padding: 8px 0;
+        vertical-align: middle;
+        font-size: 12px;
+    }
+
+    .documento-label {
+        width: 38%;
+        font-weight: bold;
+    }
+
+    .documento-value {
+        width: 62%;
+        text-align: right;
+        font-weight: 600;
+    }
+
+    .documento-separador {
+        border-top: 1px dashed #999;
+    }
 </style>
 
 <div class="factura-container">
