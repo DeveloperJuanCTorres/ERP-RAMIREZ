@@ -424,6 +424,42 @@
     </div>
     @endif
 
+    @if($documentoRelacionado)
+    <div class="factura-box" style="margin-top:20px;">
+        <h3 style="margin-bottom:10px;">Documento Relacionado</h3>
+
+        <table style="width:100%; border-collapse:collapse;">
+            <tr>
+                <td style="width:35%; padding:4px 0;">
+                    <strong>Tipo de comprobante:</strong>
+                </td>
+                <td>{{ $documentoRelacionado['tipo'] }}</td>
+            </tr>
+
+            <tr>
+                <td style="padding:4px 0;">
+                    <strong>Número:</strong>
+                </td>
+                <td>{{ $documentoRelacionado['numero'] }}</td>
+            </tr>
+
+            <tr>
+                <td style="padding:4px 0;">
+                    <strong>Fecha de emisión:</strong>
+                </td>
+                <td>{{ \Carbon\Carbon::parse($documentoRelacionado['fecha_emision'])->format('d/m/Y') }}</td>
+            </tr>
+
+            <tr>
+                <td style="padding:4px 0;">
+                    <strong>Motivo:</strong>
+                </td>
+                <td>01 Anulación de la Operación</td>
+            </tr>
+        </table>
+    </div>
+    @endif
+
     <div class="factura-footer">
             <p>Representación impresa de la FACTURA ELECTRÓNICA, visita www.nubefact.com/10481130145</p>
             <p>Autorizado mediante Resolución de Intendencia No.034-005-0005315</p>

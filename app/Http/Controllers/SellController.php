@@ -2362,7 +2362,34 @@ class SellController extends Controller
             $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'DÓLARES', 'CENTAVOS');
         }
 
-        return view('sell.partials.vista', compact('comprobante','productos', 'contact','totalEnLetras','business_id'));
+        // Documento relacionado (solo para Nota de Crédito)
+        $documentoRelacionado = null;
+
+        if ($comprobante->type === 'Nota de Crédito Electrónica' && !empty($comprobante->ref_no)) {
+
+            $doc = ComprobanteSunat::where('business_id', $business_id)
+                ->where('invoice_no', $comprobante->ref_no)
+                ->first();
+
+            if ($doc) {
+
+                if (str_starts_with($doc->invoice_no, 'B')) {
+                    $tipoRelacionado = 'BOLETA DE VENTA ELECTRÓNICA';
+                } elseif (str_starts_with($doc->invoice_no, 'F')) {
+                    $tipoRelacionado = 'FACTURA ELECTRÓNICA';
+                } else {
+                    $tipoRelacionado = 'COMPROBANTE ELECTRÓNICO';
+                }
+
+                $documentoRelacionado = [
+                    'tipo' => $tipoRelacionado,
+                    'numero' => $doc->invoice_no,
+                    'fecha_emision' => $doc->fecha_emision,
+                ];
+            }
+        }
+
+        return view('sell.partials.vista', compact('comprobante','productos', 'contact','totalEnLetras','business_id', 'documentoRelacionado'));
     }
 
     public function notaCreditoInfo($id)
