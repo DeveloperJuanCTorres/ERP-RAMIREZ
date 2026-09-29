@@ -1821,10 +1821,38 @@ class SellController extends Controller
             $product = Product::find($line->product_id);
 
             // Buscar datos de la purchase_line (si existe)
-            $purchase_line = PurchaseLine::find($line->lot_no_line_id);
-            $purchase_line_product = PurchaseLine::where('lot_number',$purchase_line->lot_number)->first();
+            // $purchase_line = PurchaseLine::find($line->lot_no_line_id);
+            // $purchase_line_product = PurchaseLine::where('lot_number',$purchase_line->lot_number)->first();
 
-            if ($purchase_line->facturado == 0) {
+            // if ($purchase_line->facturado == 0) {
+
+            $purchase_line = PurchaseLine::find($line->lot_no_line_id);
+
+            $purchase_line_product = null;
+
+            if ($purchase_line) {
+
+                $purchase_line_product = PurchaseLine::where('lot_number', $purchase_line->lot_number)
+                    ->where(function ($query) {
+                        $query->whereNotNull('color')
+                            ->orWhereNotNull('nuevo_color')
+                            ->orWhereNotNull('chasis')
+                            ->orWhereNotNull('anio')
+                            ->orWhereNotNull('poliza');
+                    })
+                    ->orderByRaw("
+                        (
+                            CASE WHEN color IS NOT NULL AND color != '' THEN 1 ELSE 0 END +
+                            CASE WHEN nuevo_color IS NOT NULL AND nuevo_color != '' THEN 1 ELSE 0 END +
+                            CASE WHEN chasis IS NOT NULL AND chasis != '' THEN 1 ELSE 0 END +
+                            CASE WHEN anio IS NOT NULL AND anio != '' THEN 1 ELSE 0 END +
+                            CASE WHEN poliza IS NOT NULL AND poliza != '' THEN 1 ELSE 0 END
+                        ) DESC
+                    ")
+                    ->first();
+            }
+
+            if ($purchase_line && $purchase_line->facturado == 0) {
                 $result[] = [
                     'id' => $line->id,
                     'producto' => $product ? $product->name : 'Desconocido',
