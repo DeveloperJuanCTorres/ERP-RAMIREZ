@@ -1835,7 +1835,6 @@ class SellController extends Controller
                 $purchase_line_product = PurchaseLine::where('lot_number', $purchase_line->lot_number)
                     ->where(function ($query) {
                         $query->whereNotNull('color')
-                            ->orWhereNotNull('nuevo_color')
                             ->orWhereNotNull('chasis')
                             ->orWhereNotNull('anio')
                             ->orWhereNotNull('poliza');
@@ -1843,7 +1842,6 @@ class SellController extends Controller
                     ->orderByRaw("
                         (
                             CASE WHEN color IS NOT NULL AND color != '' THEN 1 ELSE 0 END +
-                            CASE WHEN nuevo_color IS NOT NULL AND nuevo_color != '' THEN 1 ELSE 0 END +
                             CASE WHEN chasis IS NOT NULL AND chasis != '' THEN 1 ELSE 0 END +
                             CASE WHEN anio IS NOT NULL AND anio != '' THEN 1 ELSE 0 END +
                             CASE WHEN poliza IS NOT NULL AND poliza != '' THEN 1 ELSE 0 END
