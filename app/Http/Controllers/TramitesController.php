@@ -67,32 +67,116 @@ class TramitesController extends Controller
     //     return view('tramites.index', compact('guiasDisponibles'));
     // }
 
+    // public function index(Request $request)
+    // {
+    //     if ($request->ajax()) {
+
+    //         $query = DB::table('tramites as t')
+    //             ->join('purchase_lines as pl', function($join){
+
+    //                 // TRIMOTOS
+    //                 $join->on(function($q){
+    //                     $q->on('pl.guia', '=', 't.guia')
+    //                     ->where('t.tipo_unidad', '=', 'trimoto');
+    //                 });
+
+    //                 // LINEALES
+    //                 $join->orOn(function($q){
+    //                     $q->on('pl.lot_number', '=', 't.lot_number')
+    //                     ->where('t.tipo_unidad', '=', 'lineal');
+    //                 });
+
+    //             })
+    //             ->leftJoin('comprobante_sunat as cs', function($join){
+    //                 $join->whereRaw("
+    //                     cs.productos LIKE CONCAT('%Motor: ', pl.lot_number, '%')
+    //                 ");
+    //             })
+    //             ->leftJoin('contacts as c', 'c.id', '=', 'cs.contact_id')
+
+    //             ->select(
+    //                 't.guia',
+    //                 't.tipo_unidad',
+    //                 't.lot_number as tramite_lote',
+    //                 'pl.lot_number as numero_lote',
+    //                 't.ciudad',
+    //                 't.titulo',
+    //                 't.fecha',
+    //                 't.anio',
+    //                 'c.name as cliente',
+    //                 'cs.invoice_no as comprobante'
+    //             );
+
+    //         // FILTRO GUÍA
+    //         if ($request->guia) {
+    //             $query->where('t.guia', 'like', '%' . $request->guia . '%');
+    //         }
+
+    //         // FILTRO LOTE
+    //         if ($request->lote) {
+    //             $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
+    //         }
+
+    //         return DataTables::of($query)
+
+    //             ->addColumn('estado', function($row){
+    //                 return $row->comprobante
+    //                     ? '<span class="label label-primary">FACTURADO</span>'
+    //                     : '<span class="label label-warning">PENDIENTE</span>';
+    //             })
+    //             ->addColumn('accion', function($row){
+    //                 if ($row->comprobante) {
+    //                     return '<a href="/tramites/detalle/'.$row->numero_lote.'" class="btn btn-xs btn-primary">Ver</a>';
+    //                 }
+    //                 return '-';
+    //             })
+    //             ->rawColumns(['estado','accion'])
+    //             ->make(true);
+    //     }
+
+
+    //     $guiasDisponibles = DB::table('purchase_lines as pl')
+    //         ->leftJoin('tramites as t', 't.guia', '=', 'pl.guia')
+    //         ->whereNull('t.guia')
+    //         ->whereNotNull('pl.guia')
+    //         ->distinct()
+    //         ->pluck('pl.guia');
+        
+    //     $seriesDisponibles = DB::table('purchase_lines')
+    //         ->whereNotNull('lot_number')
+    //         ->distinct()
+    //         ->pluck('lot_number');
+
+    //     return view('tramites.index', compact('guiasDisponibles', 'seriesDisponibles'));
+    // }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
 
             $query = DB::table('tramites as t')
-                ->join('purchase_lines as pl', function($join){
+                ->join('purchase_lines as pl', function ($join) {
 
-                    // TRIMOTOS
-                    $join->on(function($q){
+                    $join->on(function ($q) {
                         $q->on('pl.guia', '=', 't.guia')
-                        ->where('t.tipo_unidad', '=', 'trimoto');
+                            ->where('t.tipo_unidad', '=', 'trimoto');
                     });
 
-                    // LINEALES
-                    $join->orOn(function($q){
+                    $join->orOn(function ($q) {
                         $q->on('pl.lot_number', '=', 't.lot_number')
-                        ->where('t.tipo_unidad', '=', 'lineal');
+                            ->where('t.tipo_unidad', '=', 'lineal');
                     });
 
                 })
-                ->leftJoin('comprobante_sunat as cs', function($join){
-                    $join->whereRaw("
-                        cs.productos LIKE CONCAT('%Motor: ', pl.lot_number, '%')
-                    ");
+
+                ->leftJoin('contacts as c', function ($join) {
+                    $join->on('c.id', '=', DB::raw('(
+                        SELECT cs.contact_id
+                        FROM comprobante_sunat as cs
+                        WHERE cs.productos LIKE CONCAT("%Motor: ", pl.lot_number, "%")
+                        LIMIT 1
+                    )'));
                 })
-                ->leftJoin('contacts as c', 'c.id', '=', 'cs.contact_id')
 
                 ->select(
                     't.guia',
@@ -103,51 +187,104 @@ class TramitesController extends Controller
                     't.titulo',
                     't.fecha',
                     't.anio',
+
                     'c.name as cliente',
-                    'cs.invoice_no as comprobante'
+
+                    DB::raw('(
+                        SELECT cs.invoice_no
+                        FROM comprobante_sunat as cs
+                        WHERE cs.productos LIKE CONCAT("%Motor: ", pl.lot_number, "%")
+                        LIMIT 1
+                    ) as comprobante')
                 );
 
             // FILTRO GUÍA
-            if ($request->guia) {
-                $query->where('t.guia', 'like', '%' . $request->guia . '%');
+            if ($request->filled('guia')) {
+                $query->where(
+                    't.guia',
+                    'like',
+                    '%' . $request->guia . '%'
+                );
             }
 
             // FILTRO LOTE
-            if ($request->lote) {
-                $query->where('pl.lot_number', 'like', '%' . $request->lote . '%');
+            if ($request->filled('lote')) {
+                $query->where(
+                    'pl.lot_number',
+                    'like',
+                    '%' . $request->lote . '%'
+                );
             }
 
             return DataTables::of($query)
 
-                ->addColumn('estado', function($row){
+                ->addColumn('estado', function ($row) {
+
                     return $row->comprobante
                         ? '<span class="label label-primary">FACTURADO</span>'
                         : '<span class="label label-warning">PENDIENTE</span>';
                 })
-                ->addColumn('accion', function($row){
+
+                ->addColumn('accion', function ($row) {
+
                     if ($row->comprobante) {
-                        return '<a href="/tramites/detalle/'.$row->numero_lote.'" class="btn btn-xs btn-primary">Ver</a>';
+                        return '<a href="/tramites/detalle/' .
+                            $row->numero_lote .
+                            '" class="btn btn-xs btn-primary">
+                                Ver
+                            </a>';
                     }
+
                     return '-';
                 })
-                ->rawColumns(['estado','accion'])
+
+                ->rawColumns([
+                    'estado',
+                    'accion'
+                ])
+
                 ->make(true);
         }
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | GUÍAS DISPONIBLES
+        |--------------------------------------------------------------------------
+        */
+
         $guiasDisponibles = DB::table('purchase_lines as pl')
-            ->leftJoin('tramites as t', 't.guia', '=', 'pl.guia')
+            ->leftJoin(
+                'tramites as t',
+                't.guia',
+                '=',
+                'pl.guia'
+            )
             ->whereNull('t.guia')
             ->whereNotNull('pl.guia')
             ->distinct()
             ->pluck('pl.guia');
-        
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOTES DISPONIBLES
+        |--------------------------------------------------------------------------
+        */
+
         $seriesDisponibles = DB::table('purchase_lines')
             ->whereNotNull('lot_number')
             ->distinct()
             ->pluck('lot_number');
 
-        return view('tramites.index', compact('guiasDisponibles', 'seriesDisponibles'));
+
+        return view(
+            'tramites.index',
+            compact(
+                'guiasDisponibles',
+                'seriesDisponibles'
+            )
+        );
     }
 
     public function store(Request $request)
