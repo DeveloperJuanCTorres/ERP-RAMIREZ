@@ -108,7 +108,7 @@
                                         @break
 
                                         @default
-                                            <span class="label label-default">
+                                            <span class="label label-warning">
                                                 {{ $row->movimiento }}
                                             </span>
 
