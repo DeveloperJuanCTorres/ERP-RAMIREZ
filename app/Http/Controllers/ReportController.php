@@ -4464,7 +4464,7 @@ class ReportController extends Controller
                 'fecha'       => $tramite->fecha_ingreso,
                 'movimiento'  => 'Tarjeta',
                 'ubicacion'   => '',
-                'producto'    => $tramite->titulo,
+                'producto'    => 'Titulo - ' . $tramite->titulo,
                 'color'       => '',
                 'cliente'     => '',
                 'referencia'  => $tramite->guia,
