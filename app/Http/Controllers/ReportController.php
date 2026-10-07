@@ -4472,7 +4472,7 @@ class ReportController extends Controller
                 'monto'       => $tramite->importe,
             ];
 
-            if (!empty($tramite->fecha_pago_placa)) {
+            if (!empty($tramite->placa)) {
 
                 $historial[] = (object)[
                     'fecha'       => $tramite->fecha_pago_placa,
@@ -4500,7 +4500,7 @@ class ReportController extends Controller
             'datos' => $data
         ]);
 
-        // return view('report.reportPorLote', compact('data', 'lot'));
+        
     }
 
     public function cambiarColor(Request $request)
