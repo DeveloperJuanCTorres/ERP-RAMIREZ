@@ -4462,12 +4462,12 @@ class ReportController extends Controller
 
             $historial[] = (object)[
                 'fecha'       => $tramite->fecha_ingreso,
-                'movimiento'  => 'Tarjeta',
+                'movimiento'  => 'TRAMITES',
                 'ubicacion'   => '',
-                'producto'    => 'Titulo - ' . $tramite->titulo,
+                'producto'    => 'TÍTULO',
                 'color'       => '',
                 'cliente'     => '',
-                'referencia'  => $tramite->guia,
+                'referencia'  => $tramite->titulo,
                 'usuario'     => '',
                 'monto'       => $tramite->importe,
             ];
@@ -4475,10 +4475,10 @@ class ReportController extends Controller
             if (!empty($tramite->placa)) {
 
                 $historial[] = (object)[
-                    'fecha'       => $tramite->fecha_pago_placa,
-                    'movimiento'  => 'Placa',
+                    'fecha'       => $tramite->fecha_ingreso,
+                    'movimiento'  => 'TRAMITES',
                     'ubicacion'   => '',
-                    'producto'    => $tramite->estado_entrega,
+                    'producto'    => 'PLACA',
                     'color'       => '',
                     'cliente'     => '',
                     'referencia'  => $tramite->placa,
