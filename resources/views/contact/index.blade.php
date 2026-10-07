@@ -367,9 +367,19 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-file-pdf"></i> Descargar
+
+                    <button type="submit"
+                            class="btn btn-danger btn-reporte-pdf">
+                        <i class="fas fa-file-pdf"></i>
+                        Descargar PDF
                     </button>
+
+                    <button type="button"
+                            class="btn btn-success btn-reporte-excel">
+                        <i class="fas fa-file-excel"></i>
+                        Exportar Excel
+                    </button>
+
                 </div>
             </div>
         </form>
@@ -458,35 +468,156 @@
     //////////
 
     $(document).on('click', '.btn-reporte-compras', function (e) {
+
         e.preventDefault();
 
         let cliente_id = $(this).data('cliente');
         let nombre     = $(this).data('nombre');
 
-        console.log(cliente_id, nombre); // 👈 solo para probar
+        console.log(cliente_id, nombre);
 
+        // Asignar cliente
         $('#cliente_id_compras').val(cliente_id);
+
+        // Mostrar nombre
         $('#nombreClienteCompras').text(nombre);
 
+        // Restaurar botones
+        $('#formReporteCompras button').prop('disabled', false);
+
+        $('.btn-reporte-pdf')
+            .html('<i class="fas fa-file-pdf"></i> Descargar PDF');
+
+        $('.btn-reporte-excel')
+            .html('<i class="fas fa-file-excel"></i> Exportar Excel');
+
+        // Mostrar modal
         $('#modalReporteCompras').modal('show');
+
     });
 
-    // $('#formReporteCompras').submit(function () {
-    //     let id = $('#cliente_id_compras').val();
-    //     this.action = '/clientes/' + id + '/reporte-compras';
-    // });
 
-    $('#formReporteCompras').submit(function () {
+    // =====================================================
+    // PDF
+    // =====================================================
 
-        let id = $('#cliente_id_compras').val();
+    $('#formReporteCompras').on('submit', function (e) {
+
+        let id   = $('#cliente_id_compras').val();
         let tipo = $('#contact_type').val();
 
-        if(tipo == 'supplier'){
-            this.action = '/proveedores/' + id + '/reporte-compras';
-        }else{
-            this.action = '/clientes/' + id + '/reporte-compras';
+        if (!id) {
+            e.preventDefault();
+
+            alert('No se ha seleccionado un cliente.');
+
+            return false;
         }
+
+
+        // Determinar URL
+        if (tipo == 'supplier') {
+
+            this.action = '/proveedores/' + id + '/reporte-compras';
+
+        } else {
+
+            this.action = '/clientes/' + id + '/reporte-compras';
+
+        }
+
+
+        // IMPORTANTE:
+        // NO deshabilitamos el botón.
+        // El PDF se abre en otra pestaña gracias a target="_blank".
+
     });
+
+
+    // =====================================================
+    // EXCEL
+    // =====================================================
+
+    $(document).on('click', '.btn-reporte-excel', function (e) {
+
+        e.preventDefault();
+
+        let id      = $('#cliente_id_compras').val();
+        let tipo    = $('#contact_type').val();
+        let inicio  = $('#formReporteCompras input[name="inicio"]').val();
+        let fin     = $('#formReporteCompras input[name="fin"]').val();
+
+
+        // Validaciones
+        if (!id) {
+
+            alert('No se ha seleccionado un cliente.');
+
+            return;
+
+        }
+
+        if (!inicio || !fin) {
+
+            alert('Seleccione la fecha de inicio y la fecha final.');
+
+            return;
+
+        }
+
+
+        let url = '';
+
+
+        // Proveedor
+        if (tipo == 'supplier') {
+
+            url = '/proveedores/' + id + '/reporte-compras/excel';
+
+        }
+
+        // Cliente
+        else {
+
+            url = '/clientes/' + id + '/reporte-compras/excel';
+
+        }
+
+
+        // Agregar parámetros
+        url += '?inicio=' + encodeURIComponent(inicio);
+        url += '&fin=' + encodeURIComponent(fin);
+
+
+        // Abrir descarga
+        window.open(url, '_blank');
+
+    });
+
+    // $(document).on('click', '.btn-reporte-compras', function (e) {
+    //     e.preventDefault();
+
+    //     let cliente_id = $(this).data('cliente');
+    //     let nombre     = $(this).data('nombre');
+
+    //     $('#cliente_id_compras').val(cliente_id);
+    //     $('#nombreClienteCompras').text(nombre);
+
+    //     $('#modalReporteCompras').modal('show');
+    // });
+
+  
+    // $('#formReporteCompras').submit(function () {
+
+    //     let id = $('#cliente_id_compras').val();
+    //     let tipo = $('#contact_type').val();
+
+    //     if(tipo == 'supplier'){
+    //         this.action = '/proveedores/' + id + '/reporte-compras';
+    //     }else{
+    //         this.action = '/clientes/' + id + '/reporte-compras';
+    //     }
+    // });
 
     $(document).on('click', '.btn-reporte-pagos', function () {
         $('#cliente_id_pagos').val($(this).data('cliente'));

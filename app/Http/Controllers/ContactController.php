@@ -23,6 +23,8 @@ use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
 
+use App\Exports\ReporteComprasClienteExport;
+
 class ContactController extends Controller
 {
     protected $commonUtil;
@@ -2607,6 +2609,203 @@ class ContactController extends Controller
         ]);
 
         return $pdf->stream('reporte_compras_cliente.pdf');
+    }
+
+    public function reporteComprasClienteExcel($cliente_id)
+    {
+        $inicio = request('inicio');
+        $fin    = request('fin');
+
+        $cliente = Contact::findOrFail($cliente_id);
+
+        // =========================
+        // COMPRAS DETALLADAS
+        // =========================
+        $compras = DB::select("
+            SELECT
+                DATE(t.transaction_date) AS fecha,
+                t.invoice_no AS factura,
+                t.ref_no AS referencia,
+
+                tsl.id AS item_id,
+                p.name AS producto,
+                tsl.quantity AS cantidad,
+                tsl.unit_price_inc_tax AS precio_unitario,
+                (COALESCE(tsl.quantity,1) * COALESCE(tsl.unit_price_inc_tax,0)) AS total_item,
+
+                pl.guia AS guia,
+                pl.contenedor AS contenedor,
+                pl.lot_number AS nro_motor,
+                pl.exp_date AS fecha_lote,
+                pl.chasis AS chasis,
+                pl.poliza AS poliza,
+
+                t.id AS transaction_id
+
+            FROM transactions t
+
+            JOIN transaction_sell_lines tsl
+                ON tsl.transaction_id = t.id
+
+            LEFT JOIN purchase_lines pl
+                ON pl.id = tsl.lot_no_line_id
+
+            LEFT JOIN products p
+                ON p.id = tsl.product_id
+
+            WHERE t.type = 'sell'
+            AND t.status = 'final'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+            ORDER BY t.transaction_date ASC, t.invoice_no ASC
+        ", [$cliente_id, $inicio, $fin]);
+
+
+        // =========================
+        // SUBTOTALES POR FACTURA
+        // =========================
+        $subtotales = DB::select("
+            SELECT
+                t.id AS transaction_id,
+                SUM(
+                    COALESCE(tsl.quantity,1)
+                    *
+                    COALESCE(tsl.unit_price_inc_tax,0)
+                ) AS subtotal_factura
+
+            FROM transactions t
+
+            JOIN transaction_sell_lines tsl
+                ON tsl.transaction_id = t.id
+
+            WHERE t.type = 'sell'
+            AND t.status = 'final'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+            GROUP BY t.id
+        ", [$cliente_id, $inicio, $fin]);
+
+
+        // =========================
+        // MAPA SUBTOTALES
+        // =========================
+        $mapSubtotales = [];
+
+        foreach ($subtotales as $s) {
+            $mapSubtotales[$s->transaction_id] = $s->subtotal_factura;
+        }
+
+
+        // =========================
+        // PAGOS
+        // =========================
+        $pagos = DB::select("
+            SELECT
+                tp.transaction_id,
+                SUM(tp.amount) AS pagado
+
+            FROM transaction_payments tp
+
+            INNER JOIN transactions t
+                ON t.id = tp.transaction_id
+
+            WHERE t.type = 'sell'
+            AND t.status = 'final'
+            AND t.contact_id = ?
+            AND DATE(t.transaction_date) BETWEEN ? AND ?
+
+            GROUP BY tp.transaction_id
+        ", [$cliente_id, $inicio, $fin]);
+
+
+        $mapPagos = [];
+
+        foreach ($pagos as $p) {
+            $mapPagos[$p->transaction_id] = $p->pagado;
+        }
+
+
+        // =========================
+        // MOVIMIENTOS
+        // =========================
+        $movimientos = [];
+
+        foreach ($compras as $c) {
+
+            $subtotal = $mapSubtotales[$c->transaction_id] ?? 0;
+            $pagado   = $mapPagos[$c->transaction_id] ?? 0;
+
+            $movimientos[] = [
+                'fecha'           => $c->fecha,
+                'factura'         => $c->factura,
+                'producto'        => $c->producto,
+                'motor'           => $c->nro_motor,
+                'chasis'          => $c->chasis,
+                'poliza'          => $c->poliza,
+                'guia'             => $c->guia,
+                'contenedor'      => $c->contenedor,
+                'cantidad'        => $c->cantidad,
+                'precio_unitario' => $c->precio_unitario,
+                'total_item'      => $c->total_item,
+                'transaction_id'  => $c->transaction_id,
+                'subtotal'        => $subtotal,
+                'pagado'          => $pagado,
+                'saldo'           => $subtotal - $pagado,
+            ];
+        }
+
+
+        // =========================
+        // MARCAR PRIMERO / ÚLTIMO
+        // =========================
+        $indices = [];
+
+        foreach ($movimientos as $i => $m) {
+            $indices[$m['transaction_id']][] = $i;
+        }
+
+        foreach ($indices as $idxs) {
+
+            foreach ($idxs as $pos => $idx) {
+
+                if ($pos == 0) {
+                    $movimientos[$idx]['es_primero'] = true;
+                }
+
+                if ($pos == count($idxs) - 1) {
+                    $movimientos[$idx]['es_ultimo'] = true;
+                }
+            }
+        }
+
+
+        foreach ($movimientos as &$m) {
+
+            $m['es_primero'] = $m['es_primero'] ?? false;
+            $m['es_ultimo']  = $m['es_ultimo'] ?? false;
+        }
+
+        unset($m);
+
+
+        // =========================
+        // EXPORTAR
+        // =========================
+
+        $nombreCliente = preg_replace(
+            '/[^A-Za-z0-9\-]/',
+            '_',
+            $cliente->name
+        );
+
+        $nombreArchivo = 'Reporte_Compras_' . $nombreCliente . '_' . date('Y-m-d') . '.xlsx';
+
+        return Excel::download(
+            new ReporteComprasClienteExport($movimientos),
+            $nombreArchivo
+        );
     }
 
 

@@ -186,6 +186,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         [ContactController::class, 'reporteComprasCliente']
     );
 
+    Route::get(
+        '/clientes/{cliente_id}/reporte-compras/excel',
+        [ContactController::class, 'reporteComprasClienteExcel']
+    )->name('clientes.reporte-compras.excel');
+
     //IMRPIMIR CONTRATO
     Route::get('/sell/{id}/print-contract', [SellController::class, 'printContract'])
         ->name('sell.printContract');
