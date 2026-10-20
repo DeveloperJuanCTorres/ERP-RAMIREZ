@@ -13,11 +13,11 @@ body { color: #263443; font: 9.5px/1.23 Arial, Helvetica, sans-serif; }
 table { width: 100%; border-collapse: collapse; }
 .header { margin-bottom: 7px; }
 .header td { vertical-align: middle; }
-.logo { max-width: 100%; max-height: 90px; width: auto; height: auto; object-fit: contain; }
+.logo { max-width: 100%; max-height: 120px; width: auto; height: auto; object-fit: contain; }
 .number-box { border: 1px solid #8d9eac; border-radius: 5px; text-align: center; padding: 7px 6px; }
-.number-box .ruc { font-size: 11px; font-weight: bold; }
-.number-box .kind { font-size: 10px; font-weight: bold; margin: 4px 0; line-height: 1.2; }
-.number-box .number { font-size: 15px; font-weight: bold; letter-spacing: .2px; }
+.number-box .ruc { font-size: 15px; font-weight: bold; }
+.number-box .kind { font-size: 14px; font-weight: bold; margin: 4px 0; line-height: 1.2; }
+.number-box .number { font-size: 16px; font-weight: bold; letter-spacing: .2px; }
 .section { border: 1px solid #d8e0e7; border-radius: 4px; margin: 5px 0; page-break-inside: avoid; overflow: hidden; }
 /* Tonalidad sutil: azul grisáceo pastel, sin barras oscuras */
 .section-title { background: #e9f0f5 !important; color: #344b60 !important; border-bottom: 1px solid #d5e0e8; font-size: 9px; font-weight: 700; letter-spacing: .25px; padding: 4px 8px !important; margin: 0 !important; border-radius: 0; text-transform: uppercase; }
@@ -111,7 +111,11 @@ table { width: 100%; border-collapse: collapse; }
     $motivo = str_pad((string) ($envio['motivo_de_traslado'] ?? ''), 2, '0', STR_PAD_LEFT);
     $esInterno = $motivo === '04';
     $empresaNombre = session('business.name', '');
-    $empresaRuc = session('business.ruc', '');
+    $empresaRuc = match ($businessId) {
+        1 => 'RUC_EMPRESA_1',
+        7 => '20495764398',
+        default => '',
+    };
     $destinatarioNombre = $esInterno ? $empresaNombre : ($envio['cliente_denominacion'] ?? '');
     $destinatarioDoc = $esInterno ? $empresaRuc : ($envio['cliente_numero_de_documento'] ?? '');
     $destinatarioDireccion = $esInterno ? ($envio['punto_de_llegada_direccion'] ?? '') : ($envio['cliente_direccion'] ?? '');
@@ -139,13 +143,36 @@ table { width: 100%; border-collapse: collapse; }
                     <strong>{{ $empresaNombre }}</strong>
                 @endif
             </td>
+           
             <td style="width:41%;">
-                <div class="number-box">
-                    <div class="ruc">RUC {{ $empresaRuc }}</div>
-                    <div class="kind">GUÍA DE REMISIÓN<br>REMITENTE ELECTRÓNICA</div>
-                    <div class="number">{{ $guia->serie }}-{{ str_pad($guia->numero, 6, '0', STR_PAD_LEFT) }}</div>
+                <div class="number-box"
+                    style="
+                        background: #e9f0f5 !important;
+                        height: 120px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                        margin: auto;
+                    ">
+
+                    <div class="ruc">
+                        RUC {{ $empresaRuc }}
+                    </div>
+
+                    <div class="kind">
+                        GUÍA DE REMISIÓN<br>
+                        REMITENTE ELECTRÓNICA
+                    </div>
+
+                    <div class="number">
+                        {{ $guia->serie }}-{{ str_pad($guia->numero, 6, '0', STR_PAD_LEFT) }}
+                    </div>
+
                 </div>
             </td>
+
         </tr>
     </table>
 
