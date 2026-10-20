@@ -38,6 +38,7 @@ use App\SunatGuia;
 use Illuminate\Support\Facades\Mail;
 use Luecano\NumeroALetras\NumeroALetras;
 use Maatwebsite\Excel\Facades\Excel;
+// use Illuminate\Support\Facades\DB;
 
 class SellController extends Controller
 {
@@ -3703,6 +3704,180 @@ class SellController extends Controller
 
         }
 
+    }
+
+    public function buscarDocumentoOrigen(Request $request)
+    {
+        $request->validate([
+            'tipo_origen' => 'required|in:transferencia,venta_normal',
+            'numero' => 'required|string|max:100',
+            'motivo_traslado' => 'required|in:04',
+        ]);
+
+        $business_id = $request->session()->get('user.business_id');
+
+        if (!$business_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se identificó la empresa de la sesión.'
+            ], 403);
+        }
+
+        $tipoOrigen = $request->input('tipo_origen');
+        $numero = trim($request->input('numero'));
+
+        $query = DB::table('transactions')
+            ->where('business_id', $business_id);
+
+        if ($tipoOrigen === 'transferencia') {
+
+            $query->where('type', 'sell_transfer')
+                ->whereIn('status', ['final', 'in_transit'])
+                ->where('ref_no', $numero);
+
+        } else {
+
+            $query->where('type', 'sell')
+                ->where('status', 'final')
+                ->where('invoice_no', $numero);
+        }
+
+        $transacciones = $query->limit(2)->get();
+
+        if ($transacciones->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró el documento.'
+            ], 404);
+        }
+
+        if ($transacciones->count() > 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Existen varios documentos con ese número. Es necesario identificar la sucursal.'
+            ], 409);
+        }
+
+        $transaction = $transacciones->first();
+
+        
+        $productos = DB::table('transaction_sell_lines as tsl')
+
+            ->join('products as p', 'p.id', '=', 'tsl.product_id')
+
+            // Lote asociado a la venta o transferencia
+            ->leftJoin('purchase_lines as pl', function ($join) {
+                $join->on('pl.id', '=', 'tsl.lot_no_line_id')
+                    ->on('pl.product_id', '=', 'tsl.product_id');
+            })
+
+            ->where('tsl.transaction_id', $transaction->id)
+            ->where('p.business_id', $business_id)
+
+            ->select(
+                'p.sku',
+                'p.name',
+                'tsl.quantity',
+                'pl.lot_number',
+                'pl.motor',
+                'pl.color',
+                'pl.chasis',
+                'pl.poliza',
+                'pl.anio'
+            )
+
+            ->get()
+
+            ->map(function ($linea) use ($business_id) {
+
+                // Datos iniciales del lote asociado a la operación
+                $motor = $linea->motor;
+                $color = $linea->color;
+                $chasis = $linea->chasis;
+                $poliza = $linea->poliza;
+                $anio = $linea->anio;
+
+                // Buscar información original del lote
+                if (!empty($linea->lot_number)) {
+
+                    $origen = DB::table('purchase_lines as plo')
+                        ->join('transactions as tor', function ($join) use ($business_id) {
+                            $join->on('tor.id', '=', 'plo.transaction_id')
+                                ->where('tor.type', '=', 'opening_stock')
+                                ->where('tor.business_id', '=', $business_id);
+                        })
+                        ->where('plo.lot_number', $linea->lot_number)
+                        ->where(function ($query) {
+                            $query->whereNotNull('plo.motor')
+                                ->orWhereNotNull('plo.chasis')
+                                ->orWhereNotNull('plo.color');
+                        })
+                        ->orderBy('plo.id')
+                        ->first([
+                            'plo.motor',
+                            'plo.color',
+                            'plo.chasis',
+                            'plo.poliza',
+                            'plo.anio'
+                        ]);
+
+                    if ($origen) {
+                        $motor = $motor ?: $origen->motor;
+                        $color = $color ?: $origen->color;
+                        $chasis = $chasis ?: $origen->chasis;
+                        $poliza = $poliza ?: $origen->poliza;
+                        $anio = $anio ?: $origen->anio;
+                    }
+                }
+
+                // Construir descripción del producto
+                $descripcion = trim($linea->name);
+
+                if (!empty($motor)) {
+                    $descripcion .= ' Motor: ' . $motor;
+                }
+
+                if (!empty($color)) {
+                    $descripcion .= ' Color: ' . $color;
+                }
+
+                if (!empty($chasis)) {
+                    $descripcion .= ' Chasis: ' . $chasis;
+                }
+
+                if (!empty($poliza)) {
+                    $descripcion .= ' Poliza: ' . $poliza;
+                }
+
+                if (!empty($anio)) {
+                    $descripcion .= ' Año: ' . $anio;
+                }
+
+                return [
+                    'codigo' => $linea->sku,
+                    'descripcion' => $descripcion,
+                    'cantidad' => (float) $linea->quantity,
+                    'lote' => $linea->lot_number
+                ];
+            });
+
+
+        if ($productos->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El documento no tiene productos asociados.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'tipo_origen' => $tipoOrigen,
+            'transaction_id' => $transaction->id,
+            'numero' => $numero,
+            'location_id' => $transaction->location_id,
+            'contact_id' => $transaction->contact_id,
+            'data' => $productos,
+        ]);
     }
 
     public function imprimirGuia($id)

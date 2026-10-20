@@ -167,74 +167,113 @@ $(document).ready(function () {
 
 
     //-----------------------------------
-    // AGREGAR DOCUMENTO RELACIONADO
+    // AGREGAR DOCUMENTO DE ORIGEN
     //-----------------------------------
 
-    $('#btnAgregarDoc').click(function(){
+    $('#btnAgregarDoc').off('click').on('click', function(e) {
 
-        $('#documentos_relacionados').append(`
+        e.preventDefault();
 
-        <div class="row doc_rel mt-2">
+        let motivo = $('#motivo_traslado').val();
+        let tipoOrigen = $('#tipo_documento_origen').val();
 
-            <div class="col-md-3">
+        if (!tipoOrigen) {
+            Swal.fire(
+                'Atención',
+                'Seleccione primero el tipo de documento',
+                'warning'
+            );
+            return;
+        }
 
-                <select class="form-control tipo_doc_rel">
+        let esComprobante = ['factura', 'boleta'].includes(tipoOrigen);
 
-                    <option value="01">
+        // Validar combinación de motivo y documento
+        if (
+            (motivo === '01' && !esComprobante) ||
+            (motivo === '04' && esComprobante) ||
+            !['01', '04'].includes(motivo)
+        ) {
+            Swal.fire(
+                'Atención',
+                'El tipo de documento no corresponde al motivo seleccionado',
+                'warning'
+            );
+            return;
+        }
 
-                    FACTURA
+        let nombres = {
+            factura: 'FACTURA ELECTRÓNICA',
+            boleta: 'BOLETA ELECTRÓNICA',
+            transferencia: 'TRANSFERENCIA DE STOCK',
+            venta_normal: 'VENTA NORMAL'
+        };
 
-                    </option>
+        let tipoSunat = tipoOrigen === 'factura' ? '01' :
+                        tipoOrigen === 'boleta' ? '03' : '';
 
-                    <option value="02">
-
-                    BOLETA
-
-                    </option>
-
-                </select>
-
-            </div>
-
+        let campoSerie = esComprobante ? `
             <div class="col-md-2">
+                <label>Serie</label>
+                <input type="text"
+                    class="form-control serie_doc_rel"
+                    placeholder="F001 / B001">
+            </div>
+        ` : '';
 
-                <input
-                class="form-control serie_doc_rel">
+        let html = `
+            <div class="row doc_rel mt-2"
+                data-tipo-origen="${tipoOrigen}"
+                data-relacionado="${esComprobante ? 1 : 0}">
+
+                <div class="col-md-3">
+                    <label>Documento</label>
+
+                    <input type="text"
+                        class="form-control"
+                        value="${nombres[tipoOrigen]}"
+                        readonly>
+
+                    <input type="hidden"
+                        class="tipo_doc_rel"
+                        value="${tipoSunat}">
+                </div>
+
+                ${campoSerie}
+
+                <div class="col-md-${esComprobante ? 2 : 4}">
+                    <label>Número</label>
+
+                    <input type="text"
+                        class="form-control numero_doc_rel"
+                        placeholder="${esComprobante ? 'Número de comprobante' : 'Número interno'}">
+                </div>
+
+                <div class="col-md-3">
+                    <label>&nbsp;</label>
+
+                    <button type="button"
+                            class="btn btn-success btnCargarProductos btn-block">
+
+                        <i class="fa fa-download"></i>
+                        Cargar Productos
+                    </button>
+                </div>
+
+                <div class="col-md-2">
+                    <label>&nbsp;</label>
+
+                    <button type="button"
+                            class="btn btn-danger eliminarDoc">
+
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
 
             </div>
+        `;
 
-            <div class="col-md-2">
-
-                <input
-                class="form-control numero_doc_rel">
-
-            </div>
-
-            <div class="col-md-3">
-
-                <button
-                class="btn btn-success btnCargarProductos">
-
-                Cargar Productos
-
-                </button>
-
-            </div>
-
-            <div class="col-md-2">
-
-                <button
-                class="btn btn-danger eliminarDoc">
-
-                X
-
-                </button>
-
-            </div>
-
-        </div>
-
-        `);
+        $('#documentos_relacionados').append(html);
 
     });
 
@@ -244,10 +283,22 @@ $(document).ready(function () {
     // ELIMINAR DOCUMENTO
     //-----------------------------------
 
-    $(document).on('click','.eliminarDoc',function(){
+    $(document).on('click', '.eliminarDoc', function(e) {
+        e.preventDefault();
 
-        $(this).closest('.doc_rel').remove();
+        const fila = $(this).closest('.doc_rel');
 
+        const tipo = fila.attr('data-tipo-origen');
+        const serie = (fila.find('.serie_doc_rel').val() || '').trim();
+        const numero = (fila.find('.numero_doc_rel').val() || '').trim();
+
+        const clave = [tipo, serie.toUpperCase(), numero].join('|');
+
+        $('#tablaItems tbody tr').filter(function() {
+            return $(this).attr('data-documento-origen') === clave;
+        }).remove();
+
+        fila.remove();
     });
 
 
@@ -256,82 +307,118 @@ $(document).ready(function () {
     //-----------------------------------
     // CARGAR PRODUCTOS DEL COMPROBANTE
     //-----------------------------------
+    
+    $(document).on('click', '.btnCargarProductos', function(e) {
+        e.preventDefault();
 
-    $(document).on('click','.btnCargarProductos',function(){
+        const boton = $(this);
+        const fila = boton.closest('.doc_rel');
 
-        let fila=$(this).closest('.doc_rel');
+        const tipoOrigen = fila.attr('data-tipo-origen');
+        const serie = (fila.find('.serie_doc_rel').val() || '').trim();
+        const numero = (fila.find('.numero_doc_rel').val() || '').trim();
 
-        let serie=fila.find('.serie_doc_rel').val();
+        const esComprobante = ['factura', 'boleta'].includes(tipoOrigen);
 
-        let numero=fila.find('.numero_doc_rel').val();
+        if (!numero || (esComprobante && !serie)) {
+            Swal.fire('Atención', 'Ingrese los datos del documento', 'warning');
+            return;
+        }
 
-        $.get('/comprobante/productos',{
+        const url = esComprobante
+            ? '/comprobante/productos'
+            : '/guia/documento-origen';
 
-            serie:serie,
+        const parametros = esComprobante
+            ? { serie: serie, numero: numero }
+            : { tipo_origen: tipoOrigen, numero: numero, motivo_traslado: $('#motivo_traslado').val() };
 
-            numero:numero
+        const clave = [tipoOrigen, serie.toUpperCase(), numero].join('|');
 
-        },function(res){
+        // No cargar dos veces el mismo documento.
+        if ($('#tablaItems tbody tr').filter(function() {
+            return $(this).attr('data-documento-origen') === clave;
+        }).length > 0) {
+            Swal.fire('Atención', 'Este documento ya tiene productos cargados', 'info');
+            return;
+        }
 
-            if(!res.success){
+        boton.prop('disabled', true).text('Cargando...');
 
-                Swal.fire("No encontrado");
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: parametros,
+            dataType: 'json',
 
-                return;
+            success: function(res) {
 
+                if (!res.success || !Array.isArray(res.data) || !res.data.length) {
+                    Swal.fire('Atención', res.message || 'Documento sin productos', 'warning');
+                    return;
+                }
+
+                const tbody = $('#tablaItems tbody');
+
+                res.data.forEach(function(p) {
+
+                    // Construir elementos sin insertar HTML de la base de datos.
+                    const tr = $('<tr>')
+                        .attr('data-documento-origen', clave);
+
+                    const codigo = $('<input>', {
+                        class: 'form-control producto'
+                    }).val(p.codigo || '');
+
+                    const descripcion = $('<input>', {
+                        class: 'form-control descripcion'
+                    }).val(p.descripcion || '');
+
+                    const cantidad = $('<input>', {
+                        type: 'number',
+                        step: 'any',
+                        min: '0.0001',
+                        class: 'form-control cantidad'
+                    }).val(p.cantidad);
+
+                    const eliminar = $('<button>', {
+                        type: 'button',
+                        class: 'btn btn-danger eliminar',
+                        text: 'X'
+                    });
+
+                    tr.append($('<td>').append(codigo));
+                    tr.append($('<td>').append(descripcion));
+                    tr.append($('<td>').append(cantidad));
+                    tr.append($('<td>').append(eliminar));
+
+                    tbody.append(tr);
+                });
+
+                fila.attr('data-cargado', '1');
+
+                fila.find('.serie_doc_rel, .numero_doc_rel')
+                    .prop('readonly', true);
+
+                Swal.fire(
+                    'Correcto',
+                    'Productos cargados correctamente',
+                    'success'
+                );
+            },
+
+            error: function(xhr) {
+                const mensaje = xhr.responseJSON?.message
+                    || 'No se pudo consultar el documento';
+
+                Swal.fire('Error', mensaje, 'error');
+            },
+
+            complete: function() {
+                boton.prop('disabled', false).text('Cargar Productos');
             }
-
-            res.data.forEach(function(p){
-
-                $('#tablaItems tbody').append(`
-
-                <tr>
-
-                    <td>
-
-                    <input
-                    value="${p.codigo}"
-                    class="form-control producto">
-
-                    </td>
-
-                    <td>
-
-                    <input
-                    value="${p.descripcion}"
-                    class="form-control descripcion">
-
-                    </td>
-
-                    <td>
-
-                    <input
-                    value="${p.cantidad}"
-                    class="form-control cantidad">
-
-                    </td>
-
-                    <td>
-
-                    <button
-                    class="btn btn-danger eliminar">
-
-                    X
-
-                    </button>
-
-                    </td>
-
-                </tr>
-
-                `);
-
-            });
-
         });
-
     });
-
 
     $(document).ready(function(){
         $('#sell_list_filter_date_range').daterangepicker(
@@ -624,30 +711,44 @@ function obtenerItems(){
 
 
 
-//====================================================
-// ARMAR DOCUMENTOS RELACIONADOS
-//====================================================
+//-----------------------------------
+// ARMAR DOCUMENTOS RELACIONADOS SUNAT
+//-----------------------------------
 
-function obtenerDocumentos(){
+function obtenerDocumentos() {
 
-    let documentos=[];
+    let documentos = [];
 
-    $('.doc_rel').each(function(){
+    $('.doc_rel').each(function() {
+
+        let fila = $(this);
+
+        let relacionado = fila.attr('data-relacionado');
+
+        // Ignorar ventas normales y transferencias
+        if (relacionado !== '1') {
+            return;
+        }
+
+        let tipo = fila.find('.tipo_doc_rel').val();
+
+        let serie = fila.find('.serie_doc_rel').val();
+
+        let numero = fila.find('.numero_doc_rel').val();
+
+        if (!tipo || !serie || !numero) {
+            return;
+        }
 
         documentos.push({
-
-            tipo:$(this).find('.tipo_doc_rel').val(),
-
-            serie:$(this).find('.serie_doc_rel').val(),
-
-            numero:$(this).find('.numero_doc_rel').val()
-
+            tipo: tipo,
+            serie: serie.trim().toUpperCase(),
+            numero: numero.trim()
         });
 
     });
 
     return documentos;
-
 }
 
 
@@ -978,4 +1079,66 @@ function limpiarModal() {
         el.checked = false;
     });
 }
+
+$(document).ready(function () {
+
+    function configurarDocumentosOrigen() {
+
+        let motivo = $('#motivo_traslado').val();
+
+        let select = $('#tipo_documento_origen');
+
+        select.empty();
+
+        select.append(`
+            <option value="">
+                Seleccionar documento
+            </option>
+        `);
+
+        if (motivo === '01') {
+
+            select.append(`
+                <option value="factura">
+                    Factura electrónica
+                </option>
+
+                <option value="boleta">
+                    Boleta electrónica
+                </option>
+            `);
+
+        } else if (motivo === '04') {
+
+            select.append(`
+                <option value="transferencia">
+                    Transferencia de stock
+                </option>
+
+                <option value="venta_normal">
+                    Venta normal
+                </option>
+            `);
+
+        }
+
+        // Limpiar documentos anteriores
+        $('#documentos_relacionados').empty();
+
+        // Limpiar productos cargados
+        $('#tablaItems tbody').empty();
+
+    }
+
+    // Al cambiar motivo de traslado
+    $('#motivo_traslado').on('change', function () {
+
+        configurarDocumentosOrigen();
+
+    });
+
+    // Configuración inicial
+    configurarDocumentosOrigen();
+
+});
 

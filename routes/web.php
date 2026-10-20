@@ -352,6 +352,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/comprobante/productos', [App\Http\Controllers\SellController::class, 'getProductosComprobante']);
     Route::get('/ubigeos', [App\Http\Controllers\SellController::class, 'ubigeos']);
     Route::get('/guia/imprimir/{id}', [SellController::class,'imprimirGuia']);
+    Route::get('/guia/documento-origen', [App\Http\Controllers\SellController::class,'buscarDocumentoOrigen'])->name('guia.documento.origen');
 
     //STOCK
     Route::get('/reportes/stock/data', [StockController::class, 'stockData'])->name('reportes.stock.data');

@@ -182,7 +182,7 @@
                 <div class="box box-solid">
                     <div class="box-header with-border">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="box-title mb-0">Documentos Relacionados</h5>
+                            <h5 class="box-title mb-0">Documentos de Origen</h5>
 
                             <button class="btn btn-primary btn-sm" id="btnAgregarDoc">
                                 <i class="fa fa-plus"></i> Agregar Documento
@@ -191,9 +191,28 @@
                         
                     </div>
 
-                    <div class="box-body">                      
+                    <!-- <div class="box-body">                      
 
                         <div id="documentos_relacionados"></div>
+                    </div> -->
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Tipo de documento de origen</label>
+                                    <select id="tipo_documento_origen"
+                                            class="form-control">
+                                        <option value="">
+                                            Seleccionar documento
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="documentos_relacionados"></div>
+
                     </div>
                 </div>
 
