@@ -3492,9 +3492,37 @@ class SellController extends Controller
 
         try {
 
+            $request->validate([
+                'location_id' => 'required|integer',
+                'invoice_scheme_id' => 'required|integer',
+
+                'motivo_de_traslado' => 'required|in:01,04',
+
+                'fecha_de_emision' => 'required|date',
+                'fecha_de_inicio_de_traslado' => 'required|date',
+
+                'punto_de_partida_ubigeo' => 'required|string|size:6',
+                'punto_de_partida_direccion' => 'required|string|max:500',
+
+                'punto_de_llegada_ubigeo' => 'required|string|size:6',
+                'punto_de_llegada_direccion' => 'required|string|max:500',
+
+                'items' => 'required|array|min:1',
+                'items.*.codigo' => 'required|string|max:100',
+                'items.*.descripcion' => 'required|string',
+                'items.*.cantidad' => 'required|numeric|gt:0',
+
+                'documento_relacionado' => 'nullable|array',
+            ]);
+
             $business_id = session('user.business_id');
 
-            $business_location = BusinessLocation::findOrFail($request->location_id);
+            // $business_location = BusinessLocation::findOrFail($request->location_id);
+            $business_location = BusinessLocation::where(
+                'business_id',
+                $business_id
+            )
+            ->findOrFail($request->location_id);
 
             $invoice_scheme_id = $request->invoice_scheme_id;
              $status = 'final'; 
@@ -3516,6 +3544,36 @@ class SellController extends Controller
             | JSON A ENVIAR A NUBEFACT
             |--------------------------------------------------------------------------
             */
+
+            $motivo = $request->motivo_de_traslado;
+
+            $documentosRelacionados = [];
+
+            if ($motivo === '01') {
+
+                $documentosRelacionados = collect(
+                    $request->input('documento_relacionado', [])
+                )
+                ->filter(function ($doc) {
+                    return is_array($doc)
+                        && in_array(
+                            (string) ($doc['tipo'] ?? ''),
+                            ['01', '03'],
+                            true
+                        )
+                        && !empty($doc['serie'])
+                        && !empty($doc['numero']);
+                })
+                ->map(function ($doc) {
+                    return [
+                        'tipo' => (string) $doc['tipo'],
+                        'serie' => trim((string) $doc['serie']),
+                        'numero' => trim((string) $doc['numero']),
+                    ];
+                })
+                ->values()
+                ->all();
+            }
 
             $store = [
 
@@ -3595,7 +3653,8 @@ class SellController extends Controller
 
                 "items" => $request->items,
 
-                "documento_relacionado" => $request->documento_relacionado,
+                // "documento_relacionado" => $request->documento_relacionado,
+                "documento_relacionado" => $documentosRelacionados,
 
                 "vehiculos_secundarios" => $request->vehiculos_secundarios,
 
@@ -3706,6 +3765,7 @@ class SellController extends Controller
 
     }
 
+    
     public function buscarDocumentoOrigen(Request $request)
     {
         $request->validate([
@@ -3882,23 +3942,106 @@ class SellController extends Controller
 
     public function imprimirGuia($id)
     {
-        $guia=SunatGuia::findOrFail($id);
+        $business_id = session('user.business_id');
 
-        $envio=json_decode($guia->json_envio,true);
+        $guia = SunatGuia::where('business_id', $business_id)
+            ->findOrFail($id);
 
-      
+        $envio = json_decode($guia->json_envio, true) ?: [];
+        $respuesta = json_decode($guia->json_respuesta, true);
 
-        $respuesta=json_decode($guia->json_respuesta,true);
-
-        return view(
-            'sell.partials.guia_imprimir',
-            compact(
-                'guia',
-                'envio',
-                'respuesta'
-            )
+        $ubigeoPartida = $this->obtenerNombreUbigeo(
+            $envio['punto_de_partida_ubigeo'] ?? ''
         );
+
+        $ubigeoLlegada = $this->obtenerNombreUbigeo(
+            $envio['punto_de_llegada_ubigeo'] ?? ''
+        );
+
+        return view('sell.partials.guia_imprimir', compact(
+            'guia',
+            'envio',
+            'respuesta',
+            'ubigeoPartida',
+            'ubigeoLlegada'
+        ));
     }
+
+    
+    
+    private function obtenerNombreUbigeo($codigo)
+    {
+        $codigo = trim((string) $codigo);
+
+        if (!preg_match('/^\d{1,6}$/', $codigo)) {
+            return $codigo;
+        }
+
+        $codigo = str_pad($codigo, 6, '0', STR_PAD_LEFT);
+
+        $ruta = storage_path('app/public/ubigeo.xlsx');
+
+        if (!file_exists($ruta)) {
+            return $codigo;
+        }
+
+        try {
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($ruta);
+            $reader->setReadDataOnly(true);
+
+            $spreadsheet = $reader->load($ruta);
+            $hoja = $spreadsheet->getSheetByName('UBIGEO');
+
+            if (!$hoja) {
+                return $codigo;
+            }
+
+            foreach ($hoja->getRowIterator(1) as $fila) {
+
+                $n = $fila->getRowIndex();
+
+                $codigoExcel = str_pad(
+                    trim((string) $hoja->getCell('A' . $n)->getValue()),
+                    6,
+                    '0',
+                    STR_PAD_LEFT
+                );
+
+                if ($codigoExcel === $codigo) {
+
+                    $distrito = trim((string) $hoja->getCell('B' . $n)->getValue());
+                    $provincia = trim((string) $hoja->getCell('C' . $n)->getValue());
+                    $departamento = trim((string) $hoja->getCell('D' . $n)->getValue());
+
+                    // Quitar el prefijo DEPARTAMENTO
+                    $departamento = preg_replace(
+                        '/^DEPARTAMENTO\s+/i',
+                        '',
+                        $departamento
+                    );
+
+                    $descripcion = strtoupper(
+                        $distrito . ' - ' . $provincia . ' - ' . $departamento
+                    );
+
+                    $spreadsheet->disconnectWorksheets();
+
+                    return $descripcion;
+                }
+            }
+
+            $spreadsheet->disconnectWorksheets();
+
+        } catch (\Throwable $e) {
+            \Log::warning(
+                'Error consultando ubigeo: ' . $e->getMessage()
+            );
+        }
+
+        return $codigo;
+    }
+
+
     
 
 
