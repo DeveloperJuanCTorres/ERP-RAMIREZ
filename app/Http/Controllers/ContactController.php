@@ -3970,6 +3970,7 @@ class ContactController extends Controller
                 'tp.account_id',
                 'tp.bank_account_number',
                 'tp.note',
+                'padre.note as nota_padre',
 
                 DB::raw('COALESCE(a.name, ap.name) as cuenta_nombre')
             )
@@ -3988,8 +3989,14 @@ class ContactController extends Controller
 
             $p->numero_operacion = $p->bank_account_number ?: '-';
 
+            $nota = trim((string) ($p->note ?? ''));
+
+            if ($nota === '') {
+                $nota = trim((string) ($p->nota_padre ?? ''));
+            }
+
             $p->observacion = trim(
-                preg_replace('/[\r\n\t]+/', ' ', $p->note ?? '')
+                preg_replace('/[\r\n\t]+/', ' ', $nota)
             );
 
             $p->importe_soles = (float) $p->amount;
