@@ -473,6 +473,50 @@ class PurchaseController extends Controller
                                 )
                                 ->firstOrFail();
 
+        // Obtener los IDs de los pagos padre
+        $parentIds = $purchase->payment_lines
+            ->pluck('parent_id')
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        // Recuperar pagos padre y sus cuentas bancarias
+        $pagosPadre = DB::table('transaction_payments as tp')
+            ->leftJoin('accounts as a', function ($join) use ($business_id) {
+                $join->on('a.id', '=', 'tp.account_id')
+                    ->where('a.business_id', '=', $business_id);
+            })
+            ->where('tp.business_id', $business_id)
+            ->whereIn('tp.id', $parentIds)
+            ->select(
+                'tp.id',
+                'tp.note',
+                'a.name as cuenta_nombre'
+            )
+            ->get()
+            ->keyBy('id');
+
+        // Preparar información para la vista
+        foreach ($purchase->payment_lines as $payment) {
+
+            $padre = $pagosPadre->get($payment->parent_id);
+
+            // Cuenta directa o cuenta del pago padre
+            $payment->cuenta_nombre = optional($payment->account)->name
+                ?: ($padre->cuenta_nombre ?? null)
+                ?: '--';
+
+            // Nota directa o nota del pago padre
+            $nota = trim((string) ($payment->note ?? ''));
+
+            if ($nota === '') {
+                $nota = trim((string) ($padre->note ?? ''));
+            }
+
+            $payment->nota_mostrar = $nota !== '' ? $nota : '--';
+        }
+
         foreach ($purchase->purchase_lines as $key => $value) {
             if (! empty($value->sub_unit_id)) {
                 $formated_purchase_line = $this->productUtil->changePurchaseLineUnit($value, $business_id);

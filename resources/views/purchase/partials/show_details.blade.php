@@ -344,7 +344,7 @@
             
             <th>T.C</th>
             <th>Importe $</th>
-            <th>Saldo $</th>
+            <!-- <th>Saldo $</th> -->
           </tr>
           @php
             $total_paid = 0;
@@ -360,13 +360,13 @@
               <td>{{ @format_date($payment_line->paid_on) }}</td>
               <td class="no-print-after">{{ $payment_line->payment_ref_no }}</td>
               
-              <td>{{ optional($payment_line->account)->name ?? '--' }}</td>
-              <td>@if($payment_line->note) 
-                {{ ucfirst($payment_line->note) }}
-                @else
-                --
-                @endif
-              </td>
+             <td>
+                {{ $payment_line->cuenta_nombre }}
+            </td>
+
+            <td>
+                {{ $payment_line->nota_mostrar }}
+            </td>
               <td>
                 <span class="display_currency" data-currency_symbol="true">
                   {{ $payment_line->amount_soles }}
@@ -380,12 +380,12 @@
                   {{ $payment_line->amount }}
                 </span>
               </td>
-              <td>
+              <!-- <td>
                 $
                 <span class="display_currency">
-                  {{ max($saldo, 0) }}
+                   max($saldo, 0) 
                 </span>
-              </td>
+              </td> -->
             </tr>
             @empty
             <tr>
