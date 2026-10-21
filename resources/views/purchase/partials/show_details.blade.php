@@ -347,56 +347,81 @@
             <th>Saldo $</th>
           </tr>
           @php
-            $total_paid = round(
-                (float) $purchase->payment_lines->sum('amount'),
-                2
-            );
+              // Total pagado de la compra
+              $total_paid = round(
+                  (float) $purchase->payment_lines->sum('amount'),
+                  2
+              );
 
-            $saldo = round(
-                (float) $purchase->final_total - $total_paid,
-                2
-            );
+              // Saldo final para el resumen inferior
+              $saldo = round(
+                  (float) $purchase->final_total - $total_paid,
+                  2
+              );
+
+              // Saldo independiente para recorrer los pagos
+              $saldo_progresivo = round(
+                  (float) $purchase->final_total,
+                  2
+              );
           @endphp
-          @forelse($purchase->payment_lines as $payment_line)
-           
-            <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ @format_date($payment_line->paid_on) }}</td>
-              <td class="no-print-after">{{ $payment_line->payment_ref_no }}</td>
-              
-             <td>
-                {{ $payment_line->cuenta_nombre }}
-            </td>
 
-            <td>
-                {{ $payment_line->nota_mostrar }}
-            </td>
-              <td>
-                <span class="display_currency" data-currency_symbol="true">
-                  {{ $payment_line->amount_soles }}
-                </span>
-              </td>
-              
-              <td>{{ $payment_line->tipo_cambio ?? '' }}</td>
-              <td>
-                $
-                <span class="display_currency">
-                  {{ $payment_line->amount }}
-                </span>
-              </td>
-              <td>
-                $
-                <span class="display_currency">
-                   max($saldo, 0) 
-                </span>
-              </td>
-            </tr>
-            @empty
-            <tr>
-              <td colspan="5" class="text-center">
-                @lang('purchase.no_payments')
-              </td>
-            </tr>
+          @forelse($purchase->payment_lines->sortBy([
+              ['paid_on', 'asc'],
+              ['id', 'asc']
+          ]) as $payment_line)
+
+              @php
+                  // Descontar el pago actual del saldo anterior
+                  $saldo_progresivo = round(
+                      $saldo_progresivo - (float) $payment_line->amount,
+                      2
+                  );
+              @endphp
+
+              <tr>
+                  <td>{{ $loop->iteration }}</td>
+
+                  <td>{{ @format_date($payment_line->paid_on) }}</td>
+
+                  <td class="no-print-after">
+                      {{ $payment_line->payment_ref_no }}
+                  </td>
+
+                  <td>{{ $payment_line->cuenta_nombre ?? '--' }}</td>
+
+                  <td>{{ $payment_line->nota_mostrar ?? '--' }}</td>
+
+                  <td>
+                      <span class="display_currency" data-currency_symbol="true">
+                          {{ $payment_line->amount_soles }}
+                      </span>
+                  </td>
+
+                  <td>{{ $payment_line->tipo_cambio ?? '' }}</td>
+
+                  <td>
+                      $
+                      <span class="display_currency">
+                          {{ $payment_line->amount }}
+                      </span>
+                  </td>
+
+                  {{-- SALDO PROGRESIVO --}}
+                  <td>
+                      $
+                      <span class="display_currency">
+                          {{ max($saldo_progresivo, 0) }}
+                      </span>
+                  </td>
+              </tr>
+
+          @empty
+              <tr>
+                  <td colspan="9" class="text-center">
+                      @lang('purchase.no_payments')
+                  </td>
+              </tr>
           @endforelse
         </table>
       </div>
