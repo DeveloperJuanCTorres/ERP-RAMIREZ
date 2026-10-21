@@ -4032,7 +4032,7 @@ class ContactController extends Controller
                 'inicio',
                 'fin'
             )
-        )->setPaper('a4', 'landscape');
+        )->setPaper('a4', 'portrait');
 
         return $pdf->stream('pagos_proveedor.pdf');
     }
