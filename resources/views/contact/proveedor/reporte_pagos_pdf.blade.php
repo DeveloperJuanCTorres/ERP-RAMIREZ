@@ -97,11 +97,10 @@
             <th width="10%">FECHA</th>
             <th width="14%">CUENTA</th>
             <th width="12%">N.º OPERACIÓN</th>
-            <th width="10%">MONTO US$</th>
+            <th width="10%">MONTO S/</th>
             <th width="8%">T.C.</th>
-            <th width="11%">MONTO S/</th>
+            <th width="11%">MONTO US$</th>
             <th width="31%">OBSERVACIÓN</th>
-        </tr>
     </thead>
 
     <tbody>
@@ -113,9 +112,7 @@
                 {{ $p->fecha_pago }}
             </td>
 
-            <td>
-                {{ $p->cuenta }}
-            </td>
+            <td>{{ $p->cuenta }}</td>
 
             <td class="center">
                 {{ $p->numero_operacion }}
@@ -152,9 +149,7 @@
 
     <tfoot>
         <tr class="total">
-            <td colspan="4" class="right">
-                TOTAL PAGOS
-            </td>
+            <td colspan="4" class="right">TOTAL PAGOS</td>
 
             <td class="right">
                 S/ {{ number_format($totalSoles, 2) }}

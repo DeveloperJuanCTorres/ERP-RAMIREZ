@@ -3931,6 +3931,7 @@ class ContactController extends Controller
             ->findOrFail($proveedor_id);
 
         
+        
         $pagos = DB::table('transaction_payments as tp')
             ->join('transactions as t', 't.id', '=', 'tp.transaction_id')
 
@@ -3950,12 +3951,9 @@ class ContactController extends Controller
                 'tp.paid_on',
                 'tp.amount',
                 'tp.tipo_cambio',
-                'tp.amount_soles',
-                'tp.transaction_no',
-                'tp.payment_ref_no',
+                'tp.account_id',
                 'tp.bank_account_number',
                 'tp.note',
-
                 'a.name as cuenta_nombre',
                 'a.account_number as cuenta_numero'
             )
@@ -3963,8 +3961,8 @@ class ContactController extends Controller
             ->orderBy('tp.paid_on', 'asc')
             ->orderBy('tp.id', 'asc')
             ->get();
-        
-        
+
+                        
         foreach ($pagos as $p) {
 
             $p->fecha_pago = \Carbon\Carbon::parse(
@@ -3975,35 +3973,34 @@ class ContactController extends Controller
                 preg_replace('/[\r\n\t]+/', ' ', $p->note ?? '')
             );
 
+            // Nombre de la cuenta utilizada
             $p->cuenta = $p->cuenta_nombre ?: '-';
 
-            $p->numero_operacion = $p->transaction_no
-                ?: ($p->payment_ref_no ?: '-');
+            // Número de operación bancaria
+            $p->numero_operacion = $p->bank_account_number ?: '-';
 
-            // El importe original del pago está en SOLES
+            // Importe registrado en soles
             $p->importe_soles = (float) $p->amount;
 
-            // Tipo de cambio del pago
+            // Tipo de cambio registrado
             $p->tipo_cambio = (float) $p->tipo_cambio;
 
-            // Conversión de soles a dólares
+            // Conversión a dólares
             $p->importe_dolares = $p->tipo_cambio > 0
                 ? round($p->importe_soles / $p->tipo_cambio, 2)
                 : null;
         }
 
-        // Total real pagado en soles
         $totalSoles = $pagos->sum('importe_soles');
 
-        // Total convertido a dólares
         $totalDolares = $pagos->sum(function ($p) {
             return $p->importe_dolares ?? 0;
         });
 
-        // Pagos que no tienen tipo de cambio
         $pagosSinConversion = $pagos->filter(function ($p) {
             return $p->importe_dolares === null;
         })->count();
+
 
 
 
