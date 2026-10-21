@@ -338,7 +338,7 @@
             <th>{{ __('messages.date') }}</th>
             <th class="no-print-after">{{ __('purchase.ref_no') }}</th>
             
-            <th>{Cuenta de pago</th>
+            <th>Cuenta de pago</th>
             <th>Nota</th>
             <th>Importe S/.</th>
             
