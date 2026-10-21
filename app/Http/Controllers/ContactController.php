@@ -3933,16 +3933,31 @@ class ContactController extends Controller
         
         
         $pagos = DB::table('transaction_payments as tp')
+
             ->join('transactions as t', 't.id', '=', 'tp.transaction_id')
 
+            // Pago padre
+            ->leftJoin('transaction_payments as padre', function ($join) {
+                $join->on('padre.id', '=', 'tp.parent_id')
+                    ->on('padre.business_id', '=', 'tp.business_id');
+            })
+
+            // Cuenta directa del pago
             ->leftJoin('accounts as a', function ($join) {
                 $join->on('a.id', '=', 'tp.account_id')
                     ->on('a.business_id', '=', 't.business_id');
             })
 
+            // Cuenta asociada al pago padre
+            ->leftJoin('accounts as ap', function ($join) {
+                $join->on('ap.id', '=', 'padre.account_id')
+                    ->on('ap.business_id', '=', 't.business_id');
+            })
+
             ->where('t.business_id', $business_id)
             ->where('t.contact_id', $proveedor_id)
             ->where('t.type', 'purchase')
+
             ->whereDate('tp.paid_on', '>=', $inicio)
             ->whereDate('tp.paid_on', '<=', $fin)
 
@@ -3951,11 +3966,12 @@ class ContactController extends Controller
                 'tp.paid_on',
                 'tp.amount',
                 'tp.tipo_cambio',
+                'tp.parent_id',
                 'tp.account_id',
                 'tp.bank_account_number',
                 'tp.note',
-                'a.name as cuenta_nombre',
-                'a.account_number as cuenta_numero'
+
+                DB::raw('COALESCE(a.name, ap.name) as cuenta_nombre')
             )
 
             ->orderBy('tp.paid_on', 'asc')
@@ -3965,27 +3981,21 @@ class ContactController extends Controller
                         
         foreach ($pagos as $p) {
 
-            $p->fecha_pago = \Carbon\Carbon::parse(
-                $p->paid_on
-            )->format('d/m/Y');
+            $p->fecha_pago = \Carbon\Carbon::parse($p->paid_on)
+                ->format('d/m/Y');
+
+            $p->cuenta = $p->cuenta_nombre ?: '-';
+
+            $p->numero_operacion = $p->bank_account_number ?: '-';
 
             $p->observacion = trim(
                 preg_replace('/[\r\n\t]+/', ' ', $p->note ?? '')
             );
 
-            // Nombre de la cuenta utilizada
-            $p->cuenta = $p->cuenta_nombre ?: '-';
-
-            // Número de operación bancaria
-            $p->numero_operacion = $p->bank_account_number ?: '-';
-
-            // Importe registrado en soles
             $p->importe_soles = (float) $p->amount;
 
-            // Tipo de cambio registrado
             $p->tipo_cambio = (float) $p->tipo_cambio;
 
-            // Conversión a dólares
             $p->importe_dolares = $p->tipo_cambio > 0
                 ? round($p->importe_soles / $p->tipo_cambio, 2)
                 : null;
