@@ -1221,41 +1221,154 @@
         });
 
         // Acción de buscar
-        // Acción de buscar
-        $('#btnBuscar').click(function() {
+        
+        $('#btnBuscar').off('click').on('click', function() {
 
             let documento = $('#documento').val().trim();
+            let tbody = $('#tablaItems tbody');
+            let btnBuscar = $(this);
 
             if (documento === '') {
-                alert('Ingrese un número de documento');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Documento requerido',
+                    text: 'Ingrese un número de documento'
+                });
                 return;
             }
 
-            // Limpiar resultados anteriores
-            let tbody = $('#tablaItems tbody');
+            // Limpiar datos anteriores
             tbody.empty();
 
-            // Deshabilitar generación mientras se busca
+            $('#datos_cliente').hide();
             $('#btnGenerarComprobante').prop('disabled', true);
+
+            btnBuscar.prop('disabled', true);
 
             $.ajax({
                 url: '/pedidos/buscar',
                 method: 'GET',
-                data: { documento: documento },
+                dataType: 'json',
+                data: {
+                    documento: documento
+                },
 
                 success: function(response) {
 
-                    $('#datos_cliente').show();
+                    tbody.empty();
 
-                    // Aquí conservas tu código actual que carga
-                    // invoice_schemes y los datos del cliente.
+                    // ========================================
+                    // 1. CARGAR SERIES DE COMPROBANTES
+                    // ========================================
 
-                    // VALIDAR SI EXISTEN LOTES PENDIENTES
-                    if (response.products.length === 0) {
+                    let $invoiceSelect = $('#invoice_scheme_id');
+
+                    $invoiceSelect.empty();
+
+                    $invoiceSelect.append(
+                        '<option value="">Seleccione comprobante</option>'
+                    );
+
+                    if (
+                        response.invoice_schemes &&
+                        response.invoice_schemes.length > 0
+                    ) {
+                        response.invoice_schemes.forEach(item => {
+
+                            let texto = item.prefix
+                                ? `${item.name} - ${item.prefix}`
+                                : item.name;
+
+                            let selected = item.is_default == 1
+                                ? 'selected'
+                                : '';
+
+                            $invoiceSelect.append(`
+                                <option value="${item.id}" ${selected}>
+                                    ${texto}
+                                </option>
+                            `);
+                        });
+                    }
+
+                    $invoiceSelect.trigger('change.select2');
+
+                    // ========================================
+                    // 2. CARGAR DATOS DEL CLIENTE
+                    // ========================================
+
+                    if (response.contact) {
+
+                        $('#contact_id').val(response.contact.id);
+
+                        $('#ref_no').val(response.ref_no);
+
+                        if (response.contact.name) {
+
+                            // Cliente persona natural
+                            $('#tipodoc').text('DNI/CARNET EXTRANJERIA:');
+
+                            $('#numerodoc').val(
+                                response.contact.contact_id || ''
+                            );
+
+                            $('#cliente').val(
+                                response.contact.name || ''
+                            );
+
+                            $('#address').val(
+                                response.contact.address_line_1 || ''
+                            );
+
+                        } else {
+
+                            // Cliente empresa
+                            $('#tipodoc').text('RUC:');
+
+                            $('#numerodoc').val(
+                                response.contact.contact_id || ''
+                            );
+
+                            $('#cliente').val(
+                                response.contact.supplier_business_name || ''
+                            );
+
+                            $('#address').val(
+                                response.contact.address_line_1 || ''
+                            );
+                        }
+
+                        $('#datos_cliente').show();
+
+                    } else {
+
+                        $('#contact_id').val('');
+                        $('#ref_no').val(response.ref_no || documento);
+                        $('#numerodoc').val('');
+                        $('#cliente').val('');
+                        $('#address').val('');
+
+                        $('#datos_cliente').show();
+
+                        console.warn(
+                            'La venta no tiene un cliente asociado.'
+                        );
+                    }
+
+                    // ========================================
+                    // 3. VALIDAR PRODUCTOS PENDIENTES
+                    // ========================================
+
+                    let productos = Array.isArray(response.products)
+                        ? response.products
+                        : [];
+
+                    if (productos.length === 0) {
 
                         tbody.html(`
                             <tr>
-                                <td colspan="10" class="text-center text-warning">
+                                <td colspan="10"
+                                    class="text-center text-warning py-3">
                                     <i class="fa fa-info-circle"></i>
                                     Todos los lotes de esta venta ya fueron
                                     boleteados o facturados.
@@ -1263,70 +1376,143 @@
                             </tr>
                         `);
 
-                        $('#btnGenerarComprobante').prop('disabled', true);
+                        $('#btnGenerarComprobante')
+                            .prop('disabled', true);
 
                         return;
                     }
 
-                    // Habilitar generación
-                    $('#btnGenerarComprobante').prop('disabled', false);
+                    // ========================================
+                    // 4. MOSTRAR LOTES PENDIENTES
+                    // ========================================
 
-                    // MOSTRAR SOLO LOS LOTES PENDIENTES
-                    response.products.forEach(item => {
+                    productos.forEach(item => {
 
                         let color = item.nuevo_color
                             ? item.nuevo_color
-                            : item.color;
+                            : (item.color || '');
+
+                        let cantidad = parseFloat(item.cantidad) || 0;
+                        let precio = parseFloat(item.precio) || 0;
 
                         tbody.append(`
                             <tr data-id="${item.id}">
                                 <td>
-                                    <input type="text"
+                                    <input
+                                        type="text"
                                         class="form-control form-control-sm producto"
-                                        value="${item.producto}">
+                                        value="${item.producto || ''}">
                                 </td>
 
-                                <td>${item.motor}</td>
+                                <td>${item.motor || ''}</td>
 
                                 <td>
-                                    <input type="text"
+                                    <input
+                                        type="text"
                                         class="form-control form-control-sm color"
                                         value="${color}">
                                 </td>
 
-                                <td>${item.chasis}</td>
-                                <td>${item.poliza}</td>
-                                <td>${item.anio}</td>
-                                <td>${item.cantidad}</td>
+                                <td>${item.chasis || ''}</td>
+
+                                <td>${item.poliza || ''}</td>
+
+                                <td>${item.anio || ''}</td>
+
+                                <td>${cantidad}</td>
 
                                 <td>
-                                    <input type="number"
+                                    <input
+                                        type="number"
                                         class="form-control form-control-sm precio"
-                                        value="${item.precio}"
+                                        value="${precio.toFixed(2)}"
                                         min="0"
                                         step="0.01">
                                 </td>
 
                                 <td class="subtotal">
-                                    ${(item.cantidad * item.precio).toFixed(2)}
+                                    ${(cantidad * precio).toFixed(2)}
                                 </td>
 
                                 <td>
-                                    <button class="btn btn-sm btn-danger btnEliminar">
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-danger btnEliminar">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </td>
                             </tr>
                         `);
                     });
+
+                    // ========================================
+                    // 5. HABILITAR GENERACIÓN
+                    // ========================================
+
+                    $('#btnGenerarComprobante')
+                        .prop('disabled', false);
+
+                    console.log(
+                        'Lotes pendientes:',
+                        productos.length
+                    );
                 },
 
-                error: function() {
-                    $('#btnGenerarComprobante').prop('disabled', true);
-                    alert('Error al buscar el documento');
+                // ============================================
+                // 6. MOSTRAR ERRORES REALES
+                // ============================================
+
+                error: function(xhr, status, error) {
+
+                    console.error('Error al buscar documento');
+                    console.error('HTTP:', xhr.status);
+                    console.error('Estado:', status);
+                    console.error('Detalle:', error);
+                    console.error('Respuesta Laravel:', xhr.responseText);
+
+                    tbody.empty();
+
+                    $('#datos_cliente').hide();
+
+                    $('#btnGenerarComprobante')
+                        .prop('disabled', true);
+
+                    let mensaje = 'No se pudo buscar el documento.';
+
+                    if (xhr.status === 404) {
+
+                        mensaje = 'No se encontró la venta solicitada.';
+
+                    } else if (xhr.status === 422) {
+
+                        mensaje = xhr.responseJSON?.message ||
+                            'Datos de búsqueda inválidos.';
+
+                    } else if (xhr.status === 500) {
+
+                        mensaje = 'Error interno del servidor Laravel.';
+
+                    } else if (xhr.status === 0) {
+
+                        mensaje = 'No se pudo conectar con el servidor.';
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al buscar documento',
+                        text: mensaje
+                    });
+                },
+
+                complete: function() {
+
+                    btnBuscar.prop('disabled', false);
+
                 }
             });
         });
+
+        
 
         // Acción de buscar servicio
         $('#btnBuscarServicio').click(function() {
