@@ -3852,65 +3852,177 @@ class ContactController extends Controller
     //     return $pdf->stream('compras_proveedor.pdf');
     // }
 
+    // public function reportePagosProveedor($proveedor_id)
+    // {
+    //     $inicio = request('inicio');
+    //     $fin = request('fin');
+
+    //     $proveedor = Contact::findOrFail($proveedor_id);
+
+    //     $pagos = DB::select("
+    //         SELECT
+
+    //             DATE(tp.paid_on) AS fecha_pago,
+
+    //             tp.amount AS importe,
+
+    //             TRIM(
+    //                 REPLACE(
+    //                     REPLACE(
+    //                         REPLACE(tp.note, '\r',' '),
+    //                     '\n',' '),
+    //                 '\t',' ')
+    //             ) AS observacion
+
+    //         FROM transaction_payments tp
+
+    //         JOIN transactions t
+    //             ON t.id = tp.transaction_id
+
+    //         WHERE t.contact_id = ?
+    //         AND t.type = 'purchase'
+    //         AND DATE(tp.paid_on) BETWEEN ? AND ?
+
+    //         ORDER BY tp.paid_on ASC
+    //     ", [
+    //         $proveedor_id,
+    //         $inicio,
+    //         $fin
+    //     ]);
+
+    //     foreach ($pagos as $p) {
+    //         $p->observacion = trim(
+    //             preg_replace('/[\r\n\t]+/', ' ', $p->observacion)
+    //         );
+    //     }
+
+    //     $total = collect($pagos)->sum('importe');
+
+    //     $pdf = Pdf::loadView(
+    //         'contact.proveedor.reporte_pagos_pdf',
+    //         compact(
+    //             'proveedor',
+    //             'pagos',
+    //             'total',
+    //             'inicio',
+    //             'fin'
+    //         )
+    //     )->setPaper('a4', 'portrait');
+
+    //     return $pdf->stream('pagos_proveedor.pdf');
+    // }
+
+    
     public function reportePagosProveedor($proveedor_id)
     {
-        $inicio = request('inicio');
-        $fin = request('fin');
+        $request = request();
 
-        $proveedor = Contact::findOrFail($proveedor_id);
-
-        $pagos = DB::select("
-            SELECT
-
-                DATE(tp.paid_on) AS fecha_pago,
-
-                tp.amount AS importe,
-
-                TRIM(
-                    REPLACE(
-                        REPLACE(
-                            REPLACE(tp.note, '\r',' '),
-                        '\n',' '),
-                    '\t',' ')
-                ) AS observacion
-
-            FROM transaction_payments tp
-
-            JOIN transactions t
-                ON t.id = tp.transaction_id
-
-            WHERE t.contact_id = ?
-            AND t.type = 'purchase'
-            AND DATE(tp.paid_on) BETWEEN ? AND ?
-
-            ORDER BY tp.paid_on ASC
-        ", [
-            $proveedor_id,
-            $inicio,
-            $fin
+        $request->validate([
+            'inicio' => 'required|date',
+            'fin' => 'required|date|after_or_equal:inicio',
         ]);
 
+        $inicio = $request->inicio;
+        $fin = $request->fin;
+
+        $business_id = session('user.business_id');
+
+        $proveedor = Contact::where('business_id', $business_id)
+            ->findOrFail($proveedor_id);
+
+        
+        $pagos = DB::table('transaction_payments as tp')
+            ->join('transactions as t', 't.id', '=', 'tp.transaction_id')
+
+            ->leftJoin('accounts as a', function ($join) {
+                $join->on('a.id', '=', 'tp.account_id')
+                    ->on('a.business_id', '=', 't.business_id');
+            })
+
+            ->where('t.business_id', $business_id)
+            ->where('t.contact_id', $proveedor_id)
+            ->where('t.type', 'purchase')
+            ->whereDate('tp.paid_on', '>=', $inicio)
+            ->whereDate('tp.paid_on', '<=', $fin)
+
+            ->select(
+                'tp.id',
+                'tp.paid_on',
+                'tp.amount',
+                'tp.tipo_cambio',
+                'tp.amount_soles',
+                'tp.transaction_no',
+                'tp.payment_ref_no',
+                'tp.bank_account_number',
+                'tp.note',
+
+                'a.name as cuenta_nombre',
+                'a.account_number as cuenta_numero'
+            )
+
+            ->orderBy('tp.paid_on', 'asc')
+            ->orderBy('tp.id', 'asc')
+            ->get();
+        
+        
         foreach ($pagos as $p) {
+
+            $p->fecha_pago = \Carbon\Carbon::parse(
+                $p->paid_on
+            )->format('d/m/Y');
+
             $p->observacion = trim(
-                preg_replace('/[\r\n\t]+/', ' ', $p->observacion)
+                preg_replace('/[\r\n\t]+/', ' ', $p->note ?? '')
             );
+
+            $p->cuenta = $p->cuenta_nombre ?: '-';
+
+            $p->numero_operacion = $p->transaction_no
+                ?: ($p->payment_ref_no ?: '-');
+
+            // El importe original del pago está en SOLES
+            $p->importe_soles = (float) $p->amount;
+
+            // Tipo de cambio del pago
+            $p->tipo_cambio = (float) $p->tipo_cambio;
+
+            // Conversión de soles a dólares
+            $p->importe_dolares = $p->tipo_cambio > 0
+                ? round($p->importe_soles / $p->tipo_cambio, 2)
+                : null;
         }
 
-        $total = collect($pagos)->sum('importe');
+        // Total real pagado en soles
+        $totalSoles = $pagos->sum('importe_soles');
+
+        // Total convertido a dólares
+        $totalDolares = $pagos->sum(function ($p) {
+            return $p->importe_dolares ?? 0;
+        });
+
+        // Pagos que no tienen tipo de cambio
+        $pagosSinConversion = $pagos->filter(function ($p) {
+            return $p->importe_dolares === null;
+        })->count();
+
+
 
         $pdf = Pdf::loadView(
             'contact.proveedor.reporte_pagos_pdf',
             compact(
                 'proveedor',
                 'pagos',
-                'total',
+                'totalDolares',
+                'totalSoles',
+                'pagosSinConversion',
                 'inicio',
                 'fin'
             )
-        )->setPaper('a4', 'portrait');
+        )->setPaper('a4', 'landscape');
 
         return $pdf->stream('pagos_proveedor.pdf');
     }
+
 
     public function cuentasPorPagar(Request $request)
     {
