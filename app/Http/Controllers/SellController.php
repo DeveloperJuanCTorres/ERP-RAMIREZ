@@ -1951,6 +1951,27 @@ class SellController extends Controller
                 continue;
             }
 
+            // Buscar los registros asociados al mismo motor.
+            // Priorizamos el registro con información completa.
+            $purchase_line_product = PurchaseLine::where('lot_number', $motor)
+                ->where(function ($query) {
+                    $query->whereNotNull('color')
+                        ->orWhereNotNull('nuevo_color')
+                        ->orWhereNotNull('chasis')
+                        ->orWhereNotNull('poliza')
+                        ->orWhereNotNull('anio');
+                })
+                ->orderByRaw("
+                    (
+                        CASE WHEN NULLIF(TRIM(chasis), '') IS NOT NULL THEN 1 ELSE 0 END +
+                        CASE WHEN NULLIF(TRIM(poliza), '') IS NOT NULL THEN 1 ELSE 0 END +
+                        CASE WHEN NULLIF(TRIM(color), '') IS NOT NULL THEN 1 ELSE 0 END +
+                        CASE WHEN NULLIF(TRIM(nuevo_color), '') IS NOT NULL THEN 1 ELSE 0 END +
+                        CASE WHEN anio IS NOT NULL AND TRIM(CAST(anio AS CHAR)) <> '' THEN 1 ELSE 0 END
+                    ) DESC
+                ")
+                ->first();
+
             // 5. Excluir motores ya boleteados o facturados
             if (isset($motoresFacturados[$motor])) {
                 continue;
@@ -1964,12 +1985,24 @@ class SellController extends Controller
                 'id' => $line->id,
                 'producto' => $product ? $product->name : 'Desconocido',
                 'cantidad' => $line->quantity,
+
                 'motor' => $purchase_line->lot_number,
-                'color' => $purchase_line->color,
-                'nuevo_color' => $purchase_line->nuevo_color,
-                'chasis' => $purchase_line->chasis,
-                'anio' => $purchase_line->anio,
-                'poliza' => $purchase_line->poliza,
+
+                'color' => $purchase_line_product->color
+                    ?? $purchase_line->color,
+
+                'nuevo_color' => $purchase_line_product->nuevo_color
+                    ?? $purchase_line->nuevo_color,
+
+                'chasis' => $purchase_line_product->chasis
+                    ?? $purchase_line->chasis,
+
+                'anio' => $purchase_line_product->anio
+                    ?? $purchase_line->anio,
+
+                'poliza' => $purchase_line_product->poliza
+                    ?? $purchase_line->poliza,
+
                 'precio' => $line->unit_price_inc_tax,
             ];
         }
