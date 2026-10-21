@@ -1797,51 +1797,184 @@ class SellController extends Controller
     }
 
 
+    // public function buscarDoc(Request $request)
+    // {
+    //     $business_id = request()->session()->get('user.business_id');
+    //     $documento = $request->get('documento');
+    //     $transaction = Transaction::where('invoice_no', $documento)->where('business_id', $business_id)->where('type', 'sell')->first();
+
+    //     // Validar si existe
+    //     if (!$transaction) {
+    //         return response()->json([], 404);
+    //     }
+
+    //     // Obtener el contacto (cliente)
+    //     $contact = Contact::find($transaction->contact_id);
+
+    //     // Obtener las líneas de venta asociadas
+    //     $transaction_sell_lines = TransactionSellLine::where('transaction_id', $transaction->id)->get();
+
+    //     // Crear el array de respuesta
+    //     $result = [];
+
+    //     foreach ($transaction_sell_lines as $line) {
+    //         // Buscar producto
+    //         $product = Product::find($line->product_id);
+
+    //         // Buscar datos de la purchase_line (si existe)
+    //         $purchase_line = PurchaseLine::find($line->lot_no_line_id);
+    //         $purchase_line_product = PurchaseLine::where('lot_number',$purchase_line->lot_number)->first();
+
+    //         if ($purchase_line->facturado == 0) {
+    //             $result[] = [
+    //                 'id' => $line->id,
+    //                 'producto' => $product ? $product->name : 'Desconocido',
+    //                 'cantidad' => $line->quantity,
+    //                 'motor' => $purchase_line_product ? $purchase_line_product->lot_number : null,
+    //                 'color' => $purchase_line_product ? $purchase_line_product->color : null,
+    //                 'nuevo_color' => $purchase_line_product ? $purchase_line_product->nuevo_color : null,
+    //                 'chasis' => $purchase_line_product ? $purchase_line_product->chasis : null,
+    //                 'anio' => $purchase_line_product ? $purchase_line_product->anio : null,
+    //                 'poliza' => $purchase_line_product ? $purchase_line_product->poliza : null,
+    //                 'precio' => $line->unit_price_inc_tax,
+    //             ];
+    //         }            
+    //     }
+
+    //     // 👉 Invoice schemes por location
+    //     $invoice_schemes = InvoiceScheme::where('business_id', $business_id)
+    //         ->where(function ($q) use ($transaction) {
+    //             $q->whereNull('locacion_id')
+    //             ->orWhere('locacion_id', $transaction->location_id);
+    //         })
+    //         ->select('id', 'name', 'prefix', 'is_default')
+    //         ->get();
+
+    //     return response()->json([
+    //         'ref_no' => $documento,
+    //         'contact' => $contact,
+    //         'location_id' => $transaction->location_id,
+    //         'invoice_schemes' => $invoice_schemes,
+    //         'products' => $result]);
+
+    // }
+
+
     public function buscarDoc(Request $request)
     {
-        $business_id = request()->session()->get('user.business_id');
-        $documento = $request->get('documento');
-        $transaction = Transaction::where('invoice_no', $documento)->where('business_id', $business_id)->where('type', 'sell')->first();
+        $business_id = $request->session()->get('user.business_id');
+        $documento = trim($request->get('documento', ''));
 
-        // Validar si existe
-        if (!$transaction) {
-            return response()->json([], 404);
+        if ($documento === '') {
+            return response()->json([
+                'message' => 'Debe ingresar el número de venta.'
+            ], 422);
         }
 
-        // Obtener el contacto (cliente)
+        // 1. Buscar venta
+        $transaction = Transaction::where('invoice_no', $documento)
+            ->where('business_id', $business_id)
+            ->where('type', 'sell')
+            ->first();
+
+        if (!$transaction) {
+            return response()->json([
+                'message' => 'No se encontró la venta.'
+            ], 404);
+        }
+
+        // 2. Obtener cliente
         $contact = Contact::find($transaction->contact_id);
 
-        // Obtener las líneas de venta asociadas
-        $transaction_sell_lines = TransactionSellLine::where('transaction_id', $transaction->id)->get();
+        // 3. Obtener motores ya incluidos en comprobantes SUNAT
+        $comprobantes = DB::table('comprobante_sunat')
+            ->where('business_id', $business_id)
+            ->whereIn('type', [
+                'Boleta Electrónica',
+                'Factura Electrónica'
+            ])
+            ->select('productos')
+            ->get();
 
-        // Crear el array de respuesta
+        $motoresFacturados = [];
+
+        foreach ($comprobantes as $comprobante) {
+
+            $productos = json_decode($comprobante->productos, true);
+
+            if (!is_array($productos)) {
+                continue;
+            }
+
+            foreach ($productos as $producto) {
+
+                $descripcion = $producto['descripcion'] ?? '';
+
+                // Extraer el motor de la descripción
+                if (preg_match(
+                    '/\bMotor:\s*(\S+)/i',
+                    $descripcion,
+                    $matches
+                )) {
+                    $motor = strtoupper(trim($matches[1]));
+
+                    $motoresFacturados[$motor] = true;
+                }
+            }
+        }
+
+        // 4. Obtener líneas de venta
+        $transaction_sell_lines = TransactionSellLine::where(
+            'transaction_id',
+            $transaction->id
+        )->get();
+
         $result = [];
 
         foreach ($transaction_sell_lines as $line) {
-            // Buscar producto
-            $product = Product::find($line->product_id);
 
-            // Buscar datos de la purchase_line (si existe)
+            if (empty($line->lot_no_line_id)) {
+                continue;
+            }
+
             $purchase_line = PurchaseLine::find($line->lot_no_line_id);
-            $purchase_line_product = PurchaseLine::where('lot_number',$purchase_line->lot_number)->first();
 
-            if ($purchase_line->facturado == 0) {
-                $result[] = [
-                    'id' => $line->id,
-                    'producto' => $product ? $product->name : 'Desconocido',
-                    'cantidad' => $line->quantity,
-                    'motor' => $purchase_line_product ? $purchase_line_product->lot_number : null,
-                    'color' => $purchase_line_product ? $purchase_line_product->color : null,
-                    'nuevo_color' => $purchase_line_product ? $purchase_line_product->nuevo_color : null,
-                    'chasis' => $purchase_line_product ? $purchase_line_product->chasis : null,
-                    'anio' => $purchase_line_product ? $purchase_line_product->anio : null,
-                    'poliza' => $purchase_line_product ? $purchase_line_product->poliza : null,
-                    'precio' => $line->unit_price_inc_tax,
-                ];
-            }            
+            if (!$purchase_line) {
+                continue;
+            }
+
+            $motor = strtoupper(trim(
+                (string) $purchase_line->lot_number
+            ));
+
+            if ($motor === '') {
+                continue;
+            }
+
+            // 5. Excluir motores ya boleteados o facturados
+            if (isset($motoresFacturados[$motor])) {
+                continue;
+            }
+
+            $product = Product::where('id', $line->product_id)
+                ->where('business_id', $business_id)
+                ->first();
+
+            $result[] = [
+                'id' => $line->id,
+                'producto' => $product ? $product->name : 'Desconocido',
+                'cantidad' => $line->quantity,
+                'motor' => $purchase_line->lot_number,
+                'color' => $purchase_line->color,
+                'nuevo_color' => $purchase_line->nuevo_color,
+                'chasis' => $purchase_line->chasis,
+                'anio' => $purchase_line->anio,
+                'poliza' => $purchase_line->poliza,
+                'precio' => $line->unit_price_inc_tax,
+            ];
         }
 
-        // 👉 Invoice schemes por location
+        // 6. Series disponibles según ubicación
         $invoice_schemes = InvoiceScheme::where('business_id', $business_id)
             ->where(function ($q) use ($transaction) {
                 $q->whereNull('locacion_id')
@@ -1850,13 +1983,15 @@ class SellController extends Controller
             ->select('id', 'name', 'prefix', 'is_default')
             ->get();
 
+        // 7. Respuesta al modal
         return response()->json([
             'ref_no' => $documento,
             'contact' => $contact,
             'location_id' => $transaction->location_id,
             'invoice_schemes' => $invoice_schemes,
-            'products' => $result]);
-
+            'products' => $result,
+            'total_pendientes' => count($result),
+        ]);
     }
 
     public function generarComprobanteSunat(Request $request)

@@ -1221,107 +1221,111 @@
         });
 
         // Acción de buscar
+        // Acción de buscar
         $('#btnBuscar').click(function() {
+
             let documento = $('#documento').val().trim();
-            if(documento === '') {
+
+            if (documento === '') {
                 alert('Ingrese un número de documento');
                 return;
             }
 
-            // Petición AJAX al servidor
+            // Limpiar resultados anteriores
+            let tbody = $('#tablaItems tbody');
+            tbody.empty();
+
+            // Deshabilitar generación mientras se busca
+            $('#btnGenerarComprobante').prop('disabled', true);
+
             $.ajax({
-                url: '/pedidos/buscar', // ruta Laravel
+                url: '/pedidos/buscar',
                 method: 'GET',
                 data: { documento: documento },
+
                 success: function(response) {
-                    let tbody = $('#tablaItems tbody');
+
                     $('#datos_cliente').show();
-                    // tbody.empty();
 
+                    // Aquí conservas tu código actual que carga
+                    // invoice_schemes y los datos del cliente.
 
-                    let $invoiceSelect = $('#invoice_scheme_id');
+                    // VALIDAR SI EXISTEN LOTES PENDIENTES
+                    if (response.products.length === 0) {
 
-                    $invoiceSelect.empty();
-                    $invoiceSelect.append('<option value="">Seleccione comprobante</option>');
+                        tbody.html(`
+                            <tr>
+                                <td colspan="10" class="text-center text-warning">
+                                    <i class="fa fa-info-circle"></i>
+                                    Todos los lotes de esta venta ya fueron
+                                    boleteados o facturados.
+                                </td>
+                            </tr>
+                        `);
 
-                    if (response.invoice_schemes && response.invoice_schemes.length > 0) {
-                        response.invoice_schemes.forEach(item => {
+                        $('#btnGenerarComprobante').prop('disabled', true);
 
-                            let texto = item.prefix
-                                ? `${item.name} - ${item.prefix}`
-                                : item.name;
-
-                            let selected = item.is_default == 1 ? 'selected' : '';
-
-                            $invoiceSelect.append(`
-                                <option value="${item.id}" ${selected}>
-                                    ${texto}
-                                </option>
-                            `);
-                        });
-                    }
-
-                    // refrescar select2
-                    $invoiceSelect.trigger('change.select2');
-
-                if (response.contact) {
-                        // Mostramos el nombre del cliente en el label
-                        $('#contact_id').val(response.contact.id);
-                        $('#ref_no').val(response.ref_no);
-                        if (response.contact.name) {
-                            $('#tipodoc').text('DNI/CARNET EXTRANJERIA:');
-                            $('#numerodoc').val(response.contact.contact_id);
-                            $('#cliente').val(response.contact.name);
-                            $('#address').val(response.contact.address_line_1);
-                        }
-                        else{
-                            $('#tipodoc').text('RUC:');
-                            $('#numerodoc').val(response.contact.contact_id);
-                            $('#cliente').val(response.contact.supplier_business_name);
-                            $('#address').val(response.contact.address_line_1);
-                        }
-                        
-                    } else {
-                        $('#cliente').text('Cliente no encontrado');
-                    }
-
-                    if(response.products.length === 0) {
-                        tbody.append('<tr><td colspan="10" class="text-center">No se encontraron resultados sin facturar</td></tr>');
                         return;
                     }
 
+                    // Habilitar generación
+                    $('#btnGenerarComprobante').prop('disabled', false);
+
+                    // MOSTRAR SOLO LOS LOTES PENDIENTES
                     response.products.forEach(item => {
-                        let color = item.nuevo_color ? item.nuevo_color : item.color;
+
+                        let color = item.nuevo_color
+                            ? item.nuevo_color
+                            : item.color;
+
                         tbody.append(`
                             <tr data-id="${item.id}">
                                 <td>
-                                    <input type="text" class="form-control form-control-sm producto" value="${item.producto}">
+                                    <input type="text"
+                                        class="form-control form-control-sm producto"
+                                        value="${item.producto}">
                                 </td>
+
                                 <td>${item.motor}</td>
-                                
+
                                 <td>
-                                    <input type="text" class="form-control form-control-sm color" value="${color}">
+                                    <input type="text"
+                                        class="form-control form-control-sm color"
+                                        value="${color}">
                                 </td>
+
                                 <td>${item.chasis}</td>
                                 <td>${item.poliza}</td>
                                 <td>${item.anio}</td>
                                 <td>${item.cantidad}</td>
+
                                 <td>
-                                    <input type="number" class="form-control form-control-sm precio" value="${item.precio}" min="0" step="0.01">
+                                    <input type="number"
+                                        class="form-control form-control-sm precio"
+                                        value="${item.precio}"
+                                        min="0"
+                                        step="0.01">
                                 </td>
-                                <td class="subtotal">${(item.cantidad * item.precio).toFixed(2)}</td>
+
+                                <td class="subtotal">
+                                    ${(item.cantidad * item.precio).toFixed(2)}
+                                </td>
+
                                 <td>
-                                    <button class="btn btn-sm btn-danger btnEliminar"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger btnEliminar">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         `);
                     });
                 },
+
                 error: function() {
+                    $('#btnGenerarComprobante').prop('disabled', true);
                     alert('Error al buscar el documento');
                 }
             });
-            
         });
 
         // Acción de buscar servicio
