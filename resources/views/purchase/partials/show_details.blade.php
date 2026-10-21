@@ -344,17 +344,21 @@
             
             <th>T.C</th>
             <th>Importe $</th>
-            <!-- <th>Saldo $</th> -->
+            <th>Saldo $</th>
           </tr>
           @php
-            $total_paid = 0;
-            $saldo = $purchase->final_total;
+            $total_paid = round(
+                (float) $purchase->payment_lines->sum('amount'),
+                2
+            );
+
+            $saldo = round(
+                (float) $purchase->final_total - $total_paid,
+                2
+            );
           @endphp
           @forelse($purchase->payment_lines as $payment_line)
-            @php
-              $total_paid += $payment_line->amount;
-              $saldo -= $payment_line->amount;
-            @endphp
+           
             <tr>
               <td>{{ $loop->iteration }}</td>
               <td>{{ @format_date($payment_line->paid_on) }}</td>
@@ -380,12 +384,12 @@
                   {{ $payment_line->amount }}
                 </span>
               </td>
-              <!-- <td>
+              <td>
                 $
                 <span class="display_currency">
                    max($saldo, 0) 
                 </span>
-              </td> -->
+              </td>
             </tr>
             @empty
             <tr>
@@ -513,11 +517,10 @@
             <th>Saldo:</th>
             <td></td>
             <td class="pull-right">
-              <!-- <span class="display_currency pull-right" data-currency_symbol="true" > -->
                 $
                 <span class="display_currency">
-                {{ $saldo }}
-              </span>
+                    {{ max($saldo, 0) }}
+                </span>
             </td>
           </tr>
         </table>
