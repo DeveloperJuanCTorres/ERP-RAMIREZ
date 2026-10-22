@@ -527,6 +527,13 @@ $(document).ready(function () {
                     name: 'cdr',
                     orderable:false,
                     searchable:false
+                },
+
+                {
+                    data: 'acciones',
+                    name: 'acciones',
+                    orderable: false,
+                    searchable: false
                 }
 
             ],
@@ -1140,5 +1147,84 @@ $(document).ready(function () {
     // Configuración inicial
     configurarDocumentosOrigen();
 
+});
+
+
+
+$(document).on('click', '.btn-consultar-sunat', function () {
+
+    const boton = $(this);
+    const guiaId = boton.data('id');
+
+    if (!guiaId) {
+        Swal.fire('Error', 'No se encontró el ID de la guía.', 'error');
+        return;
+    }
+
+    Swal.fire({
+        title: 'Consultando SUNAT',
+        text: 'Verificando el estado de la guía...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: function () {
+            Swal.showLoading();
+        }
+    });
+
+    boton.prop('disabled', true);
+
+    $.ajax({
+
+        url: '/guias-sunat/' + encodeURIComponent(guiaId) + '/consultar',
+
+        type: 'POST',
+
+        dataType: 'json',
+
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+
+        success: function (res) {
+
+            if (res.aceptada === true) {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Guía aceptada por SUNAT',
+                    text: res.descripcion || 'La guía fue aceptada.'
+                });
+
+            } else {
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Estado de la guía',
+                    text: res.descripcion ||
+                        'Estado actual: ' + res.estado_sunat
+                });
+            }
+
+            $('#guia_table').DataTable().ajax.reload(null, false);
+        },
+
+        error: function (xhr) {
+
+            const mensaje = xhr.responseJSON?.message ||
+                'No se pudo consultar el estado de la guía.';
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al consultar SUNAT',
+                text: mensaje
+            });
+
+            $('#guia_table').DataTable().ajax.reload(null, false);
+        },
+
+        complete: function () {
+            boton.prop('disabled', false);
+        }
+    });
 });
 

@@ -38,6 +38,8 @@ use App\SunatGuia;
 use Illuminate\Support\Facades\Mail;
 use Luecano\NumeroALetras\NumeroALetras;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 // use Illuminate\Support\Facades\DB;
 
 class SellController extends Controller
@@ -3658,109 +3660,122 @@ class SellController extends Controller
             $total_general = $comprobantes->count();
            
 
+           
             return Datatables::of($comprobantes)
 
-                ->addColumn('sunat', function($row){
+                ->addColumn('pdf', function ($row) {
 
-                    return '<span class="label label-info">
-
-                            ENVIADA
-
-                            </span>';
-
-                })
-
-                ->addColumn('pdf', function($row){
-
-                    return '<a href="/guia/imprimir/'.$row->id.'"
-                            target="_blank"
-                            class="btn btn-xs btn-primary">
-
-                            PDF
-
+                    return '<a href="' . url('/guia/imprimir/' . $row->id) . '"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-xs btn-primary">
+                                <i class="fa fa-file-pdf-o"></i> PDF
                             </a>';
-
                 })
 
-                ->addColumn('xml', function($row){
+                ->addColumn('xml', function ($row) {
 
-                    if(empty($row->xml)){
-
-                        return '';
-
+                    if (empty($row->xml)) {
+                        return '<span class="text-muted">No disponible</span>';
                     }
 
-                    return '<a href="'.$row->xml.'"
+                    $url = $row->xml;
 
-                            target="_blank"
-
-                            class="btn btn-xs btn-info">
-
-                            XML
-
-                            </a>';
-
-                })
-
-                ->addColumn('cdr', function($row){
-
-                    if(empty($row->cdr)){
-
-                        return '';
-
+                    if (!filter_var($url, FILTER_VALIDATE_URL) ||
+                        !in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'])) {
+                        return '<span class="text-muted">No disponible</span>';
                     }
 
-                    return '<a href="'.$row->cdr.'"
-
-                            target="_blank"
-
-                            class="btn btn-xs btn-warning">
-
-                            CDR
-
+                    return '<a href="' . e($url) . '"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-xs btn-info">
+                                <i class="fa fa-file-code-o"></i> XML
                             </a>';
-
                 })
 
-                ->addColumn('email', function($row){
+                ->addColumn('cdr', function ($row) {
 
-                    return '';
+                    if (empty($row->cdr)) {
+                        return '<span class="text-muted">No disponible</span>';
+                    }
 
+                    $url = $row->cdr;
+
+                    if (!filter_var($url, FILTER_VALIDATE_URL) ||
+                        !in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'])) {
+                        return '<span class="text-muted">No disponible</span>';
+                    }
+
+                    return '<a href="' . e($url) . '"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-xs btn-warning">
+                                <i class="fa fa-download"></i> CDR
+                            </a>';
                 })
 
-                ->addColumn('estado_sunat', function($row){
+                ->addColumn('estado_sunat', function ($row) {
 
-                    if($row->aceptada){
+                    if ($row->aceptada || $row->estado_sunat === 'aceptada') {
 
                         return '<span class="label label-success">
-                                ACEPTADA
+                                    <i class="fa fa-check-circle"></i>
+                                    ACEPTADA
                                 </span>';
+                    }
 
+                    if ($row->estado_sunat === 'rechazada') {
+
+                        return '<span class="label label-danger">
+                                    <i class="fa fa-times-circle"></i>
+                                    RECHAZADA
+                                </span>';
+                    }
+
+                    if ($row->estado_sunat === 'pendiente_verificacion') {
+
+                        return '<span class="label label-info">
+                                    <i class="fa fa-clock-o"></i>
+                                    EN VERIFICACIÓN
+                                </span>';
                     }
 
                     return '<span class="label label-warning">
-                            PENDIENTE
+                                <i class="fa fa-clock-o"></i>
+                                PENDIENTE
                             </span>';
-
                 })
 
-                ->addColumn('observacion', function($row){
+                ->addColumn('observacion', function ($row) {
 
-                    return $row->sunat_description;
-
+                    return e($row->sunat_description ?? '');
                 })
 
-                ->addColumn('contact_name',function($row){
+                ->addColumn('contact_name', function ($row) {
 
-                    return $row->cliente;
-
+                    return e($row->cliente ?? '');
                 })
 
-                ->editColumn('fecha',function($row){
+                ->addColumn('acciones', function ($row) {
 
-                    return \Carbon\Carbon::parse($row->fecha)
-                            ->format('d/m/Y');
+                    return '<button
+                                type="button"
+                                class="btn btn-xs btn-primary btn-consultar-sunat"
+                                data-id="' . (int) $row->id . '"
+                                title="Consultar estado en SUNAT">
 
+                                <i class="fa fa-refresh"></i>
+                                Consultar SUNAT
+
+                            </button>';
+                })
+
+                ->editColumn('fecha', function ($row) {
+
+                    return $row->fecha
+                        ? \Carbon\Carbon::parse($row->fecha)->format('d/m/Y')
+                        : '';
                 })
 
                 ->rawColumns([
@@ -3768,11 +3783,13 @@ class SellController extends Controller
                     'xml',
                     'cdr',
                     'estado_sunat',
-                    'sunat',
-                    'email'
+                    'acciones'
                 ])
+
                 ->with('total_general', $total_general)
+
                 ->make(true);
+
             
             // return $datatable;
         }
@@ -3784,49 +3801,518 @@ class SellController extends Controller
         return view('sell.guia')->with(compact('business_locations', 'customers','invoice_schemes', 'default_invoice_schemes'));
     }
 
+    // public function generarGuiaSunat(Request $request)
+    // {
+    //     DB::beginTransaction();
+
+    //     try {
+
+    //         $request->validate([
+    //             'location_id' => 'required|integer',
+    //             'invoice_scheme_id' => 'required|integer',
+
+    //             'motivo_de_traslado' => 'required|in:01,04',
+
+    //             'fecha_de_emision' => 'required|date',
+    //             'fecha_de_inicio_de_traslado' => 'required|date',
+
+    //             'punto_de_partida_ubigeo' => 'required|string|size:6',
+    //             'punto_de_partida_direccion' => 'required|string|max:500',
+
+    //             'punto_de_llegada_ubigeo' => 'required|string|size:6',
+    //             'punto_de_llegada_direccion' => 'required|string|max:500',
+
+    //             'items' => 'required|array|min:1',
+    //             'items.*.codigo' => 'required|string|max:100',
+    //             'items.*.descripcion' => 'required|string',
+    //             'items.*.cantidad' => 'required|numeric|gt:0',
+
+    //             'documento_relacionado' => 'nullable|array',
+    //         ]);
+
+    //         $business_id = session('user.business_id');
+
+    //         // $business_location = BusinessLocation::findOrFail($request->location_id);
+    //         $business_location = BusinessLocation::where(
+    //             'business_id',
+    //             $business_id
+    //         )
+    //         ->findOrFail($request->location_id);
+
+    //         $invoice_scheme_id = $request->invoice_scheme_id;
+    //          $status = 'final'; 
+    //         $sale_type = 'GUIA';
+
+    //          $invoice_no = $this->transactionUtil->getInvoiceNumber(
+    //             $business_id,
+    //             $status,
+    //             $business_location->id,
+    //             $invoice_scheme_id,
+    //             $sale_type
+    //         );
+
+    //         $serie = substr($invoice_no, 0, 4);
+    //         $correlativo = intval(substr(strrchr($invoice_no, "-"), 1));
+
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | JSON A ENVIAR A NUBEFACT
+    //         |--------------------------------------------------------------------------
+    //         */
+
+    //         $motivo = $request->motivo_de_traslado;
+
+    //         $documentosRelacionados = [];
+
+    //         if ($motivo === '01') {
+
+    //             $documentosRelacionados = collect(
+    //                 $request->input('documento_relacionado', [])
+    //             )
+    //             ->filter(function ($doc) {
+    //                 return is_array($doc)
+    //                     && in_array(
+    //                         (string) ($doc['tipo'] ?? ''),
+    //                         ['01', '03'],
+    //                         true
+    //                     )
+    //                     && !empty($doc['serie'])
+    //                     && !empty($doc['numero']);
+    //             })
+    //             ->map(function ($doc) {
+    //                 return [
+    //                     'tipo' => (string) $doc['tipo'],
+    //                     'serie' => trim((string) $doc['serie']),
+    //                     'numero' => trim((string) $doc['numero']),
+    //                 ];
+    //             })
+    //             ->values()
+    //             ->all();
+    //         }
+
+    //         $store = [
+
+    //             "operacion" => "generar_guia",
+
+    //             "tipo_de_comprobante" => 7,
+
+    //             "serie" => $serie,
+
+    //             "numero" => $correlativo,
+
+    //             "cliente_tipo_de_documento" => $request->cliente_tipo_de_documento,
+
+    //             "cliente_numero_de_documento" => $request->cliente_numero_de_documento,
+
+    //             "cliente_denominacion" => $request->cliente_denominacion,
+
+    //             "cliente_direccion" => $request->cliente_direccion,
+
+    //             "cliente_email" => "",
+
+    //             "cliente_email_1" => "",
+
+    //             "cliente_email_2" => "",
+
+    //             // "fecha_de_emision" => $request->fecha_de_emision,
+    //             "fecha_de_emision" => \Carbon\Carbon::parse(
+    //                 $request->fecha_de_emision
+    //             )->format('d-m-Y'),
+
+    //             "observaciones" => $request->observaciones,
+
+    //             "motivo_de_traslado" => $request->motivo_de_traslado,
+
+    //             "peso_bruto_total" => $request->peso_bruto_total,
+
+    //             "peso_bruto_unidad_de_medida" => "KGM",
+
+    //             "numero_de_bultos" => $request->numero_de_bultos,
+
+    //             "tipo_de_transporte" => $request->tipo_de_transporte,
+
+    //             // "fecha_de_inicio_de_traslado" => $request->fecha_de_inicio_de_traslado,
+    //             "fecha_de_inicio_de_traslado" => \Carbon\Carbon::parse(
+    //                 $request->fecha_de_inicio_de_traslado
+    //             )->format('d-m-Y'),
+
+    //             // "fecha_de_entrega_al_transportista" => $request->fecha_de_entrega_al_transportista,
+    //             "fecha_de_entrega_al_transportista" =>
+    //             $request->filled('fecha_de_entrega_al_transportista')
+    //                 ? \Carbon\Carbon::parse(
+    //                     $request->fecha_de_entrega_al_transportista
+    //                 )->format('d-m-Y')
+    //                 : null,
+
+    //             "transportista_documento_tipo" => $request->transportista_documento_tipo,
+
+    //             "transportista_documento_numero" => $request->transportista_documento_numero,
+
+    //             "transportista_denominacion" => $request->transportista_denominacion,
+
+    //             "transportista_placa_numero" => $request->transportista_placa_numero,
+
+    //             "conductor_documento_tipo" => $request->conductor_documento_tipo,
+
+    //             "conductor_documento_numero" => $request->conductor_documento_numero,
+
+    //             "conductor_nombre" => $request->conductor_nombre,
+
+    //             "conductor_apellidos" => $request->conductor_apellidos,
+
+    //             "conductor_numero_licencia" => $request->conductor_numero_licencia,
+
+    //             "punto_de_partida_ubigeo" => $request->punto_de_partida_ubigeo,
+
+    //             "punto_de_partida_direccion" => $request->punto_de_partida_direccion,
+
+    //             "punto_de_partida_codigo_establecimiento_sunat" => "0000",
+
+    //             "punto_de_llegada_ubigeo" => $request->punto_de_llegada_ubigeo,
+
+    //             "punto_de_llegada_direccion" => $request->punto_de_llegada_direccion,
+
+    //             "punto_de_llegada_codigo_establecimiento_sunat" => "0000",
+
+    //             "enviar_automaticamente_al_cliente" => false,
+
+    //             "formato_de_pdf" => "",
+
+    //             "items" => $request->items,
+
+    //             // "documento_relacionado" => $request->documento_relacionado,
+    //             "documento_relacionado" => $documentosRelacionados,
+
+    //             "vehiculos_secundarios" => $request->vehiculos_secundarios,
+
+    //             "conductores_secundarios" => $request->conductores_secundarios
+
+    //         ];
+
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | ENVIO A NUBEFACT
+    //         |--------------------------------------------------------------------------
+    //         */
+
+    //         // $respuesta = Http::withHeaders([
+
+    //         //     'Authorization' => $business_location->token_nubefact
+
+    //         // ])->post(
+
+    //         //     $business_location->ruta_nubefact,
+
+    //         //     $store
+
+    //         // );
+
+    //         /*
+    //         |--------------------------------------------------------------------------
+    //         | RESPUESTA OK
+    //         |--------------------------------------------------------------------------
+    //         */
+
+    //         // if ($respuesta->successful()) {
+
+    //             // $resp = $respuesta->json();
+
+    //             $guia = SunatGuia::create([
+
+    //                 'business_id' => $business_id,
+
+    //                 'location_id' => $business_location->id,
+
+    //                 'contact_id' => $request->contact_id,
+
+    //                 'serie' => $serie,
+                
+    //                 'numero' => $correlativo,
+
+    //                 'cliente' => $request->cliente_denominacion,
+
+    //                 'fecha' => $request->fecha_de_emision,
+
+    //                 // 'aceptada' => $resp['aceptada_por_sunat'],
+
+    //                 // 'sunat_description' => $resp['sunat_description'],
+    //                 'sunat_description' => 'DESCRIPCION',
+
+    //                 'json_envio' => json_encode($store),
+
+    //                 // 'json_respuesta' => $respuesta->body(),
+    //                 'json_respuesta' => 'respuesta',
+
+    //                 // 'pdf' => $resp['enlace_del_pdf'],
+    //                 'pdf' => 'pdf',
+
+    //                 // 'xml' => $resp['enlace_del_xml'],
+    //                 'xml' => 'xml',
+
+    //                 // 'cdr' => $resp['enlace_del_cdr']
+    //                 'cdr' => 'cdr'
+
+    //             ]);
+
+    //             DB::commit();
+
+    //             return response()->json([
+
+    //                 'success' => true,
+
+    //                 'id' => $guia->id
+
+    //             ]);
+
+    //         // }
+
+    //         DB::rollBack();
+
+    //         return response()->json([
+
+    //             'success' => false,
+
+    //             'message' => $respuesta->body()
+
+    //         ]);
+
+    //     } catch (\Throwable $e) {
+
+    //         DB::rollBack();
+
+    //         return response()->json([
+
+    //             'success' => false,
+
+    //             'message' => $e->getMessage()
+
+    //         ],500);
+
+    //     }
+
+    // }
+
+    
     public function generarGuiaSunat(Request $request)
     {
+        /*
+        |--------------------------------------------------------------------------
+        | 1. VALIDAR DATOS DEL FORMULARIO
+        |--------------------------------------------------------------------------
+        */
+
+        $validator = Validator::make($request->all(), [
+
+            'location_id' => 'required|integer',
+            'invoice_scheme_id' => 'required|integer',
+
+            'contact_id' => 'nullable|integer',
+
+            'motivo_de_traslado' => 'required|in:01,04',
+
+            'fecha_de_emision' => 'required|date',
+            'fecha_de_inicio_de_traslado' => 'required|date',
+
+            'tipo_de_transporte' => 'required|in:01,02',
+
+            'cliente_tipo_de_documento' => 'required|string',
+            'cliente_numero_de_documento' => 'required|string',
+            'cliente_denominacion' => 'required|string',
+
+            'peso_bruto_total' => 'required|numeric|gt:0',
+            'numero_de_bultos' => 'required|integer|min:1',
+
+            'punto_de_partida_ubigeo' => 'required|digits:6',
+            'punto_de_partida_direccion' => 'required|string|max:150',
+
+            'punto_de_llegada_ubigeo' => 'required|digits:6',
+            'punto_de_llegada_direccion' => 'required|string|max:150',
+
+            'transportista_placa_numero' => [
+                'nullable',
+                'regex:/^[A-Za-z0-9-]{6,8}$/'
+            ],
+
+            'items' => 'required|array|min:1',
+            'items.*.codigo' => 'required|string|max:100',
+            'items.*.descripcion' => 'required|string',
+            'items.*.cantidad' => 'required|numeric|gt:0',
+
+            'documento_relacionado' => 'nullable|array',
+
+            'vehiculos_secundarios' => 'nullable|array',
+            'conductores_secundarios' => 'nullable|array',
+
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. VALIDACIONES SEGÚN TIPO DE TRANSPORTE
+        |--------------------------------------------------------------------------
+        */
+
+        $validator->sometimes(
+            'transportista_documento_tipo',
+            'required|string',
+            function ($input) {
+                return $input->tipo_de_transporte == '01';
+            }
+        );
+
+        $validator->sometimes(
+            'transportista_documento_numero',
+            'required|digits:11',
+            function ($input) {
+                return $input->tipo_de_transporte == '01';
+            }
+        );
+
+        $validator->sometimes(
+            'transportista_denominacion',
+            'required|string',
+            function ($input) {
+                return $input->tipo_de_transporte == '01';
+            }
+        );
+
+        $validator->sometimes(
+            'fecha_de_entrega_al_transportista',
+            'required|date',
+            function ($input) {
+                return $input->tipo_de_transporte == '01';
+            }
+        );
+
+        $validator->sometimes(
+            'conductor_documento_tipo',
+            'required|string',
+            function ($input) {
+                return $input->tipo_de_transporte == '02';
+            }
+        );
+
+        $validator->sometimes(
+            'conductor_documento_numero',
+            'required|string',
+            function ($input) {
+                return $input->tipo_de_transporte == '02';
+            }
+        );
+
+        $validator->sometimes(
+            'conductor_nombre',
+            'required|string',
+            function ($input) {
+                return $input->tipo_de_transporte == '02';
+            }
+        );
+
+        $validator->sometimes(
+            'conductor_apellidos',
+            'required|string',
+            function ($input) {
+                return $input->tipo_de_transporte == '02';
+            }
+        );
+
+        $validator->sometimes(
+            'conductor_numero_licencia',
+            'required|string',
+            function ($input) {
+                return $input->tipo_de_transporte == '02';
+            }
+        );
+
+        if ($validator->fails()) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Existen datos incorrectos o incompletos.',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $business_id = session('user.business_id');
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. OBTENER SUCURSAL Y CONFIGURACIÓN NUBEFACT
+        |--------------------------------------------------------------------------
+        */
+
+        $business_location = BusinessLocation::where(
+            'business_id',
+            $business_id
+        )->findOrFail($request->location_id);
+
+        if (
+            empty($business_location->ruta_nubefact) ||
+            empty($business_location->token_nubefact)
+        ) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'La sucursal no tiene configuradas las credenciales de Nubefact.'
+            ], 422);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 4. DOCUMENTOS RELACIONADOS
+        |--------------------------------------------------------------------------
+        */
+
+        $documentosRelacionados = [];
+
+        if ($request->motivo_de_traslado === '01') {
+
+            $documentosRelacionados = collect(
+                $request->input('documento_relacionado', [])
+            )
+            ->filter(function ($doc) {
+
+                return is_array($doc)
+                    && in_array(
+                        (string) ($doc['tipo'] ?? ''),
+                        ['01', '03'],
+                        true
+                    )
+                    && !empty($doc['serie'])
+                    && !empty($doc['numero']);
+
+            })
+            ->map(function ($doc) {
+
+                return [
+                    'tipo' => (string) $doc['tipo'],
+                    'serie' => trim((string) $doc['serie']),
+                    'numero' => trim((string) $doc['numero']),
+                ];
+
+            })
+            ->values()
+            ->all();
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 5. GENERAR SERIE Y CORRELATIVO
+        |--------------------------------------------------------------------------
+        | Se mantiene tu lógica original.
+        | La transacción protege el contador ante errores locales.
+        */
+
         DB::beginTransaction();
 
         try {
 
-            $request->validate([
-                'location_id' => 'required|integer',
-                'invoice_scheme_id' => 'required|integer',
-
-                'motivo_de_traslado' => 'required|in:01,04',
-
-                'fecha_de_emision' => 'required|date',
-                'fecha_de_inicio_de_traslado' => 'required|date',
-
-                'punto_de_partida_ubigeo' => 'required|string|size:6',
-                'punto_de_partida_direccion' => 'required|string|max:500',
-
-                'punto_de_llegada_ubigeo' => 'required|string|size:6',
-                'punto_de_llegada_direccion' => 'required|string|max:500',
-
-                'items' => 'required|array|min:1',
-                'items.*.codigo' => 'required|string|max:100',
-                'items.*.descripcion' => 'required|string',
-                'items.*.cantidad' => 'required|numeric|gt:0',
-
-                'documento_relacionado' => 'nullable|array',
-            ]);
-
-            $business_id = session('user.business_id');
-
-            // $business_location = BusinessLocation::findOrFail($request->location_id);
-            $business_location = BusinessLocation::where(
-                'business_id',
-                $business_id
-            )
-            ->findOrFail($request->location_id);
-
             $invoice_scheme_id = $request->invoice_scheme_id;
-             $status = 'final'; 
+
+            $status = 'final';
+
             $sale_type = 'GUIA';
 
-             $invoice_no = $this->transactionUtil->getInvoiceNumber(
+            $invoice_no = $this->transactionUtil->getInvoiceNumber(
                 $business_id,
                 $status,
                 $business_location->id,
@@ -3835,233 +4321,617 @@ class SellController extends Controller
             );
 
             $serie = substr($invoice_no, 0, 4);
-            $correlativo = intval(substr(strrchr($invoice_no, "-"), 1));
+
+            $correlativo = intval(
+                substr(strrchr($invoice_no, "-"), 1)
+            );
 
             /*
             |--------------------------------------------------------------------------
-            | JSON A ENVIAR A NUBEFACT
+            | 6. CONSTRUIR JSON PARA NUBEFACT
             |--------------------------------------------------------------------------
             */
 
-            $motivo = $request->motivo_de_traslado;
-
-            $documentosRelacionados = [];
-
-            if ($motivo === '01') {
-
-                $documentosRelacionados = collect(
-                    $request->input('documento_relacionado', [])
-                )
-                ->filter(function ($doc) {
-                    return is_array($doc)
-                        && in_array(
-                            (string) ($doc['tipo'] ?? ''),
-                            ['01', '03'],
-                            true
-                        )
-                        && !empty($doc['serie'])
-                        && !empty($doc['numero']);
-                })
-                ->map(function ($doc) {
-                    return [
-                        'tipo' => (string) $doc['tipo'],
-                        'serie' => trim((string) $doc['serie']),
-                        'numero' => trim((string) $doc['numero']),
-                    ];
-                })
-                ->values()
-                ->all();
-            }
-
             $store = [
 
-                "operacion" => "generar_guia",
+                'operacion' => 'generar_guia',
 
-                "tipo_de_comprobante" => 7,
+                'tipo_de_comprobante' => 7,
 
-                "serie" => $serie,
+                'serie' => $serie,
 
-                "numero" => $correlativo,
+                'numero' => $correlativo,
 
-                "cliente_tipo_de_documento" => $request->cliente_tipo_de_documento,
+                'cliente_tipo_de_documento' =>
+                    $request->cliente_tipo_de_documento,
 
-                "cliente_numero_de_documento" => $request->cliente_numero_de_documento,
+                'cliente_numero_de_documento' =>
+                    $request->cliente_numero_de_documento,
 
-                "cliente_denominacion" => $request->cliente_denominacion,
+                'cliente_denominacion' =>
+                    $request->cliente_denominacion,
 
-                "cliente_direccion" => $request->cliente_direccion,
+                'cliente_direccion' =>
+                    $request->cliente_direccion ?? '',
 
-                "cliente_email" => "",
+                'cliente_email' => '',
 
-                "cliente_email_1" => "",
+                'cliente_email_1' => '',
 
-                "cliente_email_2" => "",
+                'cliente_email_2' => '',
 
-                "fecha_de_emision" => $request->fecha_de_emision,
+                'fecha_de_emision' => Carbon::parse(
+                    $request->fecha_de_emision
+                )->format('d-m-Y'),
 
-                "observaciones" => $request->observaciones,
+                'observaciones' =>
+                    $request->observaciones ?? '',
 
-                "motivo_de_traslado" => $request->motivo_de_traslado,
+                'motivo_de_traslado' =>
+                    $request->motivo_de_traslado,
 
-                "peso_bruto_total" => $request->peso_bruto_total,
+                'peso_bruto_total' =>
+                    (float) $request->peso_bruto_total,
 
-                "peso_bruto_unidad_de_medida" => "KGM",
+                'peso_bruto_unidad_de_medida' => 'KGM',
 
-                "numero_de_bultos" => $request->numero_de_bultos,
+                'numero_de_bultos' =>
+                    (int) $request->numero_de_bultos,
 
-                "tipo_de_transporte" => $request->tipo_de_transporte,
+                'tipo_de_transporte' =>
+                    $request->tipo_de_transporte,
 
-                "fecha_de_inicio_de_traslado" => $request->fecha_de_inicio_de_traslado,
+                'fecha_de_inicio_de_traslado' => Carbon::parse(
+                    $request->fecha_de_inicio_de_traslado
+                )->format('d-m-Y'),
 
-                "fecha_de_entrega_al_transportista" => $request->fecha_de_entrega_al_transportista,
+                'punto_de_partida_ubigeo' =>
+                    $request->punto_de_partida_ubigeo,
 
-                "transportista_documento_tipo" => $request->transportista_documento_tipo,
+                'punto_de_partida_direccion' =>
+                    $request->punto_de_partida_direccion,
 
-                "transportista_documento_numero" => $request->transportista_documento_numero,
+                'punto_de_llegada_ubigeo' =>
+                    $request->punto_de_llegada_ubigeo,
 
-                "transportista_denominacion" => $request->transportista_denominacion,
+                'punto_de_llegada_direccion' =>
+                    $request->punto_de_llegada_direccion,
 
-                "transportista_placa_numero" => $request->transportista_placa_numero,
+                'enviar_automaticamente_al_cliente' => false,
 
-                "conductor_documento_tipo" => $request->conductor_documento_tipo,
+                'formato_de_pdf' => '',
 
-                "conductor_documento_numero" => $request->conductor_documento_numero,
+                'items' => collect($request->items)
+                    ->map(function ($item) {
 
-                "conductor_nombre" => $request->conductor_nombre,
+                        return [
+                            'unidad_de_medida' =>
+                                $item['unidad_de_medida'] ?? 'NIU',
 
-                "conductor_apellidos" => $request->conductor_apellidos,
+                            'codigo' => (string) $item['codigo'],
 
-                "conductor_numero_licencia" => $request->conductor_numero_licencia,
+                            'descripcion' =>
+                                (string) $item['descripcion'],
 
-                "punto_de_partida_ubigeo" => $request->punto_de_partida_ubigeo,
+                            'cantidad' =>
+                                (float) $item['cantidad'],
+                        ];
 
-                "punto_de_partida_direccion" => $request->punto_de_partida_direccion,
-
-                "punto_de_partida_codigo_establecimiento_sunat" => "0000",
-
-                "punto_de_llegada_ubigeo" => $request->punto_de_llegada_ubigeo,
-
-                "punto_de_llegada_direccion" => $request->punto_de_llegada_direccion,
-
-                "punto_de_llegada_codigo_establecimiento_sunat" => "0000",
-
-                "enviar_automaticamente_al_cliente" => false,
-
-                "formato_de_pdf" => "",
-
-                "items" => $request->items,
-
-                // "documento_relacionado" => $request->documento_relacionado,
-                "documento_relacionado" => $documentosRelacionados,
-
-                "vehiculos_secundarios" => $request->vehiculos_secundarios,
-
-                "conductores_secundarios" => $request->conductores_secundarios
+                    })
+                    ->values()
+                    ->all(),
 
             ];
 
             /*
             |--------------------------------------------------------------------------
-            | ENVIO A NUBEFACT
+            | 7. ESTABLECIMIENTOS SUNAT
             |--------------------------------------------------------------------------
             */
 
-            // $respuesta = Http::withHeaders([
+            if ($request->motivo_de_traslado === '04') {
 
-            //     'Authorization' => $business_location->token_nubefact
+                $store['punto_de_partida_codigo_establecimiento_sunat'] =
+                    $request->input(
+                        'punto_de_partida_codigo_establecimiento_sunat',
+                        '0000'
+                    );
 
-            // ])->post(
-
-            //     $business_location->ruta_nubefact,
-
-            //     $store
-
-            // );
+                $store['punto_de_llegada_codigo_establecimiento_sunat'] =
+                    $request->input(
+                        'punto_de_llegada_codigo_establecimiento_sunat',
+                        '0000'
+                    );
+            }
 
             /*
             |--------------------------------------------------------------------------
-            | RESPUESTA OK
+            | 8. TRANSPORTE PÚBLICO / PRIVADO
             |--------------------------------------------------------------------------
             */
 
-            // if ($respuesta->successful()) {
+            if ($request->tipo_de_transporte === '01') {
 
-                // $resp = $respuesta->json();
+                $store['transportista_documento_tipo'] =
+                    $request->transportista_documento_tipo;
 
-                $guia = SunatGuia::create([
+                $store['transportista_documento_numero'] =
+                    $request->transportista_documento_numero;
 
-                    'business_id' => $business_id,
+                $store['transportista_denominacion'] =
+                    $request->transportista_denominacion;
 
-                    'location_id' => $business_location->id,
+                $store['fecha_de_entrega_al_transportista'] =
+                    Carbon::parse(
+                        $request->fecha_de_entrega_al_transportista
+                    )->format('d-m-Y');
 
-                    'contact_id' => $request->contact_id,
+            } else {
 
-                    'serie' => $serie,
-                
-                    'numero' => $correlativo,
+                $store['conductor_documento_tipo'] =
+                    $request->conductor_documento_tipo;
 
-                    'cliente' => $request->cliente_denominacion,
+                $store['conductor_documento_numero'] =
+                    $request->conductor_documento_numero;
 
-                    'fecha' => $request->fecha_de_emision,
+                $store['conductor_nombre'] =
+                    $request->conductor_nombre;
 
-                    // 'aceptada' => $resp['aceptada_por_sunat'],
+                $store['conductor_apellidos'] =
+                    $request->conductor_apellidos;
 
-                    // 'sunat_description' => $resp['sunat_description'],
-                    'sunat_description' => 'DESCRIPCION',
+                $store['conductor_numero_licencia'] =
+                    $request->conductor_numero_licencia;
+            }
 
-                    'json_envio' => json_encode($store),
+            /*
+            |--------------------------------------------------------------------------
+            | 9. PLACA PRINCIPAL
+            |--------------------------------------------------------------------------
+            */
 
-                    // 'json_respuesta' => $respuesta->body(),
-                    'json_respuesta' => 'respuesta',
+            if ($request->filled('transportista_placa_numero')) {
 
-                    // 'pdf' => $resp['enlace_del_pdf'],
-                    'pdf' => 'pdf',
+                $store['transportista_placa_numero'] =
+                    strtoupper(
+                        trim($request->transportista_placa_numero)
+                    );
+            }
 
-                    // 'xml' => $resp['enlace_del_xml'],
-                    'xml' => 'xml',
+            /*
+            |--------------------------------------------------------------------------
+            | 10. DOCUMENTOS Y VEHÍCULOS ADICIONALES
+            |--------------------------------------------------------------------------
+            */
 
-                    // 'cdr' => $resp['enlace_del_cdr']
-                    'cdr' => 'cdr'
+            if (!empty($documentosRelacionados)) {
 
-                ]);
+                $store['documento_relacionado'] =
+                    $documentosRelacionados;
+            }
 
-                DB::commit();
+            if (
+                is_array($request->vehiculos_secundarios) &&
+                count($request->vehiculos_secundarios) > 0
+            ) {
 
-                return response()->json([
+                $store['vehiculos_secundarios'] =
+                    $request->vehiculos_secundarios;
+            }
 
-                    'success' => true,
+            if (
+                is_array($request->conductores_secundarios) &&
+                count($request->conductores_secundarios) > 0
+            ) {
 
-                    'id' => $guia->id
+                $store['conductores_secundarios'] =
+                    $request->conductores_secundarios;
+            }
 
-                ]);
+            /*
+            |--------------------------------------------------------------------------
+            | 11. REGISTRAR GUÍA PENDIENTE
+            |--------------------------------------------------------------------------
+            */
 
-            // }
+            $guia = SunatGuia::create([
 
-            DB::rollBack();
+                'business_id' => $business_id,
 
-            return response()->json([
+                'location_id' => $business_location->id,
 
-                'success' => false,
+                'contact_id' => $request->contact_id,
 
-                'message' => $respuesta->body()
+                'serie' => $serie,
+
+                'numero' => $correlativo,
+
+                'cliente' => $request->cliente_denominacion,
+
+                'fecha' => $request->fecha_de_emision,
+
+                'aceptada' => false,
+
+                'estado_sunat' => 'pendiente',
+
+                'sunat_description' => 'Pendiente de envío a Nubefact',
+
+                'json_envio' => json_encode(
+                    $store,
+                    JSON_UNESCAPED_UNICODE
+                ),
+
+                'json_respuesta' => null,
+
+                'pdf' => null,
+
+                'xml' => null,
+
+                'cdr' => null,
+
+                'cadena_qr' => null,
 
             ]);
+
+            DB::commit();
 
         } catch (\Throwable $e) {
 
             DB::rollBack();
 
+            Log::error('Error preparando GRE Nubefact', [
+                'business_id' => $business_id,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo preparar la guía: ' . $e->getMessage()
+            ], 500);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 12. ENVIAR GUÍA A NUBEFACT
+        |--------------------------------------------------------------------------
+        | El envío se realiza fuera de la transacción de base de datos.
+        */
+
+        try {
+
+            $respuesta = Http::withHeaders([
+
+                'Authorization' =>
+                    $business_location->token_nubefact,
+
+                'Accept' => 'application/json',
+
+            ])
+            ->timeout(60)
+            ->post(
+                $business_location->ruta_nubefact,
+                $store
+            );
+
+            $resp = $respuesta->json();
+
+            if (!is_array($resp)) {
+                $resp = [];
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | 13. GUARDAR RESPUESTA REAL
+            |--------------------------------------------------------------------------
+            */
+
+            $guia->json_respuesta = $respuesta->body();
+
+            $guia->sunat_description =
+                (string) (
+                    $resp['sunat_description']
+                    ?? $resp['mensaje']
+                    ?? $resp['message']
+                    ?? ''
+                );
+
+            // Nunca reemplazamos tu PDF personalizado.
+            $guia->pdf = null;
+
+            $guia->xml =
+                $resp['enlace_del_xml'] ?? null;
+
+            $guia->cdr =
+                $resp['enlace_del_cdr'] ?? null;
+
+            $guia->cadena_qr =
+                $resp['cadena_para_codigo_qr'] ?? null;
+
+            if ($respuesta->successful()) {
+
+                if (
+                    ($resp['aceptada_por_sunat'] ?? false) === true
+                ) {
+
+                    $guia->aceptada = true;
+
+                    $guia->estado_sunat = 'aceptada';
+
+                } elseif (
+                    ($resp['aceptada_por_sunat'] ?? null) === false
+                    && !empty($resp['sunat_description'])
+                    && (
+                        ($resp['sunat_responsecode'] ?? null) !== null
+                    )
+                ) {
+
+                    $guia->aceptada = false;
+
+                    $guia->estado_sunat = 'pendiente_verificacion';
+
+                } else {
+
+                    $guia->aceptada = false;
+
+                    $guia->estado_sunat = 'pendiente_verificacion';
+                }
+
+                $guia->save();
+
+                return response()->json([
+
+                    'success' => true,
+
+                    'id' => $guia->id,
+
+                    'serie' => $serie,
+
+                    'numero' => $correlativo,
+
+                    'estado_sunat' => $guia->estado_sunat,
+
+                    'aceptada' => $guia->aceptada,
+
+                    'message' => $guia->aceptada
+                        ? 'Guía aceptada por SUNAT.'
+                        : 'Guía enviada a Nubefact. Pendiente de verificar su estado.',
+
+                    'xml' => $guia->xml,
+
+                    'cdr' => $guia->cdr,
+
+                    'cadena_qr' => $guia->cadena_qr,
+
+                ]);
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | 14. RESPUESTA DE ERROR DE NUBEFACT
+            |--------------------------------------------------------------------------
+            */
+
+            $guia->aceptada = false;
+
+            // No reenviar automáticamente: primero verificar el estado.
+            $guia->estado_sunat = 'pendiente_verificacion';
+
+            if (empty($guia->sunat_description)) {
+
+                $guia->sunat_description =
+                    'Nubefact devolvió HTTP ' . $respuesta->status();
+            }
+
+            $guia->save();
+
             return response()->json([
 
                 'success' => false,
 
-                'message' => $e->getMessage()
+                'id' => $guia->id,
 
-            ],500);
+                'estado_sunat' => $guia->estado_sunat,
 
+                'message' => 'Nubefact devolvió un error. Verifica el estado de esta guía antes de intentar enviarla nuevamente.',
+
+                'detalle' => $resp,
+
+            ], 422);
+
+        } catch (\Throwable $e) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | 15. ERROR DE COMUNICACIÓN
+            |--------------------------------------------------------------------------
+            | No sabemos si Nubefact recibió el documento.
+            | Por seguridad no se vuelve a generar otro correlativo.
+            */
+
+            Log::error('Error de comunicación GRE Nubefact', [
+
+                'guia_id' => $guia->id,
+
+                'business_id' => $business_id,
+
+                'serie' => $serie,
+
+                'numero' => $correlativo,
+
+                'error' => $e->getMessage(),
+
+            ]);
+
+            $guia->aceptada = false;
+
+            $guia->estado_sunat = 'pendiente_verificacion';
+
+            $guia->sunat_description =
+                'No se pudo confirmar la respuesta de Nubefact: '
+                . $e->getMessage();
+
+            $guia->save();
+
+            return response()->json([
+
+                'success' => false,
+
+                'id' => $guia->id,
+
+                'estado_sunat' => 'pendiente_verificacion',
+
+                'message' => 'No se pudo confirmar el envío. Consulta el estado de la guía antes de volver a enviarla.',
+
+            ], 503);
+        }
+    }
+
+    
+    public function consultarGuiaSunat($id)
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        // 1. Buscar la guía de la empresa actual
+        $guia = SunatGuia::where('business_id', $business_id)
+            ->findOrFail($id);
+
+        // 2. Obtener credenciales de la sucursal
+        $business_location = BusinessLocation::where(
+            'business_id',
+            $business_id
+        )->findOrFail($guia->location_id);
+
+        if (
+            empty($business_location->ruta_nubefact) ||
+            empty($business_location->token_nubefact)
+        ) {
+            return response()->json([
+                'success' => false,
+                'message' => 'La sucursal no tiene configurado Nubefact.'
+            ], 422);
         }
 
+        // 3. JSON de consulta
+        $datos = [
+            'operacion' => 'consultar_guia',
+            'tipo_de_comprobante' => 7,
+            'serie' => $guia->serie,
+            'numero' => (string) $guia->numero,
+        ];
+
+        try {
+
+            // 4. Consultar a Nubefact
+            $respuesta = Http::withHeaders([
+                'Authorization' => $business_location->token_nubefact,
+                'Accept' => 'application/json',
+            ])
+            ->timeout(60)
+            ->post(
+                $business_location->ruta_nubefact,
+                $datos
+            );
+
+            $resp = $respuesta->json();
+
+            if (!is_array($resp)) {
+                $resp = [];
+            }
+
+            // 5. Guardar respuesta completa
+            $guia->json_respuesta = $respuesta->body();
+
+            if (!$respuesta->successful()) {
+
+                $guia->estado_sunat = 'pendiente_verificacion';
+
+                $guia->sunat_description =
+                    'No se pudo completar la consulta. HTTP '
+                    . $respuesta->status();
+
+                $guia->save();
+
+                return response()->json([
+                    'success' => false,
+                    'id' => $guia->id,
+                    'message' => 'Nubefact no pudo completar la consulta.',
+                    'detalle' => $resp,
+                ], 502);
+            }
+
+            // 6. Actualizar descripción cuando exista
+            if (isset($resp['sunat_description'])) {
+                $guia->sunat_description =
+                    (string) $resp['sunat_description'];
+            }
+
+            // 7. Actualizar enlaces sin borrar valores existentes
+            if (!empty($resp['enlace_del_xml'])) {
+                $guia->xml = $resp['enlace_del_xml'];
+            }
+
+            if (!empty($resp['enlace_del_cdr'])) {
+                $guia->cdr = $resp['enlace_del_cdr'];
+            }
+
+            if (!empty($resp['cadena_para_codigo_qr'])) {
+                $guia->cadena_qr =
+                    $resp['cadena_para_codigo_qr'];
+            }
+
+            // 8. Comprobar aceptación SUNAT
+            if (($resp['aceptada_por_sunat'] ?? null) === true) {
+
+                $guia->aceptada = true;
+                $guia->estado_sunat = 'aceptada';
+
+            } elseif (
+                ($resp['aceptada_por_sunat'] ?? null) === false
+            ) {
+
+                // No asumir rechazo:
+                // false también puede significar que sigue procesándose.
+                $guia->aceptada = false;
+                $guia->estado_sunat = 'pendiente_verificacion';
+
+            }
+
+            // No guardar PDF de Nubefact.
+            // Se conserva el diseño personalizado del ERP.
+
+            $guia->save();
+
+            return response()->json([
+                'success' => true,
+                'id' => $guia->id,
+                'serie' => $guia->serie,
+                'numero' => $guia->numero,
+                'estado_sunat' => $guia->estado_sunat,
+                'aceptada' => (bool) $guia->aceptada,
+                'descripcion' => $guia->sunat_description,
+                'xml' => $guia->xml,
+                'cdr' => $guia->cdr,
+                'cadena_qr' => $guia->cadena_qr,
+            ]);
+
+        } catch (\Throwable $e) {
+
+            Log::error('Error consultando GRE en Nubefact', [
+                'guia_id' => $guia->id,
+                'business_id' => $business_id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'id' => $guia->id,
+                'message' => 'Error al consultar Nubefact: '
+                    . $e->getMessage(),
+            ], 503);
+        }
     }
+
+
 
     
     public function buscarDocumentoOrigen(Request $request)

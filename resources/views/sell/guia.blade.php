@@ -32,7 +32,7 @@
 
                 <div class="box-tools">
                     <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#modalGuia">
-                    <i class="fa fa-truck"></i> Listado de Guías</a>
+                    <i class="fa fa-truck"></i> Nueva Guía</a>
                 </div>
             @endslot
         @endcan
@@ -51,7 +51,8 @@
                         <th>Observación</th>
                         <th>PDF</th>
                         <th>XML</th>
-                        <th>CDR</th>                                         
+                        <th>CDR</th>          
+                        <th>Acciones</th>                               
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -877,4 +878,76 @@
     // });
 
 </script>
+
+
+<!-- <script>
+$(document).on('click', '.btn-consultar-sunat', function () {
+
+    let boton = $(this);
+    let guiaId = boton.data('id');
+
+    if (!guiaId) {
+        Swal.fire('Error', 'No se encontró el ID de la guía.', 'error');
+        return;
+    }
+
+    Swal.fire({
+        title: 'Consultando SUNAT',
+        text: 'Estamos verificando el estado de la guía...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    boton.prop('disabled', true);
+
+    $.ajax({
+        url: "{{ route('guias-sunat.consultar', ['id' => '__ID__']) }}"
+            .replace('__ID__', encodeURIComponent(guiaId)),
+        type: 'POST',
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function (res) {
+
+            if (res.aceptada) {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Guía aceptada',
+                    text: 'SUNAT ha aceptado la guía de remisión.'
+                });
+
+            } else {
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Consulta realizada',
+                    text: 'Estado actual: ' + res.estado_sunat
+                });
+            }
+
+            if ($.fn.DataTable.isDataTable('#guia_table')) {
+                $('#guia_table').DataTable().ajax.reload(null, false);
+            }
+        },
+        error: function (xhr) {
+
+            let mensaje = xhr.responseJSON?.message
+                || 'No se pudo consultar la guía.';
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de consulta',
+                text: mensaje
+            });
+        },
+        complete: function () {
+            boton.prop('disabled', false);
+        }
+    });
+});
+</script> -->
+
 @endsection

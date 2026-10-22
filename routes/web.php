@@ -353,6 +353,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/ubigeos', [App\Http\Controllers\SellController::class, 'ubigeos']);
     Route::get('/guia/imprimir/{id}', [SellController::class,'imprimirGuia']);
     Route::get('/guia/documento-origen', [App\Http\Controllers\SellController::class,'buscarDocumentoOrigen'])->name('guia.documento.origen');
+    Route::post('/guias-sunat/{id}/consultar', [App\Http\Controllers\SellController::class,'consultarGuiaSunat'])->name('guias-sunat.consultar');
 
     //STOCK
     Route::get('/reportes/stock/data', [StockController::class, 'stockData'])->name('reportes.stock.data');
