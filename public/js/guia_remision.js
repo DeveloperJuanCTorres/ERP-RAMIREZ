@@ -981,7 +981,19 @@ $('#btnGenerarGuia').click(function(){
 
     };
 
+    // ==========================================
+    // VALIDAR TIPO DE TRANSPORTE
+    // ==========================================
 
+    // 02 = TRANSPORTE PRIVADO
+    if (data.tipo_de_transporte === '02') {
+
+        delete data.transportista_documento_tipo;
+        delete data.transportista_documento_numero;
+        delete data.transportista_denominacion;
+        delete data.fecha_de_entrega_al_transportista;
+
+    }
 
     console.log(data);
 
@@ -1018,11 +1030,15 @@ $('#btnGenerarGuia').click(function(){
             if(res.success){
 
                 Swal.fire({
-
-                    icon:'success',
-
-                    title:'Guía generada correctamente'
-
+                    icon: res.aceptada ? 'success' : 'info',
+                    title: res.aceptada
+                        ? 'Guía aceptada por SUNAT'
+                        : 'Guía registrada',
+                    text: res.message || (
+                        res.aceptada
+                            ? 'La guía fue aceptada correctamente.'
+                            : 'Verifique su estado con el botón Consultar SUNAT.'
+                    )
                 });
 
                 $('#guia_table').DataTable().ajax.reload(null, false);
