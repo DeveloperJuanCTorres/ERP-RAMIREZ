@@ -40,6 +40,7 @@ use Luecano\NumeroALetras\NumeroALetras;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // use Illuminate\Support\Facades\DB;
 
 class SellController extends Controller
@@ -5136,7 +5137,7 @@ class SellController extends Controller
             (bool) $guia->aceptada &&
             !empty($guia->cadena_qr)
         ) {
-            $qrSvg = \QrCode::format('svg')
+            $qrSvg = QrCode::format('svg')
                 ->size(180)
                 ->margin(1)
                 ->generate($guia->cadena_qr);
