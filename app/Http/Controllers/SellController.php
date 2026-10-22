@@ -5112,12 +5112,15 @@ class SellController extends Controller
     {
         $business_id = session('user.business_id');
 
+        // 1. Obtener la guía
         $guia = SunatGuia::where('business_id', $business_id)
             ->findOrFail($id);
 
+        // 2. Recuperar información de envío y respuesta
         $envio = json_decode($guia->json_envio, true) ?: [];
-        $respuesta = json_decode($guia->json_respuesta, true);
+        $respuesta = json_decode($guia->json_respuesta, true) ?: [];
 
+        // 3. Obtener nombres de ubigeos
         $ubigeoPartida = $this->obtenerNombreUbigeo(
             $envio['punto_de_partida_ubigeo'] ?? ''
         );
@@ -5126,12 +5129,27 @@ class SellController extends Controller
             $envio['punto_de_llegada_ubigeo'] ?? ''
         );
 
+        // 4. Generar QR desde la cadena devuelta por Nubefact
+        $qrSvg = null;
+
+        if (
+            (bool) $guia->aceptada &&
+            !empty($guia->cadena_qr)
+        ) {
+            $qrSvg = \QrCode::format('svg')
+                ->size(180)
+                ->margin(1)
+                ->generate($guia->cadena_qr);
+        }
+
+        // 5. Mostrar vista de impresión
         return view('sell.partials.guia_imprimir', compact(
             'guia',
             'envio',
             'respuesta',
             'ubigeoPartida',
-            'ubigeoLlegada'
+            'ubigeoLlegada',
+            'qrSvg'
         ));
     }
 

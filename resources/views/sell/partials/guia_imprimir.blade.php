@@ -318,7 +318,11 @@ table { width: 100%; border-collapse: collapse; }
                     @if(!empty($qrSvg) && $aceptada)
                         {!! $qrSvg !!}
                     @else
-                        <div class="muted" style="padding-top:22px; font-size:8.5px;">QR de verificación<br>disponible tras la<br>emisión real</div>
+                        <div class="muted" style="padding-top:22px; font-size:8.5px;">
+                            QR de verificación<br>
+                            disponible tras la<br>
+                            emisión real
+                        </div>
                     @endif
                 </div>
             </td>
