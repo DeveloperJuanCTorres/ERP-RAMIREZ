@@ -2651,31 +2651,86 @@ class SellController extends Controller
         }
     }
 
+    // public function vistaComprobante($id)
+    // {
+    //     $business_id = request()->session()->get('user.business_id');
+    //     $comprobante = ComprobanteSunat::findOrFail($id);
+    //     $productos = json_decode($comprobante->productos);
+    //     $contact = Contact::findOrFail($comprobante->contact_id);
+    //     $formatter = new NumeroALetras();
+
+    //     if ($comprobante->moneda == 1) {
+    //         $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'SOLES', 'CENTIMOS');
+    //     } else {
+    //         $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'DÓLARES', 'CENTAVOS');
+    //     }
+
+    //     // Documento relacionado (solo para Nota de Crédito)
+    //     $documentoRelacionado = null;
+
+    //     if ($comprobante->type === 'Nota de Crédito Electrónica' && !empty($comprobante->ref_no)) {
+
+    //         $doc = ComprobanteSunat::where('business_id', $business_id)
+    //             ->where('invoice_no', $comprobante->ref_no)
+    //             ->first();
+
+    //         if ($doc) {
+
+    //             if (str_starts_with($doc->invoice_no, 'B')) {
+    //                 $tipoRelacionado = 'BOLETA DE VENTA ELECTRÓNICA';
+    //             } elseif (str_starts_with($doc->invoice_no, 'F')) {
+    //                 $tipoRelacionado = 'FACTURA ELECTRÓNICA';
+    //             } else {
+    //                 $tipoRelacionado = 'COMPROBANTE ELECTRÓNICO';
+    //             }
+
+    //             $documentoRelacionado = [
+    //                 'tipo' => $tipoRelacionado,
+    //                 'numero' => $doc->invoice_no,
+    //                 'fecha_emision' => $doc->fecha_emision,
+    //             ];
+    //         }
+    //     }
+
+    //     return view('sell.partials.vista', compact('comprobante','productos', 'contact','totalEnLetras','business_id', 'documentoRelacionado'));
+    // }
+
     public function vistaComprobante($id)
     {
         $business_id = request()->session()->get('user.business_id');
-        $comprobante = ComprobanteSunat::findOrFail($id);
+
+        $comprobante = ComprobanteSunat::where('business_id', $business_id)
+            ->findOrFail($id);
+
         $productos = json_decode($comprobante->productos);
-        $contact = Contact::findOrFail($comprobante->contact_id);
+
+        $contact = Contact::where('business_id', $business_id)
+            ->findOrFail($comprobante->contact_id);
+
         $formatter = new NumeroALetras();
 
         if ($comprobante->moneda == 1) {
-            $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'SOLES', 'CENTIMOS');
+            $totalEnLetras = $formatter->toMoney(
+                $comprobante->total, 2, 'SOLES', 'CENTIMOS'
+            );
         } else {
-            $totalEnLetras = $formatter->toMoney($comprobante->total, 2, 'DÓLARES', 'CENTAVOS');
+            $totalEnLetras = $formatter->toMoney(
+                $comprobante->total, 2, 'DÓLARES', 'CENTAVOS'
+            );
         }
 
-        // Documento relacionado (solo para Nota de Crédito)
+        // DOCUMENTO RELACIONADO
         $documentoRelacionado = null;
 
-        if ($comprobante->type === 'Nota de Crédito Electrónica' && !empty($comprobante->ref_no)) {
-
+        if (
+            $comprobante->type === 'Nota de Crédito Electrónica'
+            && !empty($comprobante->ref_no)
+        ) {
             $doc = ComprobanteSunat::where('business_id', $business_id)
                 ->where('invoice_no', $comprobante->ref_no)
                 ->first();
 
             if ($doc) {
-
                 if (str_starts_with($doc->invoice_no, 'B')) {
                     $tipoRelacionado = 'BOLETA DE VENTA ELECTRÓNICA';
                 } elseif (str_starts_with($doc->invoice_no, 'F')) {
@@ -2692,7 +2747,41 @@ class SellController extends Controller
             }
         }
 
-        return view('sell.partials.vista', compact('comprobante','productos', 'contact','totalEnLetras','business_id', 'documentoRelacionado'));
+        // ==========================================
+        // GENERAR QR DESDE NUBEFACT
+        // ==========================================
+
+        $qrSvg = null;
+        $codigoHash = null;
+
+        $responseSunat = is_array($comprobante->response_sunat)
+            ? $comprobante->response_sunat
+            : json_decode($comprobante->response_sunat ?? '{}', true);
+
+        if (is_array($responseSunat)) {
+
+            $cadenaQR = $responseSunat['cadena_para_codigo_qr'] ?? null;
+            $codigoHash = $responseSunat['codigo_hash'] ?? null;
+
+            if (!empty($cadenaQR)) {
+
+                $qrSvg = (string) \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
+                    ->size(115)
+                    ->margin(1)
+                    ->generate($cadenaQR);
+            }
+        }
+
+        return view('sell.partials.vista', compact(
+            'comprobante',
+            'productos',
+            'contact',
+            'totalEnLetras',
+            'business_id',
+            'documentoRelacionado',
+            'qrSvg',
+            'codigoHash'
+        ));
     }
 
     public function notaCreditoInfo($id)

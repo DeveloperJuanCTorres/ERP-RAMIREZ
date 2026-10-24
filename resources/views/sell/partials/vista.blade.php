@@ -231,6 +231,266 @@
     .documento-separador {
         border-top: 1px dashed #999;
     }
+
+
+
+
+    /* ==========================================
+    PIE DE COMPROBANTE - QR Y LOGO
+    ========================================== */
+
+    .comprobante-footer-pro {
+        width: 100%;
+        margin-top: 30px;
+        padding-top: 15px;
+        border-top: 1px solid #333;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #222;
+        page-break-inside: avoid;
+    }
+
+    .footer-contenido {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .footer-qr {
+        width: 22%;
+        text-align: center;
+        flex-shrink: 0;
+    }
+
+    .imagen-qr {
+        width: 125px;
+        height: 125px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    .qr-texto {
+        font-size: 9px;
+        color: #555;
+        margin-top: 4px;
+    }
+
+    .footer-informacion {
+        width: 53%;
+        text-align: left;
+        padding: 5px;
+        overflow-wrap: anywhere;
+    }
+
+    .footer-informacion h4 {
+        font-size: 13px;
+        font-weight: bold;
+        margin: 0 0 10px;
+    }
+
+    .footer-informacion p {
+        font-size: 10px;
+        line-height: 1.5;
+        margin: 3px 0;
+    }
+
+    .hash-comprobante {
+        font-size: 9px !important;
+        word-break: break-all;
+        margin-top: 8px !important;
+    }
+
+    .footer-logo {
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imagen-logo-footer {
+        max-width: 100%;
+        max-height: 105px;
+        object-fit: contain;
+    }
+
+    .footer-legal {
+        text-align: center;
+        font-size: 9px;
+        color: #555;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+    /* IMPRESIÓN */
+    @media print {
+
+        .comprobante-footer-pro {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .footer-contenido {
+            display: flex !important;
+        }
+
+        .imagen-qr {
+            width: 115px;
+            height: 115px;
+        }
+
+        .imagen-logo-footer {
+            max-height: 95px;
+        }
+
+    }
+
+    .comprobante-qr svg {
+    width: 110px;
+    height: 110px;
+    max-width: 100%;
+}
+
+.factura-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #9ca9b6;
+    page-break-inside: avoid;
+}
+
+    /* =========================================
+   PUBLICIDAD GRUPO TYG - PIE DE PÁGINA
+========================================= */
+
+.developer-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 5px 0;
+    border-top: 1px solid #e5e9ed;
+    background: #ffffff;
+    z-index: 10;
+}
+
+.developer-footer img {
+    max-height: 75px;
+    max-width: 180px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.developer-footer p {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 600;
+    color: #667788;
+    line-height: 1.2;
+}
+
+@media print {
+
+    @page {
+        size: A4 portrait;
+        margin: 10mm 12mm 22mm;
+    }
+
+    .factura-container {
+        padding-bottom: 85px;
+    }
+
+    .developer-footer {
+        position: fixed;
+        bottom: 0;
+    }
+}
+
+/* ==========================================
+   PIE TRIBUTARIO COMPACTO
+========================================== */
+
+.factura-footer {
+    margin-top: 12px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid #9ca9b6;
+    text-align: left !important;
+    font-family: Arial, Helvetica, sans-serif;
+    page-break-inside: avoid;
+}
+
+.tabla-footer-comprobante {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.tabla-footer-comprobante td {
+    border: none !important;
+    vertical-align: middle;
+    padding: 4px 6px;
+}
+
+.footer-datos-comprobante {
+    width: 78%;
+    text-align: left !important;
+}
+
+.footer-titulo-comprobante {
+    font-size: 10px !important;
+    font-weight: bold;
+    line-height: 1.3;
+    margin-bottom: 5px;
+}
+
+.footer-linea {
+    font-size: 9px !important;
+    font-weight: normal;
+    line-height: 1.4;
+    margin: 3px 0;
+}
+
+.footer-hash {
+    font-size: 8px !important;
+    overflow-wrap: anywhere;
+}
+
+.footer-qr-comprobante {
+    width: 22%;
+    text-align: center !important;
+}
+
+.comprobante-qr {
+    display: inline-block;
+    width: 110px;
+    height: 110px;
+    max-width: 100%;
+}
+
+.comprobante-qr svg {
+    display: block;
+    width: 110px !important;
+    height: 110px !important;
+    max-width: 100%;
+}
+
+.qr-no-disponible {
+    font-size: 9px;
+    color: #777;
+    text-align: center;
+}
+
+@media print {
+    .factura-footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
 </style>
 
 <div class="factura-container">
@@ -530,11 +790,82 @@
     </div>
     @endif
 
+    {{-- PIE TRIBUTARIO DEL COMPROBANTE --}}
     <div class="factura-footer">
-            <p>Representación impresa de la FACTURA ELECTRÓNICA, visita www.nubefact.com/10481130145</p>
-            <p>Autorizado mediante Resolución de Intendencia No.034-005-0005315</p>
-        </div>
+
+        <table class="tabla-footer-comprobante">
+            <tr>
+
+                {{-- INFORMACIÓN --}}
+                <td class="footer-datos-comprobante">
+
+                    <div class="footer-titulo-comprobante">
+                        REPRESENTACIÓN IMPRESA DE
+                        {{ strtoupper($comprobante->type) }}
+                    </div>
+
+                    <div class="footer-linea">
+                        <strong>Documento:</strong>
+                        {{ $comprobante->invoice_no }}
+                    </div>
+
+                    @if(!empty($codigoHash))
+                        <div class="footer-linea footer-hash">
+                            <strong>Hash:</strong>
+                            {{ $codigoHash }}
+                        </div>
+                    @endif
+
+                    <div class="footer-linea">
+                        Consulte la validez del comprobante
+                        mediante el código QR.
+                    </div>
+
+                </td>
+
+                {{-- QR --}}
+                <td class="footer-qr-comprobante">
+
+                    @if(!empty($qrSvg))
+
+                        <div class="comprobante-qr">
+                            {!! $qrSvg !!}
+                        </div>
+
+                    @else
+
+                        <div class="qr-no-disponible">
+                            QR no disponible
+                        </div>
+
+                    @endif
+
+                </td>
+
+            </tr>
+        </table>
+
     </div>
+
+    
+</div>
+
+<!-- PIE DE PÁGINA: EMPRESA DESARROLLADORA -->
+<div class="developer-footer">
+
+    <!-- LOGO GRUPO TYG -->
+    <img
+        src="{{ asset('img/logo-desarrollador.png') }}"
+        alt="Grupo TYG - Desarrollo de Software"
+    >
+
+    <!-- PUBLICIDAD -->
+    <p>
+        Desarrollo de Software |
+        www.grupotyg.pe
+    </p>
+
+</div>
 
 <script>
     window.onload = () => {
