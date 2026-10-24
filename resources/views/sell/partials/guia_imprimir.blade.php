@@ -81,14 +81,84 @@ table { width: 100%; border-collapse: collapse; }
     line-height: 1.2;
 }
 
+/* ==========================================
+   IMPRESIÓN A4 - EVITAR PRODUCTOS CORTADOS
+========================================== */
+
+@page {
+    size: A4 portrait;
+    margin: 9mm 11mm 30mm 11mm;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.developer-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 5px 0;
+    background: #fff;
+    border-top: 1px solid #e5e9ed;
+}
+
+.developer-footer img {
+    max-height: 55px;
+    max-width: 150px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.developer-footer p {
+    font-size: 9px;
+    margin: 0;
+}
+
+/* EVITAR QUE UNA FILA SE DIVIDA ENTRE PÁGINAS */
+.items tbody tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+}
+
+.items tbody td {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
 @media print {
-    .developer-footer {
-        position: fixed;
-        bottom: 0;
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .sheet {
-        padding-bottom: 65px;
+        padding-bottom: 0 !important;
+    }
+
+    .developer-footer {
+        position: fixed !important;
+        bottom: 0 !important;
+    }
+
+    .items thead {
+        display: table-header-group;
+    }
+
+    .items tbody {
+        display: table-row-group;
+    }
+
+    .items tr {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
     }
 }
 
