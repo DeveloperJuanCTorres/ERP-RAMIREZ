@@ -962,19 +962,32 @@ class AccountController extends Controller
             }
 
             $location_id = request()->input('location_id');
-            if (! empty($location_id)) {
-                $location = BusinessLocation::find($location_id);
-                if (! empty($location->default_payment_accounts)) {
-                    $default_payment_accounts = json_decode($location->default_payment_accounts, true);
-                    $account_ids = [];
-                    foreach ($default_payment_accounts as $key => $account) {
-                        if (! empty($account['is_enabled']) && ! empty($account['account'])) {
-                            $account_ids[] = $account['account'];
-                        }
-                    }
 
-                    $accounts->whereIn('A.id', $account_ids);
-                }
+            if (!empty($location_id)) {
+
+                $accounts->where(function ($query) use ($location_id) {
+
+                    // Movimientos relacionados directamente
+                    // con ventas, compras y gastos
+                    $query->where('t_main.location_id', $location_id)
+
+                        // Movimientos relacionados con pagos
+                        ->orWhereExists(function ($subquery) use ($location_id) {
+
+                            $subquery->select(DB::raw(1))
+                                ->from('transactions as tx_location')
+                                ->whereColumn(
+                                    'tx_location.id',
+                                    'TP.transaction_id'
+                                )
+                                ->where(
+                                    'tx_location.location_id',
+                                    $location_id
+                                );
+
+                        });
+
+                });
             }
 
             if (! empty(request()->input('account_id'))) {
