@@ -5,7 +5,7 @@
 <title>Guía de Remisión {{ $guia->serie }}-{{ str_pad($guia->numero, 6, '0', STR_PAD_LEFT) }}</title>
 <style>
 /* GUÍA DE REMISIÓN - DISEÑO COMPACTO A4 */
-@page { size: A4 portrait; margin: 9mm 11mm; }
+@page { size: A4 portrait; margin: 9mm 11mm 25mm; }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body { color: #263443; font: 9.5px/1.23 Arial, Helvetica, sans-serif; }
@@ -48,89 +48,39 @@ table { width: 100%; border-collapse: collapse; }
     .no-print { display: none !important; }
 }
 
+/* ==========================================
+   PUBLICIDAD GRUPO TYG
+========================================== */
 
-
-/* PIE DE PÁGINA - EMPRESA DESARROLLADORA */
 .developer-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 12px;
+    width: 100%;
     padding: 5px 0;
+    background: white;
     border-top: 1px solid #e5e9ed;
-    background: #ffffff;
 }
 
 .developer-footer img {
-    max-height: 75px;
-    max-width: 180px;
     width: auto;
     height: auto;
+    max-height: 42px;
+    max-width: 135px;
     object-fit: contain;
 }
 
 .developer-footer p {
     margin: 0;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 600;
     color: #667788;
-    line-height: 1.2;
 }
 
 /* ==========================================
-   IMPRESIÓN A4 - EVITAR PRODUCTOS CORTADOS
+   CONFIGURACIÓN DE IMPRESIÓN
 ========================================== */
-
-@page {
-    size: A4 portrait;
-    margin: 9mm 11mm 30mm 11mm;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-.developer-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    padding: 5px 0;
-    background: #fff;
-    border-top: 1px solid #e5e9ed;
-}
-
-.developer-footer img {
-    max-height: 55px;
-    max-width: 150px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
-
-.developer-footer p {
-    font-size: 9px;
-    margin: 0;
-}
-
-/* EVITAR QUE UNA FILA SE DIVIDA ENTRE PÁGINAS */
-.items tbody tr {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-}
-
-.items tbody td {
-    break-inside: avoid;
-    page-break-inside: avoid;
-}
 
 @media print {
 
@@ -140,28 +90,37 @@ table { width: 100%; border-collapse: collapse; }
     }
 
     .sheet {
-        padding-bottom: 0 !important;
+        width: 100%;
+        padding: 0 !important;
     }
 
-    .developer-footer {
-        position: fixed !important;
-        bottom: 0 !important;
+    /* Impedir cortes en las filas */
+    .items tbody tr {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
     }
 
     .items thead {
         display: table-header-group;
     }
 
-    .items tbody {
-        display: table-row-group;
+    /* Publicidad en la zona inferior reservada */
+    .developer-footer {
+        position: fixed;
+        bottom: -20mm;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 15mm;
+        padding: 0;
+        margin: 0;
+        border-top: none;
     }
 
-    .items tr {
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
+    .developer-footer img {
+        max-height: 38px;
     }
 }
-
 
 
 </style>
