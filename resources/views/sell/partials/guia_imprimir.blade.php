@@ -5,7 +5,7 @@
 <title>Guía de Remisión {{ $guia->serie }}-{{ str_pad($guia->numero, 6, '0', STR_PAD_LEFT) }}</title>
 <style>
 /* GUÍA DE REMISIÓN - DISEÑO COMPACTO A4 */
-@page { size: A4 portrait; margin: 9mm 11mm 25mm; }
+@page { size: A4 portrait; margin: 9mm 11mm 12mm; }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body { color: #263443; font: 9.5px/1.23 Arial, Helvetica, sans-serif; }
@@ -50,41 +50,51 @@ table { width: 100%; border-collapse: collapse; }
 
 /* ==========================================
    PUBLICIDAD GRUPO TYG
+   SIN SUPERPOSICIONES
 ========================================== */
 
 .developer-footer {
+    position: static !important;
+    width: 100%;
+    margin-top: 18px;
+    padding: 10px 0;
+    border-top: 1px solid #e5e9ed;
+    background: #ffffff;
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    width: 100%;
-    padding: 5px 0;
-    background: white;
-    border-top: 1px solid #e5e9ed;
+
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .developer-footer img {
+    display: block;
+    max-height: 45px;
+    max-width: 145px;
     width: auto;
     height: auto;
-    max-height: 42px;
-    max-width: 135px;
     object-fit: contain;
 }
 
 .developer-footer p {
     margin: 0;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 600;
     color: #667788;
+    line-height: 1.3;
 }
 
 /* ==========================================
-   CONFIGURACIÓN DE IMPRESIÓN
+   IMPRESIÓN A4
 ========================================== */
 
 @media print {
 
-    html, body {
+    html,
+    body {
         margin: 0 !important;
         padding: 0 !important;
     }
@@ -94,34 +104,37 @@ table { width: 100%; border-collapse: collapse; }
         padding: 0 !important;
     }
 
-    /* Impedir cortes en las filas */
+    .items thead {
+        display: table-header-group;
+    }
+
     .items tbody tr {
         break-inside: avoid !important;
         page-break-inside: avoid !important;
     }
 
-    .items thead {
-        display: table-header-group;
+    .items tbody td {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
-    /* Publicidad en la zona inferior reservada */
     .developer-footer {
-        position: fixed;
-        bottom: -20mm;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 15mm;
-        padding: 0;
-        margin: 0;
-        border-top: none;
+        position: static !important;
+        margin-top: 15px;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
     }
 
-    .developer-footer img {
-        max-height: 38px;
+    .section-title,
+    .items th {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .no-print {
+        display: none !important;
     }
 }
-
 
 </style>
 </head>
