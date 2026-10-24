@@ -1996,12 +1996,17 @@ class SellController extends Controller
             ->first();
 
         // 3. Obtener motores ya facturados en SUNAT
+        // 3. Obtener motores de comprobantes vigentes
         $comprobantes = DB::table('comprobante_sunat')
             ->where('business_id', $business_id)
             ->whereIn('type', [
                 'Boleta Electrónica',
                 'Factura Electrónica'
             ])
+            ->where(function ($query) {
+                $query->where('status_sunat', 1)
+                    ->orWhereNull('status_sunat');
+            })
             ->select('productos')
             ->get();
 
@@ -2023,12 +2028,8 @@ class SellController extends Controller
 
                 $descripcion = $producto['descripcion'] ?? '';
 
-                // Extraer motor desde descripción
-                if (preg_match(
-                    '/\bMotor:\s*(\S+)/i',
-                    $descripcion,
-                    $matches
-                )) {
+                if (preg_match('/\bMotor:\s*(\S+)/i', $descripcion, $matches)) {
+
                     $motor = strtoupper(trim($matches[1]));
 
                     $motoresFacturados[$motor] = true;

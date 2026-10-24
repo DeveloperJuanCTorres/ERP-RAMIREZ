@@ -24,3 +24,24 @@
 #21 D:\\PROYECTOS\\IMPORTACIONES RAMIREZ\\ERP-RAMIREZ\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #22 {main}
 "} 
+[2026-10-23 16:53:53] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 16:53:55] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 16:54:01] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 16:54:04] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 16:54:07] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 16:57:18] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 16:57:20] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 17:24:24] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 18:37:19] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 18:37:22] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 18:37:27] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 18:39:52] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 18:46:21] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 18:46:25] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 20:28:15] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 22:28:49] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 22:28:59] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 22:30:50] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 22:34:06] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 22:39:23] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  
+[2026-10-23 22:43:58] local.EMERGENCY: File:D:\PROYECTOS\IMPORTACIONES RAMIREZ\ERP-RAMIREZ\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.phpLine:598Message:No query results for model [App\Variation].  

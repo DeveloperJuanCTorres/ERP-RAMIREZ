@@ -1,5 +1,5 @@
-<div class="row">
-	<div class="col-md-4">
+<div class="row pos-modern-customer-search">
+	<div class="col-md-12 pos-modern-customer-field">
 		<div class="form-group">
 			<div class="input-group">
 				<span class="input-group-addon">
@@ -26,7 +26,7 @@
 			<small class="text-danger hide contact_due_text"><strong>@lang('account.customer_due'):</strong> <span></span></small>
 		</div>
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-12 pos-modern-product-search-field">
 		<div class="form-group">
 			<div class="input-group">
 				<div class="input-group-btn">
@@ -52,7 +52,7 @@
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row pos-modern-extra-fields">
 	@if(!empty($pos_settings['show_invoice_layout']))
 	<div class="col-md-4">
 		<div class="form-group">
@@ -188,7 +188,7 @@
         @endif
     @endforeach
 @endif
-<div class="row">
+<div class="row pos-modern-cart-area">
 	<div class="col-sm-12 pos_product_div">
 		<input type="hidden" name="sell_price_tax" id="sell_price_tax" value="{{$business_details->sell_price_tax}}">
 
