@@ -834,7 +834,7 @@ class AdminSidebarMenu
 
             //Notification template menu
             if (auth()->user()->can('send_notifications')) {
-                $menu->url(action([\App\Http\Controllers\NotificationTemplateController::class, 'index']), __('lang_v1.notification_templates'), ['icon' => 'fa fas fa-envelope', 'active' => request()->segment(1) == 'notification-templates'])->order(80);
+                $menu->url(action([\App\Http\Controllers\NotificationTemplateController::class, 'index']), __('lang_v1.notification_templates'), ['icon' => 'fa fas fa-envelope', 'active' => request()->segment(1) == 'notification-templates'])->order(82);
             }
 
             //Settings Dropdown
@@ -924,8 +924,17 @@ class AdminSidebarMenu
         });
 
         //Add menus from modules
+        // $moduleUtil = new ModuleUtil;
+        // $moduleUtil->getModuleData('modifyAdminMenu');
+
         $moduleUtil = new ModuleUtil;
-        $moduleUtil->getModuleData('modifyAdminMenu');
+
+        $modulos = $moduleUtil->getModuleData('modifyAdminMenu');
+
+        \Log::info('RESULTADO MENUS MODULOS', [
+            'modulos' => array_keys($modulos),
+            'essentials_registrado' => array_key_exists('Essentials', $modulos),
+        ]);
 
         return $next($request);
     }
