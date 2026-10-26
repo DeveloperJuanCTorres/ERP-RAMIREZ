@@ -924,17 +924,8 @@ class AdminSidebarMenu
         });
 
         //Add menus from modules
-        // $moduleUtil = new ModuleUtil;
-        // $moduleUtil->getModuleData('modifyAdminMenu');
-
         $moduleUtil = new ModuleUtil;
-
-        $modulos = $moduleUtil->getModuleData('modifyAdminMenu');
-
-        \Log::info('RESULTADO MENUS MODULOS', [
-            'modulos' => array_keys($modulos),
-            'essentials_registrado' => array_key_exists('Essentials', $modulos),
-        ]);
+        $moduleUtil->getModuleData('modifyAdminMenu');
 
         return $next($request);
     }
