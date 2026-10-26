@@ -1,4 +1,0 @@
-[2026-10-26 18:05:56] local.INFO: INICIO CARGA MENU MODULOS {"usuario_id":1,"business_id":1} 
-[2026-10-26 18:05:56] local.INFO: FIN CARGA MENU MODULOS  
-[2026-10-26 18:11:14] local.INFO: RESULTADO MENUS MODULOS {"modulos":["Accounting","AiAssistance","AssetManagement","Cms","Connector","Crm","Essentials","Manufacturing","ProductCatalogue","Project","Repair","Spreadsheet","Superadmin","Woocommerce"],"essentials_registrado":true} 
-[2026-10-26 18:16:08] local.INFO: RESULTADO MENUS MODULOS {"modulos":["Accounting","AiAssistance","AssetManagement","Cms","Connector","Crm","Essentials","Manufacturing","ProductCatalogue","Project","Repair","Spreadsheet","Superadmin","Woocommerce"],"essentials_registrado":true} 
