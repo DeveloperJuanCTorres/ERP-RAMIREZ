@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                @if(empty($pos_settings['hide_product_suggestion']) && !isMobile())
+                @if(empty($pos_settings['hide_product_suggestion']))
                     <div class="col-md-5 pos-modern-catalog-column">
                         <div class="pos-modern-catalog-panel">
                             <div class="pos-modern-panel-heading"><i class="fas fa-th-large"></i> Catálogo de productos</div>
@@ -101,10 +101,10 @@
     <link rel="stylesheet" href="{{ asset('css/pos-modern-phase3-payments.css?v=1') }}">
 
     {{-- FASE 4: ACCIONES --}}
-    <link rel="stylesheet" href="{{ asset('css/pos-modern-phase4-actions.css?v=1') }}">
+    <link rel="stylesheet" href="{{ asset('css/pos-modern-phase4-actions.css?v=2') }}">
 
     {{-- FASE 5: DISTRIBUCIÓN --}}
-    <link rel="stylesheet" href="{{ asset('css/pos-modern-phase5-layout.css?v=1') }}">
+    <link rel="stylesheet" href="{{ asset('css/pos-modern-phase5-layout.css?v=3') }}">
 
     {{-- FASE 6: CARRITO --}}
     <link rel="stylesheet" href="{{ asset('css/pos-modern-phase6-cart.css?v=1') }}">
@@ -113,7 +113,7 @@
     <link rel="stylesheet" href="{{ asset('css/pos-modern-phase7-totals.css?v=1') }}">
 
     {{-- FASE 8: AJUSTES FINALES DEL CARRITO --}}
-    <link rel="stylesheet" href="{{ asset('css/pos-modern-phase8-cart.css?v=11') }}">
+    <link rel="stylesheet" href="{{ asset('css/pos-modern-phase8-cart.css?v=12') }}">
 
 @stop
 
