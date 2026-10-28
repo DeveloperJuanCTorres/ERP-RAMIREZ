@@ -3616,7 +3616,7 @@ class SellController extends Controller
 
                         // Validar si está dentro del rango de 7 días
                         $fechaEmision = \Carbon\Carbon::parse($row->fecha_emision);
-                        $limite = now()->subDays(7);
+                        $limite = now()->subDays(3);
 
                         if ($fechaEmision->greaterThanOrEqualTo($limite)) {
                             return '<button class="btn btn-xs btn-danger anulacion_sunat_button" data-id="'.$row->id.'">Anular</button>';
