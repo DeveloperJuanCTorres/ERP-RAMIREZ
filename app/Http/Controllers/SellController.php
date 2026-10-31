@@ -2032,7 +2032,9 @@ class SellController extends Controller
 
                     $motor = strtoupper(trim($matches[1]));
 
-                    $motoresFacturados[$motor] = true;
+                    $motoresFacturados[$motor] = ($motoresFacturados[$motor] ?? 0) + 1;
+
+                    // $motoresFacturados[$motor] = true;
                 }
             }
         }
@@ -2072,7 +2074,21 @@ class SellController extends Controller
             }
 
             // 6. Verificar si el motor ya fue facturado
-            if ($motor !== '' && isset($motoresFacturados[$motor])) {
+            // if ($motor !== '' && isset($motoresFacturados[$motor])) {
+            //     continue;
+            // }
+
+            // 6. Verificar cuántas veces se ha facturado el motor
+
+            // Cliente especial: máximo 2 comprobantes
+            // Demás clientes: máximo 1 comprobante
+            $limiteFacturacion = (int) $transaction->contact_id === 957 ? 2 : 1;
+
+            // Cantidad de comprobantes existentes para ese motor
+            $cantidadFacturada = $motoresFacturados[$motor] ?? 0;
+
+            // Ocultar motor si alcanzó el límite
+            if ($motor !== '' && $cantidadFacturada >= $limiteFacturacion) {
                 continue;
             }
 
