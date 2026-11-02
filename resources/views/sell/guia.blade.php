@@ -30,10 +30,10 @@
         @can('direct_sell.access')
             @slot('tool')               
 
-                <div class="box-tools">
+                <!-- <div class="box-tools">
                     <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#modalGuia">
                     <i class="fa fa-truck"></i> Nueva Guía</a>
-                </div>
+                </div> -->
             @endslot
         @endcan
         @if(auth()->user()->can('direct_sell.view') ||  auth()->user()->can('view_own_sell_only') ||  auth()->user()->can('view_commission_agent_sell'))
