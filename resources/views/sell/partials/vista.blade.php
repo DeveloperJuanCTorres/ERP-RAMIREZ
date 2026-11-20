@@ -170,10 +170,10 @@
         font-size: 10px;
     }
 
-    .tabla-detalle th:nth-child(3),
+    /* .tabla-detalle th:nth-child(3),
     .tabla-detalle td:nth-child(3) {
         width: 20%;
-    }
+    } */
 
 
     .documento-relacionado {
@@ -628,52 +628,120 @@
     </div>
 
     
-    {{-- DETALLE PRODUCTOS --}}
     
+    {{-- DETALLE PRODUCTOS --}}
     @php
         $mostrarDatosVehiculo = false;
+        $productosProcesados = [];
 
-        // Campos que pueden aparecer en la descripción
-        $camposVehiculo = 'Motor|Color|Chasis|P[oó]liza|Año';
+        // Identificar los campos técnicos
+        $etiquetas = 'Motor|Color|Chasis|P[oó]liza|Año';
 
-        // Extraer valores sin incluir las etiquetas siguientes
-        $patronVehiculo = '/(?:^|\s)(?:' . $camposVehiculo . '):\s*(.*?)(?=\s+(?:' . $camposVehiculo . '):|$)/iu';
+        // No consumir la etiqueta siguiente como valor
+        $patron = '/(?:^|\s)(' . $etiquetas . '):[ \t]*'
+            . '(.*?)'
+            . '(?=\s+(?:' . $etiquetas . '):|$)/isu';
 
-        // Valores que NO representan información real
         $valoresVacios = [
             '', 'null', 'none', 'n/a',
             'ninguno', 'sin dato', '-', '---'
         ];
 
         foreach ($productos as $item) {
-            $descripcion = (string) ($item->descripcion ?? '');
+
+            $descripcion = trim((string) ($item->descripcion ?? ''));
+
+            $datos = [
+                'motor'  => '',
+                'color'  => '',
+                'chasis' => '',
+                'poliza' => '',
+                'anio'   => '',
+            ];
 
             preg_match_all(
-                $patronVehiculo,
+                $patron,
                 $descripcion,
-                $coincidencias
+                $coincidencias,
+                PREG_SET_ORDER
             );
 
-            foreach ($coincidencias[1] as $valor) {
-                $valor = mb_strtolower(trim($valor));
+            foreach ($coincidencias as $campo) {
 
-                if (!in_array($valor, $valoresVacios, true)) {
-                    $mostrarDatosVehiculo = true;
-                    break 2;
+                $nombre = mb_strtolower(trim($campo[1]));
+                $valor = trim($campo[2]);
+
+                $clave = match ($nombre) {
+                    'motor' => 'motor',
+                    'color' => 'color',
+                    'chasis' => 'chasis',
+                    'poliza', 'póliza' => 'poliza',
+                    'año' => 'anio',
+                    default => null,
+                };
+
+                if ($clave === null) {
+                    continue;
                 }
-            }
-        }
-    @endphp
 
+                // Eliminar valores nulos o vacíos
+                if (in_array(
+                    mb_strtolower($valor),
+                    $valoresVacios,
+                    true
+                )) {
+                    $valor = '';
+                }
+
+                $datos[$clave] = $valor;
+            }
+
+            // Limpiar la descripción de etiquetas técnicas
+            $descripcionBase = trim(
+                preg_replace($patron, '', $descripcion)
+            );
+
+            $descripcionBase = preg_replace(
+                '/\s+/u',
+                ' ',
+                $descripcionBase
+            );
+
+            // Considerar vehículo solamente si tiene
+            // un identificador real de motor o chasis.
+            $esVehiculo = (
+                $datos['motor'] !== '' ||
+                $datos['chasis'] !== ''
+            );
+
+            if ($esVehiculo) {
+                $mostrarDatosVehiculo = true;
+            }
+
+            $productosProcesados[] = [
+                'item' => $item,
+                'descripcion' => $descripcionBase,
+                'datos' => $datos,
+                'es_vehiculo' => $esVehiculo,
+            ];
+        }
+
+        $mostrarColumnasVehiculo =
+            $mostrarDatosVehiculo &&
+            $comprobante->detraccion != 1;
+    @endphp
 
     <table class="tabla-detalle">
         <thead>
             <tr>
                 <th>CANT.</th>
                 <th>UM</th>
-                <th>DESCRIPCIÓN</th>
 
-                @if($mostrarDatosVehiculo && $comprobante->detraccion != 1)
+                <th style="width: {{ $mostrarColumnasVehiculo ? '25%' : '65%' }};">
+                    DESCRIPCIÓN
+                </th>
+
+                @if($mostrarColumnasVehiculo)
                     <th>MOTOR</th>
                     <th>COLOR</th>
                     <th>CHASIS</th>
@@ -686,59 +754,10 @@
         </thead>
 
         <tbody>
-            @foreach($productos as $item)
+            @foreach($productosProcesados as $producto)
                 @php
-                    $descripcion = (string) ($item->descripcion ?? '');
-
-                    $datosVehiculo = [
-                        'Motor'  => '',
-                        'Color'  => '',
-                        'Chasis' => '',
-                        'Poliza' => '',
-                        'Año'    => '',
-                    ];
-
-                    $patron = $patronVehiculo;
-
-                    preg_match_all($patron, $descripcion, $coincidencias);
-
-                    foreach ($coincidencias[0] as $campo) {
-                        $partes = explode(':', $campo, 2);
-
-                        $nombre = trim($partes[0]);
-                        $valor = trim($partes[1] ?? '');
-
-                        $nombreNormalizado = mb_strtolower($nombre);
-
-                        $clave = match($nombreNormalizado) {
-                            'motor'  => 'Motor',
-                            'color'  => 'Color',
-                            'chasis' => 'Chasis',
-                            'poliza', 'póliza' => 'Poliza',
-                            'año'    => 'Año',
-                            default  => null,
-                        };
-
-                        if ($clave !== null) {
-                            $datosVehiculo[$clave] =
-                                in_array(
-                                    mb_strtolower($valor),
-                                    ['', 'null', 'n/a', 'ninguno', 'sin dato', '-'],
-                                    true
-                                ) ? '' : $valor;
-                        }
-                    }
-
-                    // Quitar los campos técnicos de la descripción
-                    $descripcionBase = trim(
-                        preg_replace($patron, '', $descripcion)
-                    );
-
-                    // Si no existen campos técnicos, conservar
-                    // la descripción original
-                    if (empty($coincidencias[0])) {
-                        $descripcionBase = $descripcion;
-                    }
+                    $item = $producto['item'];
+                    $datos = $producto['datos'];
                 @endphp
 
                 <tr>
@@ -747,22 +766,25 @@
                     <td>{{ $item->unidad_de_medida }}</td>
 
                     <td style="text-align:left;">
-                        {{ $descripcionBase }}
+                        {{ $producto['descripcion'] }}
                     </td>
 
-                    @if($mostrarDatosVehiculo && $comprobante->detraccion != 1)
-                        <td>{{ $datosVehiculo['Motor'] }}</td>
-                        <td>{{ $datosVehiculo['Color'] }}</td>
-                        <td>{{ $datosVehiculo['Chasis'] }}</td>
-                        <td>{{ $datosVehiculo['Poliza'] }}</td>
-                        <td>{{ $datosVehiculo['Año'] }}</td>
+                    @if($mostrarColumnasVehiculo)
+                        <td>{{ $datos['motor'] }}</td>
+                        <td>{{ $datos['color'] }}</td>
+                        <td>{{ $datos['chasis'] }}</td>
+                        <td>{{ $datos['poliza'] }}</td>
+                        <td>{{ $datos['anio'] }}</td>
                     @endif
 
-                    <td>{{ number_format($item->total, 2) }}</td>
+                    <td>
+                        {{ number_format($item->total, 2) }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+
 
 
     {{-- TOTALES --}}
