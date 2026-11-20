@@ -347,150 +347,150 @@
     }
 
     .comprobante-qr svg {
-    width: 110px;
-    height: 110px;
-    max-width: 100%;
-}
-
-.factura-footer {
-    margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid #9ca9b6;
-    page-break-inside: avoid;
-}
-
-    /* =========================================
-   PUBLICIDAD GRUPO TYG - PIE DE PÁGINA
-========================================= */
-
-.developer-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    padding: 5px 0;
-    border-top: 1px solid #e5e9ed;
-    background: #ffffff;
-    z-index: 10;
-}
-
-.developer-footer img {
-    max-height: 75px;
-    max-width: 180px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
-
-.developer-footer p {
-    margin: 0;
-    font-size: 10px;
-    font-weight: 600;
-    color: #667788;
-    line-height: 1.2;
-}
-
-@media print {
-
-    @page {
-        size: A4 portrait;
-        margin: 10mm 12mm 22mm;
+        width: 110px;
+        height: 110px;
+        max-width: 100%;
     }
 
-    .factura-container {
-        padding-bottom: 85px;
+    .factura-footer {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #9ca9b6;
+        page-break-inside: avoid;
     }
+
+        /* =========================================
+    PUBLICIDAD GRUPO TYG - PIE DE PÁGINA
+    ========================================= */
 
     .developer-footer {
         position: fixed;
         bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding: 5px 0;
+        border-top: 1px solid #e5e9ed;
+        background: #ffffff;
+        z-index: 10;
     }
-}
 
-/* ==========================================
-   PIE TRIBUTARIO COMPACTO
-========================================== */
+    .developer-footer img {
+        max-height: 75px;
+        max-width: 180px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
 
-.factura-footer {
-    margin-top: 12px !important;
-    padding-top: 8px !important;
-    border-top: 1px solid #9ca9b6;
-    text-align: left !important;
-    font-family: Arial, Helvetica, sans-serif;
-    page-break-inside: avoid;
-}
+    .developer-footer p {
+        margin: 0;
+        font-size: 10px;
+        font-weight: 600;
+        color: #667788;
+        line-height: 1.2;
+    }
 
-.tabla-footer-comprobante {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
+    @media print {
 
-.tabla-footer-comprobante td {
-    border: none !important;
-    vertical-align: middle;
-    padding: 4px 6px;
-}
+        @page {
+            size: A4 portrait;
+            margin: 10mm 12mm 22mm;
+        }
 
-.footer-datos-comprobante {
-    width: 78%;
-    text-align: left !important;
-}
+        .factura-container {
+            padding-bottom: 85px;
+        }
 
-.footer-titulo-comprobante {
-    font-size: 10px !important;
-    font-weight: bold;
-    line-height: 1.3;
-    margin-bottom: 5px;
-}
+        .developer-footer {
+            position: fixed;
+            bottom: 0;
+        }
+    }
 
-.footer-linea {
-    font-size: 9px !important;
-    font-weight: normal;
-    line-height: 1.4;
-    margin: 3px 0;
-}
+    /* ==========================================
+    PIE TRIBUTARIO COMPACTO
+    ========================================== */
 
-.footer-hash {
-    font-size: 8px !important;
-    overflow-wrap: anywhere;
-}
-
-.footer-qr-comprobante {
-    width: 22%;
-    text-align: center !important;
-}
-
-.comprobante-qr {
-    display: inline-block;
-    width: 110px;
-    height: 110px;
-    max-width: 100%;
-}
-
-.comprobante-qr svg {
-    display: block;
-    width: 110px !important;
-    height: 110px !important;
-    max-width: 100%;
-}
-
-.qr-no-disponible {
-    font-size: 9px;
-    color: #777;
-    text-align: center;
-}
-
-@media print {
     .factura-footer {
-        break-inside: avoid;
+        margin-top: 12px !important;
+        padding-top: 8px !important;
+        border-top: 1px solid #9ca9b6;
+        text-align: left !important;
+        font-family: Arial, Helvetica, sans-serif;
         page-break-inside: avoid;
     }
-}
+
+    .tabla-footer-comprobante {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    .tabla-footer-comprobante td {
+        border: none !important;
+        vertical-align: middle;
+        padding: 4px 6px;
+    }
+
+    .footer-datos-comprobante {
+        width: 78%;
+        text-align: left !important;
+    }
+
+    .footer-titulo-comprobante {
+        font-size: 10px !important;
+        font-weight: bold;
+        line-height: 1.3;
+        margin-bottom: 5px;
+    }
+
+    .footer-linea {
+        font-size: 9px !important;
+        font-weight: normal;
+        line-height: 1.4;
+        margin: 3px 0;
+    }
+
+    .footer-hash {
+        font-size: 8px !important;
+        overflow-wrap: anywhere;
+    }
+
+    .footer-qr-comprobante {
+        width: 22%;
+        text-align: center !important;
+    }
+
+    .comprobante-qr {
+        display: inline-block;
+        width: 110px;
+        height: 110px;
+        max-width: 100%;
+    }
+
+    .comprobante-qr svg {
+        display: block;
+        width: 110px !important;
+        height: 110px !important;
+        max-width: 100%;
+    }
+
+    .qr-no-disponible {
+        font-size: 9px;
+        color: #777;
+        text-align: center;
+    }
+
+    @media print {
+        .factura-footer {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+    }
 </style>
 
 <div class="factura-container">
@@ -629,18 +629,14 @@
 
     
     
+    
     {{-- DETALLE PRODUCTOS --}}
     @php
-        $mostrarDatosVehiculo = false;
         $productosProcesados = [];
+        $mostrarDatosVehiculo = false;
 
-        // Identificar los campos técnicos
-        $etiquetas = 'Motor|Color|Chasis|P[oó]liza|Año';
-
-        // No consumir la etiqueta siguiente como valor
-        $patron = '/(?:^|\s)(' . $etiquetas . '):[ \t]*'
-            . '(.*?)'
-            . '(?=\s+(?:' . $etiquetas . '):|$)/isu';
+        // Reconocer las etiquetas sin confundirlas con valores
+        $patronEtiquetas = '/(?:Motor|Color|Chasis|P[oó]liza|Año):/iu';
 
         $valoresVacios = [
             '', 'null', 'none', 'n/a',
@@ -659,17 +655,41 @@
                 'anio'   => '',
             ];
 
+            // Buscar posiciones exactas de cada etiqueta
             preg_match_all(
-                $patron,
+                $patronEtiquetas,
                 $descripcion,
-                $coincidencias,
-                PREG_SET_ORDER
+                $etiquetas,
+                PREG_OFFSET_CAPTURE
             );
 
-            foreach ($coincidencias as $campo) {
+            $coincidencias = $etiquetas[0] ?? [];
 
-                $nombre = mb_strtolower(trim($campo[1]));
-                $valor = trim($campo[2]);
+            foreach ($coincidencias as $indice => $etiqueta) {
+
+                $nombre = mb_strtolower(
+                    rtrim($etiqueta[0], ':')
+                );
+
+                // Inicio del valor: después de la etiqueta
+                $inicio = $etiqueta[1] + strlen($etiqueta[0]);
+
+                // Fin del valor: antes de la siguiente etiqueta
+                $fin = isset($coincidencias[$indice + 1])
+                    ? $coincidencias[$indice + 1][1]
+                    : strlen($descripcion);
+
+                $valor = trim(
+                    substr($descripcion, $inicio, $fin - $inicio)
+                );
+
+                if (in_array(
+                    mb_strtolower($valor),
+                    $valoresVacios,
+                    true
+                )) {
+                    $valor = '';
+                }
 
                 $clave = match ($nombre) {
                     'motor' => 'motor',
@@ -680,35 +700,17 @@
                     default => null,
                 };
 
-                if ($clave === null) {
-                    continue;
+                if ($clave !== null) {
+                    $datos[$clave] = $valor;
                 }
-
-                // Eliminar valores nulos o vacíos
-                if (in_array(
-                    mb_strtolower($valor),
-                    $valoresVacios,
-                    true
-                )) {
-                    $valor = '';
-                }
-
-                $datos[$clave] = $valor;
             }
 
-            // Limpiar la descripción de etiquetas técnicas
-            $descripcionBase = trim(
-                preg_replace($patron, '', $descripcion)
-            );
+            // Descripción principal del producto
+            $descripcionBase = !empty($coincidencias)
+                ? trim(substr($descripcion, 0, $coincidencias[0][1]))
+                : $descripcion;
 
-            $descripcionBase = preg_replace(
-                '/\s+/u',
-                ' ',
-                $descripcionBase
-            );
-
-            // Considerar vehículo solamente si tiene
-            // un identificador real de motor o chasis.
+            // Considerar vehículo cuando tiene motor o chasis real
             $esVehiculo = (
                 $datos['motor'] !== '' ||
                 $datos['chasis'] !== ''
@@ -722,7 +724,6 @@
                 'item' => $item,
                 'descripcion' => $descripcionBase,
                 'datos' => $datos,
-                'es_vehiculo' => $esVehiculo,
             ];
         }
 
@@ -734,10 +735,10 @@
     <table class="tabla-detalle">
         <thead>
             <tr>
-                <th>CANT.</th>
-                <th>UM</th>
+                <th style="width:8%;">CANT.</th>
+                <th style="width:8%;">UM</th>
 
-                <th style="width: {{ $mostrarColumnasVehiculo ? '25%' : '65%' }};">
+                <th style="width:{{ $mostrarColumnasVehiculo ? '25%' : '69%' }};">
                     DESCRIPCIÓN
                 </th>
 
@@ -749,7 +750,7 @@
                     <th>AÑO</th>
                 @endif
 
-                <th>IMPORTE</th>
+                <th style="width:15%;">IMPORTE</th>
             </tr>
         </thead>
 
@@ -762,7 +763,6 @@
 
                 <tr>
                     <td>{{ $item->cantidad }}</td>
-
                     <td>{{ $item->unidad_de_medida }}</td>
 
                     <td style="text-align:left;">
@@ -777,13 +777,12 @@
                         <td>{{ $datos['anio'] }}</td>
                     @endif
 
-                    <td>
-                        {{ number_format($item->total, 2) }}
-                    </td>
+                    <td>{{ number_format($item->total, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+
 
 
 
