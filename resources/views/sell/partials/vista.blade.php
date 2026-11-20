@@ -629,22 +629,42 @@
 
     
     {{-- DETALLE PRODUCTOS --}}
+    
     @php
         $mostrarDatosVehiculo = false;
 
-        // Detectar si existe al menos un producto con datos de vehículo
-        foreach ($productos as $item) {
-            $descripcionItem = (string) ($item->descripcion ?? '');
+        // Campos que pueden aparecer en la descripción
+        $camposVehiculo = 'Motor|Color|Chasis|P[oó]liza|Año';
 
-            if (preg_match(
-                '/(?:Motor|Color|Chasis|P[oó]liza|Año):\s*(?!null\b|n\/a\b|ninguno\b|sin dato\b|-+\s*(?=\s|$))([^\s,;]+)/iu',
-                $descripcionItem
-            )) {
-                $mostrarDatosVehiculo = true;
-                break;
+        // Extraer valores sin incluir las etiquetas siguientes
+        $patronVehiculo = '/(?:^|\s)(?:' . $camposVehiculo . '):\s*(.*?)(?=\s+(?:' . $camposVehiculo . '):|$)/iu';
+
+        // Valores que NO representan información real
+        $valoresVacios = [
+            '', 'null', 'none', 'n/a',
+            'ninguno', 'sin dato', '-', '---'
+        ];
+
+        foreach ($productos as $item) {
+            $descripcion = (string) ($item->descripcion ?? '');
+
+            preg_match_all(
+                $patronVehiculo,
+                $descripcion,
+                $coincidencias
+            );
+
+            foreach ($coincidencias[1] as $valor) {
+                $valor = mb_strtolower(trim($valor));
+
+                if (!in_array($valor, $valoresVacios, true)) {
+                    $mostrarDatosVehiculo = true;
+                    break 2;
+                }
             }
         }
     @endphp
+
 
     <table class="tabla-detalle">
         <thead>
@@ -678,7 +698,7 @@
                         'Año'    => '',
                     ];
 
-                    $patron = '/(?:Motor|Color|Chasis|P[oó]liza|Año):\s*.*?(?=\s+(?:Motor|Color|Chasis|P[oó]liza|Año):|$)/iu';
+                    $patron = $patronVehiculo;
 
                     preg_match_all($patron, $descripcion, $coincidencias);
 
