@@ -627,92 +627,123 @@
 
     </div>
 
+    
     {{-- DETALLE PRODUCTOS --}}
     @php
-        $mostrarDatosVehiculo = true;
+        $mostrarDatosVehiculo = false;
 
+        // Detectar si existe al menos un producto con datos de vehículo
         foreach ($productos as $item) {
-            if(str_contains($item->descripcion, 'Motor: null')) {
-                $mostrarDatosVehiculo = false;
+            $descripcionItem = (string) ($item->descripcion ?? '');
+
+            if (preg_match(
+                '/(?:Motor|Color|Chasis|P[oó]liza|Año):\s*(?!null\b|n\/a\b|ninguno\b|sin dato\b|-+\s*(?=\s|$))([^\s,;]+)/iu',
+                $descripcionItem
+            )) {
+                $mostrarDatosVehiculo = true;
                 break;
             }
         }
     @endphp
+
     <table class="tabla-detalle">
         <thead>
             <tr>
-                @if($comprobante->detraccion == 1)
-                <th style="width: 10%;">CANT.</th>
-                <th style="width: 10%;">UM</th>
-                <th style="width: 50%;">DESCRIPCIÓN</th>
-                <th style="width: 20%;">IMPORTE</th>
-                @else
                 <th>CANT.</th>
                 <th>UM</th>
                 <th>DESCRIPCIÓN</th>
-                    @if($mostrarDatosVehiculo)
-                        <th>MOTOR</th>
-                        <th>COLOR</th>
-                        <th>CHASIS</th>
-                        <th>PÓLIZA</th>
-                        <th>AÑO</th>
-                    @endif
-                    <th>IMPORTE</th>
+
+                @if($mostrarDatosVehiculo && $comprobante->detraccion != 1)
+                    <th>MOTOR</th>
+                    <th>COLOR</th>
+                    <th>CHASIS</th>
+                    <th>PÓLIZA</th>
+                    <th>AÑO</th>
                 @endif
+
+                <th>IMPORTE</th>
             </tr>
         </thead>
+
         <tbody>
-            @foreach ($productos as $item)
-            @php
-                $descripcion = $item->descripcion;
+            @foreach($productos as $item)
+                @php
+                    $descripcion = (string) ($item->descripcion ?? '');
 
-                $motor = $color = $chasis = $poliza = $anio = '';
+                    $datosVehiculo = [
+                        'Motor'  => '',
+                        'Color'  => '',
+                        'Chasis' => '',
+                        'Poliza' => '',
+                        'Año'    => '',
+                    ];
 
-                if(str_contains($descripcion, 'Motor:')) {
+                    $patron = '/(?:Motor|Color|Chasis|P[oó]liza|Año):\s*.*?(?=\s+(?:Motor|Color|Chasis|P[oó]liza|Año):|$)/iu';
 
-                    preg_match('/Motor:\s*([^\s]+)/', $descripcion, $m);
-                    preg_match('/Color:\s*([^\s]+)/', $descripcion, $c);
-                    preg_match('/Chasis:\s*([^\s]+)/', $descripcion, $ch);
-                    preg_match('/Poliza:\s*([^\s]+)/', $descripcion, $p);
-                    preg_match('/Año:\s*([^\s]+)/', $descripcion, $a);
+                    preg_match_all($patron, $descripcion, $coincidencias);
 
-                    $motor = $m[1] ?? '';
-                    $color = $c[1] ?? '';
-                    $chasis = $ch[1] ?? '';
-                    $poliza = $p[1] ?? '';
-                    $anio = $a[1] ?? '';
+                    foreach ($coincidencias[0] as $campo) {
+                        $partes = explode(':', $campo, 2);
 
-                    // Limpiar descripción base (nombre del producto)
-                    $descripcion_base = preg_split('/Motor:/', $descripcion)[0];
-                }
-            @endphp
+                        $nombre = trim($partes[0]);
+                        $valor = trim($partes[1] ?? '');
 
-            @if(str_contains($descripcion, 'Motor:'))
-            <tr>
-                <td>{{ $item->cantidad }}</td>
-                <td>{{ $item->unidad_de_medida }}</td>
-                <td style="text-align:left;">{{ trim($descripcion_base) }}</td>
-                @if($mostrarDatosVehiculo)
-                <td>{{ $motor }}</td>
-                <td>{{ $color }}</td>
-                <td>{{ $chasis }}</td>
-                <td>{{ $poliza }}</td>
-                <td>{{ $anio }}</td>
-                @endif
-                <td>{{ number_format($item->total, 2) }}</td>
-            </tr>
+                        $nombreNormalizado = mb_strtolower($nombre);
 
-            @else
+                        $clave = match($nombreNormalizado) {
+                            'motor'  => 'Motor',
+                            'color'  => 'Color',
+                            'chasis' => 'Chasis',
+                            'poliza', 'póliza' => 'Poliza',
+                            'año'    => 'Año',
+                            default  => null,
+                        };
+
+                        if ($clave !== null) {
+                            $datosVehiculo[$clave] =
+                                in_array(
+                                    mb_strtolower($valor),
+                                    ['', 'null', 'n/a', 'ninguno', 'sin dato', '-'],
+                                    true
+                                ) ? '' : $valor;
+                        }
+                    }
+
+                    // Quitar los campos técnicos de la descripción
+                    $descripcionBase = trim(
+                        preg_replace($patron, '', $descripcion)
+                    );
+
+                    // Si no existen campos técnicos, conservar
+                    // la descripción original
+                    if (empty($coincidencias[0])) {
+                        $descripcionBase = $descripcion;
+                    }
+                @endphp
+
                 <tr>
                     <td>{{ $item->cantidad }}</td>
-                    <td>{{ $item->unidad_de_medida}}</td>
-                    <td style="text-align:left;">{{ $item->descripcion }}</td>
+
+                    <td>{{ $item->unidad_de_medida }}</td>
+
+                    <td style="text-align:left;">
+                        {{ $descripcionBase }}
+                    </td>
+
+                    @if($mostrarDatosVehiculo && $comprobante->detraccion != 1)
+                        <td>{{ $datosVehiculo['Motor'] }}</td>
+                        <td>{{ $datosVehiculo['Color'] }}</td>
+                        <td>{{ $datosVehiculo['Chasis'] }}</td>
+                        <td>{{ $datosVehiculo['Poliza'] }}</td>
+                        <td>{{ $datosVehiculo['Año'] }}</td>
+                    @endif
+
                     <td>{{ number_format($item->total, 2) }}</td>
                 </tr>
-            @endif
             @endforeach
         </tbody>
     </table>
+
 
     {{-- TOTALES --}}
     <div class="factura-totales" style="padding-top: 20px;">
