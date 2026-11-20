@@ -2720,6 +2720,11 @@ class SellController extends Controller
 
         $productos = json_decode($comprobante->productos);
 
+        dd([
+            'comprobante' => $comprobante->invoice_no,
+            'productos' => $productos,
+        ]);
+
         $contact = Contact::where('business_id', $business_id)
             ->findOrFail($comprobante->contact_id);
 
